@@ -1,0 +1,78 @@
+main {
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    justify-self: center;
+    flex-direction: column;   
+}
+
+nav {
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.nav-opcoes {
+    display: flex;
+    width: max-content;
+    width: 58%;
+    justify-content: space-around;
+}
+
+.logo {
+    width: 10%;
+    justify-content: start;
+}
+
+.nav-btns {
+    display: flex;
+    width: 32%;
+    justify-content: space-between;
+}
+
+.nav-btns a {
+    color: white;
+}
+
+a {
+    color: rgb(25,7,139);
+}
+
+.left_side { 
+    width: 50%;
+}
+
+.right-side {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.container-hero h2 {
+    background-image: url(../assets/buttons/bg-button.png);
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex-direction: column;
+    width: 500px;
+    font-weight: 500;
+    line-height: 55px;
+}
+
+.container-hero button {
+    margin: 2rem 0;
+}
+
+.container-hero img {
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+}
+
+.titulo {
+    display: flex;
+    font-weight: 700;
+}

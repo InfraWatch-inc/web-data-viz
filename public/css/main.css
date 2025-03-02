@@ -1,0 +1,114 @@
+/* Fontes padrões */
+/* Sora */
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
+* {
+  font-family: Sora;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+body {
+  /* background-image: url(../assets/imgs/background_Inicial.png); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #f3f4f6;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+h1 {
+  font-size: 62px;
+  padding: 0;
+  margin: 0;
+}
+
+h2 {
+  font-size: 32px;
+}
+
+input {
+  min-width: 250px;
+  font-size: large;
+  height: 2rem;
+  padding: 1rem 1rem;
+  background-color: #f3f4f6;
+  border: #a4cafe solid thin;
+  border-radius: 12px;
+  outline-color: dodgerblue;
+  margin: 10px 0;
+  opacity: 0.6;
+  transition: linear 0.5s;
+}
+
+input:hover {
+  opacity: 1;
+}
+
+button {
+  color: white;
+  min-width: fit-content;
+  height: fit-content;
+  padding: 0.5rem 1.5rem;
+  font-size: 24px;
+  font-weight: 600;
+  background-image: url(../assets/buttons/bg-button.png);
+  background-size: cover;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: linear 0.5s;
+  opacity: 0.8;
+  outline-color: dodgerblue;
+}
+
+button:hover {
+  opacity: 1;
+  box-shadow: 0 0 15px rgba(30, 143, 255, 1);
+}
+
+.size-1 {
+  font-size: 18px;
+}
+
+.size-2 {
+    font-size: 36px;
+}
+
+.size-3 {
+    font-size: 54px;
+}
+
+.size-4 {
+    font-size: 72px;
+}
+
+.size-5 {
+    font-size: 90px;
+}
+
+.size-6 {
+    font-size: 108px;
+}
+
+.weight-1 {
+  font-weight: 500;
+}
+
+/* .medium-btn { */
+  /* border-radius: 10px; */
+  /* margin-right: 10px; */
+/* } */
+
+/* .hero-btn { */
+  /* margin-right: 10px; */
+/* } */
