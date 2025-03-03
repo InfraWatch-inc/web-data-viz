@@ -19,6 +19,10 @@ nav {
     justify-content: space-around;
 }
 
+.nav-opcoes a {
+    font-size: 20px;
+}
+
 .logo {
     width: 10%;
     justify-content: start;
@@ -32,6 +36,7 @@ nav {
 
 .nav-btns a {
     color: white;
+    font-size: 22px;
 }
 
 a {
