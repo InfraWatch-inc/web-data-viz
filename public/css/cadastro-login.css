@@ -1,4 +1,4 @@
-@media (orientation: landscape) {
+@media only screen and (orientation: landscape) {
     main {
         width: 60%;
         height: 100vh;
@@ -65,15 +65,93 @@
         flex-direction: column;
     }
 
+    .box-btn {
+        width: 46%;
+    }
+
     .botoes {
         display: flex;
         justify-content: space-between;
         margin-top: 10px;
     }
 
-    .btn-continuar {
-        width: 50%;
+    .ja-possui-uma-conta {
+        margin-top: 30px;
+        text-align: center;
+        opacity: 0.8;
+        transition: linear 0.5s;
     }
+
+    .ja-possui-uma-conta:hover {
+        opacity: 1;
+    }
+}
+
+
+@media only screen and (max-width: 1610px) {
+    main {
+        width: 96%;
+        height: 100vh;
+        display: flex;
+        justify-self: center;
+        align-items: center;
+    }
+
+    .container {
+        background-color: white;
+        height: 650px;
+        width: 100%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 16px;
+        padding: 1rem;
+    }
+
+    .box-cadastro {
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+
+    .box-informacoes {
+        width: 100%;
+    }
+
+    .margem {
+        width: 100%;
+        justify-self: center;
+    }
+
+    .frase {
+    display: flex;
+    background-image: url(../assets/buttons/bg-button.png);
+    background-size: cover;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex-direction: column;
+    height: 200px;
+    width: 90%;
+    text-align: center;
+    justify-content: end;
+    }
+
+    .entradas {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .botoes {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .box-btn {
+        width: 100%;
+    }
+
 
     .ja-possui-uma-conta {
         margin-top: 30px;
