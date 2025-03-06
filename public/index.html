@@ -19,11 +19,34 @@
 
 <body>
   <main>
+    <i class="bi bi-list menu-hamburger" onclick="abrirMenu()"></i>
+
+    <nav class="mobile-nav">
+      <header class="mobile-header">
+        <div class="logo">
+          <img src="assets/icon/Logo-InfraWatch.png" width="120px" />
+        </div>
+        <i class="bi bi-x" id="close" onclick="fecharMenu()"></i>
+      </header>
+
+      <div class="nav-opcoes">
+        <a href="">Quem Somos</a>
+        <a href="">Solução</a>
+        <a href="">Contate-nos</a>
+      </div>
+
+      <div class="nav-btns">
+        <button class="medium-btn"><a href="cadastro.html">Cadastre-se</a></button>
+        <button class="login-btn"><a href="login.html">Entrar</a></button>
+      </div>  
+    </nav>
+
+
     <header>
       <div class="logo">
         <img src="assets/icon/Logo-InfraWatch[1].png" width="120px" />
       </div>
-      <nav class="close">
+      <nav class="desktop-nav">
 
         <div class="nav-opcoes">
           <a href="">Quem Somos</a>
@@ -146,21 +169,32 @@
     </div>
 
     <div class="container-hero5">
-      <div class="left-side4">
+      <div class="contact-image">
         <img src="assets/imgs/image 12.png" width="40%">
       </div>
 
-      <div class="titulo size-6">Contate-nos</div>
-      <h2 class="contato-email">Envie para nós um email</h2>
-
-      <div class="right-side4">
-        <textarea class="texto-email"></textarea>
+      <div class="contact-title-container">
+        <h2 class="titulo text-gradient contact-title">Contate-nos</h2>
+        <p class="contato-email">Envie para nós um e-mail</p>
       </div>
 
-      <button class="botao-email">Enviar Mensagem</button>
+      <div class="right-side4">
+        <textarea id="textoEmail"></textarea>
+      </div>
+
+      <button id="enviarEmail">Enviar Mensagem</button>
     </div>
 
   </main>
 </body>
-
 </html>
+
+<script>
+  function abrirMenu() {
+    document.querySelector('.mobile-nav').classList.add("open");
+  }
+
+  function fecharMenu() {
+    document.querySelector('.mobile-nav').classList.remove("open");
+  }
+</script>

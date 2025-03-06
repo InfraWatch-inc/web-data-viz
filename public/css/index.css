@@ -3,9 +3,14 @@
     display: none;
 }
 
+body {
+    background: rgb(249,250,251);
+background: linear-gradient(180deg, rgba(249,250,251,1) 43%, rgba(176,242,255,0.4234068627450981) 76%, rgba(176,242,255,1) 100%);
+}
+
 main {
     width: 90%;
-    height: 100vh;
+
     display: flex;
     justify-self: center;
     flex-direction: column;
@@ -35,8 +40,81 @@ main {
     width: 80px;
 }
 
-nav.close {
+.desktop-nav {
     display: none;
+}
+
+.menu-hamburger {
+    position: fixed;
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 98;
+    right: 10px;
+}
+
+.mobile-nav {
+    position: fixed;
+    height: 100vh;
+    width: 80vw;
+    background-color: white;
+    top: 0;
+    right: -80vw;
+
+    z-index: 99;
+    border: 1px solid #d1d5db;
+
+    transition: all .5s;
+}
+
+.mobile-nav.open {
+    top: 0;
+    right: 0;
+}
+
+.mobile-nav .nav-opcoes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 200px;
+
+    justify-content: space-around;
+    align-items: center;
+
+    font-size: large;
+    font-weight: 500;
+}
+
+.mobile-nav .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.mobile-nav .mobile-header #close {
+    font-size: 2.5rem;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.mobile-nav .mobile-header .logo img {
+    width: 100px;
+}
+
+.mobile-nav .nav-btns {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    gap: 10px;
+}
+
+.mobile-nav .nav-btns a {
+    color: white;
+    font-size: 22px;
 }
 
 .container-hero {
@@ -74,7 +152,7 @@ nav.close {
 }
 
 .quem-somos .titulo {
-    font-size: 40px;
+    font-size: 38px;
 }
 
 .traco-1 img, .traco-2 img  {
@@ -90,7 +168,7 @@ nav.close {
 
 .card {
     background-color: #d9d9d956;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 30px 20px 20px 20px;
 
     position: relative;
@@ -100,6 +178,55 @@ nav.close {
 .card .titulo {
     position: absolute;
     top: -25px;
+}
+
+.contact-title-container {
+    width: fit-content;
+    margin: auto;
+}
+
+.contact-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 30px;
+}
+
+.contact-image img {
+    width: 60%;
+}
+
+.contact-title {
+    display: flex;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.contato-email {
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: right;
+    margin-right: 5px
+}
+
+#textoEmail {
+    border: none;
+    outline: none;
+    box-shadow: 1px 1px 15px #1118274b;
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    
+    margin-top: 10px;
+    resize: none;
+
+    padding: 10px;
+}
+
+#enviarEmail {
+    margin-top: 10px;
+    margin-bottom: 40px;
 }
 
 
