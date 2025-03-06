@@ -237,11 +237,36 @@ main {
 
 /* Breakpoint para Desktop */
 @media screen and (min-width: 1024px) {
-    nav {
+    main {
+        width: 80%;
+    }
+
+
+    .no-mobile {
+        display: block;
+    }
+
+    .menu-hamburger {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: none;
+    }
+
+    .desktop-header {
+        display: flex;
+        width: 100%;
+    }
+
+    .desktop-nav{
+        display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 25px;
+        width: 100%;
     }
+
 
     .nav-opcoes {
         display: flex;
@@ -275,24 +300,70 @@ main {
         color: rgb(25, 7, 139);
     }
 
-
-
-    .right-side {
-        width: 50%;
+    .container-hero {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
 
-    .container-hero button {
+    .container-hero .left_side {
+        width: 60%;
+    }
+
+    .infrawatch {
+        font-size:70px;
+    }
+
+    .container-hero h2 {
+        font-size: 60px;
+    }
+
+    .container-hero .hero-btn button {
         margin: 2rem 0;
+        width: 50%;
+        border-radius: 10px;
+        height: 50px;
     }
 
-    .container-hero img {
+
+    .quem-somos-container {
         display: flex;
-        justify-content: flex-end;
-        align-items: end;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-top: 50px;
     }
 
+    .quem-somos-container .server-image {
+        width: 30%;
+    }
+
+
+    .quem-somos {
+        width: 60%;
+        height: fit-content;
+        font-size: 22px;
+    }
+    
+    
+    .quem-somos .titulo {
+        top: -30px;
+        font-size: 50px;
+    }
+
+    .traco-1 {
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .traco-1 img  {
+        width: 300px;
+        padding: 15px;
+        margin-top: -120px;
+        margin-left: -190px;
+    }
 
 }
