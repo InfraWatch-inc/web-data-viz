@@ -1,83 +1,171 @@
+/* Breakpoint para celular */
+.no-mobile {
+    display: none;
+}
+
 main {
-    width: 80%;
+    width: 90%;
     height: 100vh;
     display: flex;
     justify-self: center;
-    flex-direction: column;   
-}
-
-nav {
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 25px;
-}
-
-.nav-opcoes {
-    display: flex;
-    width: max-content;
-    width: 58%;
-    justify-content: space-around;
-}
-
-.nav-opcoes a {
-    font-size: 20px;
-}
-
-.logo {
-    width: 10%;
-    justify-content: start;
-}
-
-.nav-btns {
-    display: flex;
-    width: 32%;
-    justify-content: space-between;
-}
-
-.nav-btns a {
-    color: white;
-    font-size: 22px;
-}
-
-a {
-    color: rgb(25,7,139);
-}
-
-.left_side { 
-    width: 50%;
-}
-
-.right-side {
-    width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.container-hero h2 {
-    background-image: url(../assets/buttons/bg-button.png);
-    background-size: cover;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     flex-direction: column;
-    width: 500px;
-    font-weight: 500;
-    line-height: 55px;
-}
-
-.container-hero button {
-    margin: 2rem 0;
-}
-
-.container-hero img {
-    display: flex;
-    justify-content: flex-end;
-    align-items: end;
 }
 
 .titulo {
     display: flex;
+    flex-wrap: wrap;
     font-weight: 700;
+
+    font-size: 45px;
+}
+
+.text-gradient {
+    background: rgb(116,11,198);
+    background: linear-gradient(298deg, rgba(116,11,198,1) 41%, rgba(16,211,249,1) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo {
+    margin-top: 5px;
+}
+
+.logo img {
+    width: 80px;
+}
+
+nav.close {
+    display: none;
+}
+
+.container-hero {
+    margin-top: 10px;
+}
+
+.container-hero h2 {
+    background: rgb(116,11,198);
+    background: linear-gradient(176deg, rgba(116,11,198,1) 41%, rgba(16,211,249,1) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 400;
+}
+
+.hero-btn {
+    width: 60%;
+    font-size: 1.3rem;
+}
+
+.work-image {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.work-image img {
+    width: 90%;
+    margin: auto;
+}
+
+.quem-somos {
+    margin-top: 60px;
+    font-weight: 500;
+}
+
+.quem-somos .titulo {
+    font-size: 40px;
+}
+
+.traco-1 img, .traco-2 img  {
+    width: 200px;
+    padding: 10px;
+}
+
+.container-hero3 {
+  display: flex;
+  flex-direction: column;  
+  gap: 50px;
+}
+
+.card {
+    background-color: #d9d9d956;
+    border-radius: 20px;
+    padding: 30px 20px 20px 20px;
+
+    position: relative;
+    box-shadow: 1px 1px 15px #1118274b;
+}
+
+.card .titulo {
+    position: absolute;
+    top: -25px;
+}
+
+
+
+/* Breakpoint para tablet */
+@media screen and (min-width: 480px) and (max-width: 1023px) {}
+
+
+/* Breakpoint para Desktop */
+@media screen and (min-width: 1024px) {
+    nav {
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 25px;
+    }
+
+    .nav-opcoes {
+        display: flex;
+        width: max-content;
+        width: 58%;
+        justify-content: space-around;
+    }
+
+    .nav-opcoes a {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+
+    .nav-btns {
+        display: flex;
+        width: 26%;
+        gap: 30px;
+    }
+
+    .nav-btns .login-btn {
+        width: 60%;
+    }
+
+    .nav-btns a {
+        color: white;
+        font-size: 22px;
+    }
+
+    a {
+        color: rgb(25, 7, 139);
+    }
+
+
+
+    .right-side {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container-hero button {
+        margin: 2rem 0;
+    }
+
+    .container-hero img {
+        display: flex;
+        justify-content: flex-end;
+        align-items: end;
+    }
+
+
 }
