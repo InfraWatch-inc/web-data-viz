@@ -22,26 +22,42 @@ function buscarPorId(req, res) {
   });
 }
 
-function cadastrar(req, res) {
-  var cnpj = req.body.cnpj;
-  var razaoSocial = req.body.razaoSocial;
+function cadastrarEmpresa(req, res) {
+  var razaoSocial = req.body.razaoSocialServer;
+  var numeroTin = req.body.numeroTinServer;
+  var status = req.body.statusServer;
+  var telefone = req.body.telefoneServer;
+  var fkEndereco = req.body.idEnderecoSede;
 
-  empresaModel.buscarPorCnpj(cnpj).then((resultado) => {
+  empresaModel.buscarPorCnpj(razaoSocial).then((resultado) => {
     if (resultado.length > 0) {
       res
         .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${cnpj} já existe` });
+        .json({ mensagem: `a empresa com o cnpj ${razaoSocial} já existe` });
     } else {
-      empresaModel.cadastrar(razaoSocial, cnpj).then((resultado) => {
+      empresaModel.cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site, fkEndereco).then((resultado) => {
         res.status(201).json(resultado);
       });
     }
   });
 }
 
+function enviarEndereco(req, res){
+  var cep = req.body.cepServer;
+  var logradouro = req.body.logradouroServer;
+  var numero = req.body.numeroServer;
+  var complemento = req.body.complementoServer;
+
+  empresaModel.enviarEndereco(cep, logradouro, numero, complemento).then((resultado) => {
+    res.status(201).json(resultado);
+  });
+
+}
+
 module.exports = {
   buscarPorCnpj,
   buscarPorId,
-  cadastrar,
+  cadastrarEmpresa,
+  enviarEndereco,
   listar,
 };

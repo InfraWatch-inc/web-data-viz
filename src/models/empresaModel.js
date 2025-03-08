@@ -18,10 +18,16 @@ function buscarPorCnpj(cnpj) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrar(razaoSocial, cnpj) {
-  var instrucaoSql = `INSERT INTO empresa (razao_social, cnpj) VALUES ('${razaoSocial}', '${cnpj}')`;
+function cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site, fkEndereco) {
+  var instrucaoSql = `INSERT INTO Empresa (razao_social, numeroTin, status, telefone, site, fkEndereco) VALUES ('${razaoSocial}', '${cnpj}', '${numeroTin}', '${status}', '${telefone}', '${site}',  '${fkEndereco}')`;
 
   return database.executar(instrucaoSql);
 }
 
-module.exports = { buscarPorCnpj, buscarPorId, cadastrar, listar };
+function enviarEndereco(cep, logradouro, numero, complemento){
+  var instrucaoSql = `INSERT INTO EnderecoSede (cep, logradouro, numero, complemento) VALUES ('${cep}', '${logradouro}', '${numero}', '${complemento}', '${telefone}', '${site}',  '${fkEndereco}')`;
+  
+  return database.executar(instrucaoSql);
+}
+
+module.exports = { buscarPorCnpj, buscarPorId, cadastrarEmpresa, listar, enviarEndereco };
