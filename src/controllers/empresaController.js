@@ -34,25 +34,24 @@ function cadastrarEmpresa(req, res) {
   var logradouro = req.body.logradouroServer;
   var numero = req.body.numeroServer;
   var complemento = req.body.complementoServer;
+  var fkEmpresa = req.body.fkEmpresaServer;
 
   var nome = req.body.nomeServer;
   var cpf = req.body.cpfServer;
   var email = req.body.emailServer;
   var senha = req.body.senhaServer;
-  var permissao = req.body.permissaoServer;
 
-  empresaModel.buscarPorCnpj(razaoSocial).then((resultado) => {
+  empresaModel.buscarPorCnpj(numeroTin).then((resultado) => {
     if (resultado.length > 0) {
       res
         .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${razaoSocial} já existe` });
+        .json({ mensagem: `a empresa com o cnpj ${numeroTin} já existe` });
     } else {
 
       empresaModel.cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site).then((resultadoEmpresa) => {
-
-        empresaModel.enviarEndereco(cep, logradouro, numero, complemento, resultadoEmpresa.fkEmpresa).then((resultadoEndereco) => {
+        empresaModel.enviarEndereco(cep, logradouro, numero, complemento, fkEmpresa).then((resultadoEndereco) => {
         });
-        usuarioModel.cadastrar(nome, cpf, email, senha,permissao="admin", empresaModel.enviarEndereco().fkEmpresa).then((resultadoFuncionario) => {
+        usuarioModel.cadastrar(nome, cpf, email, senha,"admin", fkEmpresa).then((resultadoFuncionario) => {
           res.status(201).json(resultadoFuncionario);
         }).catch(function (){
           res.status(400).json("Erro de cadastro")
