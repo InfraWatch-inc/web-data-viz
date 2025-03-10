@@ -290,8 +290,8 @@ main {
     .nav-opcoes {
         display: flex;
         width: max-content;
-        width: 58%;
-        justify-content: space-around;
+        width: 100%;
+        justify-content: space-evenly;
     }
 
     .nav-opcoes a {
@@ -302,12 +302,11 @@ main {
 
     .nav-btns {
         display: flex;
-        width: 26%;
         gap: 30px;
     }
 
     .nav-btns .login-btn {
-        /* width: 60%; */
+        width: 60%;
     }
 
     .nav-btns a {
