@@ -1,4 +1,8 @@
 /* Breakpoint para celular */
+html {
+    scroll-behavior: smooth;
+}
+
 .no-mobile {
     display: none;
 }
