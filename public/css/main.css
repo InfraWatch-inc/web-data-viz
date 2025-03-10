@@ -134,3 +134,24 @@ button:hover, .btn:hover {
 /* .hero-btn { */
   /* margin-right: 10px; */
 /* } */
+
+.scroll-bar::-webkit-scrollbar {
+  width: 14px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+  border-radius: 30px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background: #1C4ED8;
+  border-radius: 30px;
+  border:0px solid #555777;
+}
+
+/* Estilos para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16,211,249,1) transparent;
+}
+              
