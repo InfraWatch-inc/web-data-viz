@@ -253,7 +253,6 @@ main {
 /* Breakpoint para tablet */
 @media screen and (min-width: 480px) and (max-width: 1023px) {}
 
-
 /* Breakpoint para Desktop */
 @media screen and (min-width: 1024px) {
     main {
