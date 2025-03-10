@@ -90,6 +90,7 @@ button {
   transition: linear 0.5s;
   opacity: 0.8;
   outline-color: dodgerblue;
+  white-space: nowrap;
 }
 
 button:hover {
