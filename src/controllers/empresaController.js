@@ -1,3 +1,4 @@
+const e = require("cors");
 var empresaModel = require("../models/empresaModel");
 var usuarioModel = require("../models/usuarioModel");
 
@@ -23,7 +24,7 @@ function buscarPorId(req, res) {
   });
 }
 
-function cadastrarEmpresa(req, res) {
+async function cadastrarEmpresa(req, res) {
   var razaoSocial = req.body.razaoSocialServer;
   var numeroTin = req.body.numeroTinServer;
   var status = req.body.statusServer;
@@ -34,31 +35,41 @@ function cadastrarEmpresa(req, res) {
   var logradouro = req.body.logradouroServer;
   var numero = req.body.numeroServer;
   var complemento = req.body.complementoServer;
-  var fkEmpresa = req.body.fkEmpresaServer;
 
   var nome = req.body.nomeServer;
   var cpf = req.body.cpfServer;
   var email = req.body.emailServer;
   var senha = req.body.senhaServer;
 
-  empresaModel.buscarPorCnpj(numeroTin).then((resultado) => {
-    if (resultado.length > 0) {
-      res
-        .status(401)
-        .json({ mensagem: `a empresa com o cnpj ${numeroTin} já existe` });
-    } else {
+  if (!razaoSocial || !numeroTin || !status || !telefone || !site || !cep || !logradouro || !numero || !nome || !cpf || !email || !senha) {
+    return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
+  }
 
-      empresaModel.cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site).then((resultadoEmpresa) => {
-        empresaModel.enviarEndereco(cep, logradouro, numero, complemento, fkEmpresa).then((resultadoEndereco) => {
-        });
-        usuarioModel.cadastrar(nome, cpf, email, senha,"admin", fkEmpresa).then((resultadoFuncionario) => {
-          res.status(201).json(resultadoFuncionario);
-        }).catch(function (){
-          res.status(400).json("Erro de cadastro")
-        });
-      });
+  let empresa;
+
+
+  try {
+    const isEmpresaExists = await empresaModel.buscarPorCnpj(numeroTin)
+
+    if (isEmpresaExists.length > 0) {
+      return res.status(401).json({ mensagem: `a empresa com o cnpj ${numeroTin} já existe` });
     }
-  });
+
+
+    empresa = await empresaModel.cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site)
+    await empresaModel.enviarEndereco(cep, logradouro, numero, complemento, empresa.insertId)
+    await usuarioModel.cadastrar(nome, email, senha, 1, empresa.insertId)
+
+    res.status(201).json({ mensagem: "Empresa cadastrada com sucesso" });
+  } catch {
+    if (empresa) {
+      empresaModel.excluirEmpresa(empresa.insertId);
+    }
+
+    res.status(400).json("Erro de cadastro")
+  }
+
+
 }
 
 module.exports = {

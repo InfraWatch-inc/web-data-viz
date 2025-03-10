@@ -24,15 +24,23 @@ function cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site) {
   return database.executar(instrucaoSql);
 }
 
-function enviarEndereco(cep, logradouro, numero, complemento, fkEmpresa){
+function enviarEndereco(cep, logradouro, numero, complemento, fkEmpresa) {
   var instrucaoSql = `INSERT INTO EnderecoSede (cep, logradouro, numero, complemento, fkEmpresa) VALUES ('${cep}', '${logradouro}', '${numero}', '${complemento}', '${fkEmpresa}')`;
-  
+
   return database.executar(instrucaoSql);
 }
 
-module.exports = { 
-  buscarPorCnpj, 
-  buscarPorId, 
-  cadastrarEmpresa, 
-  listar, 
-  enviarEndereco };
+function excluirEmpresa(idEmpresa) {
+  var instrucaoSql = `DELETE FROM Empresa WHERE idEmpresa = '${idEmpresa}'`;
+
+  return database.executar(instrucaoSql);
+}
+
+module.exports = {
+  buscarPorCnpj,
+  buscarPorId,
+  cadastrarEmpresa,
+  listar,
+  enviarEndereco,
+  excluirEmpresa
+};
