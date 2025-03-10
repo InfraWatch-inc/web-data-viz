@@ -323,6 +323,7 @@ main {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        height: 80vh;
     }
 
     .container-hero .left_side {
@@ -337,11 +338,12 @@ main {
         font-size: 60px;
     }
 
-    .container-hero .hero-btn button {
+    .container-hero .hero-btn {
         margin: 2rem 0;
         width: 50%;
         border-radius: 10px;
-        height: 50px;
+        height: 5rem;
+        font-size: 32px;
     }
 
     .container-hero3 {
