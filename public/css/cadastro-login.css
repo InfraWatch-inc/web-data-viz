@@ -66,6 +66,7 @@
     }
 
     .box-btn {
+        display: flex;
         width: 46%;
     }
 

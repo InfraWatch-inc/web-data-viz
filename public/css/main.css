@@ -74,6 +74,23 @@ button {
   opacity: 0.8;
   outline-color: dodgerblue;
 }
+.btn{
+  color: white;
+  height: fit-content;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 1.5rem;
+  font-size: 24px;
+  font-weight: 600;
+  background-image: url(../assets/buttons/bg-button.png);
+  background-size: cover;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: linear 0.5s;
+  opacity: 0.8;
+  outline-color: dodgerblue;
+}
 
 button:hover {
   opacity: 1;
