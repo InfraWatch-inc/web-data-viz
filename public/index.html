@@ -19,6 +19,8 @@
 
 <body>
   <div class="bg"></div>
+  <div id="topo"></div>
+  <a class="btn-top-page" href="#topo">▲</a>
   <main>
     <i class="bi bi-list menu-hamburger" onclick="abrirMenu()"></i>
 
@@ -172,7 +174,7 @@
       </div>
 
       <div class="right-side3 no-mobile">
-        <img src="assets/imgs/mockup (1) 1.png" width="65%" />
+        <img src="assets/imgs/mockup (1) 1.png" />
       </div>
     </div>
 
@@ -181,16 +183,18 @@
         <img src="assets/imgs/image 12.png" width="40%">
       </div>
 
-      <div class="contact-title-container">
-        <h2 class="titulo text-gradient contact-title" id="contateNos">Contate-nos</h2>
-        <p class="contato-email">Envie para nós um e-mail</p>
+      <div class="boxes">
+        <div class="contact-title-container">
+          <h2 class="titulo text-gradient contact-title" id="contateNos">Contate-nos</h2>
+          <p class="contato-email">Envie para nós um e-mail</p>
+        </div>
+  
+        <div class="right-side4">
+          <textarea id="textoEmail"></textarea>
+        </div>
+  
+        <button id="enviarEmail">Enviar Mensagem</button>
       </div>
-
-      <div class="right-side4">
-        <textarea id="textoEmail"></textarea>
-      </div>
-
-      <button id="enviarEmail">Enviar Mensagem</button>
     </div>
 
   </main>

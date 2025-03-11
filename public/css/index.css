@@ -357,6 +357,20 @@ main {
         flex-direction: row;
     }
 
+    .container-hero4 {
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .container-hero5 {
+        margin: 10rem 0 0 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .container-hero5 .boxes{
+        width: 50%;
+    }
 
     .quem-somos-container {
         display: flex;
@@ -403,4 +417,48 @@ main {
         margin-left: 350px;
     }
 
+    .traco-2 img  {
+        width: 300px;
+        padding: 10px;
+        margin-left: 100px;
+    }
+
+}
+
+@keyframes aparecer-btn-top-page {
+    from {
+        opacity: 0;
+        translate: 100vw 0;
+    }
+
+    to {
+        opacity: 1;
+        translate: 0 0;
+    }
+}
+
+.btn-top-page {
+    display: flex;
+    color: white;
+    font-size: 40px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(16,211,249,1);
+    border-radius: 20px;
+    box-shadow: 4px 4px 0 rgb(10, 126, 149);
+    cursor: pointer;
+    height: 80px;
+    width: 80px;
+    position: fixed;
+    animation: aparecer-btn-top-page 1s ease-in-out;
+    font-weight: 600;
+    margin-top: 80vh;
+    margin-left: 90vw;
+    animation-timeline: view();
+    animation-range: cover 0% cover 110%;
+}
+
+.btn-top-page:hover {
+    opacity: 1;
+    color: white;
 }
