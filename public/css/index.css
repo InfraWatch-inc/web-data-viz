@@ -428,7 +428,7 @@ main {
 @keyframes aparecer-btn-top-page {
     from {
         opacity: 0;
-        translate: 100vw 0;
+        translate: 0 100vh;
     }
 
     to {
@@ -455,7 +455,7 @@ main {
     margin-top: 80vh;
     margin-left: 90vw;
     animation-timeline: view();
-    animation-range: cover 0% cover 110%;
+    animation-range: cover 0% cover 100%;
 }
 
 .btn-top-page:hover {
