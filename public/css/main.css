@@ -98,6 +98,14 @@ button:hover, .btn:hover {
   box-shadow: 0 0 15px rgba(30, 143, 255, 1);
 }
 
+a {
+  transition: ease-in-out .5s;
+}
+
+a:hover {
+  color: rgba(16,211,249,1);
+}
+
 .size-1 {
   font-size: 18px;
 }
