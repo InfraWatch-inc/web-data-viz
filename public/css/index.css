@@ -458,7 +458,7 @@ main {
     animation: aparecer-btn-top-page 1s ease-in-out;
     font-weight: 600;
     margin-top: 80vh;
-    margin-left: 90vw;
+    margin-left: 92vw;
     animation-timeline: view();
     animation-range: cover 0% cover 100%;
 }
@@ -466,4 +466,5 @@ main {
 .btn-top-page:hover {
     opacity: 1;
     color: white;
+    transform: scale(1.3);
 }
