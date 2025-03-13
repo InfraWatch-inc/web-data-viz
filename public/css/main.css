@@ -134,6 +134,10 @@ a:hover {
   font-weight: 500;
 }
 
+.white {
+  color: white;
+}
+
 /* .medium-btn { */
   /* border-radius: 10px; */
   /* margin-right: 10px; */
@@ -162,4 +166,3 @@ a:hover {
   scrollbar-width: thin;
   scrollbar-color: rgba(16,211,249,1) transparent;
 }
-              
