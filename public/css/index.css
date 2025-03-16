@@ -254,7 +254,7 @@ main {
     main {
         width: 80%;
     }
-
+    
     .no-mobile {
         display: block;
     }
@@ -378,7 +378,6 @@ main {
     .card {
         max-width: 30%;
     }
-
 
     .quem-somos {
         max-width: 40%;
