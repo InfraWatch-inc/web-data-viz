@@ -167,6 +167,7 @@ main {
   display: flex;
   flex-direction: column;  
   gap: 50px;
+  justify-content: space-between;
 }
 
 .card {
@@ -364,12 +365,17 @@ main {
         width: 50%;
     }
 
-    .quem-somos-container {
+    .quem-somos-container, .container-map {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-top: 50px;
     }
+
+    .container-map {
+        padding: 8rem 0 0 0;
+    }
+
 
     .quem-somos-container .server-image {
         width: 50%;
@@ -391,6 +397,7 @@ main {
         top: -30px;
         font-size: 50px;
     }
+
 
     .traco-1 {
         display: flex;
@@ -448,10 +455,11 @@ main {
     animation: aparecer-btn-top-page 1s ease-in-out;
     font-weight: 600;
     margin-top: 80vh;
-    margin-left: 92vw;
+    margin-left: 88vw;
     animation-timeline: view();
     animation-range: cover 0% cover 100%;
 }
+
 
 .btn-top-page:hover {
     opacity: 1;
@@ -463,11 +471,15 @@ main {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    padding: 8rem 0 0 0;
+    margin: 8rem 0 0 0;
+}
+
+.left_side-map {
+    width: 50%;
 }
 
 .left_side-map img {
-    width: 50vw;
+    width: 100%;
 }
 
 .caixa-texto-map {
@@ -492,8 +504,20 @@ main {
     justify-content: center;
 }
 
+
 .titulo-alcance {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    position: absolute;
+    text-align: center;
+    font-weight: 600;
+    width: 86%;
+    top: -100px;
+    font-size: 50px;
+    display: flex;
+}
+
+.container-map {
+    padding: 5rem 0 3rem 0;
 }
