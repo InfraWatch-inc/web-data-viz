@@ -247,8 +247,10 @@ main {
     flex-direction: column;
 }
 
-/* Breakpoint para tablet */
-@media screen and (min-width: 480px) and (max-width: 1023px) {}
+
+.btn-top-page {
+    display: none;
+}
 
 /* Breakpoint para Desktop */
 @media screen and (min-width: 1024px) {
@@ -419,6 +421,34 @@ main {
         margin-left: 100px;
     }
 
+    .btn-top-page {
+        display: flex;
+        color: white;
+        font-size: 40px;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(16,211,249,1);
+        border-radius: 20px;
+        box-shadow: 4px 4px 0 rgb(10, 126, 149);
+        cursor: pointer;
+        height: 55px;
+        width: 55px;
+        position: fixed;
+        animation: aparecer-btn-top-page 1s ease-in-out;
+        /* font-weight: 500; */
+        margin-top: 80vh;
+        margin-left: 95vw;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+    }
+    
+    
+    .btn-top-page:hover {
+        opacity: 1;
+        color: white;
+        transform: scale(1.3);
+    }
+
 }
 
 .div-hero {
@@ -439,33 +469,6 @@ main {
     }
 }
 
-.btn-top-page {
-    display: flex;
-    color: white;
-    font-size: 40px;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(16,211,249,1);
-    border-radius: 20px;
-    box-shadow: 4px 4px 0 rgb(10, 126, 149);
-    cursor: pointer;
-    height: 55px;
-    width: 55px;
-    position: fixed;
-    animation: aparecer-btn-top-page 1s ease-in-out;
-    /* font-weight: 500; */
-    margin-top: 80vh;
-    margin-left: 90vw;
-    animation-timeline: view();
-    animation-range: cover 0% cover 100%;
-}
-
-
-.btn-top-page:hover {
-    opacity: 1;
-    color: white;
-    transform: scale(1.3);
-}
 
 .box-map {
     display: flex;
