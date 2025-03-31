@@ -27,9 +27,8 @@
           </div>
 
           <div class="entradas margem">
-            <input type="text" placeholder="Digite aqui seu nome">
-            <input type="text" placeholder="Digite aqui seu email">
-            <input type="text" placeholder="Digite aqui seu CNPJ">
+            <input type="ipt_email" placeholder="Digite aqui seu email" id="email_input">
+            <input type="ipt_senha" placeholder="Digite aqui sua senha" id="senha_input">
           </div>
 
           <div class="botoes margem">
@@ -38,7 +37,7 @@
             </div>
             <br>
             <div class="box-btn">
-              <button class="btn-continuar"><a href="#" style="color: white;">Continuar</a></button>
+              <button onclick="entrar()" class="btn-continuar"><a href="#" style="color: white;">Entrar</a></button>
             </div>
           </div>
 
@@ -61,7 +60,7 @@
 
 
     function entrar() {
-        aguardar();
+      
 
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
@@ -100,7 +99,7 @@
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
+                   
 
                     setTimeout(function () {
                         window.location = "./dashboard/cards.html";
