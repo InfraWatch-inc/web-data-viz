@@ -39,7 +39,7 @@ h2 {
   font-size: 32px;
 }
 
-input {
+input, select {
   min-width: 250px;
   font-size: large;
   height: 4rem;

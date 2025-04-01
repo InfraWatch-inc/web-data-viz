@@ -1,3 +1,6 @@
+#pagina2, #pagina3, #pagina4, #pagina5 {
+    display: none;
+}
 @media only screen and (orientation: landscape) {
     main {
         width: 60%;
@@ -48,16 +51,16 @@
     }
 
     .frase {
-    display: flex;
-    background-image: url(../assets/buttons/bg-button.png);
-    background-size: cover;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    flex-direction: column;
-    height: 200px;
-    text-align: center;
-    justify-content: end;
+        display: flex;
+        background-image: url(../assets/buttons/bg-button.png);
+        background-size: cover;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        flex-direction: column;
+        height: 170px;
+        text-align: center;
+        justify-content: center;
     }
 
     .entradas {
@@ -72,7 +75,8 @@
 
     .botoes {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
+        align-items: center;
         margin-top: 10px;
     }
 
@@ -85,6 +89,10 @@
 
     .ja-possui-uma-conta:hover {
         opacity: 1;
+    }
+
+    .titulo-cadastro{
+        font-size: 40px;
     }
 }
 

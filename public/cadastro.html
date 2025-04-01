@@ -10,8 +10,8 @@
 
   <!-- <script src="./js/sessao.js"></script> -->
   <link rel="icon" href="./assets/icon/Logo-InfraWatch.png" />
-   <link rel="stylesheet" href="css/main.css">
-   <link rel="stylesheet" href="css/cadastro-login.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/cadastro-login.css">
 </head>
 
 <body>
@@ -24,29 +24,73 @@
 
         <div class="box-informacoes">
           <div class="frase margem">
-            <h2>A poucos cliques de distância da sua solução</h2>
-            <h1>solução!</h1>
+            <h2 class="titulo-cadastro">Seja bem-vindo!</h2>
+            <h2 class="titulo-cadastro">Vamos começar?</h2>
           </div>
 
-          <div class="entradas margem">
-            <input type="text" placeholder="Digite aqui seu nome">
-            <input type="text" placeholder="Digite aqui seu email">
-            <input type="text" placeholder="Digite aqui seu CNPJ">
-          </div>
-
-          <div class="botoes margem">
-            <div class="box-btn">
-              <a class="btn" href="index.html" >Voltar</a>
+          <div id="pagina1">
+            <div class="entradas margem">
+              <label>Razão social:</label>
+              <input type="text" placeholder="Exemplo: InfraWatch Inc">
+              <label>Número de identificação:</label>
+              <input type="text" placeholder="Exemplo: 12345678910">
+              <label>Informe o país:</label>
+              <select name="" id="slctPais" class="select-pais">
+                <option value="brazil">Brazil</option>
+                <option value="usa">Estados Unidos</option>
+                <option value="canada">Canadá</option>
+                <option value="singapura">Singapura</option>
+                <option value="franca">França</option>
+                <option value="alemanha">Alemanha</option>
+                <option value="china">China</option>
+                <option value="vietnam">Vietnam</option>
+                <option value="romenia">Romenia</option>
+              </select>
             </div>
-            <br>
-            <div class="box-btn">
-              <button class="btn">Seguir</button>
+  
+            <div class="botoes margem">
+              <div class="box-btn">
+                <button class="btn">Continuar</button>
+              </div>
+            </div>
+  
+            <div class="ja-possui-uma-conta margem">
+              <a href="login.html" class="size-1 weight-1">Já possui uma conta? Clique aqui para entrar</a>
             </div>
           </div>
 
-          <div class="ja-possui-uma-conta margem">
-            <a href="login.html" class="size-1 weight-1">Já possui uma conta? Clique aqui para entrar</a>
+          <div id="pagina2">
+            <div class="entradas margem">
+              <!-- TODO - Adicionar campos de cadastro de empresa -->
+            </div>
+  
+            <div class="botoes margem">
+              <div class="box-btn">
+                <a class="btn" href="index.html" >Voltar</a>
+              </div>
+              <br>
+              <div class="box-btn">
+                <button class="btn">Seguir</button>
+              </div>
+            </div>
+  
+            <div class="ja-possui-uma-conta margem">
+              <a href="login.html" class="size-1 weight-1">Já possui uma conta? Clique aqui para entrar</a>
+            </div>
           </div>
+
+          <div id="pagina3">
+            <!-- TODO -->
+          </div>
+
+          <div id="pagina4">
+            <!-- TODO -->
+          </div>
+
+          <div id="idpagina5">
+            <!-- TODO -->
+          </div>
+          
         </div>
       </div>
     </div>
