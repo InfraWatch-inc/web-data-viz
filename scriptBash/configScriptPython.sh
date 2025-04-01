@@ -17,6 +17,8 @@ sudo apt upgrade -qq -y
 # clonar repositório 
 echo -e "\033[41;1;37m Clonando Repositório... \033[0m"
 git clone --quiet https://github.com/InfraWatch-inc/scripts-client.git
+git clone --quiet https://github.com/InfraWatch-inc/java.git
+git clone --quiet https://github.com/InfraWatch-inc/database.git
 
 # instalando mysql
 echo -e "\033[41;1;37m Instalando MYSQL Server... \033[0m"
