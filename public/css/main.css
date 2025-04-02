@@ -93,6 +93,14 @@ button {
   white-space: nowrap;
 }
 
+.voltar{
+  position: absolute;
+width: 78px;
+height: 67px;
+left: 59px;
+top: 40px;
+
+}
 button:hover, .btn:hover {
   opacity: 1;
   box-shadow: 0 0 15px rgba(30, 143, 255, 1);
@@ -100,6 +108,7 @@ button:hover, .btn:hover {
 
 a {
   transition: ease-in-out .5s;
+  
 }
 
 a:hover {
