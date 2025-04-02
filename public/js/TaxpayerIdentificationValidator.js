@@ -9,7 +9,7 @@ class TaxpayerIdentificationValidator {
         switch (this.country) {
             case "BR":
                 return this.#brazil();
-            case "USA":
+            case "US":
                 return this.#usa();
             case "CA":
                 return this.#canada();

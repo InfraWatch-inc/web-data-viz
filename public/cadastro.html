@@ -31,26 +31,26 @@
           <div id="pagina1">
             <div class="entradas margem">
               <label>Razão social:</label>
-              <input type="text" placeholder="Exemplo: InfraWatch Inc">
+              <input id="iptRazaoSocial" type="text" placeholder="Exemplo: InfraWatch Inc">
               <label>Número de identificação:</label>
-              <input type="text" placeholder="Exemplo: 12345678910">
+              <input id="iptNumeroIdentificacao" type="text" placeholder="Exemplo: 12345678910">
               <label>Informe o país:</label>
               <select name="" id="slctPais" class="select-pais">
-                <option value="brazil">Brazil</option>
-                <option value="usa">Estados Unidos</option>
-                <option value="canada">Canadá</option>
-                <option value="singapura">Singapura</option>
-                <option value="franca">França</option>
-                <option value="alemanha">Alemanha</option>
-                <option value="china">China</option>
-                <option value="vietnam">Vietnam</option>
-                <option value="romenia">Romenia</option>
+                <option value="BR">Brazil</option>
+                <option value="US">Estados Unidos</option>
+                <option value="CA">Canadá</option>
+                <option value="SG">Singapura</option>
+                <option value="FR">França</option>
+                <option value="DE">Alemanha</option>
+                <option value="CN">China</option>
+                <option value="VN">Vietnam</option>
+                <option value="RO">Romenia</option>
               </select>
             </div>
   
             <div class="botoes margem">
               <div class="box-btn">
-                <button class="btn">Continuar</button>
+                <button class="btn" onclick="avancar()">Continuar</button>
               </div>
             </div>
   
@@ -66,11 +66,11 @@
   
             <div class="botoes margem">
               <div class="box-btn">
-                <a class="btn" href="index.html" >Voltar</a>
+                <a class="btn" href="index.html" onclick="voltar()">Voltar</a>
               </div>
               <br>
               <div class="box-btn">
-                <button class="btn">Seguir</button>
+                <button class="btn" onclick="avancar()">Seguir</button>
               </div>
             </div>
   
@@ -87,129 +87,26 @@
             <!-- TODO -->
           </div>
 
-          <div id="idpagina5">
-            <!-- TODO -->
+          <div id="pagina5">
+            <div class="entradas margem">
+              <!-- TODO -->
+            </div>
+  
+            <div class="botoes margem">
+              <div class="box-btn">
+                <button class="btn" onclick="cadastrar()">Cadastro</button>
+              </div>
+            </div>
+  
+            <div class="ja-possui-uma-conta margem">
+              <a href="login.html" class="size-1 weight-1">Já possui uma conta? Clique aqui para entrar</a>
+            </div>
           </div>
-          
         </div>
       </div>
     </div>
   </main>
+  <script src="./js/cadastro.js"></script>
+  <script src="./js/TaxpayerIdentificationValidator.js"></script>
 </body>
-
 </html>
-
-<script>
-
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
-  let listaEmpresasCadastradas = [];
-
-  function cadastrar() {
-    // aguardar();
-
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
-    var codigoVar = codigo_input.value;
-    var idEmpresaVincular
-
-    // Verificando se há algum campo em branco
-    if (
-      nomeVar == "" ||
-      emailVar == "" ||
-      senhaVar == "" ||
-      confirmacaoSenhaVar == "" ||
-      codigoVar == ""
-    ) {
-      cardErro.style.display = "block";
-      mensagem_erro.innerHTML =
-        "(Mensagem de erro para todos os campos em branco)";
-
-      finalizarAguardar();
-      return false;
-    } else {
-      setInterval(sumirMensagem, 5000);
-    }
-
-    // Verificando se o código de ativação é de alguma empresa cadastrada
-    for (let i = 0; i < listaEmpresasCadastradas.length; i++) {
-      if (listaEmpresasCadastradas[i].codigo_ativacao == codigoVar) {
-        idEmpresaVincular = listaEmpresasCadastradas[i].id
-        console.log("Código de ativação válido.");
-        break;
-      } else {
-        cardErro.style.display = "block";
-        mensagem_erro.innerHTML = "(Mensagem de erro para código inválido)";
-        finalizarAguardar();
-      }
-    }
-
-    // Enviando o valor da nova input
-    fetch("/usuarios/cadastrar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        idEmpresaVincularServer: idEmpresaVincular
-      }),
-    })
-      .then(function (resposta) {
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-          cardErro.style.display = "block";
-
-          mensagem_erro.innerHTML =
-            "Cadastro realizado com sucesso! Redirecionando para tela de Login...";
-
-          setTimeout(() => {
-            window.location = "login.html";
-          }, "2000");
-
-          limparFormulario();
-          finalizarAguardar();
-        } else {
-          throw "Houve um erro ao tentar realizar o cadastro!";
-        }
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        finalizarAguardar();
-      });
-
-    return false;
-  }
-
-  // Listando empresas cadastradas 
-  function listar() {
-    fetch("/empresas/listar", {
-      method: "GET",
-    })
-      .then(function (resposta) {
-        resposta.json().then((empresas) => {
-          empresas.forEach((empresa) => {
-            listaEmpresasCadastradas.push(empresa);
-
-            console.log("listaEmpresasCadastradas")
-            console.log(listaEmpresasCadastradas[0].codigo_ativacao)
-          });
-        });
-      })
-      .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-      });
-  }
-
-  function sumirMensagem() {
-    cardErro.style.display = "none";
-  }
-</script>
