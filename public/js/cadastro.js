@@ -13,31 +13,31 @@ let isCEPValido = false;
 
 let informacoesCadastro = {
     empresa: {
-        razaoSocial: '',
-        numeroIdentificacao: '',
-        pais: '',
+        razaoSocialServer: '',  // razaoSocialServer
+        numeroTinServer: '', // numeroTinServer
+        paisServer: '',
 
-        telefoneContato: '',
-        siteEmpresa: ''
+        telefoneServer: '', // telefoneServer
+        siteServer: '' // siteServer
     },
     endereco: {
-        cep: '',
-        logradouro: '',
+        cepServer: '', // cepServer
+        logradouroServer: '', // 
 
-        numero: '',
-        complemento: '',
-        bairro: '',
-        cidade: '',
-        estado: ''
+        numeroServer: '', // numeroServer
+        complementoServer: '', // complementoServer
+        bairroServer: '', // bairroServer
+        cidadeServer: '', // cidadeServer
+        estadoServer: '' // estadoServer
     },
     colaboradorResponsavel: {
-        nome: '',
-        email: '',
-        tipoDocumento: '',
-        documento: '',
+        nomeServer: '', // nomeServer
+        emailServer: '', //emailServer
+        tipoDocumentoServer: '',
+        cpfServer: '', // cpfServer **
 
-        cargo: '',
-        senha:''
+        cargoServer: '', // **
+        senhaServer:'' // senhaServer
     }
 }
 
@@ -51,9 +51,9 @@ function atualizarPagina(isAvancando) {
             const cidade = document.getElementById('iptCidade');
             const estado = document.getElementById('iptEstado');
 
-            bairro.value = informacoesCadastro.endereco.bairro;
-            cidade.value = informacoesCadastro.endereco.cidade;
-            estado.value = informacoesCadastro.endereco.estado;
+            bairro.value = informacoesCadastro.endereco.bairroServer;
+            cidade.value = informacoesCadastro.endereco.cidadeServer;
+            estado.value = informacoesCadastro.endereco.estadoServer;
             isCEPValido = false;
         }
 
@@ -120,15 +120,15 @@ function validarPagina1(isAvancando) {
             return false;
         }
 
-        informacoesCadastro.empresa.razaoSocial = razaoSocial.value;    
-        informacoesCadastro.empresa.numeroIdentificacao = numeroIdentificacao.value;
-        informacoesCadastro.empresa.pais = pais.value;
+        informacoesCadastro.empresa.razaoSocialServer = razaoSocial.value;    
+        informacoesCadastro.empresa.numeroTinServer = numeroIdentificacao.value;
+        informacoesCadastro.empresa.paisServer = pais.value;
 
         return true;
     } else {
-        razaoSocial.value = informacoesCadastro.empresa.razaoSocial;
-        numeroIdentificacao.value = informacoesCadastro.empresa.numeroIdentificacao;
-        pais.value = informacoesCadastro.empresa.pais;
+        razaoSocial.value = informacoesCadastro.empresa.razaoSocialServer;
+        numeroIdentificacao.value = informacoesCadastro.empresa.numeroTinServer;
+        pais.value = informacoesCadastro.empresa.paisServer;
     }
 }
 
@@ -142,19 +142,25 @@ function validarPagina2(isAvancando) {
     const siteEmpresaRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}([\/\w \.-]*)*\/?$/;
     const validaCEP = /^[0-9]{8}$/;
 
-    // validar telefone 
+    if(isAvancando){
+      // validar telefone 
     
-    // validar site
+      // validar site
 
-    // validar cep e inserir em outros campos
-    if(cep == "" || !validaCEP.test(cep.value)){
-      // popar erro
-      return false;
+      // validar cep e inserir em outros campos
+      if(cep == "" || !validaCEP.test(cep.value)){
+        // popar erro
+        return false;
+      }
+
+      pesquisarCEP(cep.value);
+      // todo
+    } else {
+      // todo
     }
 
-    pesquisarCEP(cep.value);
-    // todo
-    returntrue
+    
+    return true
 }
 
 function callbackCEP(conteudo) {
@@ -162,11 +168,11 @@ function callbackCEP(conteudo) {
       const logradouro = document.getElementById('iptLogradouro');
 
       logradouro.value = (conteudo.logradouro);
-      informacoesCadastro.endereco.logradouro = (conteudo.logradouro);
-      informacoesCadastro.endereco.bairro = (conteudo.bairro);
+      informacoesCadastro.endereco.logradouroServer = (conteudo.logradouro);
+      informacoesCadastro.endereco.bairroServer = (conteudo.bairro);
 
-      informacoesCadastro.endereco.cidade=(conteudo.localidade);
-      informacoesCadastro.endereco.estado=(conteudo.estado);
+      informacoesCadastro.endereco.cidadeServer=(conteudo.localidade);
+      informacoesCadastro.endereco.estadoServer=(conteudo.estado);
 
   } //end if.
   else {
@@ -195,13 +201,13 @@ function validarPagina3(isAvancando) {
         
         
     } else {
-        cep.value = informacoesCadastro.endereco.cep;
-        logradouro.value = informacoesCadastro.endereco.logradouro;
-        numeroContato.value = informacoesCadastro.endereco.numero;
-        complemento.value = informacoesCadastro.endereco.complemento;
-        bairro.value = informacoesCadastro.endereco.bairro;
-        cidade.value = informacoesCadastro.endereco.cidade;
-        estado.value = informacoesCadastro.endereco.estado;
+        cep.value = informacoesCadastro.endereco.cepServer;
+        logradouro.value = informacoesCadastro.endereco.logradouroServer;
+        numeroContato.value = informacoesCadastro.endereco.numeroServer;
+        complemento.value = informacoesCadastro.endereco.complementoServer;
+        bairro.value = informacoesCadastro.endereco.bairroServer;
+        cidade.value = informacoesCadastro.endereco.cidadeServer;
+        estado.value = informacoesCadastro.endereco.estadoServer;
     }
     
     // todo
