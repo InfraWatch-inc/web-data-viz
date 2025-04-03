@@ -140,9 +140,47 @@ function validarPagina2(isAvancando) {
 
     const telefoneContatoRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
     const siteEmpresaRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}([\/\w \.-]*)*\/?$/;
+    const validaCEP = /^[0-9]{8}$/;
 
+    // validar telefone 
+    
+    // validar site
+
+    // validar cep e inserir em outros campos
+    if(cep == "" || !validaCEP.test(cep.value)){
+      // popar erro
+      return false;
+    }
+
+    pesquisarCEP(cep.value);
     // todo
+    returntrue
 }
+
+function callbackCEP(conteudo) {
+  if (!("erro" in conteudo)) {
+      const logradouro = document.getElementById('iptLogradouro');
+
+      logradouro.value = (conteudo.logradouro);
+      informacoesCadastro.endereco.logradouro = (conteudo.logradouro);
+      informacoesCadastro.endereco.bairro = (conteudo.bairro);
+
+      informacoesCadastro.endereco.cidade=(conteudo.localidade);
+      informacoesCadastro.endereco.estado=(conteudo.estado);
+
+  } //end if.
+  else {
+      //CEP não Encontrado.
+      limpa_formulário_cep();
+      alert("CEP não encontrado.");
+  }
+}
+  
+function pesquisarCEP(cep) {
+    var script = document.createElement('script');
+    script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=callbackCEP';
+    document.body.appendChild(script);
+};
 
 function validarPagina3(isAvancando) {
     const numeroContato = document.getElementById('iptNumeroContato');
