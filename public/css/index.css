@@ -30,8 +30,8 @@ main {
 }
 
 .text-gradient {
-    background: rgb(116,11,198);
-    background: linear-gradient(298deg, rgba(116,11,198,1) 41%, rgba(16,211,249,1) 100%);
+    background: rgb(116, 11, 198);
+    background: linear-gradient(298deg, rgba(116, 11, 198, 1) 41%, rgba(16, 211, 249, 1) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -125,8 +125,8 @@ main {
 }
 
 .container-hero h2 {
-    background: rgb(116,11,198);
-    background: linear-gradient(176deg, rgba(116,11,198,1) 41%, rgba(16,211,249,1) 100%);
+    background: rgb(116, 11, 198);
+    background: linear-gradient(176deg, rgba(116, 11, 198, 1) 41%, rgba(16, 211, 249, 1) 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -158,16 +158,17 @@ main {
     font-size: 38px;
 }
 
-.traco-1 img, .traco-2 img  {
+.traco-1 img,
+.traco-2 img {
     width: 200px;
     padding: 10px;
 }
 
 .container-hero3 {
-  display: flex;
-  flex-direction: column;  
-  gap: 50px;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    justify-content: space-between;
 }
 
 .card {
@@ -257,7 +258,7 @@ main {
     main {
         width: 80%;
     }
-    
+
     .no-mobile {
         display: block;
     }
@@ -275,7 +276,7 @@ main {
         width: 100%;
     }
 
-    .desktop-nav{
+    .desktop-nav {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -363,11 +364,21 @@ main {
         justify-content: space-between;
     }
 
-    .container-hero5 .boxes{
+    .container-hero5 .boxes {
         width: 50%;
     }
+ 
+    .emails-contato{
+        display: flex;
+        flex-direction: column;
+    }
 
-    .quem-somos-container, .container-map {
+    .emails-contato input{
+        background-color: white;
+    }
+
+    .quem-somos-container,
+    .container-map {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -393,8 +404,8 @@ main {
         font-size: 22px;
         text-align: justify;
     }
-    
-    
+
+
     .quem-somos .titulo {
         top: -30px;
         font-size: 50px;
@@ -408,14 +419,14 @@ main {
 
     }
 
-    .traco-1 img  {
+    .traco-1 img {
         width: 300px;
         padding: 15px;
         margin-top: -120px;
         margin-left: 350px;
     }
 
-    .traco-2 img  {
+    .traco-2 img {
         width: 300px;
         padding: 10px;
         margin-left: 100px;
@@ -427,7 +438,7 @@ main {
         font-size: 40px;
         justify-content: center;
         align-items: center;
-        background-color: rgba(16,211,249,1);
+        background-color: rgba(16, 211, 249, 1);
         border-radius: 20px;
         box-shadow: 4px 4px 0 rgb(10, 126, 149);
         cursor: pointer;
@@ -441,8 +452,8 @@ main {
         animation-timeline: view();
         animation-range: cover 0% cover 100%;
     }
-    
-    
+
+
     .btn-top-page:hover {
         opacity: 1;
         color: white;
@@ -454,7 +465,7 @@ main {
 .div-hero {
     display: flex;
     height: 5rem;
-    
+
 }
 
 @keyframes aparecer-btn-top-page {
@@ -489,7 +500,7 @@ main {
     border-radius: 8px;
     background-color: #d9d9d956;
     border-radius: 10px;
-    padding: 2rem 2rem 2rem ;
+    padding: 2rem 2rem 2rem;
     position: relative;
     box-shadow: 1px 1px 15px #1118274b;
     text-align: justify;

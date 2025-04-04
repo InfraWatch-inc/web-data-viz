@@ -49,12 +49,7 @@ input, select {
   border-radius: 12px;
   outline-color: dodgerblue;
   margin: 10px 0;
-  opacity: 0.6;
   transition: linear 0.5s;
-}
-
-input:hover {
-  opacity: 1;
 }
 
 button {
