@@ -4,11 +4,11 @@ function cadastrarEmp(req, res){
 
     // Fixo apenas req.body."variavel"
 
-var razaoSocial = req.body.variavel 
-var numeroTin = req.body.variavel
-var pais = req.body.variavel
-var telefone = req.body.variavel
-var site = req.body.variavel
+var razaoSocial = req.body.razaoSocialServer 
+var numeroTin = req.body.numeroTinServer
+var pais = req.body.paisServer
+var telefone = req.body.telefoneServer
+var site = req.body.siteServer
 
 cadastroEmpresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, pais)
             .then(
@@ -29,13 +29,13 @@ cadastroEmpresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, pais)
 
 function cadastrarEnd(req, res){
 
-var cep = req.body.variavel 
-var logradouro = req.body.variavel
-var bairro = req.body.variavel
-var cidade = req.body.variavel
-var estado = req.body.variavel
-var numero = req.body.variavel
-var complemento = req.body.variavel
+var cep = req.body.cepServer 
+var logradouro = req.body.logradouroServer
+var bairro = req.body.bairroServer
+var cidade = req.body.cidadeServer
+var estado = req.body.estadoServer
+var numero = req.body.numeroServer
+var complemento = req.body.complementoServer
 
 
 cadastroEmpresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento)
@@ -59,15 +59,15 @@ cadastroEmpresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estad
 function cadastrarCol(req, res){
 
     
-var nome = req.body.variavel 
-var email= req.body.variavel
-var documento = req.body.variavel
-var cargo = req.body.variavel
-var senha = req.body.variavel
-var tipoDocumento = req.body.variavel
-var fkEmpresa = req.body.variavel
+var nome = req.body.nomeServer                    
+var email= req.body.emailServer
+var documento = req.body.cpfServer
+var cargo = req.body.cargoServer
+var senha = req.body.senhaServer
+var tipoDocumento = req.body.tipoDocumentoServer
+var fkEmpresa = req.body.variavel // ver como vai fazer
 
-cadastroEmpresaModel.cadastrarColaborador(nome, email, documento, tipoDocumento, senha, fkEmpresa, cargo)
+cadastroEmpresaModel.cadastrarCol(nome, email, documento, tipoDocumento, senha, fkEmpresa, cargo)
             .then(
                 function (resultado) {
                     res.json(resultado);
