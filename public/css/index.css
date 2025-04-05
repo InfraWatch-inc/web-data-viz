@@ -253,6 +253,101 @@ main {
     display: none;
 }
 
+.total-cima {
+    display: flex;
+    height: 90%;
+    width: 100%;
+}
+
+.esquerda {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 15px;
+}
+
+.info p {
+    color: white;
+    font-size: 20px;
+}
+
+.bola {
+    background-color: gray;
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
+}
+
+.direita {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+}
+
+.direitinha {
+    flex-direction: column;
+    display: flex;
+    width: 60%;
+    height: 90%;
+}
+
+.sub {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 35%;
+}
+
+.sub h3 {
+    font-size: 30px;
+    font-weight: 700;
+    color: white;
+}
+
+.desc {
+    display: flex;
+    height: 35%;
+}
+
+.desc span {
+    font-size: 20px;
+    color: white;
+}
+
+.copy {
+    display: flex;
+    width: 100%;
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+}
+
+.copy span {
+    font-size: 18px;
+    color: white;
+    font: 500;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    height: 33vh;
+    width: 100%;
+    background-color: #19078B;
+}
+
 /* Breakpoint para Desktop */
 @media screen and (min-width: 1024px) {
     main {
@@ -361,19 +456,20 @@ main {
     .container-hero5 {
         margin: 8rem 0 0 0;
         display: flex;
+        height: 65vh;
         justify-content: space-between;
     }
 
     .container-hero5 .boxes {
         width: 50%;
     }
- 
-    .emails-contato{
+
+    .emails-contato {
         display: flex;
         flex-direction: column;
     }
 
-    .emails-contato input{
+    .emails-contato input {
         background-color: white;
     }
 
