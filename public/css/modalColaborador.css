@@ -1,0 +1,50 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+  }
+
+  .conteudo {
+    padding: 40px;
+    transition: filter 0.3s ease;
+  }
+
+  .embaçado {
+    filter: blur(5px);
+  }
+
+  dialog {
+    padding: 20px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  .titulo {
+    text-align: center;
+    font-size: 52px;
+    font-weight: Regular;
+    margin-bottom: 20px;
+    color: #374151;
+  }
+
+  #conteudo {
+    display: flex;
+    gap: 20px;
+  }
+
+  #esquerda,
+  #direita {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }

@@ -1,0 +1,249 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/modalColaborador.css" />
+        <title>Document</title>
+    </head>
+
+    <body>
+
+        <div class="telaPrincipal" id="fundo">
+
+            <button id="abrirDialogo">Abrir diálogo</button>
+
+        </div>
+
+        <dialog id="cadastroCol">
+
+            <div class="titulo">Cadastro Colaborador</div>
+
+            <div id="conteudo">
+                <div id="esquerda">
+                    <label>Nome completo</label>
+                    <input id="iptNome" type="text" name="Nome Completo" placeholder="Digite o nome aqui!">
+
+                    <label>E-mail</label>
+                    <input id="iptEmail" type="text" name="Nome Completo" placeholder="Digite o e-mail aqui!">
+
+                    <label for="tipoDoc">Tipo de Documento</label>
+                    <select id="iptTipoDoc">
+                        <option value="" disabled selected>Selecione aqui</option>
+                        <option value="br">CPF (Brasil)</option>
+                        <option value="us">SSN (Estados Unidos)</option>
+                        <option value="uk">NIN (Inglaterra)</option>
+                    </select>
+
+                    <label>Documento</label>
+                    <input id="iptDocumento" type="text" placeholder="Digite seu documento aqui!" />
+
+                </div>
+                <div id="direita">
+                    <label>Cargo</label>
+                    <input id="iptCargo" type="text" name="Nome Completo" placeholder="Digite o senha aqui!">
+
+                    <label>Nível</label>
+                    <input id="iptNivel" type="text" name="Nome Completo" placeholder="Digite o nível aqui!">
+
+                    <label>Senha</label>
+                    <input id="iptSenha" type="password" name="Nome Completo" placeholder="Digite a senha aqui!">
+
+                    <label>Confirmar senha</label>
+                    <input id="iptConfirmar" type="password" name="Nome Completo" placeholder="Confirme a senha aqui!">
+
+                </div>
+            </div>
+            <button onclick="validarFormulario()">Enviar</button>
+            <!-- <button id="fecharDialogo">Fechar</button> -->
+
+
+        </dialog>
+
+    </body>
+
+    </html>
+
+    <script>
+
+        const dialog = document.getElementById('cadastroCol')
+        const fundo = document.getElementById('fundo')
+        const btnAbrir = document.getElementById('abrirDialogo')
+        const btnFechar = document.getElementById('fecharDialogo')
+
+        btnAbrir.addEventListener('click', () => {
+            dialog.showModal()
+            fundo.classList.add('embaçado')
+        })
+
+        btnFechar.addEventListener('click', () => {
+            dialog.close();
+            fundo.classList.remove('embaçado')
+        });
+
+
+        const tipoDoc = document.getElementById('iptTipoDoc')
+
+tipoDoc.addEventListener('change', () => {
+    const tipo = tipoDoc.value
+    const inputContainer = document.getElementById('iptDocumento').parentNode
+
+    // Remove input antigo
+    const inputAntigo = document.getElementById('iptDocumento')
+    inputContainer.removeChild(inputAntigo)
+
+    // Cria novo input
+    const novoInput = document.createElement('input')
+    novoInput.type = 'text'
+    novoInput.id = 'iptDocumento'
+    novoInput.placeholder = 'Digite seu documento aqui!'
+    novoInput.name = 'documento'
+    inputContainer.appendChild(novoInput)
+
+    // Aplica máscara conforme tipo
+    if (tipo === 'br') {
+        novoInput.placeholder = '000.000.000-00'
+        novoInput.maxLength = 14
+        novoInput.addEventListener('input', () => {
+            let valor = novoInput.value.replace(/\D/g, '').slice(0, 11)
+            valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+            valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+            valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+            novoInput.value = valor
+        })
+    }
+
+    if (tipo === 'us') {
+        novoInput.placeholder = '000-00-0000'
+        novoInput.maxLength = 11
+        novoInput.addEventListener('input', () => {
+            let valor = novoInput.value.replace(/\D/g, '').slice(0, 9)
+            valor = valor.replace(/(\d{3})(\d)/, '$1-$2')
+            valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2')
+            novoInput.value = valor
+        })
+    }
+
+    if (tipo === 'uk') {
+        novoInput.placeholder = 'AB123456C'
+        novoInput.maxLength = 9
+        novoInput.addEventListener('input', () => {
+            let valor = novoInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9)
+            valor = valor.replace(/^([A-Z]{2})(\d{6})([A-Z]?)$/, '$1$2$3')
+            novoInput.value = valor
+        })
+    }
+})
+
+        // Mascara
+
+        // const tipoDoc = document.getElementById('iptTipoDoc')
+
+        // Substitui o input antigo por um novo
+        // function resetInput() {
+        //     const inputAntigo = document.getElementById('iptDocumento')
+        //     const novoInput = document.createElement('input')
+        //     novoInput.type = 'text'
+        //     novoInput.placeholder = 'Digite seu documento aqui!'
+        //     inputAntigo.parentNode.replaceChild(novoInput, inputAntigo)
+        //     return novoInput
+        // }
+
+
+        // tipoDoc.addEventListener('change', () => {
+        //     const tipo = tipoDoc.value
+        //     const novoInput = resetInput()
+        //     novoInput.id = 'iptDocumento'
+
+        //     if (tipo === 'br') {
+        //         novoInput.placeholder = '000.000.000-00'
+        //         novoInput.maxLength = 14
+        //         novoInput.addEventListener('input', () => {
+        //             let valor = novoInput.value.replace(/\D/g, '').slice(0, 11)
+        //             valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+        //             valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+        //             valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+        //             novoInput.value = valor
+        //         })
+        //     }
+
+        //     if (tipo === 'us') {
+        //         novoInput.placeholder = '000-00-0000'
+        //         novoInput.maxLength = 11
+        //         novoInput.addEventListener('input', () => {
+        //             let valor = novoInput.value.replace(/\D/g, '').slice(0, 9)
+        //             valor = valor.replace(/(\d{3})(\d)/, '$1-$2')
+        //             valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2')
+        //             novoInput.value = valor
+        //         })
+        //     }
+
+        //     if (tipo === 'uk') {
+        //         novoInput.placeholder = 'AB123456C'
+        //         novoInput.maxLength = 9
+        //         novoInput.addEventListener('input', () => {
+        //             let valor = novoInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9)  // Tudo que nao tiver entre A-Z ou 0-9 ele transforma em '', o ^ é a negação, slice limita a 9 caracteres
+        //             valor = valor.replace(/^([A-Z]{2})(\d{6})([A-Z]?)$/, '$1$2$3')
+        //             novoInput.value = valor
+        //         })
+        //     }
+        // })
+
+        function validarFormulario() {
+            const nome = document.getElementById('iptNome').value.trim()
+            const email = document.getElementById('iptEmail').value.trim()
+            const cargo = document.getElementById('iptCargo').value.trim()
+            const nivel = document.getElementById('iptNivel').value.trim()
+            const senha = document.getElementById('iptSenha').value
+            const confirmar = document.getElementById('iptConfirmar').value
+            // const tipoDoc = document.getElementById('iptTipoDoc').value
+            const documento = document.getElementById('iptDocumento').value.trim()
+
+            if (!nome || !email || !cargo || !nivel || !senha || !confirmar || !tipoDoc || !documento) {
+                alert('Preencha todos os campos obrigatórios.')
+                return
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('Digite um e-mail válido.')
+                return
+            }
+
+            var temNumero = false
+            var temLetra = false
+
+            if (senha.length < 8) {
+                alert('A senha deve ter no minímo 8 caracteres.')
+                return
+            }
+
+            for (var atual = 0; atual < senha.length; atual++) {
+                var atual2 = senha[atual]
+
+                if (atual2 >= 'A' && atual2 <= 'Z' || atual2 >= 'a' && atual2 <= 'z') {
+                    temLetra = true
+                } else if (atual2 >= '0' && atual2 <= '9') {
+                    temNumero = true
+                }
+            }
+
+            if (!temNumero) {
+                alert('A senha deve conter pelo menos um número.')
+                return
+            }
+
+            if (!temLetra) {
+                alert('A senha deve conter pelo menos uma letra.')
+                return
+            }
+
+            if (senha !== confirmar) {
+                alert('As senhas não coincidem.')
+                return
+            }
+
+            alert('Cadastro enviado com sucesso!')
+        }
+
+    </script>
