@@ -29,7 +29,7 @@
                     <input id="iptEmail" type="text" name="Nome Completo" placeholder="Digite o e-mail aqui!">
 
                     <label for="tipoDoc">Tipo de Documento</label>
-                    <select id="iptTipoDoc">
+                    <select id="tipoDoc">
                         <option value="" disabled selected>Selecione aqui</option>
                         <option value="br">CPF (Brasil)</option>
                         <option value="us">SSN (Estados Unidos)</option>
@@ -45,7 +45,7 @@
                     <input id="iptCargo" type="text" name="Nome Completo" placeholder="Digite o senha aqui!">
 
                     <label>Nível</label>
-                    <input id="iptNivel" type="text" name="Nome Completo" placeholder="Digite o nível aqui!">
+                    <input id="iptNivel" type="number" name="Nome Completo" placeholder="Digite o nível aqui!">
 
                     <label>Senha</label>
                     <input id="iptSenha" type="password" name="Nome Completo" placeholder="Digite a senha aqui!">
@@ -56,14 +56,12 @@
                 </div>
             </div>
             <button onclick="validarFormulario()">Enviar</button>
-            <!-- <button id="fecharDialogo">Fechar</button> -->
+            <button id="fecharDialogo">Fechar</button>
 
 
         </dialog>
 
     </body>
-
-    </html>
 
     <script>
 
@@ -82,113 +80,53 @@
             fundo.classList.remove('embaçado')
         });
 
+        let iptDocumento = document.getElementById('iptDocumento'); 
 
-        const tipoDoc = document.getElementById('iptTipoDoc')
+        function resetarListenersDoInput() {
+            const novoInput = iptDocumento.cloneNode(true);
+            iptDocumento.parentNode.replaceChild(novoInput, iptDocumento);
+            iptDocumento = novoInput; 
+        }
 
-tipoDoc.addEventListener('change', () => {
-    const tipo = tipoDoc.value
-    const inputContainer = document.getElementById('iptDocumento').parentNode
-
-    // Remove input antigo
-    const inputAntigo = document.getElementById('iptDocumento')
-    inputContainer.removeChild(inputAntigo)
-
-    // Cria novo input
-    const novoInput = document.createElement('input')
-    novoInput.type = 'text'
-    novoInput.id = 'iptDocumento'
-    novoInput.placeholder = 'Digite seu documento aqui!'
-    novoInput.name = 'documento'
-    inputContainer.appendChild(novoInput)
-
-    // Aplica máscara conforme tipo
-    if (tipo === 'br') {
-        novoInput.placeholder = '000.000.000-00'
-        novoInput.maxLength = 14
-        novoInput.addEventListener('input', () => {
-            let valor = novoInput.value.replace(/\D/g, '').slice(0, 11)
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
-            valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
-            valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-            novoInput.value = valor
-        })
-    }
-
-    if (tipo === 'us') {
-        novoInput.placeholder = '000-00-0000'
-        novoInput.maxLength = 11
-        novoInput.addEventListener('input', () => {
-            let valor = novoInput.value.replace(/\D/g, '').slice(0, 9)
-            valor = valor.replace(/(\d{3})(\d)/, '$1-$2')
-            valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2')
-            novoInput.value = valor
-        })
-    }
-
-    if (tipo === 'uk') {
-        novoInput.placeholder = 'AB123456C'
-        novoInput.maxLength = 9
-        novoInput.addEventListener('input', () => {
-            let valor = novoInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9)
-            valor = valor.replace(/^([A-Z]{2})(\d{6})([A-Z]?)$/, '$1$2$3')
-            novoInput.value = valor
-        })
-    }
-})
-
-        // Mascara
-
-        // const tipoDoc = document.getElementById('iptTipoDoc')
-
-        // Substitui o input antigo por um novo
-        // function resetInput() {
-        //     const inputAntigo = document.getElementById('iptDocumento')
-        //     const novoInput = document.createElement('input')
-        //     novoInput.type = 'text'
-        //     novoInput.placeholder = 'Digite seu documento aqui!'
-        //     inputAntigo.parentNode.replaceChild(novoInput, inputAntigo)
-        //     return novoInput
-        // }
-
-
-        // tipoDoc.addEventListener('change', () => {
-        //     const tipo = tipoDoc.value
-        //     const novoInput = resetInput()
-        //     novoInput.id = 'iptDocumento'
-
-        //     if (tipo === 'br') {
-        //         novoInput.placeholder = '000.000.000-00'
-        //         novoInput.maxLength = 14
-        //         novoInput.addEventListener('input', () => {
-        //             let valor = novoInput.value.replace(/\D/g, '').slice(0, 11)
-        //             valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
-        //             valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
-        //             valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
-        //             novoInput.value = valor
-        //         })
-        //     }
-
-        //     if (tipo === 'us') {
-        //         novoInput.placeholder = '000-00-0000'
-        //         novoInput.maxLength = 11
-        //         novoInput.addEventListener('input', () => {
-        //             let valor = novoInput.value.replace(/\D/g, '').slice(0, 9)
-        //             valor = valor.replace(/(\d{3})(\d)/, '$1-$2')
-        //             valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2')
-        //             novoInput.value = valor
-        //         })
-        //     }
-
-        //     if (tipo === 'uk') {
-        //         novoInput.placeholder = 'AB123456C'
-        //         novoInput.maxLength = 9
-        //         novoInput.addEventListener('input', () => {
-        //             let valor = novoInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9)  // Tudo que nao tiver entre A-Z ou 0-9 ele transforma em '', o ^ é a negação, slice limita a 9 caracteres
-        //             valor = valor.replace(/^([A-Z]{2})(\d{6})([A-Z]?)$/, '$1$2$3')
-        //             novoInput.value = valor
-        //         })
-        //     }
-        // })
+        tipoDoc.addEventListener('change', () => {
+            const tipo = tipoDoc.value;
+        
+            resetarListenersDoInput();
+        
+            if (tipo === 'br') {
+                iptDocumento.placeholder = '000.000.000-00';
+                iptDocumento.maxLength = 14;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    iptDocumento.value = valor;
+                });
+            }
+        
+        
+            if (tipo === 'us') {
+                iptDocumento.placeholder = '000-00-0000';
+                iptDocumento.maxLength = 11;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
+                    valor = valor.replace(/(\d{3})(\d)/, '$1-$2');
+                    valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2');
+                    iptDocumento.value = valor;
+                });
+            }
+        
+            if (tipo === 'uk') {
+                iptDocumento.placeholder = 'AB123456C';
+                iptDocumento.maxLength = 9;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9);
+                    valor = valor.replace(/^([A-Z]{2})(\d{6})([A-Z]?)$/, '$1$2$3');
+                    iptDocumento.value = valor;
+                });
+            }
+        });
 
         function validarFormulario() {
             const nome = document.getElementById('iptNome').value.trim()
@@ -197,7 +135,7 @@ tipoDoc.addEventListener('change', () => {
             const nivel = document.getElementById('iptNivel').value.trim()
             const senha = document.getElementById('iptSenha').value
             const confirmar = document.getElementById('iptConfirmar').value
-            // const tipoDoc = document.getElementById('iptTipoDoc').value
+            const tipoDoc = document.getElementById('tipoDoc').value
             const documento = document.getElementById('iptDocumento').value.trim()
 
             if (!nome || !email || !cargo || !nivel || !senha || !confirmar || !tipoDoc || !documento) {
@@ -247,3 +185,5 @@ tipoDoc.addEventListener('change', () => {
         }
 
     </script>
+
+</html>
