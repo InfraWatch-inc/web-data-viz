@@ -23,27 +23,28 @@
         </div>
 
         <div class="box-informacoes">
-          <div class="frase margem">
-            <h2 class="titulo-cadastro">Seja bem-vindo!</h2>
-            <h2 class="titulo-cadastro">Vamos começar?</h2>
-          </div>
-
-          <div id="pagina1">
+          <div id="pagina1" class="paginacao">
+            <div class="frase margem">
+              <h2 class="titulo-cadastro">Seja bem-vindo!</h2>
+              <h2 class="titulo-cadastro">Vamos começar?</h2>
+            </div>
             <div class="entradas margem">
               <label>Razão social:</label>
               <input id="iptRazaoSocial" type="text" placeholder="Exemplo: InfraWatch Inc">
+
               <label>Número de identificação:</label>
-              <input id="iptNumeroIdentificacao" type="text" placeholder="Exemplo: 12345678910">
+              <input id="iptNumeroIdentificacao" type="text" placeholder="Exemplo: 80.871.214/0001-72">
+
               <label>Informe o país:</label>
               <select name="" id="slctPais" class="select-pais">
-                <option value="BR">Brazil</option>
+                <option value="BR">Brasil</option>
                 <option value="US">Estados Unidos</option>
                 <option value="CA">Canadá</option>
                 <option value="SG">Singapura</option>
                 <option value="FR">França</option>
                 <option value="DE">Alemanha</option>
                 <option value="CN">China</option>
-                <option value="VN">Vietnam</option>
+                <option value="VN">Vietnã</option>
                 <option value="RO">Romenia</option>
               </select>
             </div>
@@ -59,16 +60,24 @@
             </div>
           </div>
 
-          <div id="pagina2">
+          <div id="pagina2" class="paginacao">
             <div class="entradas margem">
-              <!-- TODO - Adicionar campos de cadastro de empresa -->
+              <label>Telefone para Contato:</label>
+              <input id="iptTelefoneContato" type="text" placeholder="Exemplo: (11) 91234-5678">
+
+              <label>Site Institucional:</label>
+              <input id="iptSiteEmpresa" type="text" placeholder="Exemplo: infrawatch.com">
+
               <label>Caixa Postal:</label>
               <input id="iptCep" oninput="pesquisarCEP(this.value)" type="text" placeholder="Exemplo: 05158430">
+
+              <label>Logradouro:</label>
+              <input id="iptLogradouro" type="text" placeholder="Exemplo: Rua Haddock Lobo">
             </div>
   
             <div class="botoes margem">
               <div class="box-btn">
-                <a class="btn" href="index.html" onclick="voltar()">Voltar</a>
+                <a class="btn" onclick="voltar()">Voltar</a>
               </div>
               <br>
               <div class="box-btn">
@@ -81,20 +90,93 @@
             </div>
           </div>
 
-          <div id="pagina3">
-            <!-- TODO -->
-          </div>
-
-          <div id="pagina4">
-            <!-- TODO -->
-          </div>
-
-          <div id="pagina5">
+          <div id="pagina3" class="paginacao">
             <div class="entradas margem">
-              <!-- TODO -->
+              <label>Número:</label>
+              <input id="iptNumeroContato" type="text" placeholder="Exemplo: 595">
+
+              <label>Bairro:</label>
+              <input id="iptBairro" type="text" placeholder="Exemplo: Centro">
+
+              <label>Cidade:</label>
+              <input id="iptCidade" type="text" placeholder="Exemplo: São Paulo">
+
+              <label>Estado:</label>
+              <input id="iptEstado" type="text" placeholder="Exemplo: São Paulo">
+
+              <label>Complemento:</label>
+              <input id="iptComplemento" type="text" placeholder="Exemplo: Em frente ao 580">
             </div>
   
             <div class="botoes margem">
+              <div class="box-btn">
+                <a class="btn" onclick="voltar()">Voltar</a>
+              </div>
+              <br>
+              <div class="box-btn">
+                <button class="btn" onclick="avancar()">Seguir</button>
+              </div>
+            </div>
+  
+            <div class="ja-possui-uma-conta margem">
+              <a href="login.html" class="size-1 weight-1">Já possui uma conta? Clique aqui para entrar</a>
+            </div>
+          </div>
+
+          <div id="pagina4" class="paginacao">
+            <div class="frase margem">
+              <h2 class="titulo-cadastro">Cadastre seu Representante!</h2>
+            </div>
+
+            <div class="entradas margem">
+              <label>Nome:</label>
+              <input id="iptNome" type="text" placeholder="Exemplo: Mohammed James">
+
+              <label>Email:</label>
+              <input id="iptEmail" type="text" placeholder="Exemplo: mohammed@infrawatch.com">
+
+              <label>Tipo de Documento:</label>
+              <input id="iptTipoDocumento" oninput="pesquisarCEP(this.value)" type="text" placeholder="Exemplo: CPF">
+
+              <label>Documento:</label>
+              <input id="iptNumeroDocumento" type="text" placeholder="Exemplo: 49435015832">
+            </div>
+  
+            <div class="botoes margem">
+              <div class="box-btn">
+                <a class="btn" onclick="voltar()">Voltar</a>
+              </div>
+              <br>
+              <div class="box-btn">
+                <button class="btn" onclick="avancar()">Seguir</button>
+              </div>
+            </div>
+  
+            <div class="ja-possui-uma-conta margem">
+              <a href="login.html" class="size-1 weight-1">Já possui uma conta? Clique aqui para entrar</a>
+            </div>
+          </div>
+
+          <div id="pagina5" class="paginacao">
+            <div class="frase margem">
+              <h2 class="titulo-cadastro">Cadastre seu Representante!</h2>
+            </div>
+            <div class="entradas margem">
+              <label>Cargo:</label>
+              <input id="iptCargo" type="text" placeholder="Exemplo: Diretor de Operações">
+
+              <label>Senha:</label>
+              <input id="iptSenha" type="text" placeholder="Digite a senha desejada">
+
+              <label>Confirme a Senha:</label>
+              <input id="iptConfirmacaoSenha" type="text" placeholder="Confirme a senha digitrada anteriormente">
+            </div>
+  
+            <div class="botoes margem">
+              <div class="box-btn">
+                <a class="btn" onclick="voltar()">Voltar</a>
+              </div>
+              <br>
               <div class="box-btn">
                 <button class="btn" onclick="cadastrar()">Cadastro</button>
               </div>
@@ -109,6 +191,7 @@
     </div>
   </main>
 
+  <!-- TODO - MUDAR A ESTILIZAÇÃO DO MODAL -->
   <dialog id="modal">
     <div class="dialogo" id="dialogo">
       <div class="dialogo-conteudo">
@@ -117,7 +200,7 @@
     </div>
   </dialog>
 
-  <script src="./js/cadastro.js"></script>
+  <script src="./js/cadastroEmpresa.js"></script>
   <script src="./js/TaxpayerIdentificationValidator.js"></script>
 </body>
 </html>
