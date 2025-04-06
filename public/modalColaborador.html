@@ -55,7 +55,7 @@
 
                 </div>
             </div>
-            <button onclick="validarFormulario()">Enviar</button>
+            <button onclick="validarFormulario()" class="botaoPrincipal">Enviar</button>
             <button id="fecharDialogo">Fechar</button>
 
 
@@ -75,9 +75,18 @@
             fundo.classList.add('embaçado')
         })
 
+        // Caso eu vá fazer algum tipo de x para fechar, deixei aqui ja
         btnFechar.addEventListener('click', () => {
             dialog.close();
             fundo.classList.remove('embaçado')
+        });
+
+        // quando apertar e não for em algum elemento como input ou botao, o modal fecha
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) {
+            dialog.close();
+            fundo.classList.remove('embaçado');
+          }
         });
 
         let iptDocumento = document.getElementById('iptDocumento'); 
