@@ -285,6 +285,13 @@ main {
     width: 2vw;
     height: 2vw;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bola i{
+    font-size: 1.3vw;
 }
 
 .direita {
@@ -324,6 +331,19 @@ main {
 .desc span {
     font-size: 20px;
     color: white;
+}
+
+.sociais {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 20%;
+    padding-bottom: 5%;
+    border-bottom: solid 2px white;
+}
+
+.sociais i{
+    font-size: 2.5vw;
 }
 
 .copy {
