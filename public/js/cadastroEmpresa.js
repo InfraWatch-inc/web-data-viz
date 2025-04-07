@@ -83,23 +83,15 @@ function validarPagina1(isAvancando) {
     const numeroIdentificacao = document.getElementById('iptNumeroIdentificacao');
     const pais = document.getElementById('slctPais');
 
-    console.log('opts de pais', pais.options[pais.selectedIndex].value);
-
     if (isAvancando) {
-        if (razaoSocial.value == '' || razaoSocial.value == undefined) {
+        if (Validar.validarCampoVazio(razaoSocial.value)) {
             abrirModal('Razão social inválida!', true);
             return false;
         }
 
-        if(numeroIdentificacao.value == '' || numeroIdentificacao.value == undefined) {
-            abrirModal('Número de identificação inválido!', true);
-            return false;
-        }
-
         let siglaPais = pais.options[pais.selectedIndex].value;
-        let validarNumeroIdentificacao = new TaxpayerIdentificationValidator(numeroIdentificacao.value, siglaPais);
 
-        if (!validarNumeroIdentificacao.validate()) {
+        if (Validar.validarCampoVazio(numeroIdentificacao.value) || !Validar.validarDocumentoEmpresa(numeroIdentificacao.value, siglaPais)) {
             abrirModal('Número de identificação inválido!', true);
             return false;
         }
@@ -122,35 +114,29 @@ function validarPagina2(isAvancando) {
     const cep = document.getElementById('iptCep');
     const logradouro = document.getElementById('iptLogradouro');
 
-    const telefoneContatoRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-    const siteEmpresaRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}([\/\w \.-]*)*\/?$/;
-
-    const validaCEP = /^[0-9]{8}$/;
-
     if (isAvancando) {
-        if (cep.value == "" || !validaCEP.test(cep.value)) {
+        if (Validar.validarCampoVazio(cep.value) || !Validar.validarCep(cep.value)) {
             abrirModal('CEP inválido!', true);
             return false;
         }
 
-        if (telefoneContato.value == "" || !telefoneContatoRegex.test(telefoneContato.value)) {
+        if (Validar.validarCampoVazio(telefoneContato.value) || !Validar.validarTelefone(telefoneContato.value, informacoesCadastro.empresa.paisServer)) {
             abrirModal('Telefone inválido!', true);
             return false;
         }
 
-        if (siteEmpresa.value == "" || !siteEmpresaRegex.test(siteEmpresa.value)) {
+        if (Validar.validarCampoVazio(siteEmpresa.value) || !Validar.validarSite(siteEmpresa.value)) {
             abrirModal('Site inválido!', true);
             return false;
         }
 
-        if(logradouro.value == "" || logradouro.value == undefined) {
+        if(Validar.validarCampoVazio(logradouro.value)) {
             abrirModal('Logradouro inválido!', true);
             return false;
         }
 
-        const site = siteEmpresa.value.replace(/(https?:\/\/)?(www\.)?/, '');
         informacoesCadastro.empresa.telefoneServer = telefoneContato.value;
-        informacoesCadastro.empresa.siteServer = site;
+        informacoesCadastro.empresa.siteServer = siteEmpresa.value;
         informacoesCadastro.endereco.cepServer = cep.value;
         informacoesCadastro.endereco.logradouroServer = logradouro.value;
     } else {
@@ -200,33 +186,32 @@ function validarPagina3(isAvancando) {
     const estado = document.getElementById('iptEstado');
  
     if (isAvancando) {
-        if (numeroContato.value == "" || numeroContato.value == undefined) {
+        if (Validar.validarCampoVazio(numeroContato.value)) {
             abrirModal('Número inválido!', true);
             return false;
         }
 
-        if (bairro.value == "" || bairro.value == undefined) {
+        if (Validar.validarCampoVazio(bairro.value)) {
             abrirModal('Bairro inválido!', true);
             return false;
         }
 
-        if (cidade.value == "" || cidade.value == undefined) {
+        if (Validar.validarCampoVazio(cidade.value)) {
             abrirModal('Cidade inválida!', true);
             return false;
         }
 
-        if (estado.value == "" || estado.value == undefined) {
+        if (Validar.validarCampoVazio(estado.value)) {
             abrirModal('Estado inválido!', true);
             return false;
         }   
 
-        informacoesCadastro.endereco.numeroServer = numeroContato.value;
+        informacoesCadastro.endereco.numeroServer = Number(numeroContato.value);
         informacoesCadastro.endereco.complementoServer = complemento.value;
         informacoesCadastro.endereco.bairroServer = bairro.value;
         informacoesCadastro.endereco.cidadeServer = cidade.value;
         informacoesCadastro.endereco.estadoServer = estado.value;
     } else {
-        logradouro.value = informacoesCadastro.endereco.logradouroServer;
         numeroContato.value = informacoesCadastro.endereco.numeroServer;
         complemento.value = informacoesCadastro.endereco.complementoServer;
         bairro.value = informacoesCadastro.endereco.bairroServer;
@@ -240,26 +225,20 @@ function validarPagina3(isAvancando) {
 function validarPagina4(isAvancando) {
     const nome = document.getElementById('iptNome');
     const email = document.getElementById('iptEmail');
-    const tipoDocumento = document.getElementById('iptTipoDocumento');
     const numeroDocumento = document.getElementById('iptNumeroDocumento');
 
     if (isAvancando) {
-        if (nome.value == "" || nome.value == undefined) {
+        if (Validar.validarCampoVazio(nome.value)) {
             abrirModal('Nome inválido!', true);
             return false;
         }
 
-        if (email.value == "" || email.value == undefined) {
+        if (Validar.validarCampoVazio(email.value)) {
             abrirModal('Email inválido!', true);
             return false;
         }
 
-        if (tipoDocumento.value == "" || tipoDocumento.value == undefined) {
-            abrirModal('Tipo de documento inválido!', true);
-            return false;
-        }
-
-        if (numeroDocumento.value == "" || numeroDocumento.value == undefined) {
+        if (Validar.validarCampoVazio(numeroDocumento.value) || !Validar.validarDocumentoPessoa(numeroDocumento.value, informacoesCadastro.empresa.paisServer)) {
             abrirModal('Número de documento inválido!', true);
             return false;
         }
@@ -268,7 +247,6 @@ function validarPagina4(isAvancando) {
         informacoesCadastro.colaboradorResponsavel.emailServer = email.value;
         informacoesCadastro.colaboradorResponsavel.tipoDocumentoServer = tipoDocumento.value;
         informacoesCadastro.colaboradorResponsavel.documentoServer = numeroDocumento.value;
-        informacoesCadastro.colaboradorResponsavel.cargoServer = document.getElementById('iptCargo').value;
     } else {
         nome.value = informacoesCadastro.colaboradorResponsavel.nome;
         email.value = informacoesCadastro.colaboradorResponsavel.email;
@@ -285,20 +263,19 @@ function validarPagina5(isAvancando) {
     const cargo = document.getElementById('iptCargo');
     const senha = document.getElementById('iptSenha');
     const confirmacaoSenha = document.getElementById('iptConfirmacaoSenha');
-    const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/; // Senha deve ter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um número
 
     if (isAvancando) {
-        if (cargo.value == "" || cargo.value == undefined) {
+        if (Validar.validarCampoVazio(cargo.value)) {
             abrirModal('Cargo inválido!', true);
             return false;
         }
 
-        if (senha.value == "" || senha.value == undefined || regexSenha.test(senha.value)) {
+        if (Validar.validarCampoVazio(senha.value) || !Validar.validarSenha(senha.value)) {
             abrirModal('Senha inválida!', true);
             return false;
         }
 
-        if (confirmacaoSenha.value == "" || confirmacaoSenha.value == undefined) {
+        if (Validar.validarCampoVazio(confirmacaoSenha.value)) {
             abrirModal('Confirmação de senha inválida!', true);
             return false;
         }
