@@ -1,254 +1,85 @@
 class Validar {
-    static validarCampoVazio(valor){
-        return valor == "" || valor == undefined || valor == null;
+    static paisesSuportados = ["BR", "US", "CA", "SG", "FR", "DE", "CN", "VN", "RO"];
+
+    static empresaRegexPorPais = {
+        BR: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,     
+        US: /^\d{2}-\d{7}$/,                          
+        CA: /^\d{9}\sRC\d{4}$/,                       
+        SG: /^[A-Z0-9]{9,10}$/,                       
+        FR: /^\d{9}$/,                                
+        DE: /^[A-Z]{1,2} \d{4,6}$/,                   
+        CN: /^[0-9A-Z]{18}$/,                         
+        VN: /^\d{10}$/,                               
+        RO: /^\d{1,10}$/                              
+    };
+
+    static caixaPostalRegexPorPais = {
+        BR: /^[0-9]{5}-?[0-9]{3}$/,      // Ex: 12345-678 ou 12345678
+        US: /^\d{5}(-\d{4})?$/,          // Ex: 12345 ou 12345-6789
+        CA: /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/, // Ex: K1A 0B1
+        SG: /^\d{6}$/,                   // Ex: 123456
+        FR: /^\d{5}$/,                   // Ex: 75001
+        DE: /^\d{5}$/,                   // Ex: 10115
+        CN: /^\d{6}$/,                   // Ex: 100000
+        VN: /^\d{6}$/,                   // Ex: 700000
+        RO: /^\d{6}$/                    // Ex: 010011
+    };
+
+    static telefoneRegexPorPais = {
+        BR: /^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/,                 
+        US: /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/,         
+        CA: /^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$/,         
+        SG: /^[689]\d{7}$/,                                 
+        FR: /^0[1-9](\d{2}){4}$/,                            
+        DE: /^0[1-9]\d{1,4}[-.\s]?\d{3,10}$/,                
+        CN: /^1[3-9]\d{9}$/,                                
+        VN: /^(3|5|7|8|9)\d{8}$/,                            
+        RO: /^0\d{9}$/                                       
+    };
+
+    static pessoaRegexPorPais = {
+        BR: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,                        
+        US: /^\d{3}-\d{2}-\d{4}$/,                                
+        CA: /^\d{3} \d{3} \d{3}$/,                                
+        SG: /^[STFG]\d{7}[A-Z]$/,                                 
+        FR: /^[12]\d{2}(0[1-9]|1[0-2])\d{2}\d{3}\d{3}\d{2}$/,     
+        DE: /^\d{11}$/,                                           
+        CN: /^\d{6}(19|20)\d{2}(0[1-9]|1[0-2])([0-2][0-9]|3[0-1])\d{3}[0-9Xx]$/, 
+        VN: /^\d{12}$/,                                           
+        RO: /^[1-8]\d{12}$/                                       
+    };
+
+    static validarCampoVazio(valor) {
+        return valor == null || valor.toString().trim() === "";
     }
 
-    static validarSite(site){
-
-        const siteRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}([\/\w \.-]*)*\/?$/;
+    static validarSite(site) {
+        const siteRegex = /^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}([\/\w .-]*)*\/?$/;
         return siteRegex.test(site);
     }
 
-    static validarCep(cep){
-
-        const cepRegex = /^[0-9]{8}$/;
-        return cepRegex.test(cep);
+    static validarCaixaPostal(caixaPostal, pais) {
+        const regex = caixaPostalRegexPorPais[pais];
+        return regex ? regex.test(caixaPostal) : false;
     }
 
-    static validarSenha(senha){
-        
+    static validarSenha(senha) {
         const regexSenha = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
         return regexSenha.test(senha);
     }
 
-    static validarTelefone(telefone, pais){
-
-        switch (pais) {
-            case "BR":
-                return this.#teleofoneBr(telefone);
-            case "US":
-                return this.#teleofoneUs(telefone);
-            case "CA":
-                return this.#teleofoneCn(telefone);
-            case "SG":
-                return this.#teleofoneSp(telefone);
-            case "FR":
-                return this.#teleofoneFr(telefone);
-            case "DE":
-                return this.#teleofoneAl(telefone);
-            case "CN":
-                return this.#teleofoneCh(telefone);
-            case "VN":
-                return this.#teleofoneVt(telefone);
-            case "RO":
-                return this.#teleofoneRo(telefone);
-            default:
-                return false;
-        }
+    static validarTelefone(telefone, pais) {
+        const regex = telefoneRegexPorPais[pais];
+        return regex ? regex.test(telefone) : false;
     }
 
-    static validarDocumentoPessoa(documento, pais){
-
-        switch (pais) {
-            case "BR":
-                return this.#brazil(documento, false);
-            case "US":
-                return this.#usa(documento, false);
-            case "CA":
-                return this.#canada(documento, false);
-            case "SG":
-                return this.#singapore(documento, false);
-            case "FR":
-                return this.#french(documento, false);
-            case "DE":
-                return this.#germany(documento, false);
-            case "CN":
-                return this.#china(documento, false);
-            case "VN":
-                return this.#vietnam(documento, false);
-            case "RO":
-                return this.#romenia(documento, false);
-            default:
-                return false;
-        }
+    static validarDocumentoPessoa(documento, pais) {
+        const regex = pessoaRegexPorPais[pais];
+        return regex ? regex.test(documento) : false;
     }
 
     static validarDocumentoEmpresa(documento, pais) {
-
-        switch (pais) {
-            case "BR":
-                return this.#brazil(documento, true);
-            case "US":
-                return this.#usa(documento, true);
-            case "CA":
-                return this.#canada(documento, true);
-            case "SG":
-                return this.#singapore(documento, true);
-            case "FR":
-                return this.#french(documento, true);
-            case "DE":
-                return this.#germany(documento, true);
-            case "CN":
-                return this.#china(documento, true);
-            case "VN":
-                return this.#vietnam(documento, true);
-            case "RO":
-                return this.#romenia(documento, true);
-            default:
-                return false;
-        }
-    }
-
-    static #teleofoneBr(telefone){
-        const telRegex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-        return telRegex.test(telefone);
-    }
-
-    static #teleofoneUs(telefone){
-        const telRegex = null;
-        return telRegex.test(telefone);
-    }
-
-    static #teleofoneCn(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-
-    static #teleofoneSp(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-
-    static #teleofoneFr(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-    
-    static #teleofoneAl(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-
-    static #teleofoneCh(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-    
-    static #teleofoneVt(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-
-    static #teleofoneRo(telefone){
-        const telRegex = null;
-
-        return telRegex.test(telefone);
-    }
-
-    static #brazil(documento, isEmpresa) {
-        const regexEmpresa = /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-
-    static #usa(documento, isEmpresa) {
-        const regexEmpresa = /^\d{2}-\d{7}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-    static #canada(documento, isEmpresa) {
-        const regexEmpresa = /^\d{9}\sRC\d{4}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-    static #singapore(documento, isEmpresa) {
-        const regexEmpresa = /^(T|S|R|F|M|W|Y|U|G)\d{2}[A-Z\d]{3}\d{3}[A-Z]$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-    static #french(documento, isEmpresa) {
-        const regexEmpresa = /^\d{9}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-
-    static #germany(documento, isEmpresa) {
-        const regexEmpresa = /^\d{2} \d{3} \d{3} \d{3}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-    static #china(documento, isEmpresa) {
-        const regexEmpresa = /^[0-9A-Z]{18}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-    static #vietnam(documento, isEmpresa) {
-        const regexEmpresa = /^\d{10}(-\d{3})?$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
-    }
-
-    static #romenia(documento, isEmpresa) {
-        const regexEmpresa = /^\d{2,10}$/;
-        const regexPessoa = null;
-
-        if(isEmpresa){
-            return regexEmpresa.test(documento);
-        }
-
-        return regexPessoa.test(documento);
+        const regex = empresaRegexPorPais[pais];
+        return regex ? regex.test(documento) : false;
     }
 }
