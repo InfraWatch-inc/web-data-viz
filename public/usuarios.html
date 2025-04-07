@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários</title>
+    <link rel="stylesheet" href="css/usuarios.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-esquerda">
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+            <span class="nome">Beatriz</span>
+        </div>
+        <div class="nav-meio">
+            <a href="servidores.html">Monitoramento</a>
+            <a href="">Insights</a>
+            <a href="" class="selecionada">Usuários</a>
+            <a href="">Suporte</a>
+        </div>
+        <div class="navbar-direita">
+            <button class="btn-sair">Sair</button>
+        </div>
+    </nav>
+    <div class="main-content">
+        <div class="container">
+            <div class="header">
+                <div class="nav">
+                    <button id="abrirModal" class="btn-Modal">Adicionar</button>
+                    <input type="text" class="pesquisa" placeholder="Pesquisar">
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Cargo</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cláudio</td>
+                        <td>claudio@gmail.com</td>
+                        <td>(11) 99321-5968</td>
+                        <td>Analista de Dados</td>
+                        <td><span class="material-symbols-outlined">
+                                edit
+                            </span></td>
+                        <td><span class="material-symbols-outlined">
+                                delete
+                            </span></td>
+                    </tr>
+                    <tr>
+
+                        <td>Fábio</td>
+                        <td>fabio@gmail.com</td>
+                        <td>(11) 97034-1243</td>
+                        <td>Analista de Dados</td>
+                        <td><span class="material-symbols-outlined">
+                                edit
+                            </span></td>
+                        <td><span class="material-symbols-outlined">
+                                delete
+                            </span></td>
+                    </tr>
+                    <tr>
+
+                        <td>João</td>
+                        <td>joao@gmail.com</td>
+                        <td>(11) 97563-7678</td>
+                        <td>Analista de Dados</td>
+                        <td><span class="material-symbols-outlined">
+                                edit
+                            </span></td>
+                        <td><span class="material-symbols-outlined">
+                                delete
+                            </span></td>
+                    </tr>
+                    <tr>
+
+                        <td>Fernanda</td>
+                        <td>fernanda@gmail.com</td>
+                        <td>(11) 94228-6716</td>
+                        <td>Analista de Dados</td>
+                        <td><span class="material-symbols-outlined">
+                                edit
+                            </span></td>
+                        <td><span class="material-symbols-outlined">
+                                delete
+                            </span></td>
+                    </tr>
+                    <tr>
+                        <td>Roberto</td>
+                        <td>roberto@gmail.com</td>
+                        <td>(11) 95762-9865</td>
+                        <td>Analista de Dados</td>
+                        <td><span class="material-symbols-outlined">
+                                edit
+                            </span></td>
+                        <td><span class="material-symbols-outlined">
+                                delete
+                            </span></td>
+
+                    </tr>
+                    <tr>
+                        <td>Ana</td>
+                        <td>ana@gmail.com</td>
+                        <td>(11) 99652-3274</td>
+                        <td>Analista de Dados</td>
+                        <td><span class="material-symbols-outlined">
+                                edit
+                            </span></td>
+                        <td><span class="material-symbols-outlined">
+                                delete
+                            </span></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    const pesquisa = document.querySelector('.pesquisa');
+    const linhas = document.querySelectorAll('tbody tr');
+
+    campoPesquisa.addEventListener('input', () => {
+        const termo = campoPesquisa.value.toLowerCase();
+
+        linhasTabela.forEach(linha => {
+            const nome = linha.querySelector('td').textContent.toLowerCase();
+
+            if (nome.includes(termo)) {
+                linha.style.display = '';
+            } else {
+                linha.style.display = 'none';
+            }
+        });
+    });
+
+
+</script>

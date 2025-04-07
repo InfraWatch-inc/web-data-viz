@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Servidores</title>
+    <link rel="stylesheet" href="css/servidores.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
+
+
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-esquerda">
+            <span class="material-symbols-outlined">
+                account_circle
+                </span>
+            <span class="nome">João Neto</span>
+        </div>
+        <div class="nav-meio">
+            <a href="" class="selecionada">Monitoramento</a>
+            <a href="">Insights</a>
+            <a href="usuarios.html">Usuários</a>
+            <a href="">Suporte</a>
+        </div>
+        <div class="navbar-direita">
+            <button class="btn-sair">Sair</button>
+        </div>
+    </nav>
+    <div class="main-content">
+        <div class="container">
+            <div class="header">
+                <div class="nav">
+                    <button id="abrirModal" class="btn-Modal">Adicionar</button>
+                    <button class="filtro">
+                        Filtro
+                    </button>
+                    <input type="text" class="pesquisa" placeholder="Pesquisar">
+
+                </div>
+                <div class="dropdown">
+                    <button class="dropdown-status">STATUS ▼</button>
+                    <ul class="dropdown-menu">
+                        <li><a href="">Total Crítico: 13</a></li>
+                        <li><a href="">Total Alertas: 6</a></li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Instância</th>
+                        <th>Núcleos</th>
+                        <th>Threads</th>
+                        <th>Qtd. GPU</th>
+                        <th>Temp. GPU</th>
+                        <th>Uso GPU</th>
+                        <th>Uso CPU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#294</td>
+                        <td>PixelForge</td>
+                        <td>am12masdn...</td>
+                        <td>24</td>
+                        <td>32</td>
+                        <td>5</td>
+                        <td class="alerta">70 ºC</td>
+                        <td class="alerta">60%</td>
+                        <td class="alerta">60%</td>
+                    </tr>
+                    <tr>
+                        <td>#293</td>
+                        <td>RenderTitan</td>
+                        <td>ogw612n...</td>
+                        <td>8</td>
+                        <td>16</td>
+                        <td>1</td>
+                        <td class="alerta">50 ºC</td>
+                        <td>30%</td>
+                        <td>30%</td>
+                    </tr>
+                    <tr>
+                        <td>#295</td>
+                        <td>FrameStorm</td>
+                        <td>12522874...</td>
+                        <td>16</td>
+                        <td>24</td>
+                        <td>2</td>
+                        <td>30 ºC</td>
+                        <td>24%</td>
+                        <td>24%</td>
+                    </tr>
+                    <tr>
+                        <td>#296</td>
+                        <td>RayTracerX</td>
+                        <td>12522874...</td>
+                        <td>16</td>
+                        <td>16</td>
+                        <td>2</td>
+                        <td>30 ºC</td>
+                        <td>24%</td>
+                        <td>24%</td>
+                    </tr>
+                    <tr>
+                        <td>#297</td>
+                        <td>RayTracerX</td>
+                        <td>12522874...</td>
+                        <td>16</td>
+                        <td>16</td>
+                        <td>2</td>
+                        <td>30 ºC</td>
+                        <td>24%</td>
+                        <td>24%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    const pesquisa = document.querySelector('.pesquisa');
+    const linhas = document.querySelectorAll('tbody tr');
+    const btnDropdown = document.querySelector('.dropdown-status');
+    const menuDropdown = document.querySelector('.dropdown-menu');
+
+
+    btnDropdown.onclick = () => {
+  menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
+};
+
+pesquisa.oninput = () => {
+  const termo = pesquisa.value.toLowerCase();
+  linhas.forEach(linha => {
+    const nome = linha.querySelector('td').textContent.toLowerCase();
+    linha.style.display = nome.includes(termo) ? '' : 'none';
+  });
+};
+
+
+</script>
