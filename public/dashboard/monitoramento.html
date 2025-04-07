@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Monitoramento | InfraWatch</title>
+
+    <link rel="icon" href="/public/assets/icon/Logo-InfraWatch.png" />
+    <link rel="stylesheet" href="/public/css/monitoramento.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
+
+    <header>
+        <nav class="header">
+            <div class="user_div">
+                <div class="img"></div>
+                <span class="user_name">João Neto</span>
+            </div>
+
+            <ul><a href="./monitoramento.html">Monitoramento</a></ul>
+            <ul><a href="./insghts.html">Insghts</a></ul>
+            <ul><a href="./usuarios.html">Usuários</a></ul>
+            <ul><a href="./suporte.html">Suporte</a></ul>
+
+            <button class="sair">Sair</button>
+        </nav>
+    </header>
+
+    <section>
+        <div class="processos">
+            <h2>Lista de processos</h2>
+            <div id="processList" class="process-list"></div>
+        </div>
+        <div class="dashboard">
+            <div class="kpis">
+                <span class="titulo">Uso dos Componentes</span>
+                <div class="disco">
+                    <div class="infos_disco">
+                        <p><span class="disk">Disco</span> Uso:<span class="uso_disco"> 65%</span> Livre: <span
+                                class="livre_disco"> 35%</span></p>
+                    </div>
+                    <div class="disco_grafico">
+                        <canvas id="discoRosquinha"></canvas>
+                    </div>
+                </div>
+
+                <div class="divisao"></div>
+
+                <div class="ram">
+                    <div class="infos_ram">
+                        <p><span class="memoria">RAM</span> Uso:<span class="uso_ram"> 75%</span> Livre: <span
+                                class="livre_ram"> 25%</span></p>
+                    </div>
+                    <div class="ram_grafico">
+                        <canvas id="ramRosquinha"></canvas>
+                    </div>
+                </div>
+
+                <div class="divisao"></div>
+
+                <div class="cpu">
+                    <div class="infos_cpu">
+                        <p><span class="processador">CPU</span> Uso:<span class="uso_cpu"> 85%</span> Temperatura: <span
+                                class="temperatura_cpu"> 58 °C</span></p>
+                    </div>
+                    <div class="cpu_grafico">
+                        <canvas id="cpuRosquinha"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="grafico">
+                <div class="container">
+                    <div class="titulo_grafico_linha">
+                        <select name="" id="">
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="filtro">
+                        <select name="" id="">
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grafico_linha">
+                    <canvas id="grafico_linha"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/public/js/processos.js"></script>
+
+</body>
+
+</html>
+
+<script>
+
+    function criarGradient(ctx) {
+        const gradiente1 = ctx.createLinearGradient(0, 0, 200, 0);
+        gradiente1.addColorStop(0, '#10D3F9');
+        gradiente1.addColorStop(0.5, '#426FDF');
+        gradiente1.addColorStop(1, '#740BC6');
+
+        return gradiente1;
+    }
+
+    //  Grafico disco rosquinha
+    const ctx = document.getElementById('discoRosquinha').getContext('2d');
+    const gradiente1 = criarGradient(ctx);
+
+    const disco_Rosquinha = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [65, 35],
+                backgroundColor: [
+                    gradiente1,
+                    '#E0E0E0'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // Grafico ram rosquinha
+    const ctx2 = document.getElementById('ramRosquinha').getContext('2d');
+
+
+    const ram_rosquinha = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [75, 25],
+                backgroundColor: [
+                    gradiente1,
+                    '#E0E0E0'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+    // grafico cpu rosquinha
+
+    const ctx3 = document.getElementById('cpuRosquinha').getContext('2d');
+
+
+    const cpu_rosquinha = new Chart(ctx3, {
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [82, 12],
+                backgroundColor: [
+                    gradiente1,
+                    '#E0E0E0'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+
+
+    // Grafico especifico.
+    const ctx4 = document.getElementById('grafico_linha').getContext('2d');
+
+    const gpuChart = new Chart(ctx4, {
+        type: 'line',
+        data: {
+            labels: ['08:44:12', '08:44:17', '08:44:22', '08:44:27', '08:44:32', '08:44:37', '08:44:42'], 
+            datasets: [
+                {
+                    label: 'GPU01',
+                    data: [15, 20, 40, 30, 50, 40, 45], 
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1 
+                },
+                {
+                    label: 'GPU02',
+                    data: [10, 15, 20, 25, 30, 35, 40],
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'GPU03',
+                    data: [15, 15, 20, 30, 40, 60, 10],
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'GPU04',
+                    data: [10, 10, 15, 40, 20, 30, 35],
+                    borderColor: 'lightblue',
+                    fill: false,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 80, 
+                    ticks: {
+                        stepSize: 10,
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        pointStyle: 'Line',
+                        boxWidth: 20, 
+                        padding: 15, 
+                    font: {
+                        size: 14 
+                    }
+                },
+                align: 'center' 
+                }
+            }
+        }
+    });
+</script>
