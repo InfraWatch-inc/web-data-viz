@@ -45,7 +45,7 @@
                 <span class="titulo">Uso dos Componentes</span>
                 <div class="disco">
                     <div class="infos_disco">
-                        <p><span class="disk">Disco</span> Uso:<span class="uso_disco"> 65%</span> Livre: <span
+                        <p><span class="disk">Disco</span> <br> Uso:<span class="uso_disco"> 65%</span> <br> Livre: <span
                                 class="livre_disco"> 35%</span></p>
                     </div>
                     <div class="disco_grafico">
@@ -57,7 +57,7 @@
 
                 <div class="ram">
                     <div class="infos_ram">
-                        <p><span class="memoria">RAM</span> Uso:<span class="uso_ram"> 75%</span> Livre: <span
+                        <p><span class="memoria">RAM</span> <br> Uso:<span class="uso_ram"> 75%</span><br> Livre: <span
                                 class="livre_ram"> 25%</span></p>
                     </div>
                     <div class="ram_grafico">
@@ -69,8 +69,8 @@
 
                 <div class="cpu">
                     <div class="infos_cpu">
-                        <p><span class="processador">CPU</span> Uso:<span class="uso_cpu"> 85%</span> Temperatura: <span
-                                class="temperatura_cpu"> 58 °C</span></p>
+                        <p><span class="processador">CPU</span><br> Uso:<span class="uso_cpu"> 85%</span> <br>Temperatura: <span
+                                class="temperatura_cpu"> 58°C</span></p>
                     </div>
                     <div class="cpu_grafico">
                         <canvas id="cpuRosquinha"></canvas>
@@ -80,24 +80,23 @@
             <div class="grafico">
                 <div class="container">
                     <div class="titulo_grafico_linha">
-                        <select name="" id="">
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
+                        <select id="slt_metricas">
+                            <option value="">Uso da GPU</option>
+                            <option value="">Temperatura da GPU</option>
                         </select>
                     </div>
                     <div class="filtro">
-                        <select name="" id="">
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
-                            <option value=""></option>
+                        <select id="slt_tempo">
+                            <option value="#" disabled selected>Filtro</option>
+                            <option value="">30 segundos</option>
+                            <option value="">Minuto</option>
+                            <option value="">10 minutos</option>
+                            <option value="">30 minutos</option>
                         </select>
                     </div>
                 </div>
                 <div class="grafico_linha">
-                    <canvas id="grafico_linha"></canvas>
+                    <canvas class="canvas_grafico_linha" id="grafico_linha" style="width: 100%; height: 40vh;"></canvas>
                 </div>
             </div>
         </div>
@@ -113,9 +112,9 @@
 
     function criarGradient(ctx) {
         const gradiente1 = ctx.createLinearGradient(0, 0, 200, 0);
-        gradiente1.addColorStop(0, '#10D3F9');
-        gradiente1.addColorStop(0.5, '#426FDF');
-        gradiente1.addColorStop(1, '#740BC6');
+        gradiente1.addColorStop(0.2, '#10D3F9');
+        // gradiente1.addColorStop(0.5, '#426FDF');
+        gradiente1.addColorStop(0.5, '#740BC6');
 
         return gradiente1;
     }

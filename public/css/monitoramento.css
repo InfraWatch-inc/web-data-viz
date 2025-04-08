@@ -95,7 +95,7 @@ section {
 
 .processos {
     width: 20%;
-    height: 87%;
+    height: 100%;
     background-color: #F9FAFB;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
@@ -112,7 +112,7 @@ h2 {
 }
   
 .process-list {
-    max-height: 500px;
+    max-height: 590px;
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -210,11 +210,12 @@ h2 {
     /* border: 1px solid red; */
 }
 
-.infos_disco {
-    width: 30%;
+.infos_disco, .infos_ram, .infos_cpu {
+    width: 45%;
     text-align: left;
     display: flex;
     align-items: center;
+    /* border: 1px solid red; */
 }
 
 p {
@@ -227,34 +228,12 @@ p {
     font-weight: 500;
 }
 
-.disco_grafico {
+.disco_grafico, .ram_grafico, .cpu_grafico {
     width: 70%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
-.infos_ram {
-    /* border: 1px solid red; */
-    width: 60%;
-    text-align: left;
-    display: flex;
-    align-items: center;
-}
-
-.infos_cpu {
-    width: 30%;
-    height: 100%;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    /* border: 1px solid red; */
-}
-
-/* canvas {
-    max-width: 100%;
-    height: auto;
-  } */
 
 /* grafico especifico */
 
@@ -279,15 +258,34 @@ p {
 }
 
 .titulo_grafico_linha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30%;
-    height: 20%;
+    height: 5vh;
     /* border: 1px solid red; */
     margin-bottom: 10px;
 }
 
+.filtro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    height: 5vh;
+    /* border: 1px solid red; */
+}
+
+/* .titulo_grafico_linha, select {
+
+} */
+
 .grafico_linha {
-    width: 90%;
+    width: 100%;
     height: 90%;
+    display: flex;
+    justify-content: center;
+    /* border: 1px solid red; */
 }
 
 
