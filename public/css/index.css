@@ -578,7 +578,7 @@ footer {
     footer {
         display: flex;
         flex-direction: column;
-        height: 33vh;
+        height: 53vh;
         width: 100%;
         background-color: #19078B;
     }
