@@ -109,6 +109,8 @@ main {
 .mobile-nav .nav-btns {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     margin: auto;
     gap: 10px;
