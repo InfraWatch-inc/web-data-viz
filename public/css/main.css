@@ -56,7 +56,7 @@ button {
   color: white;
   min-width: fit-content;
   height: fit-content;
-  width: 90%;
+  width: 98%;
   padding: 1rem 3rem;
   font-size: 24px;
   font-weight: 600;
@@ -69,10 +69,11 @@ button {
   opacity: 0.8;
   outline-color: dodgerblue;
 }
+
 .btn{
   color: white;
   height: fit-content;
-  width: 95%;
+  width: 98%;
   text-align: center;
   padding: 1rem 2rem;
   font-size: 24px;
