@@ -1,5 +1,16 @@
 class Validar {
-    static paisesSuportados = ["BR", "US", "CA", "SG", "FR", "DE", "CN", "VN", "RO"];
+
+    static paisesSuportados = [
+        {sigla:"BR", pais:"Brasil", codTelefone:"+55"}, 
+        {sigla:"US", pais:"Estados Unidos", codTelefone:"+"}, 
+        {silgla:"CA", pais:"Canadá", codTelefone:"+"}, 
+        {sigla:"SG", pais:"Singapura", codTelefone:"+"}, 
+        {sigla:"FR", pais:"França", codTelefone:"+"}, 
+        {sigla:"DE", pais:"Alemanha", codTelefone:"+"}, 
+        {sigla:"CN", pais:"China", codTelefone:"+"}, 
+        {sigla:"VN", pais:"Vietnã", codTelefone:"+"}, 
+        {sigla:"RO", pais:"Romenia", codTelefone:"+"}
+    ];
 
     static empresaRegexPorPais = {
         BR: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,     
@@ -83,3 +94,20 @@ class Validar {
         return regex ? regex.test(documento) : false;
     }
 }
+
+function listarPaises(){
+    const pais = document.getElementById('slctPais');
+
+    const infoPaises = Validar.paisesSuportados;
+    let listaOpcoesPaises = "";
+
+    infoPaises.forEach( (pais) => {
+        listaOpcoesPaises += "<option value='${pais.sigla}'>${pais.pais}</option>";
+    });
+
+    infoPaises.innerHTML = listaOpcoesPaises;
+}
+
+listarPaises();
+
+
