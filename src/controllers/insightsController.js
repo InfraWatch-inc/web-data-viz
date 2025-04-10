@@ -1,24 +1,48 @@
 var insightsModel = require("../models/insightsModel");
 
-function arrumarCondicao(corpoRequisicao, componente=undefined){
+function arrumarCondicao(corpoRequisicao, componente=undefined, res){
     
     //{
-    //    idEmpresa:idEmpresa,
-    //    dtInicio:dtInicio,
-    //    dtFinal:dtFinal,
-    //    modelo: modelo
-    //    
+    //    nivelAlerta:1
+    //    idEmpresa:1,
+    //    dtInicio:'',
+    //    dtFinal:'',
+    //    modelo: ''
+    //    metrica:
+    //    fatorTemporal:
+    //    localizacao:''
     //} 
     
-    // TODO preparar todos os filtros para colocar na condição WHERE do model
-    // olhar figma para saber todos os filtros
-    condicao = ''
-    corpoRequisicao.forEach((elemento) =>{
-        print(elemento);
-    });
+    
+    condicao = '';
+    
+    print(corpoRequisicao);
+  
+    condicao += "idEmpresa = ${corpoRequisicao.idEmpresa} ";
+    condicao += "AND componente = '${componente}' ";
 
-    if(componente != undefined){
-        
+    if(corpoRequisicao.nivelAlerta != 3){
+        condicao += "AND Alerta.nivel = ${corpoRequisicao.nivelAlerta} ";
+    }
+    
+    if(corpoRequisicao.metrica != undefined){
+        condicao += "AND metrica = '${corpoRequisicao.metrica}' ";
+    }
+
+    if(corpoRequisicao.dtInicio != undefined){
+        condicao += "AND dataHora >= '${corpoRequisicao.dtInicio}'"
+    } 
+
+    if(corpoRequisicao.modelo != undefined){
+        condicao += "AND modelo = '${corpoRequisicao.modelo}'"
+    }
+
+    if(corpoRequisicao,fatorTemporal != undefined){
+        condicao += "AND fatorTemporal = '${corpoRequisicao.modelo}'"
+    }
+
+    if(corpoRequisicao.localizacao != undefined){
+        condicao += "AND (pais = ${corpoRequisicao.localizacao} OR estado = ${corpoRequisicao.localizacao}) "
     }
 
     return condicao;
@@ -36,7 +60,11 @@ function getAlertasComponentes(req, res) {
 }
 
 function postInsightsComponente(req, res){
-    let condicao = arrumarCondicao(req.body, req.params.componente);
+    if(req.body.idEmpresa == undefined || req.body.componente == undefined ){
+        return res.status(400).json({"message":"idEmpresa ou Componente indefinido!"});
+    }
+
+    let condicao = arrumarCondicao(req.body, req.params.componente, res);
 
     let resposta = {
         "processos":null,
@@ -58,6 +86,6 @@ function postInsightsComponente(req, res){
 }
 
 module.exports = {
-    postAlertasComponentes,
+    getAlertasComponentes,
     postInsightsComponente
 }
