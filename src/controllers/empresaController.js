@@ -24,24 +24,30 @@ function buscarPorId(req, res) {
   });
 }
 
-async function cadastrarEmpresa(req, res) {
-  var razaoSocial = req.body.razaoSocialServer;
-  var numeroTin = req.body.numeroTinServer;
-  var status = req.body.statusServer;
-  var telefone = req.body.telefoneServer;
-  var site = req.body.siteServer;
+async function cadastrarEmp(req, res) {
+  var razaoSocial = req.body.razaoSocialServer 
+  var numeroTin = req.body.numeroTinServer
+  var pais = req.body.paisServer
+  var telefone = req.body.telefoneServer
+  var site = req.body.siteServer
 
-  var cep = req.body.cepServer;
-  var logradouro = req.body.logradouroServer;
-  var numero = req.body.numeroServer;
-  var complemento = req.body.complementoServer;
+  var cep = req.body.cepServer 
+  var logradouro = req.body.logradouroServer
+  var bairro = req.body.bairroServer
+  var cidade = req.body.cidadeServer
+  var estado = req.body.estadoServer
+  var numero = req.body.numeroServer
+  var complemento = req.body.complementoServer
 
-  var nome = req.body.nomeServer;
-  var cpf = req.body.cpfServer;
-  var email = req.body.emailServer;
-  var senha = req.body.senhaServer;
+  var nome = req.body.nomeServer                    
+  var email= req.body.emailServer
+  var documento = req.body.documentoServer
+  var cargo = req.body.cargoServer
+  var senha = req.body.senhaServer
+  var tipoDocumento = req.body.tipoDocumentoServer
 
-  if (!razaoSocial || !numeroTin || !status || !telefone || !site || !cep || !logradouro || !numero || !nome || !cpf || !email || !senha) {
+
+  if (!razaoSocial || !documento || !cargo || !tipoDocumento || !bairro || !cidade || !estado || !numeroTin || !pais || !telefone || !site || !cep || !logradouro || !numero || !nome || !email || !senha) {
     return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
   }
 
@@ -55,10 +61,11 @@ async function cadastrarEmpresa(req, res) {
       return res.status(401).json({ mensagem: `a empresa com o cnpj ${numeroTin} já existe` });
     }
 
-
-    empresa = await empresaModel.cadastrarEmpresa(razaoSocial, numeroTin, status, telefone, site)
-    await empresaModel.enviarEndereco(cep, logradouro, numero, complemento, empresa.insertId)
-    await usuarioModel.cadastrar(nome, email, senha, 1, empresa.insertId)
+  
+  
+    empresa = await empresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, pais)
+    await empresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, empresa.insertId)
+    await usuarioModel.cadastrarCol(nome, email, documento, cargo, senha, tipoDocumento, empresa.insertId)
 
     res.status(201).json({ mensagem: "Empresa cadastrada com sucesso" });
   } catch {
@@ -75,6 +82,6 @@ async function cadastrarEmpresa(req, res) {
 module.exports = {
   buscarPorCnpj,
   buscarPorId,
-  cadastrarEmpresa,
+  cadastrarEmp,
   listar,
 };

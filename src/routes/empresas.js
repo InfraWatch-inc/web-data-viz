@@ -4,7 +4,7 @@ var router = express.Router();
 var empresaController = require("../controllers/empresaController");
 
 router.post("/cadastrarEmpresa", function (req, res) {
-    empresaController.cadastrarEmpresa(req, res);
+    empresaController.cadastrarEmp(req, res);
 })
 
 router.post("/enviarEndereco", function (req, res) {

@@ -55,9 +55,16 @@
                     <select id="tipoDoc">
                         <option value="" disabled selected>Selecione aqui</option>
                         <option value="br">CPF (Brasil)</option>
-                        <option value="us">SSN (Estados Unidos)</option>
-                        <option value="uk">NIN (Inglaterra)</option>
+                        <option value="us">SSN (EUA)</option>
+                        <option value="ca">SIN (Canadá)</option>
+                        <option value="sg">NRIC (Singapura)</option>
+                        <option value="fr">INSEE (França)</option>
+                        <option value="de">Identifikationsnummer (Alemanha)</option>
+                        <option value="cn">居民身份证 (China)</option>
+                        <option value="vn">Mã số BHXH (Vietnã)</option>
+                        <option value="ro">CNP (Romênia)</option>
                     </select>
+                    
 
                     <label>Documento</label>
                     <input id="iptDocumento" type="text" placeholder="Digite seu documento aqui!" />
@@ -252,39 +259,92 @@
         
             resetarListenersDoInput();
         
-            if (tipo === 'br') {
-                iptDocumento.placeholder = '000.000.000-00';
-                iptDocumento.maxLength = 14;
-                iptDocumento.addEventListener('input', () => {
-                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
-                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-                    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                    iptDocumento.value = valor;
-                });
-            }
-        
-        
-            if (tipo === 'us') {
-                iptDocumento.placeholder = '000-00-0000';
-                iptDocumento.maxLength = 11;
-                iptDocumento.addEventListener('input', () => {
-                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
-                    valor = valor.replace(/(\d{3})(\d)/, '$1-$2');
-                    valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2');
-                    iptDocumento.value = valor;
-                });
-            }
-        
-            if (tipo === 'uk') {
-                iptDocumento.placeholder = 'AB123456C';
-                iptDocumento.maxLength = 9;
-                iptDocumento.addEventListener('input', () => {
-                    let valor = iptDocumento.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9);
-                    valor = valor.replace(/^([A-Z]{2})(\d{6})([A-Z]?)$/, '$1$2$3');
-                    iptDocumento.value = valor;
-                });
-            }
+            switch (tipo) {
+        case 'br': // CPF
+            iptDocumento.placeholder = '000.000.000-00';
+            iptDocumento.maxLength = 14;
+            iptDocumento.addEventListener('input', () => {
+                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
+                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                iptDocumento.value = valor;
+            });
+            break;
+
+        case 'us': // SSN
+            iptDocumento.placeholder = '000-00-0000';
+            iptDocumento.maxLength = 11;
+            iptDocumento.addEventListener('input', () => {
+                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
+                valor = valor.replace(/(\d{3})(\d)/, '$1-$2');
+                valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2');
+                iptDocumento.value = valor;
+            });
+            break;
+
+        case 'ca': // SIN
+            iptDocumento.placeholder = '000-000-000';
+            iptDocumento.maxLength = 11;
+            iptDocumento.addEventListener('input', () => {
+                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
+                valor = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1-$2-$3');
+                iptDocumento.value = valor;
+            });
+            break;
+
+        case 'sg': // NRIC
+            iptDocumento.placeholder = 'S1234567D';
+            iptDocumento.maxLength = 9;
+            iptDocumento.addEventListener('input', () => {
+                let valor = iptDocumento.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9);
+                valor = valor.replace(/^([STFG])(\d{7})([A-Z])?$/, '$1$2$3');
+                iptDocumento.value = valor;
+            });
+            break;
+
+        case 'fr': // INSEE
+            iptDocumento.placeholder = '1 84 12 76 451 089';
+            iptDocumento.maxLength = 15;
+            iptDocumento.addEventListener('input', () => {
+                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 13);
+                valor = valor.replace(/(\d{1})(\d{2})(\d{2})(\d{2})(\d{3})(\d{3})/, '$1 $2 $3 $4 $5 $6');
+                iptDocumento.value = valor;
+            });
+            break;
+
+        case 'de': // Identifikationsnummer
+            iptDocumento.placeholder = '00000000000';
+            iptDocumento.maxLength = 11;
+            iptDocumento.addEventListener('input', () => {
+                iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
+            });
+            break;
+
+        case 'cn': // ID da China
+            iptDocumento.placeholder = '000000000000000000';
+            iptDocumento.maxLength = 18;
+            iptDocumento.addEventListener('input', () => {
+                iptDocumento.value = iptDocumento.value.replace(/[^0-9Xx]/g, '').slice(0, 18).toUpperCase();
+            });
+            break;
+
+        case 'vn': // Mã số BHXH
+            iptDocumento.placeholder = '0000000000';
+            iptDocumento.maxLength = 10;
+            iptDocumento.addEventListener('input', () => {
+                iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 10);
+            });
+            break;
+
+        case 'ro': // CNP
+            iptDocumento.placeholder = '0000000000000';
+            iptDocumento.maxLength = 13;
+            iptDocumento.addEventListener('input', () => {
+                iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 13);
+            });
+            break;
+    }
         });
 
         function validarFormulario() {

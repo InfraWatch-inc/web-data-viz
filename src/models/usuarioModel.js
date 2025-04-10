@@ -9,9 +9,10 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrar(nome, email, senha, permissao, fkEmpresa) {
+function cadastrarCol(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) {
     var instrucaoSql = `
-        INSERT INTO Colaborador (nome, email, senha, fkPermissao, fkEmpresa) VALUES ('${nome}', '${email}', '${senha}', '${permissao}', '${fkEmpresa}');
+        INSERT INTO Empresa (nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) 
+        VALUES ('${nome}, ${email}, ${documento}, ${cargo}, ${senha}, ${tipoDocumento}, ${fkEmpresa}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
@@ -19,5 +20,5 @@ function cadastrar(nome, email, senha, permissao, fkEmpresa) {
 
 module.exports = {
     autenticar,
-    cadastrar,
+    cadastrarCol
 };

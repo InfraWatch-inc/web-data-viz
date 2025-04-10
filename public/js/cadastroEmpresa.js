@@ -225,6 +225,7 @@ function validarPagina3(isAvancando) {
 function validarPagina4(isAvancando) {
     const nome = document.getElementById('iptNome');
     const email = document.getElementById('iptEmail');
+    const tipoDocumento = document.getElementById('slctTipoDocumento');
     const numeroDocumento = document.getElementById('iptNumeroDocumento');
 
     if (isAvancando) {
@@ -299,7 +300,7 @@ function validarPagina5(isAvancando) {
 
 function cadastrar() {
     console.log('Informacoes do Cadastro:', informacoesCadastro);
-    fetch("/empresas/cadastrarEmpresas", {
+    fetch("/empresas/cadastrarEmpresa", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
