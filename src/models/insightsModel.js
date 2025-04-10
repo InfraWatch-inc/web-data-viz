@@ -6,19 +6,19 @@ function kpiInsights(condicao) {
     return database.executar(instrucaoSql);
 }
 
-function graficoAlertas(condicao){
-    var instrucaoSql = `SELECT * FROM viewAlertasPorContexto WHERE ${condicao};`;
+function graficoAlertas(contexto ,condicao){
+    var instrucaoSql = `SELECT ${contexto}, qtdAlertas FROM viewAlertasPorContexto WHERE ${condicao};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function processosInsights(condicao){
-    var instrucaoSql = `SELECT * FROM viewAlertasPorContexto WHERE idEmpresa = ${idEmpresa};`;
+    var instrucaoSql = `SELECT * FROM viewInsightsProcessos WHERE ${condicao};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function alertasComponentes(idEmpresa){
+function alertasComponentes(condicao){
     // TODO
     var instrucaoSql = `SELECT * FROM viewPrimeiroInsights WHERE ${condicao};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);

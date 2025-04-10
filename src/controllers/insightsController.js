@@ -1,51 +1,47 @@
 var insightsModel = require("../models/insightsModel");
 
-function arrumarCondicao(corpoRequisicao, componente=undefined, res){
-    
-    //{
-    //    nivelAlerta:1
-    //    idEmpresa:1,
-    //    dtInicio:'',
-    //    dtFinal:'',
-    //    modelo: ''
-    //    metrica:
-    //    fatorTemporal:
-    //    localizacao:''
-    //} 
-    
-    
+function arrumarCondicao(corpoRequisicao, componente){
     condicao = '';
     
     print(corpoRequisicao);
   
-    condicao += "idEmpresa = ${corpoRequisicao.idEmpresa} ";
-    condicao += "AND componente = '${componente}' ";
+    condicao += `idEmpresa = ${corpoRequisicao.idEmpresa} `;
+    condicao += `AND componente = '${componente}' `;
 
     if(corpoRequisicao.nivelAlerta != 3){
-        condicao += "AND Alerta.nivel = ${corpoRequisicao.nivelAlerta} ";
+        condicao += `AND a.nivel = ${corpoRequisicao.nivelAlerta} `;
     }
     
     if(corpoRequisicao.metrica != undefined){
-        condicao += "AND metrica = '${corpoRequisicao.metrica}' ";
-    }
-
-    if(corpoRequisicao.dtInicio != undefined){
-        condicao += "AND dataHora >= '${corpoRequisicao.dtInicio}'"
+        condicao += `AND metrica = '${corpoRequisicao.metrica}' `;
     } 
 
-    if(corpoRequisicao.modelo != undefined){
-        condicao += "AND modelo = '${corpoRequisicao.modelo}'"
-    }
+    if(corpoRequisicao.dtInicio != undefined){
+        condicao += `AND dataHora >= '${corpoRequisicao.dtInicio}' `
+    } 
 
-    if(corpoRequisicao,fatorTemporal != undefined){
-        condicao += "AND fatorTemporal = '${corpoRequisicao.modelo}'"
-    }
-
-    if(corpoRequisicao.localizacao != undefined){
-        condicao += "AND (pais = ${corpoRequisicao.localizacao} OR estado = ${corpoRequisicao.localizacao}) "
+    if(corpoRequisicao.dtFinal != undefined){
+        condicao += `AND dataHora < '${corpoRequisicao.dtInicio}' `;
     }
 
     return condicao;
+}
+
+function arrumarContexto(){
+    contexto = '';
+    if(corpoRequisicao.modelo != undefined){
+        contexto =  `${corpoRequisicao.modelo}`
+    }
+
+    if(corpoRequisicao.localizacao != undefined){
+        contexto +=  `${corpoRequisicao.localizacao}`
+    }
+
+    if(corpoRequisicao.fatorTemporal != undefined){
+        contexto =  `${corpoRequisicao.fatorTemporal}`
+    }
+
+    return contexto;
 }
 
 function getAlertasComponentes(req, res) {
@@ -64,7 +60,8 @@ function postInsightsComponente(req, res){
         return res.status(400).json({"message":"idEmpresa ou Componente indefinido!"});
     }
 
-    let condicao = arrumarCondicao(req.body, req.params.componente, res);
+    let condicao = arrumarCondicao(req.body, req.params.componente);
+    let contexto = arrumarContexto(req.body);
 
     let resposta = {
         "processos":null,
@@ -72,7 +69,7 @@ function postInsightsComponente(req, res){
         "grafico":null
     }
 
-    Promise.all(insightsModel.graficoAlertas(condicao), insightsModel.processosInsights(condicao), insightsModel.kpiInsights(condicao))
+    Promise.all(insightsModel.graficoAlertas(contexto, condicao), insightsModel.processosInsights(condicao), insightsModel.kpiInsights(condicao))
     .then(function (resultado) {
         print(resultado);
         resposta = resultado;
