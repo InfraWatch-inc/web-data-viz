@@ -102,10 +102,10 @@ function listarPaises(){
     let listaOpcoesPaises = "";
 
     infoPaises.forEach( (pais) => {
-        listaOpcoesPaises += "<option value='${pais.sigla}'>${pais.pais}</option>";
+        listaOpcoesPaises += `<option value='${pais.sigla}'>${pais.pais}</option>`;
     });
 
-    infoPaises.innerHTML = listaOpcoesPaises;
+    pais.innerHTML = listaOpcoesPaises;
 }
 
 listarPaises();
