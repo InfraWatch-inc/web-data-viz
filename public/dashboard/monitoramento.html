@@ -79,11 +79,14 @@
             </div>
             <div class="grafico">
                 <div class="container">
-                    <div class="titulo_grafico_linha">
-                        <select id="slt_metricas">
-                            <option value="">Uso da GPU</option>
-                            <option value="">Temperatura da GPU</option>
-                        </select>
+                    <div class="dropdown" id="gpuDropdown">
+                        <button class="dropdown-btn" id="dropdownBtn">
+                            <span id="selectedOption">Carregando...</span>
+                            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-content" id="dropdownContent"></div>
                     </div>
                     <div class="filtro">
                         <select id="slt_tempo">
@@ -109,6 +112,19 @@
 </html>
 
 <script>
+
+
+    function buscarDadosTempoReal(){
+        fetch(`http://localhost:3333/monitoramento/${idServidor}`,{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(res => res.json()).then((res) => {
+            console.log(res)
+        })
+
+    }
 
     function criarGradient(ctx) {
         const gradiente1 = ctx.createLinearGradient(0, 0, 200, 0);
