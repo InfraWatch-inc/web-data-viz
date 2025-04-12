@@ -9,7 +9,7 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function cadastrarCol(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) {
+function cadastrarColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) {
     var instrucaoSql = `
         INSERT INTO Empresa (nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) 
         VALUES ('${nome}, ${email}, ${documento}, ${cargo}, ${senha}, ${tipoDocumento}, ${fkEmpresa}');
@@ -18,7 +18,21 @@ function cadastrarCol(nome, email, documento, cargo, senha, tipoDocumento, fkEmp
     return database.executar(instrucaoSql);
 }
 
+function getColaboradores(){
+    var instrucaoSql = `SELECT * FROM viewGetColaborador;`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function getColaboradorId(idColaborador){
+    var instrucaoSql = `SELECT * FROM viewGetColaborador WHERE id = ${idColaborador};`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     autenticar,
-    cadastrarCol
+    cadastrarColaborador,
+    getColaboradores,
+    getColaboradorId
 };
