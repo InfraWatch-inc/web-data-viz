@@ -60,7 +60,7 @@
                         <p><span class="memoria">RAM</span> <br> Uso:<span class="uso_ram"> 75%</span><br> Livre: <span
                                 class="livre_ram"> 25%</span></p>
                     </div>
-                    <div class="ram_grafico">
+                    <div class="ram_grafico" id="kpiRam">
                         <canvas id="ramRosquinha"></canvas>
                     </div>
                 </div>
@@ -113,28 +113,243 @@
 
 <script>
 
+const dadosCpu = {
+  "30s": [
+    { tempo: "00:00", temperatura: 44, uso: 20, frequencia: 2.2 },
+    { tempo: "00:05", temperatura: 46, uso: 25, frequencia: 2.4 },
+    { tempo: "00:10", temperatura: 46, uso: 25, frequencia: 2.4 },
+    { tempo: "00:15", temperatura: 46, uso: 25, frequencia: 2.4 },
+    { tempo: "00:20", temperatura: 46, uso: 25, frequencia: 2.4 },
+    { tempo: "00:25", temperatura: 46, uso: 25, frequencia: 2.4 },
+    { tempo: "00:30", temperatura: 46, uso: 25, frequencia: 2.4 }
+  ],
+  "1m": [
+    { tempo: "00:00", temperatura: 44, uso: 20, frequencia: 2.2 },
+    { tempo: "00:30", temperatura: 46, uso: 25, frequencia: 2.4 },
+    { tempo: "01:00", temperatura: 48, uso: 28, frequencia: 2.5 }
+  ],
+  "10m": [
+    { tempo: "00:00", temperatura: 44, uso: 20, frequencia: 2.2 },
+    { tempo: "01:00", temperatura: 46, uso: 30, frequencia: 2.4 },
+    { tempo: "02:00", temperatura: 47, uso: 35, frequencia: 2.5 },
+    { tempo: "03:00", temperatura: 49, uso: 40, frequencia: 2.6 },
+    { tempo: "04:00", temperatura: 50, uso: 45, frequencia: 2.7 },
+    { tempo: "05:00", temperatura: 52, uso: 50, frequencia: 2.8 },
+    { tempo: "06:00", temperatura: 53, uso: 55, frequencia: 2.9 },
+    { tempo: "07:00", temperatura: 54, uso: 60, frequencia: 3.0 },
+    { tempo: "08:00", temperatura: 55, uso: 65, frequencia: 3.0 },
+    { tempo: "09:00", temperatura: 56, uso: 70, frequencia: 3.1 },
+    { tempo: "10:00", temperatura: 57, uso: 72, frequencia: 3.1 }
+  ],
+  "30m": [
+    { tempo: "00:00", temperatura: 45, uso: 22, frequencia: 2.2 },
+    { tempo: "05:00", temperatura: 48, uso: 28, frequencia: 2.3 },
+    { tempo: "10:00", temperatura: 52, uso: 34, frequencia: 2.5 },
+    { tempo: "15:00", temperatura: 55, uso: 40, frequencia: 2.7 },
+    { tempo: "20:00", temperatura: 57, uso: 48, frequencia: 2.8 },
+    { tempo: "25:00", temperatura: 58, uso: 50, frequencia: 2.9 },
+    { tempo: "30:00", temperatura: 60, uso: 55, frequencia: 3.0 }
+  ]
+};
 
-    function buscarDadosTempoReal(){
-        fetch(`http://localhost:3333/monitoramento/${idServidor}`,{
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
+const dadosDisco = {
+  "30s": [
+    { tempo: "00:00", usoPorcentagem: 20, usoBytes: 2_000_000_000 },
+    { tempo: "00:05", usoPorcentagem: 22, usoBytes: 2_200_000_000 },
+    { tempo: "00:10", usoPorcentagem: 22, usoBytes: 2_200_000_000 },
+    { tempo: "00:15", usoPorcentagem: 22, usoBytes: 2_200_000_000 },
+    { tempo: "00:20", usoPorcentagem: 22, usoBytes: 2_200_000_000 },
+    { tempo: "00:25", usoPorcentagem: 22, usoBytes: 2_200_000_000 },
+    { tempo: "00:30", usoPorcentagem: 22, usoBytes: 2_200_000_000 }
+  ],
+  "1m": [
+    { tempo: "00:00", usoPorcentagem: 20, usoBytes: 2_000_000_000 },
+    { tempo: "00:30", usoPorcentagem: 22, usoBytes: 2_200_000_000 },
+    { tempo: "01:00", usoPorcentagem: 25, usoBytes: 2_500_000_000 }
+  ],
+  "10m": [
+    { tempo: "00:00", usoPorcentagem: 20, usoBytes: 2_000_000_000 },
+    { tempo: "01:00", usoPorcentagem: 23, usoBytes: 2_300_000_000 },
+    { tempo: "02:00", usoPorcentagem: 26, usoBytes: 2_600_000_000 },
+    { tempo: "03:00", usoPorcentagem: 28, usoBytes: 2_800_000_000 },
+    { tempo: "04:00", usoPorcentagem: 30, usoBytes: 3_000_000_000 },
+    { tempo: "05:00", usoPorcentagem: 32, usoBytes: 3_200_000_000 },
+    { tempo: "06:00", usoPorcentagem: 34, usoBytes: 3_400_000_000 },
+    { tempo: "07:00", usoPorcentagem: 36, usoBytes: 3_600_000_000 },
+    { tempo: "08:00", usoPorcentagem: 38, usoBytes: 3_800_000_000 },
+    { tempo: "09:00", usoPorcentagem: 40, usoBytes: 4_000_000_000 },
+    { tempo: "10:00", usoPorcentagem: 42, usoBytes: 4_200_000_000 }
+  ],
+  "30m": [
+    { tempo: "00:00", usoPorcentagem: 20, usoBytes: 2_000_000_000 },
+    { tempo: "05:00", usoPorcentagem: 24, usoBytes: 2_400_000_000 },
+    { tempo: "10:00", usoPorcentagem: 28, usoBytes: 2_800_000_000 },
+    { tempo: "15:00", usoPorcentagem: 32, usoBytes: 3_200_000_000 },
+    { tempo: "20:00", usoPorcentagem: 35, usoBytes: 3_500_000_000 },
+    { tempo: "25:00", usoPorcentagem: 38, usoBytes: 3_800_000_000 },
+    { tempo: "30:00", usoPorcentagem: 40, usoBytes: 4_000_000_000 }
+  ]
+};
+
+const dadosRam = {
+  "30s": [
+    { tempo: "00:05", usoPorcentagem: 35, usoBytes: 3_000_000_000 },
+    { tempo: "00:10", usoPorcentagem: 38, usoBytes: 3_200_000_000 },
+    { tempo: "00:15", usoPorcentagem: 38, usoBytes: 3_200_000_000 },
+    { tempo: "00:20", usoPorcentagem: 38, usoBytes: 3_200_000_000 },
+    { tempo: "00:25", usoPorcentagem: 38, usoBytes: 3_200_000_000 },
+    { tempo: "00:30", usoPorcentagem: 38, usoBytes: 3_200_000_000 },
+    { tempo: "00:35", usoPorcentagem: 38, usoBytes: 3_200_000_000 }
+  ],
+  "1m": [
+    { tempo: "00:00", usoPorcentagem: 35, usoBytes: 3_000_000_000 },
+    { tempo: "00:30", usoPorcentagem: 38, usoBytes: 3_200_000_000 },
+    { tempo: "01:00", usoPorcentagem: 40, usoBytes: 3_500_000_000 }
+  ],
+  "10m": [
+    { tempo: "00:00", usoPorcentagem: 35, usoBytes: 3_000_000_000 },
+    { tempo: "01:00", usoPorcentagem: 37, usoBytes: 3_200_000_000 },
+    { tempo: "02:00", usoPorcentagem: 40, usoBytes: 3_500_000_000 },
+    { tempo: "03:00", usoPorcentagem: 42, usoBytes: 3_700_000_000 },
+    { tempo: "04:00", usoPorcentagem: 44, usoBytes: 3_900_000_000 },
+    { tempo: "05:00", usoPorcentagem: 46, usoBytes: 4_100_000_000 },
+    { tempo: "06:00", usoPorcentagem: 48, usoBytes: 4_300_000_000 },
+    { tempo: "07:00", usoPorcentagem: 49, usoBytes: 4_400_000_000 },
+    { tempo: "08:00", usoPorcentagem: 50, usoBytes: 4_500_000_000 },
+    { tempo: "09:00", usoPorcentagem: 51, usoBytes: 4_600_000_000 },
+    { tempo: "10:00", usoPorcentagem: 52, usoBytes: 4_700_000_000 }
+  ],
+  "30m": [
+    { tempo: "00:00", usoPorcentagem: 35, usoBytes: 3_000_000_000 },
+    { tempo: "05:00", usoPorcentagem: 38, usoBytes: 3_300_000_000 },
+    { tempo: "10:00", usoPorcentagem: 41, usoBytes: 3_600_000_000 },
+    { tempo: "15:00", usoPorcentagem: 44, usoBytes: 3_900_000_000 },
+    { tempo: "20:00", usoPorcentagem: 46, usoBytes: 4_100_000_000 },
+    { tempo: "25:00", usoPorcentagem: 48, usoBytes: 4_300_000_000 },
+    { tempo: "30:00", usoPorcentagem: 50, usoBytes: 4_500_000_000 }
+  ]
+};
+
+const dadosGpu = {
+  "30s": [
+    { tempo: "00:05", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "00:10", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "00:15", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "00:20", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "00:25", temperatura: 50, usoPorcentagem: 20 },
+    { tempo: "00:30", temperatura: 50, usoPorcentagem: 20 },
+    { tempo: "00:35", temperatura: 50, usoPorcentagem: 20 }
+  ],
+  "1m": [
+    { tempo: "00:00", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "00:30", temperatura: 50, usoPorcentagem: 20 },
+    { tempo: "01:00", temperatura: 52, usoPorcentagem: 25 }
+  ],
+  "10m": [
+    { tempo: "00:00", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "01:00", temperatura: 50, usoPorcentagem: 20 },
+    { tempo: "02:00", temperatura: 52, usoPorcentagem: 25 },
+    { tempo: "03:00", temperatura: 53, usoPorcentagem: 28 },
+    { tempo: "04:00", temperatura: 54, usoPorcentagem: 30 },
+    { tempo: "05:00", temperatura: 55, usoPorcentagem: 32 },
+    { tempo: "06:00", temperatura: 56, usoPorcentagem: 34 },
+    { tempo: "07:00", temperatura: 57, usoPorcentagem: 36 },
+    { tempo: "08:00", temperatura: 58, usoPorcentagem: 38 },
+    { tempo: "09:00", temperatura: 59, usoPorcentagem: 40 },
+    { tempo: "10:00", temperatura: 60, usoPorcentagem: 42 }
+  ],
+  "30m": [
+    { tempo: "00:00", temperatura: 48, usoPorcentagem: 15 },
+    { tempo: "05:00", temperatura: 50, usoPorcentagem: 20 },
+    { tempo: "10:00", temperatura: 53, usoPorcentagem: 25 },
+    { tempo: "15:00", temperatura: 56, usoPorcentagem: 30 },
+    { tempo: "20:00", temperatura: 58, usoPorcentagem: 35 },
+    { tempo: "25:00", temperatura: 60, usoPorcentagem: 40 },
+    { tempo: "30:00", temperatura: 62, usoPorcentagem: 45 }
+  ]
+};
+
+    let graficoAtual = null;
+    let kpi1 = document.getElementById("kpiRam");
+
+    kpi1.addEventListener('click', () => {
+        const ctx4 = document.getElementById('grafico_linha').getContext('2d');
+
+        if (graficoAtual !== null) {
+            graficoAtual.destroy();
+        }
+
+        const gpuChart = new Chart(ctx4, {
+            type: 'line',
+                data: {
+                    labels: ['08:44:12', '08:44:17', '08:44:22', '08:44:27', '08:44:32', '08:44:37', '08:44:42'], 
+                    datasets: [
+                {
+                    label: 'RAM02',
+                    data: dadosRam.usoPorcentagem, 
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1 
+                },
+                {
+                    label: 'RAM02',
+                    data: dadosRam.usoPorcentagem,
+                    borderColor: 'orange',
+                    fill: false,
+                    tension: 0.1
+                },
+                {
+                    label: 'RAM02',
+                    data: dadosRam.usoPorcentagem,
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 80, 
+                    ticks: {
+                        stepSize: 10,
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        pointStyle: 'Line',
+                        boxWidth: 20, 
+                        padding: 15, 
+                    font: {
+                        size: 14 
+                    }
+                },
+                align: 'center' 
+                }
             }
-        }).then(res => res.json()).then((res) => {
-            console.log(res)
-        })
-
-    }
+        }
+    });
+    })
 
     function criarGradient(ctx) {
         const gradiente1 = ctx.createLinearGradient(0, 0, 200, 0);
         gradiente1.addColorStop(0.2, '#10D3F9');
-        // gradiente1.addColorStop(0.5, '#426FDF');
         gradiente1.addColorStop(0.5, '#740BC6');
 
         return gradiente1;
     }
 
+   
     //  Grafico disco rosquinha
     const ctx = document.getElementById('discoRosquinha').getContext('2d');
     const gradiente1 = criarGradient(ctx);
@@ -219,7 +434,7 @@
     // Grafico especifico.
     const ctx4 = document.getElementById('grafico_linha').getContext('2d');
 
-    const gpuChart = new Chart(ctx4, {
+    graficoAtual = new Chart(ctx4, {
         type: 'line',
         data: {
             labels: ['08:44:12', '08:44:17', '08:44:22', '08:44:27', '08:44:32', '08:44:37', '08:44:42'], 
