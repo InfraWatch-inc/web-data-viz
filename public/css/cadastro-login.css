@@ -164,7 +164,21 @@ dialog::backdrop {
         justify-self: center;
     }
 
-    .frase {
+    .frase-login {
+        display: flex;
+        background-image: url(../assets/buttons/bg-button.png);
+        background-size: cover;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        flex-direction: column;
+        height: 200px;
+        width: 90%;
+        text-align: center;
+        justify-content: end;
+    }
+
+    .frase-cadastro {
         display: flex;
         background-image: url(../assets/buttons/bg-button.png);
         background-size: cover;
