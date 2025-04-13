@@ -72,5 +72,6 @@ function getColaboradorId(req, res){
 module.exports = {
     postAutenticar,
     getColaboradores,
-    getColaboradorId
+    getColaboradorId,
+    postCadastrarColaborador
   };

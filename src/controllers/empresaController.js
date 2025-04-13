@@ -1,6 +1,6 @@
 const e = require("cors");
 var empresaModel = require("../models/empresaModel");
-var usuarioModel = require("../models/usuarioModel");
+var colaboradoresModel = require("../models/colaboradoresModel");
 
 function buscarPorCnpj(req, res) {
   var cnpj = req.query.cnpj;
@@ -65,7 +65,7 @@ async function cadastrarEmp(req, res) {
   
     empresa = await empresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, pais)
     await empresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, empresa.insertId)
-    await usuarioModel.cadastrarCol(nome, email, documento, cargo, senha, tipoDocumento, empresa.insertId)
+    await colaboradoresModel.cadastrarColaborador(nome, email, documento, cargo, senha, tipoDocumento, empresa.insertId)
 
     res.status(201).json({ mensagem: "Empresa cadastrada com sucesso" });
   } catch {

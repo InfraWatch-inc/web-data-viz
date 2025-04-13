@@ -36,9 +36,9 @@
 
           <div class="entradas margem">
             Digite seu email
-            <input type="ipt_email" placeholder="Digite aqui seu email" id="email_input">
+            <input type="text" placeholder="Digite aqui seu email" id="email_input">
             Digite sua senha
-            <input type="ipt_senha" placeholder="Digite aqui sua senha" id="senha_input">
+            <input type="password" placeholder="Digite aqui sua senha" id="senha_input">
           </div>
 
           <div class="botoes margem">
@@ -74,7 +74,7 @@
         if (emailVar == "" || senhaVar == "") {
             // cardErro.style.display = "block"
             // mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
-            finalizarAguardar();
+            //finalizarAguardar();
             return false;
         }
         // else {
@@ -84,7 +84,7 @@
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
-        fetch("/usuarios/autenticar", {
+        fetch("/colaboradores/autenticar", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -104,11 +104,11 @@
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.id;
-                   
+                    sessionStorage.ID_USUARIO = json.idColaborador;
+                    sessionStorage.ID_EMPRESA = json.fkEmpresa;
 
                     setTimeout(function () {
-                        window.location = "./dashboard/cards.html";
+                        window.location = "./dashboard/monitoramento.html";
                     }, 1000); // apenas para exibir o loading
 
                 });
@@ -119,7 +119,7 @@
 
                 resposta.text().then(texto => {
                     console.error(texto);
-                    finalizarAguardar(texto);
+                    //finalizarAguardar(texto);
                 });
             }
 
