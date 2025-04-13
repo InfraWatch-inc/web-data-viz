@@ -108,7 +108,6 @@ ul a {
 }
 
 .meio {
-    /* background-color: #00ff22; */
     width: 10%; 
 }
 
@@ -183,7 +182,7 @@ ul a {
   }
   
   .kpi-card h3 {
-    font-size: 0.85rem;
+    font-size: 1.3rem;
     margin: 0;
     color: #333;
   }
@@ -201,14 +200,7 @@ ul a {
     align-items: center;
   }
   
-  .filtro label {
-    display: block;
-    font-size: 0.75rem;
-    margin-bottom: 0.2rem;
-    color: #333;
-  }
-  
-  .filtro input,
+ 
   .filtro select {
     padding: 0.4rem;
     border-radius: 0.5rem;
@@ -222,104 +214,4 @@ ul a {
   }
 
 
-/*
-.titulo-insight {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-}
-
-.cards-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3rem;
-    gap: 2rem;
-}
-
-
-
-.kpi-filtro{
-    display: flex;
-    width: 70%;
-    justify-content: flex-end;
-}
-
-.card-metric {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 18%;
-    text-align: center;
-    margin-left: 5%;
-}
-
-.card-metric h2 {
-    font-size: 2.5rem;
-    margin-top: 0.5rem;
-}
-
-.filters select {
-    padding: 0.5rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-left: 1rem;
-    font-size: 1.1rem;
-    
-}
-
-
-
-.graficos-container {
-    display: flex;
-    gap: 2rem;
-   height: 500px;
-}
-
-.grafico-processos {
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    flex: 0 0 35%; /* 35% da largura total */
-    /* height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.grafico-alertas {
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    flex: 0 0 65%; /* 65% da largura total */
-    /* height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-
-
-.grafico-processos h3,
-.grafico-alertas h3 {
-    margin-bottom: 1rem;
-}
-
-
-
-
-.header-grafico {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dropdowns select {
-    margin-left: 1rem;
-    padding: 0.4rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-} */ 
 

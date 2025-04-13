@@ -61,27 +61,32 @@
                   <!-- KPIs -->
                   <div class="kpi-container">
                     <div class="kpi-card">
-                      <h3>Média Uso CPU</h3>
-                      <p>57%</p>
+                      <h3>Quantidade CPUs</h3>
+                      <p>96</p>
                     </div>
                     <div class="kpi-card">
-                      <h3>Servidores Críticos</h3>
-                      <p>5</p>
+                      <h3>CPUs em ALERTA</h3>
+                      <p>22</p>
                     </div>
                   </div>
               
                   <!-- Filtros -->
                   <div class="filtro-container">
                     <div class="filtro">
-                      <label for="data">Data:</label>
-                      <input type="date" id="data">
+                        <select id="metricas">
+                            <option value="" disabled>Selecione uma métrica</option>
+                            <option value="uso" selected>Uso</option>
+                            <option value="">exemplo-02</option>
+                            <option value="">exemplo-03</option>
+                            <option value="">Media geral</option>
+                        </select>
                     </div>
                     <div class="filtro">
-                      <select id="servidor">
+                      <select id="modelos">
                           <option value="" disabled selected>Selecione um modelo</option>
-                          <option value="srv01">exemplo-01</option>
-                          <option value="srv02">exemplo-02</option>
-                          <option value="srv03">exemplo-03</option>
+                          <option value="">exemplo-01</option>
+                          <option value="">exemplo-02</option>
+                          <option value="">exemplo-03</option>
                           <option value="">Todos</option>
                       </select>
                     </div>
