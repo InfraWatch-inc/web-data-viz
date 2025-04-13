@@ -57,64 +57,73 @@
 
         <div class="direita">
             <div class="kpi-e-filtro">
-                <div class="kpi-filtro-wrapper">
-                  <!-- KPIs -->
-                  <div class="kpi-container">
-                    <div class="kpi-card">
-                      <h3>Quantidade CPUs</h3>
-                      <p>96</p>
+                <!-- <div class="kpi"> -->
+                    <div class="kpi-filtro-wrapper">
+                        <div class="kpi-container">
+                            <div class="kpi-card">
+                              <h3>Quantidade CPUs</h3>
+                              <p>96</p>
+                            </div>
+                            <div class="kpi-card">
+                              <h3>CPUs em ALERTA</h3>
+                              <p>22</p>
+                            </div>
+                          </div>
                     </div>
-                    <div class="kpi-card">
-                      <h3>CPUs em ALERTA</h3>
-                      <p>22</p>
+                <!-- </div> -->
+
+                <!-- <div class="filtros"> -->
+                    <div class="kpi-filtro-wrapper">
+                        <div class="filtro-container">
+                            <div class="filtro">
+                                <select id="metricas">
+                                    <option value="" disabled>Selecione uma métrica</option>
+                                    <option value="uso" selected>Uso</option>
+                                    <option value="">exemplo-02</option>
+                                    <option value="">exemplo-03</option>
+                                    <option value="">Media geral</option>
+                                </select>
+                            </div>
+                            <div class="filtro">
+                              <select id="modelos">
+                                  <option value="" disabled selected>Selecione um modelo</option>
+                                  <option value="">exemplo-01</option>
+                                  <option value="">exemplo-02</option>
+                                  <option value="">exemplo-03</option>
+                                  <option value="">Todos</option>
+                              </select>
+                            </div>
+                          </div>
                     </div>
-                  </div>
+                <!-- </div> -->
+              </div>
+
+
               
-                  <!-- Filtros -->
-                  <div class="filtro-container">
+
+                  <div class="filtro-grafico">
                     <div class="filtro">
-                        <select id="metricas">
-                            <option value="" disabled>Selecione uma métrica</option>
-                            <option value="uso" selected>Uso</option>
-                            <option value="">exemplo-02</option>
-                            <option value="">exemplo-03</option>
-                            <option value="">Media geral</option>
+                        <select id="Tipo-Alerta">
+                            <option value="" disabled selected>Tipo de alerta</option>
+                            <option value="c">Crítico</option>
+                            <option value="a">Atenção</option>
+                            <option value="g">Geral</option>
                         </select>
+    
+                        <select id="filtroCategoria">
+                            <option value="" disabled selected>Selecione uma categoria</option>
+                            <option value="m">Mensal</option>
+                            <option value="s">Semestral</option>
+                            <option value="a">Anual</option>
+                            <option value="e">Estações do Ano</option>
+                            <option value="l">Localização</option>
+                          </select>
                     </div>
-                    <div class="filtro">
-                      <select id="modelos">
-                          <option value="" disabled selected>Selecione um modelo</option>
-                          <option value="">exemplo-01</option>
-                          <option value="">exemplo-02</option>
-                          <option value="">exemplo-03</option>
-                          <option value="">Todos</option>
-                      </select>
-                    </div>
-                  </div>
                 </div>
-              </div>
-
-              <div class="filtro-grafico">
-                    <select id="Tipo-Alerta">
-                        <option value="" disabled selected>Tipo de alerta</option>
-                        <option value="c">Crítico</option>
-                        <option value="a">Atenção</option>
-                        <option value="g">Geral</option>
-                    </select>
-
-                    <select id="filtroCategoria">
-                        <option value="" disabled selected>Selecione uma categoria</option>
-                        <option value="m">Mensal</option>
-                        <option value="s">Semestral</option>
-                        <option value="a">Anual</option>
-                        <option value="e">Estações do Ano</option>
-                        <option value="l">Localização</option>
-                      </select>
-                      
-              </div>
-
-
-              <canvas id="graficoAlertas" style="height: 70%; width: 100%;"></canvas>
+                 
+             
+            
+            <canvas id="graficoAlertas" style="height: 70%; width: 100%;"></canvas>
               
           
         </div>
