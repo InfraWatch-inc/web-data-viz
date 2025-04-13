@@ -165,17 +165,17 @@ dialog::backdrop {
     }
 
     .frase {
-    display: flex;
-    background-image: url(../assets/buttons/bg-button.png);
-    background-size: cover;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    flex-direction: column;
-    height: 200px;
-    width: 90%;
-    text-align: center;
-    justify-content: end;
+        display: flex;
+        background-image: url(../assets/buttons/bg-button.png);
+        background-size: cover;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        flex-direction: column;
+        height: 100%;
+        width: 90%;
+        text-align: center;
+        justify-content: end;
     }
 
     .entradas {
