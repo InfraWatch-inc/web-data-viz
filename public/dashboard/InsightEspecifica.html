@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href= "../css/InsigthtEspecifica.css">  
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <header>
+        <nav class="header">
+            <div class="user_div">
+                <div class="img"></div>
+                <span class="user_name">Carlos Eduardo</span>
+            </div>
+
+            <ul><a href="./monitoramento.html">Monitoramento</a></ul>
+            <ul><a href="./insghts.html">Insights</a></ul>
+            <ul><a href="./usuarios.html">Usuários</a></ul>
+            <ul><a href="./suporte.html">Suporte</a></ul>
+
+            <button class="sair">Sair</button>
+        </nav>
+    </header>
+
+    <div class="insight-container">
+      
+        <div class="esquerda">
+           <div class="card-componente">
+                CPU
+           </div>
+
+           <div class="graficoProcessos">
+                <canvas id="graficoProcessos" style="height: 100%; width: 100%;"></canvas>
+           </div>
+   
+           
+        </div>
+        
+        <div class="meio">
+            <div class="card-componente">
+                
+           </div>
+            <div class="escolha-componente">
+                <button class="btn">CPU</button><br>
+                <button class="btn">RAM</button><br>
+                <button class="btn">GPU</button>
+            </div>
+           
+        </div>
+
+        <div class="direita">
+            <div class="kpi-e-filtro">
+                <div class="kpi-filtro-wrapper">
+                  <!-- KPIs -->
+                  <div class="kpi-container">
+                    <div class="kpi-card">
+                      <h3>Média Uso CPU</h3>
+                      <p>57%</p>
+                    </div>
+                    <div class="kpi-card">
+                      <h3>Servidores Críticos</h3>
+                      <p>5</p>
+                    </div>
+                  </div>
+              
+                  <!-- Filtros -->
+                  <div class="filtro-container">
+                    <div class="filtro">
+                      <label for="data">Data:</label>
+                      <input type="date" id="data">
+                    </div>
+                    <div class="filtro">
+                      <select id="servidor">
+                          <option value="" disabled selected>Selecione um modelo</option>
+                          <option value="srv01">exemplo-01</option>
+                          <option value="srv02">exemplo-02</option>
+                          <option value="srv03">exemplo-03</option>
+                          <option value="">Todos</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="filtro-grafico">
+                    <select id="Tipo-Alerta">
+                        <option value="" disabled selected>Tipo de alerta</option>
+                        <option value="c">Crítico</option>
+                        <option value="a">Atenção</option>
+                        <option value="g">Geral</option>
+                    </select>
+
+                    <select id="filtroCategoria">
+                        <option value="" disabled selected>Selecione uma categoria</option>
+                        <option value="m">Mensal</option>
+                        <option value="s">Semestral</option>
+                        <option value="a">Anual</option>
+                        <option value="e">Estações do Ano</option>
+                        <option value="l">Localização</option>
+                      </select>
+                      
+              </div>
+
+
+              <canvas id="graficoAlertas" style="height: 70%; width: 100%;"></canvas>
+              
+          
+        </div>
+
+      </div>
+      
+
+</body>
+</html>
+
+<script>
+
+const ctxProcessos = document.getElementById('graficoProcessos');
+
+const dpr = window.devicePixelRatio || 1;               // Grafico estava embaçado, essas 3 linhas resolveram
+ctxProcessos.width = ctxProcessos.offsetWidth * dpr;
+ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
+
+  const graficoProcessos = new Chart(ctxProcessos, {
+    type: 'bar',
+    data: {
+      labels: ['Maya', 'Davinci', 'C4d', 'Blender', 'AfterEffects'],
+      datasets: [{
+        label: 'Uso de CPU (%)',
+        data: [20, 5, 12, 15, 25],
+        backgroundColor: 'rgba(49, 144, 232, 1)',
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+    legend: { display: false },
+    tooltip: { enabled: true },
+    title: {
+      display: true,
+      text: 'Distribuição do Uso de CPU entre Processos',
+      font: {
+        size: 26,
+        weight: 'bold'
+      },
+      padding: {
+        top: 10,
+        bottom: 20
+      }
+    }
+  },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: 'Média Porcentagem de Uso de CPU',
+            font: {
+                size: 26,
+                weight: 'bold'
+            }
+    
+          }
+        }
+      }, 
+      ticks: {
+          font: {
+            size: 20  
+          }
+        }
+    }
+
+  });
+
+  const ctxAlertas = document.getElementById('graficoAlertas')
+
+  ctxAlertas.width = ctxAlertas.offsetWidth * dpr;
+  ctxAlertas.height = ctxAlertas.offsetHeight * dpr;
+
+  const graficoAlertas = new Chart(ctxAlertas, {
+    type: 'bar',
+    data: {
+      labels: ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      datasets: [{
+        label: 'Nº de Alertas',
+        data: [40, 30, 35, 50, 55],
+        backgroundColor: "blue",
+        borderRadius: 10,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+        title: {
+            display: true,
+            text: "Histórico de Alertas de CPU",
+            font: {
+             size: 28,
+             weight: 'bold'
+             },
+            padding: {
+            top: 10,
+            bottom: 20
+        }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Quantidade de Alertas',
+            font: {
+                size: 26,
+                weight: 'bold'
+            }
+          }
+        }
+      }
+    }
+  });
+
+
+
+</script>
