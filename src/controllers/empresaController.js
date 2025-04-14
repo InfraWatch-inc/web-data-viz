@@ -47,7 +47,7 @@ async function cadastrarEmp(req, res) {
   var tipoDocumento = req.body.tipoDocumentoServer
 
 
-  if (!razaoSocial || !documento || !cargo || !tipoDocumento || !bairro || !cidade || !estado || !numeroTin || !pais || !telefone || !site || !cep || !logradouro || !numero || !nome || !email || !senha) {
+  if (razaoSocial == undefined  || documento== undefined  || cargo== undefined  || tipoDocumento== undefined  || bairro== undefined  || cidade== undefined  || estado== undefined  || numeroTin== undefined  || pais== undefined  || telefone== undefined  || site== undefined  || cep== undefined  || logradouro== undefined  || numero== undefined  || nome== undefined  || email== undefined  || senha== undefined ) {
     return res.status(400).json({ mensagem: "Todos os campos são obrigatórios" });
   }
 
