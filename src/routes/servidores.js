@@ -4,23 +4,23 @@ var router = express.Router();
 var servidoresController = require("../controllers/servidoresController");
 
 router.get("/buscar", function (req, res) {
-    // TODO
+    servidoresController.getServidores(req, res);
 });
 
 router.get("/buscar/:id", function (req, res) {
-    // TODO
+    servidoresController.getServidor(req, res);
 });
 
 router.post("/cadastrar", function (req, res) { 
-    // TODO
+    servidoresController.postServidor(req, res);
 });
 
 router.delete("/deletar/:id", function (req, res){
-    // TODO
+    servidoresController.deleteServidor(req, res);
 });
 
 router.put("/atualizar/:id", function (req, res){
-    // TODO
+    servidoresController.putServidor(req, res);
 })
 
 module.exports = router;
