@@ -30,14 +30,16 @@ function getColaborador(idColaborador){
     return database.executar(instrucaoSql);
 }
 
-function putColaborador(idColaborador){
-    var instrucaoSql = ``;
+function putColaborador(idColaborador, nome, email, documento, cargo, senha, tipoDocumento){
+    var instrucaoSql = `UPDATE Colaborador
+                        SET nome = '${nome}', email= '${email}', documento = '${documento}', cargo = '${cargo}', senha = '${senha}', tipoDocumento = '${tipoDocumento}'
+                        WHERE idColaborador = ${idColaborador};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function deleteColaborador(idColaborador){
-    var instrucaoSql = ``;
+    var instrucaoSql = `DELETE FROM Colaborador WHERE idColaborador=${idColaborador};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

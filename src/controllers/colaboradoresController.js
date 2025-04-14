@@ -70,16 +70,46 @@ function getColaborador(req, res){
 }
 
 function putColaborador(req, res){
-    // TODO atualizar colaborador
+    let idColaborador = req.params.id;
+    var nome = req.body.nomeServer;
+    var email = req.body.emailServer;
+    var documento = req.body.documentoServer;
+    var cargo = req.body.cargoServer;
+    var senha = req.body.senhaServer;
+    var tipoDocumento = req.body.tipoDocumentoServer;
+
+    if (idColaborador == undefined || nome == undefined || email == undefined || documento == undefined || cargo == undefined || senha == undefined || tipoDocumento == undefined) {
+        return res.status(400).send("Informação indefinido!");
+    }
+
+    colaboradoresModel.putColaborador(idColaborador, nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa)
+    .then((resultado) => {
+        resultado.json()
+        .then(res.status(200).json({"message":"Usuário atualizado com sucesso"}))        
+    })
+    .catch(res.status(500).json("Não foi possível atualizar usuário"))
 }
 
 function deleteColaborador(req, res){
-    // TODO deletar colaborador
+    let idColaborador = req.params.id;
+
+    if (idColaborador == undefined) {
+        return res.status(400).send("Informação indefinido!");
+    }
+
+    colaboradoresModel.deleteColaborador(idColaborador)
+    .then((resultado) => {
+        resultado.json()
+        .then(res.status(200).json({"message":"Usuário deletado com sucesso"}))        
+    })
+    .catch(res.status(500).json("Usuário não existe no sistema"))
 }
 
 module.exports = {
     postAutenticar,
     getColaboradores,
     getColaborador,
-    postColaborador
+    postColaborador,
+    putColaborador,
+    deleteColaborador
 };
