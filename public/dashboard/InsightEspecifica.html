@@ -1,146 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href= "../css/InsigthtEspecifica.css">  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/InsigthtEspecifica.css">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
 
-    <title>Document</title>
+  <title>Document</title>
 </head>
+
 <body>
-    
-    <header>
-        <nav class="header">
-            <div class="user_div">
-                <div class="img"></div>
-                <span class="user_name">Carlos Eduardo</span>
-            </div>
 
-            <ul><a href="./monitoramento.html">Monitoramento</a></ul>
-            <ul><a href="./insghts.html">Insights</a></ul>
-            <ul><a href="./usuarios.html">Usuários</a></ul>
-            <ul><a href="./suporte.html">Suporte</a></ul>
+  <header>
+    <nav class="header">
+      <div class="user_div">
+        <div class="img"></div>
+        <span class="user_name">Carlos Eduardo</span>
+      </div>
 
-            <button class="sair">Sair</button>
-        </nav>
-    </header>
+      <ul><a href="./monitoramento.html">Monitoramento</a></ul>
+      <ul><a href="./insghts.html">Insights</a></ul>
+      <ul><a href="./usuarios.html">Usuários</a></ul>
+      <ul><a href="./suporte.html">Suporte</a></ul>
 
-    <div class="insight-container">
-      
-        <div class="esquerda">
-           <div class="card-componente">
-                CPU
-           </div>
+      <button class="sair">Sair</button>
+    </nav>
+  </header>
 
-           <div class="graficoProcessos">
-                <canvas id="graficoProcessos" style="height: 100%; width: 100%;"></canvas>
-           </div>
-   
-           
+  <div class="insight-container">
+
+    <div class="esquerda">
+      <div class="card-componente">
+        CPU
+      </div>
+
+      <div class="graficoProcessos">
+        <canvas id="graficoProcessos" style="height: 100%; width: 100%;"></canvas>
+      </div>
+
+
+    </div>
+
+    <div class="meio">
+      <div class="card-componente">
+
+      </div>
+      <div class="escolha-componente">
+        <button class="btn">CPU</button><br>
+        <button class="btn">RAM</button><br>
+        <button class="btn">GPU</button>
+      </div>
+
+    </div>
+
+    <div class="direita">
+      <div class="kpi-e-filtro">
+
+        <div class="boxKpis">
+
+          <div class="card">
+            <h3>CPU'S</h3>
+            <p>96</p>
+          </div>
+          <div class="card">
+            <h3>total Alertas</h3>
+            <p>22</p>
+          </div>
+
         </div>
-        
-        <div class="meio">
-            <div class="card-componente">
-                
-           </div>
-            <div class="escolha-componente">
-                <button class="btn">CPU</button><br>
-                <button class="btn">RAM</button><br>
-                <button class="btn">GPU</button>
-            </div>
-           
-        </div>
+        <div class="boxFiltros">
+          <select class="filtro" id="metricas">
+            <option value="" disabled>Selecione uma métrica</option>
+            <option value="uso" selected>Uso</option>
+            <option value="">exemplo-02</option>
+            <option value="">exemplo-03</option>
+            <option value="">Media geral</option>
+          </select>
 
-        <div class="direita">
-            <div class="kpi-e-filtro">
-                <!-- <div class="kpi"> -->
-                    <div class="kpi-filtro-wrapper">
-                        <div class="kpi-container">
-                            <div class="kpi-card">
-                              <h3>Quantidade CPUs</h3>
-                              <p>96</p>
-                            </div>
-                            <div class="kpi-card">
-                              <h3>CPUs em ALERTA</h3>
-                              <p>22</p>
-                            </div>
-                          </div>
-                    </div>
-                <!-- </div> -->
+          <select class="filtro" id="modelos">
+            <option value="" disabled selected>Selecione um modelo</option>
+            <option value="">exemplo-01</option>
+            <option value="">exemplo-02</option>
+            <option value="">exemplo-03</option>
+            <option value="">Todos</option>
+          </select>
 
-                <!-- <div class="filtros"> -->
-                    <div class="kpi-filtro-wrapper">
-                        <div class="filtro-container">
-                            <div class="filtro">
-                                <select id="metricas">
-                                    <option value="" disabled>Selecione uma métrica</option>
-                                    <option value="uso" selected>Uso</option>
-                                    <option value="">exemplo-02</option>
-                                    <option value="">exemplo-03</option>
-                                    <option value="">Media geral</option>
-                                </select>
-                            </div>
-                            <div class="filtro">
-                              <select id="modelos">
-                                  <option value="" disabled selected>Selecione um modelo</option>
-                                  <option value="">exemplo-01</option>
-                                  <option value="">exemplo-02</option>
-                                  <option value="">exemplo-03</option>
-                                  <option value="">Todos</option>
-                              </select>
-                            </div>
-                          </div>
-                    </div>
-                <!-- </div> -->
-              </div>
-
-
-              
-
-                  <div class="filtro-grafico">
-                    <div class="filtro">
-                        <select id="Tipo-Alerta">
-                            <option value="" disabled selected>Tipo de alerta</option>
-                            <option value="c">Crítico</option>
-                            <option value="a">Atenção</option>
-                            <option value="g">Geral</option>
-                        </select>
-    
-                        <select id="filtroCategoria">
-                            <option value="" disabled selected>Selecione uma categoria</option>
-                            <option value="m">Mensal</option>
-                            <option value="s">Semestral</option>
-                            <option value="a">Anual</option>
-                            <option value="e">Estações do Ano</option>
-                            <option value="l">Localização</option>
-                          </select>
-                    </div>
-                </div>
-                 
-             
-            
-            <canvas id="graficoAlertas" style="height: 70%; width: 100%;"></canvas>
-              
-          
         </div>
 
       </div>
+      <div class="grafico"><canvas id="graficoAlertas" style="height: 70%; width: 100%;"></canvas></div>
+
+
+
       
 
+
+    </div>
+
+  </div>
+
+
 </body>
+
 </html>
 
 <script>
 
-const ctxProcessos = document.getElementById('graficoProcessos');
+  const ctxProcessos = document.getElementById('graficoProcessos');
 
-const dpr = window.devicePixelRatio || 1;               // Grafico estava embaçado, essas 3 linhas resolveram
-ctxProcessos.width = ctxProcessos.offsetWidth * dpr;
-ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
+  const dpr = window.devicePixelRatio || 1;               // Grafico estava embaçado, essas 3 linhas resolveram
+  ctxProcessos.width = ctxProcessos.offsetWidth * dpr;
+  ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
 
   const graficoProcessos = new Chart(ctxProcessos, {
     type: 'bar',
@@ -157,21 +131,21 @@ ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
       indexAxis: 'y',
       responsive: true,
       plugins: {
-    legend: { display: false },
-    tooltip: { enabled: true },
-    title: {
-      display: true,
-      text: 'Distribuição do Uso de CPU entre Processos',
-      font: {
-        size: 26,
-        weight: 'bold'
+        legend: { display: false },
+        tooltip: { enabled: true },
+        title: {
+          display: true,
+          text: 'Distribuição do Uso de CPU entre Processos',
+          font: {
+            size: 26,
+            weight: 'bold'
+          },
+          padding: {
+            top: 10,
+            bottom: 20
+          }
+        }
       },
-      padding: {
-        top: 10,
-        bottom: 20
-      }
-    }
-  },
       scales: {
         x: {
           beginAtZero: true,
@@ -180,18 +154,18 @@ ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
             display: true,
             text: 'Média Porcentagem de Uso de CPU',
             font: {
-                size: 26,
-                weight: 'bold'
+              size: 26,
+              weight: 'bold'
             }
-    
+
           }
         }
-      }, 
+      },
       ticks: {
-          font: {
-            size: 20  
-          }
+        font: {
+          size: 20
         }
+      }
     }
 
   });
@@ -219,16 +193,16 @@ ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
         legend: { display: false },
         tooltip: { enabled: true },
         title: {
-            display: true,
-            text: "Histórico de Alertas de CPU",
-            font: {
-             size: 28,
-             weight: 'bold'
-             },
-            padding: {
+          display: true,
+          text: "Histórico de Alertas de CPU",
+          font: {
+            size: 28,
+            weight: 'bold'
+          },
+          padding: {
             top: 10,
             bottom: 20
-        }
+          }
         }
       },
       scales: {
@@ -238,8 +212,8 @@ ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
             display: true,
             text: 'Quantidade de Alertas',
             font: {
-                size: 26,
-                weight: 'bold'
+              size: 26,
+              weight: 'bold'
             }
           }
         }

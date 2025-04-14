@@ -5,6 +5,7 @@
     padding: 0;
     text-decoration: none;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 html {
@@ -38,7 +39,7 @@ header {
     background-color: #F9FAFB;
 }
 
-.user_div { 
+.user_div {
     height: 5vh;
     width: 20%;
     display: flex;
@@ -108,17 +109,17 @@ ul a {
 }
 
 .meio {
-    width: 10%; 
+    width: 10%;
 }
 
-.card-componente{
+.card-componente {
     font-size: 7rem;
     font-weight: 500;
     color: black;
     height: 20%;
 }
 
-.graficoProcessos{
+.graficoProcessos {
     display: flex;
     background-color: #ffffff;
     height: 80%;
@@ -126,7 +127,7 @@ ul a {
     padding: 1.5rem;
     border-top-left-radius: 1.25rem;
     border-bottom-left-radius: 1.25rem;
-    box-shadow: 5px 5px 10px #777777;      
+    box-shadow: 5px 5px 10px #777777;
     z-index: 1;
 }
 
@@ -136,7 +137,7 @@ ul a {
     width: 70%;
     border-top-right-radius: 1.25rem;
     border-bottom-right-radius: 1.25rem;
-    box-shadow: 5px 5px 10px #777777;      
+    box-shadow: 5px 5px 10px #777777;
     z-index: 1;
 }
 
@@ -160,82 +161,72 @@ ul a {
 
 .kpi-e-filtro {
     display: flex;
-    justify-content: space-evenly;
-    background-color: #0077b6;
+    /* border: #10D3F9 1px solid; */
+    width: 100%;
+    height: 20%;
 }
 
-.filtro {
+.boxKpis {
     display: flex;
-    gap: 1rem;
-    justify-self: end;
-    padding: 0 1rem;
-}
-.kpi-filtro-wrapper {
-    /* background-color: #10D3F9; */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    padding: 1rem 2rem;
-  }
-  
-  .kpi-container {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .kpi-card {
-    background: white;
-    padding: 0.8rem 1rem;
-    border-radius: 1rem;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
-    width: 40%;
+    width: 55%;
     height: 100%;
-    text-align: center;
-  }
-  
-  .kpi-card h3 {
-    font-size: 1.3rem;
-    margin: 0;
-    color: #333;
-  }
-  
-  .kpi-card p {
-    margin: 0.3rem 0 0;
-    font-size: 1.4rem;
-    color: #0077b6;
-    font-weight: bold;
-  }
-  
-  .filtro-container {
+    /* border: 1px solid red; */
+    gap: 10%;
+}
+
+.card {
     display: flex;
-    gap: 1rem;
+    width: 43%;
+    height: 90%;
+    background-color: #ffffff;
+    justify-content: center;
     align-items: center;
-  }
-  
- 
-  .filtro select {
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow: 4px 4px 8px #777777;
+}
+
+.boxFiltros{
+    display: flex;
+    /* border: 1px solid; */
+    width: 45%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.filtro{
+    width: 200px;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px #585454;
+}
+
+.filtro-container {
+    display: flex;
+    gap: 2%;
+    align-items: center;
+}
+
+
+.filtro select {
     padding: 0.4rem;
     border-radius: 0.5rem;
     border: 1px solid #ccc;
     min-width: 130px;
-  }
-  
-  .filtro-grafico {
+}
+
+.filtro-grafico {
     /* background-color: #740BC6; */
     height: 5%;
-  }
+}
 
-  .filtro-e-grafico {
+.filtro-e-grafico {
     background-color: #740BC6;
     height: 80%;
-  }
+}
 
-  .graficoAlerta {
+.graficoAlerta {
     height: 100%;
     background-color: #10D3F9;
-  }
-
-
-
-
+}
