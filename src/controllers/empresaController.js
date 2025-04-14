@@ -25,6 +25,7 @@ function buscarPorId(req, res) {
 }
 
 async function cadastrarEmp(req, res) {
+  console.log(req.body)
   var razaoSocial = req.body.empresa.razaoSocialServer 
   var numeroTin = req.body.empresa.numeroTinServer
   var pais = req.body.empresa.paisServer
@@ -41,7 +42,7 @@ async function cadastrarEmp(req, res) {
 
   var nome = req.body.colaboradorResponsavel.nomeServer                    
   var email= req.body.colaboradorResponsavel.emailServer
-  var documento = req.body.colaboradorResponsavel.documentoServer
+  var documento = req.body.colaboradorResponsavel.cpfServer
   var cargo = req.body.colaboradorResponsavel.cargoServer
   var senha = req.body.colaboradorResponsavel.senhaServer
   var tipoDocumento = req.body.colaboradorResponsavel.tipoDocumentoServer

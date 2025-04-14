@@ -115,7 +115,7 @@ function validarPagina2(isAvancando) {
     const logradouro = document.getElementById('iptLogradouro');
 
     if (isAvancando) {
-        if (Validar.validarCampoVazio(cep.value) || !Validar.validarCep(cep.value)) {
+        if (Validar.validarCampoVazio(cep.value) || Validar.validarCaixaPostal(cep.value)) {
             abrirModal('CEP inválido!', true);
             return false;
         }
@@ -247,14 +247,12 @@ function validarPagina4(isAvancando) {
         informacoesCadastro.colaboradorResponsavel.nomeServer = nome.value;
         informacoesCadastro.colaboradorResponsavel.emailServer = email.value;
         informacoesCadastro.colaboradorResponsavel.tipoDocumentoServer = tipoDocumento.value;
-        informacoesCadastro.colaboradorResponsavel.documentoServer = numeroDocumento.value;
+        informacoesCadastro.colaboradorResponsavel.cpfServer = numeroDocumento.value;
     } else {
-        nome.value = informacoesCadastro.colaboradorResponsavel.nome;
-        email.value = informacoesCadastro.colaboradorResponsavel.email;
-        tipoDocumento.value = informacoesCadastro.colaboradorResponsavel.tipoDocumento;
-        numeroDocumento.value = informacoesCadastro.colaboradorResponsavel.documento;
-        cargo.value = informacoesCadastro.colaboradorResponsavel.cargo;
-        senha.value = informacoesCadastro.colaboradorResponsavel.senha;
+        nome.value = informacoesCadastro.colaboradorResponsavel.nomeServer;
+        email.value = informacoesCadastro.colaboradorResponsavel.emailServer;
+        tipoDocumento.value = informacoesCadastro.colaboradorResponsavel.tipoDocumentoServer;
+        numeroDocumento.value = informacoesCadastro.colaboradorResponsavel.cpfServer;
     }
 
     return true;
@@ -271,7 +269,7 @@ function validarPagina5(isAvancando) {
             return false;
         }
 
-        if (Validar.validarCampoVazio(senha.value) || !Validar.validarSenha(senha.value)) {
+        if (Validar.validarCampoVazio(senha.value) || Validar.validarSenha(senha.value)) {
             abrirModal('Senha inválida!', true);
             return false;
         }
@@ -288,11 +286,11 @@ function validarPagina5(isAvancando) {
 
         informacoesCadastro.colaboradorResponsavel.cargoServer = cargo.value;
         informacoesCadastro.colaboradorResponsavel.senhaServer = senha.value;
-        informacoesCadastro.colaboradorResponsavel.confirmacaoSenhaServer = confirmacaoSenha.value;
+
+        cadastrar();
     } else {
         cargo.value = informacoesCadastro.colaboradorResponsavel.cargo;
         senha.value = informacoesCadastro.colaboradorResponsavel.senha;
-        confirmacaoSenha.value = informacoesCadastro.colaboradorResponsavel.confirmacaoSenha;
     }
 
     return true;
@@ -309,7 +307,7 @@ function cadastrar() {
     })
     .then(function (resposta) {
         console.log("resposta: ", resposta);
-
+        
         if (resposta.ok) {
             abrirModal("Cadastro realizado com sucesso! Redirecionando para tela de Login...", false);
 
@@ -317,11 +315,12 @@ function cadastrar() {
                 window.location = "login.html";
             }, 2000);
         } else {
-            abrirModal(resposta.mensagem, false);
+            resposta.json()
+            .then(res => abrirModal(res.mensagem, true));   
         }
     })
     .catch(function (resposta) {
-        abrirModal(resposta.mensagem, false);
+        abrirModal("Erro ao realizar o cadatro...", true);
     });
 
     return false;
