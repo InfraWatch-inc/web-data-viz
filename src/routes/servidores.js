@@ -1,22 +1,18 @@
 var express = require("express");
 var router = express.Router();
 
-var colaboradoresController = require("../controllers/colaboradoresController");
-
-router.post("/autenticar", function (req, res) {
-    colaboradoresController.postAutenticar(req, res);
-});
+var servidoresController = require("../controllers/servidoresController");
 
 router.get("/buscar", function (req, res) {
-    colaboradoresController.getColaboradores(req, res);
+    // TODO
 });
 
 router.get("/buscar/:id", function (req, res) {
-    colaboradoresController.getColaboradorId(req, res);
+    // TODO
 });
 
 router.post("/cadastrar", function (req, res) { 
-    colaboradoresController.postCadastrarColaborador(req, res);
+    // TODO
 });
 
 router.delete("/deletar/:id", function (req, res){

@@ -19,7 +19,7 @@ var indexRouter = require("./src/routes/index");
 var colaboradoresRouter = require("./src/routes/colaboradores");
 var insightsRouter = require("./src/routes/insights");
 var empresasRouter = require("./src/routes/empresas");
-// var cadastroEmpresaRouter = require("./src/routes/cadastroEmpresa");
+var servidoresRouter = require("./src/routes/servidores");
 var monitoramentoRouter = require("./src/routes/monitoramento")
 
 app.use(express.json());
@@ -32,7 +32,7 @@ app.use("/", indexRouter);
 app.use("/colaboradores", colaboradoresRouter);
 app.use("/insights", insightsRouter);
 app.use("/empresas", empresasRouter);
-// app.use("/.empresas", cadastroEmpresaRouter);
+app.use("/servidores", servidoresRouter);
 app.use("/monitoramento", monitoramentoRouter);
 
 app.listen(PORTA_APP, function () {
