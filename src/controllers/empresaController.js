@@ -25,26 +25,26 @@ function buscarPorId(req, res) {
 }
 
 async function cadastrarEmp(req, res) {
-  var razaoSocial = req.body.razaoSocialServer 
-  var numeroTin = req.body.numeroTinServer
-  var pais = req.body.paisServer
-  var telefone = req.body.telefoneServer
-  var site = req.body.siteServer
+  var razaoSocial = req.body.empresa.razaoSocialServer 
+  var numeroTin = req.body.empresa.numeroTinServer
+  var pais = req.body.empresa.paisServer
+  var telefone = req.body.empresa.telefoneServer
+  var site = req.body.empresa.siteServer
 
-  var cep = req.body.cepServer 
-  var logradouro = req.body.logradouroServer
-  var bairro = req.body.bairroServer
-  var cidade = req.body.cidadeServer
-  var estado = req.body.estadoServer
-  var numero = req.body.numeroServer
-  var complemento = req.body.complementoServer
+  var cep = req.body.endereco.cepServer 
+  var logradouro = req.body.endereco.logradouroServer
+  var bairro = req.body.endereco.bairroServer
+  var cidade = req.body.endereco.cidadeServer
+  var estado = req.body.endereco.estadoServer
+  var numero = req.body.endereco.numeroServer
+  var complemento = req.body.endereco.complementoServer
 
-  var nome = req.body.nomeServer                    
-  var email= req.body.emailServer
-  var documento = req.body.documentoServer
-  var cargo = req.body.cargoServer
-  var senha = req.body.senhaServer
-  var tipoDocumento = req.body.tipoDocumentoServer
+  var nome = req.body.colaboradorResponsavel.nomeServer                    
+  var email= req.body.colaboradorResponsavel.emailServer
+  var documento = req.body.colaboradorResponsavel.documentoServer
+  var cargo = req.body.colaboradorResponsavel.cargoServer
+  var senha = req.body.colaboradorResponsavel.senhaServer
+  var tipoDocumento = req.body.colaboradorResponsavel.tipoDocumentoServer
 
 
   if (razaoSocial == undefined  || documento== undefined  || cargo== undefined  || tipoDocumento== undefined  || bairro== undefined  || cidade== undefined  || estado== undefined  || numeroTin== undefined  || pais== undefined  || telefone== undefined  || site== undefined  || cep== undefined  || logradouro== undefined  || numero== undefined  || nome== undefined  || email== undefined  || senha== undefined ) {
