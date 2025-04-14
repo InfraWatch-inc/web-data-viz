@@ -9,7 +9,7 @@ function postAutenticar(req, res){
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else {
-        colaboradoresModel.autenticar(email, senha)
+        colaboradoresModel.postAutenticar(email, senha)
         .then((resultado) => {
             if (resultado.length > 0) {
                 res.json(resultado[0]);
@@ -24,7 +24,7 @@ function postAutenticar(req, res){
     }
 }
 
-function postCadastrarColaborador(req, res) {
+function postColaborador(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
     var documento = req.body.documentoServer;
@@ -36,7 +36,7 @@ function postCadastrarColaborador(req, res) {
     if (nome == undefined || email == undefined || documento == undefined || cargo == undefined || senha == undefined || tipoDocumento == undefined || fkEmpresa == undefined) {
         res.status(400).send("Todos os campos são obrigatórios!");
     } else {
-        colaboradoresModel.cadastrarColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa)
+        colaboradoresModel.postColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa)
         .then((resultado) => {
             res.json(resultado);
         })
@@ -58,8 +58,8 @@ function getColaboradores(req , res){
     })
 }
 
-function getColaboradorId(req, res){
-    colaboradoresModel.getColaboradorId(req.params.id)
+function getColaborador(req, res){
+    colaboradoresModel.getColaborador(req.params.id)
     .then((resultado) => {
         res.status(200).json(resultado);
     })
@@ -69,9 +69,17 @@ function getColaboradorId(req, res){
     })
 }
 
+function putColaborador(req, res){
+    // TODO atualizar colaborador
+}
+
+function deleteColaborador(req, res){
+    // TODO deletar colaborador
+}
+
 module.exports = {
     postAutenticar,
     getColaboradores,
-    getColaboradorId,
-    postCadastrarColaborador
+    getColaborador,
+    postColaborador
 };

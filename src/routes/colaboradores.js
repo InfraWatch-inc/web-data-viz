@@ -12,19 +12,19 @@ router.get("/buscar", function (req, res) {
 });
 
 router.get("/buscar/:id", function (req, res) {
-    colaboradoresController.getColaboradorId(req, res);
+    colaboradoresController.getColaborador(req, res);
 });
 
 router.post("/cadastrar", function (req, res) { 
-    colaboradoresController.postCadastrarColaborador(req, res);
+    colaboradoresController.postColaborador(req, res);
 });
 
 router.delete("/deletar/:id", function (req, res){
-    // TODO
+    colaboradoresController.deleteColaborador(req, res);
 });
 
 router.put("/atualizar/:id", function (req, res){
-    // TODO
+    colaboradoresController.putColaborador(req, res);
 })
 
 module.exports = router;
