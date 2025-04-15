@@ -139,7 +139,6 @@
     let kpi3_nome = document.getElementById("kpi3_nome");
     let kpi3_metrica1 = document.getElementById("kpi3_metrica1");
     let kpi3_metrica2 = document.getElementById("kpi3_metrica2");
-    let select_tempo = document.getElementById("slt_tempo");
 
     
     const discoElement = document.getElementById('kpi_disco');
@@ -161,44 +160,89 @@
     };
 
   
-    const graphData = {
-        gpu: [
-            { time: '06:44:12', 'GPU01': 20, 'GPU02': 15, 'GPU03': 10, 'GPU04': 5 },
-            { time: '06:44:17', 'GPU01': 30, 'GPU02': 20, 'GPU03': 25, 'GPU04': 15 },
-            { time: '06:44:22', 'GPU01': 35, 'GPU02': 40, 'GPU03': 45, 'GPU04': 30 },
-            { time: '06:44:27', 'GPU01': 25, 'GPU02': 45, 'GPU03': 50, 'GPU04': 20 },
-            { time: '06:44:32', 'GPU01': 30, 'GPU02': 25, 'GPU03': 65, 'GPU04': 15 },
-            { time: '06:44:37', 'GPU01': 50, 'GPU02': 30, 'GPU03': 30, 'GPU04': 20 },
-            { time: '06:44:42', 'GPU01': 40, 'GPU02': 50, 'GPU03': 10, 'GPU04': 35 }
-        ],
-        cpu: [
-            { time: '06:44:12', 'Usage': 75, 'Temperature': 52 },
-            { time: '06:44:17', 'Usage': 78, 'Temperature': 54 },
-            { time: '06:44:22', 'Usage': 80, 'Temperature': 55 },
-            { time: '06:44:27', 'Usage': 84, 'Temperature': 56 },
-            { time: '06:44:32', 'Usage': 85, 'Temperature': 58 },
-            { time: '06:44:37', 'Usage': 80, 'Temperature': 57 },
-            { time: '06:44:42', 'Usage': 74, 'Temperature': 56 }
-        ],
-        disk: [
-            { time: '06:44:12', 'Usage%': 60, 'UsageBytes': 480 },
-            { time: '06:44:17', 'Usage%': 62, 'UsageBytes': 496 },
-            { time: '06:44:22', 'Usage%': 63, 'UsageBytes': 504 },
-            { time: '06:44:27', 'Usage%': 64, 'UsageBytes': 512 },
-            { time: '06:44:32', 'Usage%': 65, 'UsageBytes': 520 },
-            { time: '06:44:37', 'Usage%': 65, 'UsageBytes': 520 },
-            { time: '06:44:42', 'Usage%': 65, 'UsageBytes': 520 }
-        ],
-        ram: [
-            { time: '06:44:12', 'Usage%': 70, 'UsageBytes': 11.2 },
-            { time: '06:44:17', 'Usage%': 72, 'UsageBytes': 11.5 },
-            { time: '06:44:22', 'Usage%': 75, 'UsageBytes': 12.0 },
-            { time: '06:44:27', 'Usage%': 78, 'UsageBytes': 12.5 },
-            { time: '06:44:32', 'Usage%': 75, 'UsageBytes': 12.0 },
-            { time: '06:44:37', 'Usage%': 72, 'UsageBytes': 11.5 },
-            { time: '06:44:42', 'Usage%': 75, 'UsageBytes': 12.0 }
-        ]
+    const graphDataMinuto = {
+        gpu: [],
+        cpu: [],
+        disk: [],
+        ram: []
     };
+
+    const graphData = {
+        gpu: [],
+        cpu: [],
+        disk: [],
+        ram: []
+    }
+
+
+    const startTime = new Date(); 
+    for (let i = 0; i <= 30; i++) {
+        let currentTime = new Date(startTime.getTime() - i * 60 * 1000);
+        // Formatar -> "HH:MM:SS"
+        let timeStr = currentTime.toTimeString().split(' ')[0]; 
+  
+        graphDataMinuto.gpu.push({
+            time: timeStr,
+            GPU01: Math.floor(Math.random() * 100),
+            GPU02: Math.floor(Math.random() * 100),
+            GPU03: Math.floor(Math.random() * 100),
+            GPU04: Math.floor(Math.random() * 100)
+        });
+  
+        graphDataMinuto.cpu.push({
+            time: timeStr,
+            Usage: Math.floor(50 + Math.random() * 30), // entre 50 e 80%
+            Temperature: Math.floor(40 + Math.random() * 20), // entre 40 e 60 °C
+            Frequency: parseFloat((2.0 + Math.random() * 2.5).toFixed(2))
+        });
+  
+        graphDataMinuto.disk.push({
+            time: timeStr,
+            'Usage%': Math.floor(50 + Math.random() * 20), // entre 50 e 70%
+            'UsageBytes': Math.floor(400 + Math.random() * 200) // entre 400 e 600 GB
+        });
+  
+        graphDataMinuto.ram.push({
+            time: timeStr,
+            'Usage%': Math.floor(60 + Math.random() * 20), // entre 60 e 80%
+            'UsageBytes': parseFloat((10 + Math.random() * 4).toFixed(1)) // entre 10 e 14 GB
+        });
+    }
+
+
+    const timeSecond = new Date();
+    for(let i = 0; i <= 60; i++){
+        let currentTime = new Date(timeSecond.getTime() - i * 1000);
+        let timeStr = currentTime.toTimeString().split(' ')[0];
+
+        graphData.gpu.push({
+            time: timeStr,
+            GPU01: Math.floor(Math.random() * 100),
+            GPU02: Math.floor(Math.random() * 100),
+            GPU03: Math.floor(Math.random() * 100),
+            GPU04: Math.floor(Math.random() * 100)
+        });
+
+        graphData.cpu.push({
+            time: timeStr,
+            Usage: Math.floor(50 + Math.random() * 30), // entre 50 e 80%
+            Temperature: Math.floor(40 + Math.random() * 20), // entre 40 e 60 °C
+            Frequency: parseFloat((2.0 + Math.random() * 2.5).toFixed(2))
+        });
+
+        graphData.disk.push({
+            time: timeStr,
+            'Usage%': Math.floor(50 + Math.random() * 20), // entre 50 e 70%
+            'UsageBytes': Math.floor(400 + Math.random() * 200) // entre 400 e 600 GB
+        });
+
+        graphData.ram.push({
+            time: timeStr,
+            'Usage%': Math.floor(60 + Math.random() * 20), // entre 60 e 80%
+            'UsageBytes': parseFloat((10 + Math.random() * 4).toFixed(1)) // entre 10 e 14 GB
+        });
+  
+    }
 
    
     function atualizarKPIs() {
@@ -253,173 +297,221 @@
     // Função para renderizar o gráfico de linha com base no componente ativo
     function renderizarGraficoLinha() {
         const ctx4 = document.getElementById('grafico_linha').getContext('2d');
-        
+    
         // Destruir gráfico anterior se existir
         if (graficoAtual !== null) {
             graficoAtual.destroy();
         }
-        
-        // Obter os dados corretos com base no componente ativo
+    
+        // Obter o valor selecionado no filtro de tempo
+        const filtroTempo = document.getElementById('slt_tempo').value;
+    
+        // Obter os dados 
         let labels = [];
         let datasets = [];
+        let dadosComponente;
+    
+        // Selecionar com base no filtro de tempo
+        if (filtroTempo === '30s') {
+            // Últimos 30 segundos de dados
+            dadosComponente = {
+                gpu: graphData.gpu.slice(-30),
+                cpu: graphData.cpu.slice(-30),
+                disk: graphData.disk.slice(-30),
+                ram: graphData.ram.slice(-30)
+            };
+        } else if (filtroTempo === '1') {
+            // Último minuto de dados (60 segundos)
+            dadosComponente = {
+                gpu: graphData.gpu,
+                cpu: graphData.cpu,
+                disk: graphData.disk,
+                ram: graphData.ram
+            };
+        } else if (filtroTempo === '10') {
+            // Últimos 10 minutos de dados
+            dadosComponente = {
+                gpu: graphDataMinuto.gpu.slice(-10),
+                cpu: graphDataMinuto.cpu.slice(-10),
+                disk: graphDataMinuto.disk.slice(-10),
+                ram: graphDataMinuto.ram.slice(-10)
+            };
+        } else if (filtroTempo === '30m') {
+            // Últimos 30 minutos de dados
+            dadosComponente = {
+                gpu: graphDataMinuto.gpu,
+                cpu: graphDataMinuto.cpu,
+                disk: graphDataMinuto.disk,
+                ram: graphDataMinuto.ram
+            };
+        } else {
+            // Padrão: últimos 30 segundos
+            dadosComponente = {
+                gpu: graphData.gpu.slice(-30),
+                cpu: graphData.cpu.slice(-30),
+                disk: graphData.disk.slice(-30),
+                ram: graphData.ram.slice(-30)
+            };
+        }
+    
+    // Configurar os dados com base no componente selecionado
+    if (componenteAtivo === 'gpu') {
+        labels = dadosComponente.gpu.map(item => item.time);
+
+        datasets = [
+            {
+                label: 'GPU01',
+                data: dadosComponente.gpu.map(item => item.GPU01),
+                borderColor: 'blue',
+                fill: false,
+                tension: 0.1
+            },
+            {
+                label: 'GPU02',
+                data: dadosComponente.gpu.map(item => item.GPU02),
+                borderColor: 'orange',
+                fill: false,
+                tension: 0.1
+            },
+            {
+                label: 'GPU03',
+                data: dadosComponente.gpu.map(item => item.GPU03),
+                borderColor: 'green',
+                fill: false,
+                tension: 0.1
+            },
+            {
+                label: 'GPU04',
+                data: dadosComponente.gpu.map(item => item.GPU04),
+                borderColor: 'lightblue',
+                fill: false,
+                tension: 0.1
+            }
+        ];
+    } else if (componenteAtivo === 'cpu') {
+        labels = dadosComponente.cpu.map(item => item.time);
         
-        // Configurar os dados com base no componente selecionado
-        if (componenteAtivo === 'gpu') {
-            labels = graphData.gpu.map(item => item.time);
+        if (tipoMetrica === 'temperatura') {
             datasets = [
                 {
-                    label: 'GPU01',
-                    data: graphData.gpu.map(item => item.GPU01),
-                    borderColor: 'blue',
-                    fill: false,
-                    tension: 0.1
-                },
-                {
-                    label: 'GPU02',
-                    data: graphData.gpu.map(item => item.GPU02),
-                    borderColor: 'orange',
-                    fill: false,
-                    tension: 0.1
-                },
-                {
-                    label: 'GPU03',
-                    data: graphData.gpu.map(item => item.GPU03),
-                    borderColor: 'green',
-                    fill: false,
-                    tension: 0.1
-                },
-                {
-                    label: 'GPU04',
-                    data: graphData.gpu.map(item => item.GPU04),
-                    borderColor: 'lightblue',
+                    label: 'Temperatura',
+                    data: dadosComponente.cpu.map(item => item.Temperature),
+                    borderColor: 'red',
                     fill: false,
                     tension: 0.1
                 }
             ];
-        } else if (componenteAtivo === 'cpu') {
-            labels = graphData.cpu.map(item => item.time);
-            
-            if (tipoMetrica === 'temperatura') {
-                datasets = [
-                    {
-                        label: 'Temperatura',
-                        data: graphData.cpu.map(item => item.Temperature),
-                        borderColor: 'red',
-                        fill: false,
-                        tension: 0.1
-                    }
-                ];
-            } else {
-                datasets = [
-                    {
-                        label: 'Uso',
-                        data: graphData.cpu.map(item => item.Usage),
-                        borderColor: 'blue',
-                        fill: false,
-                        tension: 0.1
-                    }
-                ];
-            }
-        } else if (componenteAtivo === 'disk') {
-            labels = graphData.disk.map(item => item.time);
-            
-            if (tipoMetrica === 'bytes') {
-                datasets = [
-                    {
-                        label: 'Uso em GB',
-                        data: graphData.disk.map(item => item.UsageBytes),
-                        borderColor: 'purple',
-                        fill: false,
-                        tension: 0.1
-                    }
-                ];
-            } else {
-                datasets = [
-                    {
-                        label: 'Uso %',
-                        data: graphData.disk.map(item => item['Usage%']),
-                        borderColor: 'blue',
-                        fill: false,
-                        tension: 0.1
-                    }
-                ];
-            }
-        } else if (componenteAtivo === 'ram') {
-            labels = graphData.ram.map(item => item.time);
-            
-            if (tipoMetrica === 'bytes') {
-                datasets = [
-                    {
-                        label: 'Uso em GB',
-                        data: graphData.ram.map(item => item.UsageBytes),
-                        borderColor: 'green',
-                        fill: false,
-                        tension: 0.1
-                    }
-                ];
-            } else {
-                datasets = [
-                    {
-                        label: 'Uso %',
-                        data: graphData.ram.map(item => item['Usage%']),
-                        borderColor: 'blue',
-                        fill: false,
-                        tension: 0.1
-                    }
-                ];
-            }
+        } else {
+            datasets = [
+                {
+                    label: 'Uso',
+                    data: dadosComponente.cpu.map(item => item.Usage),
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1
+                }
+            ];
         }
+    } else if (componenteAtivo === 'disk') {
+        labels = dadosComponente.disk.map(item => item.time);
         
-        // Configurar e criar o gráfico
-        graficoAtual = new Chart(ctx4, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: tipoMetrica === 'uso' ? 100 : 
-                            componenteAtivo === 'cpu' && tipoMetrica === 'temperatura' ? 100 : 
-                            componenteAtivo === 'disk' && tipoMetrica === 'bytes' ? 600 :
-                            componenteAtivo === 'ram' && tipoMetrica === 'bytes' ? 16 : 80,
-                        ticks: {
-                            stepSize: 10,
-                            callback: function(value) {
-                                if (tipoMetrica === 'temperatura') {
-                                    return value + '°C';
-                                } else if (tipoMetrica === 'bytes') {
-                                    return componenteAtivo === 'ram' ? value + 'GB' : value + 'GB';
-                                } else {
-                                    return value + '%';
-                                }
+        if (tipoMetrica === 'bytes') {
+            datasets = [
+                {
+                    label: 'Uso em GB',
+                    data: dadosComponente.disk.map(item => item.UsageBytes),
+                    borderColor: 'purple',
+                    fill: false,
+                    tension: 0.1
+                }
+            ];
+        } else {
+            datasets = [
+                {
+                    label: 'Uso %',
+                    data: dadosComponente.disk.map(item => item['Usage%']),
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1
+                }
+            ];
+        }
+    } else if (componenteAtivo === 'ram') {
+        labels = dadosComponente.ram.map(item => item.time);
+        
+        if (tipoMetrica === 'bytes') {
+            datasets = [
+                {
+                    label: 'Uso em GB',
+                    data: dadosComponente.ram.map(item => item.UsageBytes),
+                    borderColor: 'green',
+                    fill: false,
+                    tension: 0.1
+                }
+            ];
+        } else {
+            datasets = [
+                {
+                    label: 'Uso %',
+                    data: dadosComponente.ram.map(item => item['Usage%']),
+                    borderColor: 'blue',
+                    fill: false,
+                    tension: 0.1
+                }
+            ];
+        }
+    }
+    
+    // Configurar e criar o gráfico
+    graficoAtual = new Chart(ctx4, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: tipoMetrica === 'uso' ? 100 : 
+                        componenteAtivo === 'cpu' && tipoMetrica === 'temperatura' ? 100 : 
+                        componenteAtivo === 'disk' && tipoMetrica === 'bytes' ? 600 :
+                        componenteAtivo === 'ram' && tipoMetrica === 'bytes' ? 16 : 80,
+                    ticks: {
+                        stepSize: 10,
+                        callback: function(value) {
+                            if (tipoMetrica === 'temperatura') {
+                                return value + '°C';
+                            } else if (tipoMetrica === 'bytes') {
+                                return componenteAtivo === 'ram' ? value + 'GB' : value + 'GB';
+                            } else {
+                                return value + '%';
                             }
                         }
                     }
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            usePointStyle: true,
-                            pointStyle: 'Line',
-                            boxWidth: 20,
-                            padding: 15,
-                            font: {
-                                size: 14
-                            }
-                        },
-                        align: 'center'
-                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        usePointStyle: true,
+                        pointStyle: 'Line',
+                        boxWidth: 20,
+                        padding: 15,
+                        font: {
+                            size: 14
+                        }
+                    },
+                    align: 'center'
                 }
             }
-        });
-    }
+        }
+    });
+}
 
     function inicializarGraficosRosquinha() {
         // Grafico disco rosquinha
@@ -523,48 +615,88 @@
         }
     }
 
+    function atualizarVisibilidadeBotoes() {
+        const btnTemp = document.getElementById('btn_temperatura');
+        const btnBytes = document.getElementById('btn_bytes');
+    
+        if (btnTemp) {
+            // Mostrar botão de temperatura apenas para CPU e GPU
+            if (componenteAtivo === 'cpu' || componenteAtivo === 'gpu') {
+                btnTemp.style.display = 'inline-block';
+            } else {
+                btnTemp.style.display = 'none';
+                // Se o botão estiver oculto e a métrica atual for temperatura,
+                // alteramos para uso (métrica padrão)
+                if (tipoMetrica === 'temperatura') {
+                    tipoMetrica = 'uso';
+                    atualizarBotoesMetrica();
+                }
+            }
+        }
+    
+        if (btnBytes) {
+            // Mostrar botão de bytes apenas para Disco e RAM
+            if (componenteAtivo === 'disk' || componenteAtivo === 'ram') {
+                btnBytes.style.display = 'inline-block';
+            } else {
+                btnBytes.style.display = 'none';
+                // Se o botão estiver oculto e a métrica atual for bytes,
+                // alteramos para uso (métrica padrão)
+                if (tipoMetrica === 'bytes') {
+                    tipoMetrica = 'uso';
+                    atualizarBotoesMetrica();
+                }
+            }
+        }
+    }
+
+    // Função inicializarEventosClique para atualizar botões ao mudar o componente
     function inicializarEventosClique() {
         // Evento de clique para o KPI Disco
         if (discoElement) {
             discoElement.addEventListener('click', () => {
                 componenteAtivo = 'disk';
                 atualizarKPIs();
+                atualizarVisibilidadeBotoes(); 
                 renderizarGraficoLinha();
             });
         }
-        
+    
         // Evento de clique para o KPI RAM
         if (ramElement) {
             ramElement.addEventListener('click', () => {
                 componenteAtivo = 'ram';
                 atualizarKPIs();
+                atualizarVisibilidadeBotoes(); 
                 renderizarGraficoLinha();
             });
         }
-        
+    
         // Evento de clique para o KPI CPU
         if (cpuElement) {
             cpuElement.addEventListener('click', () => {
                 componenteAtivo = 'cpu';
                 atualizarKPIs();
+                atualizarVisibilidadeBotoes(); 
                 renderizarGraficoLinha();
             });
         }
-        
+    
         // Evento de clique para o KPI GPU
         if (gpuElement) {
             gpuElement.addEventListener('click', () => {
                 componenteAtivo = 'gpu';
                 atualizarKPIs();
+                atualizarVisibilidadeBotoes(); 
                 renderizarGraficoLinha();
             });
         }
-        
+    
         // Adicionar eventos para botões de alternância de métrica
         const btnUso = document.getElementById('btn_uso');
         const btnTemp = document.getElementById('btn_temperatura');
         const btnBytes = document.getElementById('btn_bytes');
-        
+    
         if (btnUso) {
             btnUso.addEventListener('click', () => {
                 tipoMetrica = 'uso';
@@ -572,7 +704,7 @@
                 atualizarBotoesMetrica();
             });
         }
-        
+    
         if (btnTemp) {
             btnTemp.addEventListener('click', () => {
                 tipoMetrica = 'temperatura';
@@ -580,7 +712,7 @@
                 atualizarBotoesMetrica();
             });
         }
-        
+    
         if (btnBytes) {
             btnBytes.addEventListener('click', () => {
                 tipoMetrica = 'bytes';
@@ -606,6 +738,17 @@
             btnTemp.classList.add('active');
         } else if (tipoMetrica === 'bytes' && btnBytes) {
             btnBytes.classList.add('active');
+        }
+    }
+
+    // Função para atualizar os gráficos apartir do filtro.
+    function inicializarEventosFiltroTempo() {
+        const sltTempo = document.getElementById('slt_tempo');
+    
+        if (sltTempo) {
+            sltTempo.addEventListener('change', () => {
+                renderizarGraficoLinha();
+            });
         }
     }
 
@@ -649,6 +792,7 @@
     function inicializar() {
         inicializarGraficosRosquinha();
         inicializarEventosClique();
+        inicializarEventosFiltroTempo();
         
         // Renderizar o gráfico inicial (GPU por padrão)
         renderizarGraficoLinha();
@@ -658,6 +802,7 @@
         
         // Atualizar botões de métrica
         atualizarBotoesMetrica();
+        atualizarVisibilidadeBotoes();
     }
 
     // Iniciar quando o DOM estiver carregado
