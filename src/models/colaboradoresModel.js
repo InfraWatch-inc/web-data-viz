@@ -9,10 +9,10 @@ function postAutenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function postColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) {
+function postColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa, nivel) {
     var instrucaoSql = `
-        INSERT INTO Empresa (nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) 
-        VALUES ('${nome}, ${email}, ${documento}, ${cargo}, ${senha}, ${tipoDocumento}, ${fkEmpresa}');
+        INSERT INTO Colaborador (nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa, nivel) 
+        VALUES ('${nome}', '${email}', '${documento}', '${cargo}', '${senha}', '${tipoDocumento}', ${fkEmpresa}, ${nivel});
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

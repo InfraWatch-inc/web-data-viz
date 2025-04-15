@@ -32,11 +32,12 @@ function postColaborador(req, res) {
     var senha = req.body.senhaServer;
     var tipoDocumento = req.body.tipoDocumentoServer;
     var fkEmpresa = req.body.fkEmpresaServer;
+    var nivel = req.body.nivelServer;
 
-    if (nome == undefined || email == undefined || documento == undefined || cargo == undefined || senha == undefined || tipoDocumento == undefined || fkEmpresa == undefined) {
+    if (nome == undefined || email == undefined || documento == undefined || cargo == undefined || senha == undefined || tipoDocumento == undefined || fkEmpresa == undefined || nivel == undefined) {
         res.status(400).send("Todos os campos são obrigatórios!");
     } else {
-        colaboradoresModel.postColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa)
+        colaboradoresModel.postColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa, nivel)
         .then((resultado) => {
             res.json(resultado);
         })
@@ -77,15 +78,16 @@ function putColaborador(req, res){
     var cargo = req.body.cargoServer;
     var senha = req.body.senhaServer;
     var tipoDocumento = req.body.tipoDocumentoServer;
+    var fkEmpresa = req.body.idEmpresaServer
 
-    if (idColaborador == undefined || nome == undefined || email == undefined || documento == undefined || cargo == undefined || senha == undefined || tipoDocumento == undefined) {
+    if (idColaborador == undefined || nome == undefined || email == undefined || documento == undefined || cargo == undefined || senha == undefined || tipoDocumento == undefined || fkEmpresa == undefined) {
         return res.status(400).send("Informação indefinido!");
     }
 
+    // TODO erro HTTPS HEADER 
     colaboradoresModel.putColaborador(idColaborador, nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa)
     .then((resultado) => {
-        resultado.json()
-        .then(res.status(200).json({"message":"Usuário atualizado com sucesso"}))        
+        res.status(200).send("Usuário atualizado com sucesso")       
     })
     .catch(res.status(500).json("Não foi possível atualizar usuário"))
 }
@@ -97,6 +99,7 @@ function deleteColaborador(req, res){
         return res.status(400).send("Informação indefinido!");
     }
 
+    // TODO problema de fk constrint do fkResponsavel
     colaboradoresModel.deleteColaborador(idColaborador)
     .then((resultado) => {
         resultado.json()
