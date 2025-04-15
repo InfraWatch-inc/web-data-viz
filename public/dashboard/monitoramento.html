@@ -475,7 +475,8 @@
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: tipoMetrica === 'uso' ? 100 : 
+                    max: tipoMetrica === 'uso' ? 100 :
+                        tipoMetrica === 'temperatura' ? 100:
                         componenteAtivo === 'cpu' && tipoMetrica === 'temperatura' ? 100 : 
                         componenteAtivo === 'disk' && tipoMetrica === 'bytes' ? 600 :
                         componenteAtivo === 'ram' && tipoMetrica === 'bytes' ? 16 : 80,
