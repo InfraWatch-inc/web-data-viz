@@ -12,7 +12,8 @@ function postServidor(req, res) {
 }
 
 function getServidores(req , res){
-    servidoresModel.getServidores()
+    let idEmpresa = req.params.idEmpresa;
+    servidoresModel.getServidores(idEmpresa)
     .then((resultado) => {
         res.status(200).json(resultado);
     })

@@ -3,7 +3,7 @@ var router = express.Router();
 
 var servidoresController = require("../controllers/servidoresController");
 
-router.get("/buscar", function (req, res) {
+router.get("/buscar/:idEmpresa", function (req, res) {
     servidoresController.getServidores(req, res);
 });
 

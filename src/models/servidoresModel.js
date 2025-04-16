@@ -9,8 +9,8 @@ function postServidor(nome, email, documento, cargo, senha, tipoDocumento, fkEmp
     return database.executar(instrucaoSql);
 }
 
-function getServidores(){
-    var instrucaoSql = `SELECT * FROM viewGetServidor;`;
+function getServidores(idEmpresa){
+    var instrucaoSql = `SELECT * FROM viewGetServidor WHERE idEmpresa = ${idEmpresa};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

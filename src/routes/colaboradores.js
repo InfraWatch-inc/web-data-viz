@@ -7,11 +7,11 @@ router.post("/autenticar", function (req, res) {
     colaboradoresController.postAutenticar(req, res);
 });
 
-router.get("/buscar", function (req, res) {
+router.get("/buscar/:idEmpresa", function (req, res) {
     colaboradoresController.getColaboradores(req, res);
 });
 
-router.get("/buscar/:id", function (req, res) {
+router.get("/buscar/:idEmpresa/:id", function (req, res) {
     colaboradoresController.getColaborador(req, res);
 });
 

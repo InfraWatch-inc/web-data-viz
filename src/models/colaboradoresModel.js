@@ -30,9 +30,9 @@ function getColaborador(idColaborador){
     return database.executar(instrucaoSql);
 }
 
-function putColaborador(idColaborador, nome, email, documento, cargo, senha, tipoDocumento){
+function putColaborador(idColaborador, nome, email, documento, cargo, senha, tipoDocumento, nivel){
     var instrucaoSql = `UPDATE Colaborador
-                        SET nome = '${nome}', email= '${email}', documento = '${documento}', cargo = '${cargo}', senha = '${senha}', tipoDocumento = '${tipoDocumento}'
+                        SET nome = '${nome}', email= '${email}', documento = '${documento}', cargo = '${cargo}', senha = '${senha}', tipoDocumento = '${tipoDocumento}', nivel = ${nivel}
                         WHERE idColaborador = ${idColaborador};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
