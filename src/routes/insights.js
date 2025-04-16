@@ -4,7 +4,7 @@ var router = express.Router();
 var insightsController = require("../controllers/insightsController");
 
 router.get("/alertasComponentes", function (req, res) {
-    insightsController.postAlertasComponentes(req, res);
+    insightsController.getAlertasComponentes(req, res);
 });
 
 router.post("/dadosComponente/:componente", function (req, res) {

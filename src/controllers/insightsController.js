@@ -2,8 +2,6 @@ var insightsModel = require("../models/insightsModel");
 
 function arrumarCondicao(corpoRequisicao, componente){
     condicao = '';
-    
-    print(corpoRequisicao);
   
     condicao += `idEmpresa = ${corpoRequisicao.idEmpresa} `;
     condicao += `AND componente = '${componente}' `;
@@ -27,7 +25,7 @@ function arrumarCondicao(corpoRequisicao, componente){
     return condicao;
 }
 
-function arrumarContexto(){
+function arrumarContexto(corpoRequisicao, componente){
     contexto = '';
     if(corpoRequisicao.modelo != undefined){
         contexto =  `${corpoRequisicao.modelo}`
@@ -45,6 +43,7 @@ function arrumarContexto(){
 }
 
 function getAlertasComponentes(req, res) {
+
     insightsModel.alertasComponentes()
     .then(function (resultado) {
         res.status(200).json(resultado) 
@@ -56,7 +55,7 @@ function getAlertasComponentes(req, res) {
 }
 
 function postInsightsComponente(req, res){
-    if(req.body.idEmpresa == undefined || req.body.componente == undefined ){
+    if(req.body.idEmpresa == undefined || req.params.componente == undefined ){
         return res.status(400).json({"message":"idEmpresa ou Componente indefinido!"});
     }
 
@@ -71,7 +70,6 @@ function postInsightsComponente(req, res){
 
     Promise.all(insightsModel.graficoAlertas(contexto, condicao), insightsModel.processosInsights(condicao), insightsModel.kpiInsights(condicao))
     .then(function (resultado) {
-        print(resultado);
         resposta = resultado;
         res.status(200).json(resposta);
     })
