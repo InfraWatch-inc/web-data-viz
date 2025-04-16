@@ -3,8 +3,7 @@ var router = express.Router();
 
 var monitoramentoController = require("../controllers/monitoramentoController");
 
-router.get("/monitoramento/:idServidor", function (req, res) {
-    console.log("bo aqui")
+router.get("/:idServidor", function (req, res) {
     monitoramentoController.buscarDadosTempoReal(req, res);
 })
 

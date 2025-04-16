@@ -7,7 +7,7 @@ router.get("/buscar/:idEmpresa", function (req, res) {
     servidoresController.getServidores(req, res);
 });
 
-router.get("/buscar/:id", function (req, res) {
+router.get("/buscar/servidor/:id", function (req, res) {
     servidoresController.getServidor(req, res);
 });
 

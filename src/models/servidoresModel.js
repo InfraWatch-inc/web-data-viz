@@ -16,7 +16,7 @@ function getServidores(idEmpresa){
 }
 
 function getServidor(idServidor){
-    var instrucaoSql = `SELECT * FROM viewGetServidor WHERE id = ${idServidor};`;
+    var instrucaoSql = `SELECT * FROM viewGetServidor WHERE idServidor = ${idServidor};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
