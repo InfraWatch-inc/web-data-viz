@@ -1,10 +1,9 @@
 var database = require("../database/config")
 
-function postServidor(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) {
+function postServidor(idEmpresa, tagName, tipo, uuid, idInstancia, so, idEndereco) {
     var instrucaoSql = `
-        INSERT INTO Empresa (nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa) 
-        VALUES ('${nome}, ${email}, ${documento}, ${cargo}, ${senha}, ${tipoDocumento}, ${fkEmpresa}');
-    `;
+        INSERT INTO Empresa (idEmpresa, tagName, tipo, uuidPlacaMae, idInstancia, so, idEndereco) 
+        VALUES (${idEmpresa}, '${tagName}', '${tipo}', '${uuid}', ${idInstancia}, '${so}', ${idEndereco});`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }

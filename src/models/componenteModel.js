@@ -6,7 +6,7 @@ function getComponente(){ // TODO
     return database.executar(instrucaoSql);
 }
 
-function postComponente(){ // TODO
+function postComponente(idServidor, nome, marca, numeracao, modelo){ // TODO
     var instrucaoSql = ``;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
