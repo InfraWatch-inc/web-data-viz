@@ -7,7 +7,7 @@
 
     <title>Monitoramento | InfraWatch</title>
 
-    <link rel="icon" href="/public/assets/icon/Logo-InfraWatch.png" />
+    <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
     <link rel="stylesheet" href="../css/monitoramento.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
 
-                <div class="divisao"></div>
+                <div class="divisao" id="rm_divisao_ram"></div>
 
                 <div class="ram" id="kpi_ram">
                     <div class="infos_ram">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
 
-                <div class="divisao"></div>
+                <div class="divisao" id="divisao_rm"></div>
 
                 <div class="cpu" id="kpi_cpu">
                     <div class="infos_cpu">
@@ -77,9 +77,8 @@
                     </div>
                 </div>
                 
-                <div class="divisao"></div>
+                <div class="divisao" id="rm_divisao_gpu"></div>
                 
-            
                 <div class="gpu" id="kpi_gpu">
                     <div class="infos_gpu">
                         <p><span class="placa" id="kpi4_nome">GPU</span><br> Uso:<span class="uso_gpu" id="kpi4_metrica1"> 45%</span> <br>Temperatura: <span
@@ -139,6 +138,9 @@
     let kpi3_nome = document.getElementById("kpi3_nome");
     let kpi3_metrica1 = document.getElementById("kpi3_metrica1");
     let kpi3_metrica2 = document.getElementById("kpi3_metrica2");
+    let rm_divisao = document.getElementById("divisao_rm");
+    let rm_divisao_ram = document.getElementById("rm_divisao_ram");
+    let rm_divisao_gpu = document.getElementById("rm_divisao_gpu");
 
     
     const discoElement = document.getElementById('kpi_disco');
@@ -247,20 +249,24 @@
    
     function atualizarKPIs() {
         // Esconde todos os KPIs primeiro
-        if (discoElement) discoElement.style.display = 'flex';
+        if (discoElement) discoElement.style.display = 'flex', rm_divisao.style.display = 'flex';
         if (ramElement) ramElement.style.display = 'flex';
-        if (cpuElement) cpuElement.style.display = 'flex';
-        if (gpuElement) gpuElement.style.display = 'flex';
+        if (cpuElement) cpuElement.style.display = 'flex', rm_divisao_ram.style.display = 'flex';
+        if (gpuElement) gpuElement.style.display = 'flex', rm_divisao_gpu.style.display = 'flex';
         
         // Esconde o componente ativo (que está sendo mostrado no gráfico de linha)
         if (componenteAtivo === 'disk' && discoElement) {
             discoElement.style.display = 'none';
+            rm_divisao_ram.style.display = 'none';
         } else if (componenteAtivo === 'ram' && ramElement) {
             ramElement.style.display = 'none';
+            rm_divisao.style.display = 'none';
         } else if (componenteAtivo === 'cpu' && cpuElement) {
             cpuElement.style.display = 'none';
+            rm_divisao.style.display = 'none';
         } else if (componenteAtivo === 'gpu' && gpuElement) {
             gpuElement.style.display = 'none';
+            rm_divisao_gpu.style.display = 'none';
         }
         
         // Atualiza as informações dos KPIs

@@ -112,7 +112,7 @@ h2 {
 }
   
 .process-list {
-    max-height: 590px;
+    max-height: 600px;
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -233,6 +233,7 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* border: 1px solid red; */
 }
 
 /* grafico especifico */
