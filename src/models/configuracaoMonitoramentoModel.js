@@ -1,13 +1,13 @@
 var database = require("../database/config")
 
 function getConfiguracoes(){ // TODO
-    var instrucaoSql = ``;
+    var instrucaoSql = `SELECT * FROM viewGetConfiguracoes;`; // todo fazer view de pegar configuracoes
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function getConfiguracoesServidor(idServidor){ // TODO
-    var instrucaoSql = ``;
+    var instrucaoSql = `SELECT idConfiguracaoMonitoramento FROM ConfiguracaoMonitoramento WHERE fkServidor = ${idServidor};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
@@ -18,13 +18,13 @@ function postConfiguracao(idComponente, unidadeMedida, descricao, limiteAtencao,
     return database.executar(instrucaoSql);
 }
 
-function putConfiguracao(){ // TODO
-    var instrucaoSql = ``;
+function putConfiguracao(idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython){ // TODO
+    var instrucaoSql = `UPDATE ConfiguracaoMonitoramento SET unidadeMedida = '${unidadeMedida}', descricao = '${descricao}', limiteAtencao = ${limiteAtencao}, limiteCritico = ${limiteCritico}, funcaoPython = '${funcaoPython}' WHERE idConfiguracaoMonitoramento = ${idConfiguracao};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function deleteConfiguracao(idConfiguracao){ // TODO
+function deleteConfiguracao(idConfiguracao){
     var instrucaoSql = `DELETE FROM ConfiguracaoMonitoramento WHERE idConfiguracaoMonitoramento = ${idConfiguracao};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

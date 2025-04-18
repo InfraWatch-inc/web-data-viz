@@ -112,11 +112,28 @@ function getServidor(req, res){
 }
 
 function putServidor(req, res){
-    // TODO coletar todas as informações enviadas do servidor para atualizar ele
-    // ver se existe info de endereco para cadastrar - enderecoModel
-    // cadastrar servidor - servidor Model
-    // cadastrar componentes - componenteModel, verificar se já existe o componente ou tem que inserir mais um
-    // cadastrar configuracao monitoramento - configuracaoMonitoramentoModel
+    if(!validarCampos(req.body)){
+        return;
+    }
+
+    let idEmpresa = req.body.idEmpresaServer;
+    let tagName = req.body.tagNameServer;
+    let tipo = req.body.tipoServer;
+    let uuid = req.body.uuidServer;
+    let idInstancia = req.body.idInstanciaServer;
+    let so = req.body.soServer;
+    
+    let componentes = req.body.componentesServer;
+    // TODO
+    // atualizar servidor - servidor Model
+
+    // verificar componentes que já estao cadastrados e os que não estão
+    // verificar as configuracoes que já existem e as que não existem
+
+    // atualizar componentes e configuracoes que ja existem
+    // cadastrar configuracoes que nao existem mas componentes sim
+
+    // cadastrar componentes que nao existem e suas configuracoes
 }
 
 function deleteServidor(req, res){
@@ -134,7 +151,7 @@ function deleteServidor(req, res){
 
             // buscar configuracoes componentes 
             idComponentes.forEach((idComponente) => {
-                configuracaoMonitoramentoModel.getConfiguracoesComponente(idComponente) // TODO desenvolver metodos especificos dos models
+                configuracaoMonitoramentoModel.getConfiguracoesComponente(idComponente)
                 .then((resultado) => {
                     resultado.json((resultado) => {
                         idConfiguracoes = resultado.map((config) => { 
