@@ -1,5 +1,5 @@
 var insightsModel = require("../models/insightsModel");
-
+// TODO
 function arrumarCondicao(corpoRequisicao, componente){
     condicao = '';
   

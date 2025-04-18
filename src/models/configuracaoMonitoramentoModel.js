@@ -6,19 +6,19 @@ function getConfiguracoes(){ // TODO
     return database.executar(instrucaoSql);
 }
 
-function getConfiguracoesServidor(idServidor){ // TODO
+function getConfiguracoesServidor(idServidor){
     var instrucaoSql = `SELECT idConfiguracaoMonitoramento FROM ConfiguracaoMonitoramento WHERE fkServidor = ${idServidor};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function postConfiguracao(idComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython){ // TODO
+function postConfiguracao(idComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython){
     var instrucaoSql = `INSERT INTO ConfiguracaoMonitoramento (unidadeMedida, descricao, fkComponente, limiteAtencao, limiteCritico, funcaoPython) VALUES ('${unidadeMedida}', '${descricao}', ${idComponente}, ${limiteAtencao}, ${limiteCritico}, '${funcaoPython})');`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function putConfiguracao(idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython){ // TODO
+function putConfiguracao(idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython){
     var instrucaoSql = `UPDATE ConfiguracaoMonitoramento SET unidadeMedida = '${unidadeMedida}', descricao = '${descricao}', limiteAtencao = ${limiteAtencao}, limiteCritico = ${limiteCritico}, funcaoPython = '${funcaoPython}' WHERE idConfiguracaoMonitoramento = ${idConfiguracao};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

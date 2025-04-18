@@ -6,13 +6,13 @@ function getComponentes(){ // TODO
     return database.executar(instrucaoSql);
 }
 
-function postComponente(idServidor, nome, marca, numeracao, modelo){ // TODO
+function postComponente(idServidor, nome, marca, numeracao, modelo){
     var instrucaoSql = `INSERT INTO Componente (fkServidor, componente, marca, numeracao, modelo) VALUES (${idServidor}, '${nome}', '${marca}', ${numeracao}, '${modelo}');`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function putComponente(idComponente, nome, marca, numeracao, modelo){ // TODO
+function putComponente(idComponente, nome, marca, numeracao, modelo){ 
     var instrucaoSql = `UPDATE Componente SET componente = '${nome}', marca = '${marca}', numeracao = ${numeracao}, modelo = '${modelo}' WHERE idComponente = ${idComponente};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

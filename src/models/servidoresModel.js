@@ -20,16 +20,14 @@ function getServidor(idServidor){
     return database.executar(instrucaoSql);
 }
 
-function putServidor(idServidor){
-    // TODO
-    var instrucaoSql = ``;
+function putServidor(idServidor, tagName, tipo, uuid, idInstancia, so){
+    var instrucaoSql = `UPDATE Servidor SET tagName = '${tagName}', tipo = '${tipo}', uuidPlacaMae = '${uuid}', idInstancia = ${idInstancia}, so = '${so}' WHERE idServidor = ${idServidor};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
 function deleteServidor(idServidor){
-    // TODO
-    var instrucaoSql = ``;
+    var instrucaoSql = `DELETE FROM Servidor WHERE idServidor = ${idServidor};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
