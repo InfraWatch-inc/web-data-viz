@@ -37,21 +37,9 @@ function postServidor(req, res) {
     let uuid = req.body.uuidServer;
     let idInstancia = req.body.idInstanciaServer;
     let so = req.body.soServer;
+    
+    let componentes = req.body.componentesServer; 
 
-    // [
-    //  {
-    //   componente:'CPU',
-    //   marca:'Intel'
-    //   numeracao:1
-    //   modelo:'Xeon 123'
-    //   configuracao
-    //  }
-    // ]
-
-    // rodar loop para ir cadastrando os componentes 
-    let componentes 
-
-    // ver se existe info de endereco para cadastrar - enderecoModel
     let idEndereco = enderecoModel.postEndereco(cep,logradouro,numero,bairro,cidade,estado,pais,complemento)
     .then(() => {
             let idServidor = servidoresModel.postServidor(idEmpresa, tagName, tipo, uuid, idInstancia, so, idEndereco)
@@ -131,12 +119,69 @@ function putServidor(req, res){
     // cadastrar configuracao monitoramento - configuracaoMonitoramentoModel
 }
 
-function deleteServidor (req, res){
-    // TODO 
-    // coletar informacoes de tudo ligado ao servidor
-    // deletar configuracao monitoramento
-    // deletar componentes
-    // deletar servidor
+function deleteServidor(req, res){
+    let idServidor = req.params.idServidor;
+
+    let idComponentes = null;
+    let idConfiguracoes = null;
+
+    componenteModel.getComponentesServidor(idServidor)
+    .then((resultado) => {
+        resultado.json((resultado) => {  
+            idComponentes = resultado.map((componente) => { 
+                return componente.idComponente;
+            })
+
+            // buscar configuracoes componentes 
+            idComponentes.forEach((idComponente) => {
+                configuracaoMonitoramentoModel.getConfiguracoesComponente(idComponente) // TODO desenvolver metodos especificos dos models
+                .then((resultado) => {
+                    resultado.json((resultado) => {
+                        idConfiguracoes = resultado.map((config) => { 
+                            return config.idConfiguracaoMonitoramento;
+                        });
+                    })
+                    .catch((err) => {
+                        res.status(500).json(err.sqlMessage)
+                    })
+                })
+                .catch((err) => {
+                    res.status(500).json(err.sqlMessage)
+                })
+            })
+        })
+    })
+    .catch((err) => {
+        res.status(500).json(err.sqlMessage)
+    })
+
+    idConfiguracoes.forEach((idConfiguracao) => {
+        configuracaoMonitoramentoModel.deleteConfiguracao(idConfiguracao)
+        .then(() => {
+            console.log("Configuração deletada com sucesso!")
+        })
+        .catch((err) => {
+            res.status(500).json(err.sqlMessage)
+        })
+    })
+
+    idComponentes.forEach((idComponente) => {
+        componenteModel.deleteComponente(idComponente)
+        .then(() => {
+            console.log("Componente deletada com sucesso!")
+        })
+        .catch((err) => {
+            res.status(500).json(err.sqlMessage)
+        })
+    })
+
+    servidoresModel.deleteServidor(idServidor)
+    .then(() => {
+        res.status(200).json("Servidor deletado com sucesso!");
+    })
+    .catch((err) => {
+        res.status(500).json(err.sqlMessage);
+    })
 }
 
 module.exports = {
