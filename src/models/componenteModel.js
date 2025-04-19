@@ -1,10 +1,4 @@
-var database = require("../database/config")
-
-function getComponentes(){ // TODO
-    var instrucaoSql = `SELECT * FROM viewGetComponentes;`; // todo fazer view de pegar componentes
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
+var database = require("../database/config");
 
 function postComponente(idServidor, nome, marca, numeracao, modelo){
     var instrucaoSql = `INSERT INTO Componente (fkServidor, componente, marca, numeracao, modelo) VALUES (${idServidor}, '${nome}', '${marca}', ${numeracao}, '${modelo}');`;
@@ -31,7 +25,6 @@ function getComponentesServidor(idServidor){
 }
 
 module.exports = {
-    getComponentes,
     postComponente,
     putComponente,
     deleteComponente,

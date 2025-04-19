@@ -1,10 +1,4 @@
-var database = require("../database/config")
-
-function getConfiguracoes(){ // TODO
-    var instrucaoSql = `SELECT * FROM viewGetConfiguracoes;`; // todo fazer view de pegar configuracoes
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
+var database = require("../database/config");
 
 function getConfiguracoesServidor(idServidor){
     var instrucaoSql = `SELECT idConfiguracaoMonitoramento FROM ConfiguracaoMonitoramento WHERE fkServidor = ${idServidor};`;

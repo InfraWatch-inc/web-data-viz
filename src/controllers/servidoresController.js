@@ -1,11 +1,10 @@
 let servidoresModel = require("../models/servidoresModel");
-let enderecoModel = require("../models/enderecoModel"); // TODO
-let componenteModel = require("../models/componenteModel"); // TODO
-let configuracaoMonitoramentoModel = require("../models/configuracaoMonitoramentoModel"); // TODO
+let enderecoModel = require("../models/enderecoModel");
+let componenteModel = require("../models/componenteModel");
+let configuracaoMonitoramentoModel = require("../models/configuracaoMonitoramentoModel");
 
-function validarCampos(res, corpoReq) {
+function validarCampos(res, corpoReq, campos) {
     let isValido = true;
-    let campos = [];// TODO
 
     campos.forEach((campo) => {
         if (corpoReq[campo] == undefined) { 
@@ -18,7 +17,9 @@ function validarCampos(res, corpoReq) {
 }
 
 function postServidor(req, res) {
-    if(!validarCampos(req.body)){
+    let campos = ["cepServer", "logradouroServer", "numeroServer", "bairroServer", "cidadeServer", "estadoServer", "paisServer", "complementoServer",
+        "idEmpresaServer", "tagNameServer", "tipoServer", "uuidServer", "idInstanciaServer", "soServer", "componentesServer"];
+    if(!validarCampos(res, req.body, campos)){
         return;
     }
 
@@ -112,7 +113,8 @@ function getServidor(req, res){
 }
 
 function putServidor(req, res){
-    if(!validarCampos(req.body)){
+    let campos = ["idServidor","tagName", "tipo", "uuid", "idInstancia", "so", "componentes"];
+    if(!validarCampos(res, req.body, campos)){
         return;
     }
 
@@ -124,16 +126,84 @@ function putServidor(req, res){
     let so = req.body.soServer;
     
     let componentes = req.body.componentesServer;
-    // TODO
-    // atualizar servidor - servidor Model
 
-    // verificar componentes que já estao cadastrados e os que não estão
-    // verificar as configuracoes que já existem e as que não existem
+    servidoresModel.putServidor(idServidor, idEmpresa, tagName, tipo, uuid, idInstancia, so)
+    .then(() => {
+        console.log("Servidor atualizado com sucesso!")
+    })
+    .catch((err) => {  
+        res.status(500).json(err.sqlMessage) 
+    })
+    
+    componenteModel.getComponentesServidor(idServidor)
+    .then((resultado) => {
+        resultado.json((resultado) => {  
+            let idComponentes = resultado.map((componente) => { 
+                return componente.idComponente;
+            })
 
-    // atualizar componentes e configuracoes que ja existem
-    // cadastrar configuracoes que nao existem mas componentes sim
+            componentes.forEach((componente) => {
+                let nome = componente.nome;
+                let marca = componente.marca;                    
+                let numeracao = componente.numeracao;
+                let modelo = componente.modelo;
+                let configuracoes = componente.configuracoes;
+                
+                if(!idComponentes.includes(componente.idComponente)){
+                    let idComponente = componenteModel.postComponente(idServidor, nome, marca, numeracao, modelo)
+                    .then(() => {
+                        console.log("Componente cadastrada com sucesso!")
+                    })
+                    .catch((err) => {
+                        res.status(500).json(err.sqlMessage) 
+                    })
 
-    // cadastrar componentes que nao existem e suas configuracoes
+                    configuracoes.forEach((config) => {
+                        let unidadeMedida = config.unidadeMedida;
+                        let descricao = config.descricao;
+                        let limiteAtencao = config.limiteAtencao; 
+                        let limiteCritico = config.limiteCritico;  
+                        let funcaoPython = config.funcaoPython;
+                        
+                        configuracaoMonitoramentoModel.postConfiguracao(idComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython)
+                        .then(() => {
+                            console.log("Configuração cadastrada com sucesso!")
+                        })
+                        .catch((err) => {
+                            res.status(500).json(err.sqlMessage)
+                        })
+                    })
+                } else{
+                    componenteModel.putComponente(componente.idComponente, nome, marca, numeracao, modelo)
+                    .then(() => {
+                        console.log("Componente atualizado com sucesso!")
+                    })
+                    .catch((err) => {
+                        res.status(500).json(err.sqlMessage) 
+                    })
+
+                    configuracoes.forEach((config) => {
+                        let unidadeMedida = config.unidadeMedida;
+                        let descricao = config.descricao;
+                        let limiteAtencao = config.limiteAtencao; 
+                        let limiteCritico = config.limiteCritico;  
+                        let funcaoPython = config.funcaoPython;
+                        
+                        configuracaoMonitoramentoModel.putConfiguracao(config.idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython)
+                        .then(() => {
+                            console.log("Configuração atualizada com sucesso!")
+                        })
+                        .catch((err) => {
+                            res.status(500).json(err.sqlMessage)
+                        })
+                    })
+                }
+            })
+        })
+    })
+    .catch((err) => {
+        res.status(500).json(err.sqlMessage) 
+    })
 }
 
 function deleteServidor(req, res){
