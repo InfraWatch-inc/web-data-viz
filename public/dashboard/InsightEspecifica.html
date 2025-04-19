@@ -33,73 +33,105 @@
 
   <div class="insight-container">
 
-    <div class="esquerda">
-      <div class="card-componente">
-        CPU
-      </div>
 
-      <div class="graficoProcessos">
-        <canvas id="graficoProcessos" style="height: 100%; width: 100%;"></canvas>
-      </div>
+    <div class="bcentral">
 
+      <div class="besquerda">
 
-    </div>
-
-    <div class="meio">
-      <div class="card-componente">
-
-      </div>
-      <div class="escolha-componente">
-        <button class="btn">CPU</button><br>
-        <button class="btn">RAM</button><br>
-        <button class="btn">GPU</button>
-      </div>
-
-    </div>
-
-    <div class="direita">
-      <div class="kpi-e-filtro">
-
-        <div class="boxKpis">
-
-          <div class="card">
-            <h3>CPU'S</h3>
-            <p>96</p>
+        <div class="tipo-componente-dis">
+          <div class="tipo-componente">
+            <h1>CPU</h1>
           </div>
-          <div class="card">
-            <h3>total Alertas</h3>
-            <p>22</p>
+        </div>
+
+
+        <div class="gprocessos">
+
+          <div class="graficopro">
+            <canvas id="graficoProcessos" style="height: 90%; width: 100%;"></canvas>
+          </div>
+
+          <div class="select-comppro">
+
+            <select name="" id="slct_comp_processos">
+
+              <option value="processos-cpu">CPU</option>
+              <option value="processos-ram">RAM</option>
+              <option value="processos-gpu">GPU</option>
+
+            </select>
           </div>
 
         </div>
-        <div class="boxFiltros">
-          <select class="filtro" id="metricas">
-            <option value="" disabled>Selecione uma métrica</option>
-            <option value="uso" selected>Uso</option>
-            <option value="">exemplo-02</option>
-            <option value="">exemplo-03</option>
-            <option value="">Media geral</option>
-          </select>
 
-          <select class="filtro" id="modelos">
-            <option value="" disabled selected>Selecione um modelo</option>
-            <option value="">exemplo-01</option>
-            <option value="">exemplo-02</option>
-            <option value="">exemplo-03</option>
-            <option value="">Todos</option>
-          </select>
+      </div>
+
+      <div class="bdireita">
+        <div class="boxcimadis">
+
+          <div class="boxcima">
+            <div class="cimaesc">
+              <div class="card">
+                <h3>CPU's</h3>
+                <p>69</p>
+              </div>
+              <div class="card">
+                <h3>CPU's em <br>Alertas</h3>
+                <p>22</p>
+              </div>
+            </div>
+            <div class="cimadir">
+
+              <div class="boxFiltros">
+                <select class="filtro" id="metricas">
+                  <option value="" disabled>Selecione uma métrica</option>
+                  <option value="uso" selected>Uso</option>
+                  <option value="">exemplo-02</option>
+                  <option value="">exemplo-03</option>
+                  <option value="">Media geral</option>
+                </select>
+
+                <select class="filtro" id="modelos">
+                  <option value="" disabled selected>Selecione um modelo</option>
+                  <option value="">exemplo-01</option>
+                  <option value="">exemplo-02</option>
+                  <option value="">exemplo-03</option>
+                  <option value="">Todos</option>
+                </select>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="galertas">
+          <div class="filtros-graficos-alertas">
+
+            <select class="filtro" id="metricas">
+              <option value="" disabled selected>Tipo de Alerta</option>
+              <option value="">exemplo-02</option>
+              <option value="">exemplo-03</option>
+              <option value="">Media geral</option>
+            </select>
+
+            <select class="filtro" id="modelos">
+              <option value="" disabled selected>Semestral</option>
+              <option value="">exemplo-01</option>
+              <option value="">exemplo-02</option>
+              <option value="">exemplo-03</option>
+              <option value="">Todos</option>
+            </select>
+
+          </div>
+          <canvas id="graficoAlertas" style="height: 70%; width: 90%;"></canvas>
 
         </div>
 
       </div>
-      <div class="grafico"><canvas id="graficoAlertas" style="height: 70%; width: 100%;"></canvas></div>
-
-
-
-      
-
 
     </div>
+
 
   </div>
 
@@ -137,7 +169,7 @@
           display: true,
           text: 'Distribuição do Uso de CPU entre Processos',
           font: {
-            size: 26,
+            size: 20,
             weight: 'bold'
           },
           padding: {
@@ -154,7 +186,7 @@
             display: true,
             text: 'Média Porcentagem de Uso de CPU',
             font: {
-              size: 26,
+              size: 17,
               weight: 'bold'
             }
 
@@ -163,7 +195,7 @@
       },
       ticks: {
         font: {
-          size: 20
+          size: 17
         }
       }
     }
