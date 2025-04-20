@@ -1,91 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Usuários</title>
-        <link rel="stylesheet" href="css/usuarios.css">
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-        
-    </head>
-    
-    <body>
-        <header>
-            <nav class="navbar">
-                <div class="user_div">
-                    <div class="img"></div>
-                    <span class="user_name">Beatriz</span>
-                </div>
-    
-                <ul><a href="./monitoramento.html">Monitoramento</a></ul>
-                <ul><a href="./insghts.html">Insights</a></ul>
-                <ul><a href="./usuarios.html">Usuários</a></ul>
-                <ul><a href="./suporte.html">Suporte</a></ul>
-    
-                <button class="sair">Sair</button>
-            </nav>
-        </header>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários</title>
+    <link rel="stylesheet" href="css/usuarios.css">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="user_div">
+                <div class="img"></div>
+                <span class="user_name">Beatriz</span>
+            </div>
+
+            <ul><a href="./monitoramento.html">Monitoramento</a></ul>
+            <ul><a href="./insghts.html">Insights</a></ul>
+            <ul><a href="./usuarios.html">Usuários</a></ul>
+            <ul><a href="./suporte.html">Suporte</a></ul>
+
+            <button class="sair">Sair</button>
+        </nav>
+    </header>
     <div class="main-content">
         <div class="container">
             <div class="header">
                 <div class="nav">
 
 
-                     <button id="abrirDialogo" class="btn-Modal">Adicionar</button>
+                    <button id="abrirDialogo" class="btn-Modal">Adicionar</button>
 
-                     
 
-        <dialog id="cadastroCol">
 
-            <div class="titulo" id="tituloModal">Cadastro Colaborador</div>
+                    <dialog id="cadastroCol">
 
-            <div id="conteudo">
-                <div id="esquerda">
-                    <label>Nome completo</label>
-                    <input id="iptNome" type="text" name="Nome Completo" placeholder="Digite o nome aqui!">
+                        <div class="titulo" id="tituloModal">Cadastro Colaborador</div>
 
-                    <label>E-mail</label>
-                    <input id="iptEmail" type="text" name="Nome Completo" placeholder="Digite o e-mail aqui!">
+                        <div id="conteudo">
+                            <div id="esquerda">
+                                <label>Nome completo</label>
+                                <input id="iptNome" type="text" name="Nome Completo" placeholder="Digite o nome aqui!">
 
-                    <label for="tipoDoc">Tipo de Documento</label>
-                    <select id="tipoDoc">
-                        <option value="" disabled selected>Selecione aqui</option>
-                        <option value="br">CPF (Brasil)</option>
-                        <option value="us">SSN (EUA)</option>
-                        <option value="ca">SIN (Canadá)</option>
-                        <option value="sg">NRIC (Singapura)</option>
-                        <option value="fr">INSEE (França)</option>
-                        <option value="de">Identifikationsnummer (Alemanha)</option>
-                        <option value="cn">居民身份证 (China)</option>
-                        <option value="vn">Mã số BHXH (Vietnã)</option>
-                        <option value="ro">CNP (Romênia)</option>
-                    </select>
-                    
+                                <label>E-mail</label>
+                                <input id="iptEmail" type="text" name="Nome Completo"
+                                    placeholder="Digite o e-mail aqui!">
 
-                    <label>Documento</label>
-                    <input id="iptDocumento" type="text" placeholder="Digite seu documento aqui!" />
+                                <label for="tipoDoc">Tipo de Documento</label>
+                                <select id="tipoDoc">
+                                    <option value="" disabled selected>Selecione aqui</option>
+                                    <option value="br">CPF (Brasil)</option>
+                                    <option value="us">SSN (EUA)</option>
+                                    <option value="ca">SIN (Canadá)</option>
+                                    <option value="sg">NRIC (Singapura)</option>
+                                    <option value="fr">INSEE (França)</option>
+                                    <option value="de">Identifikationsnummer (Alemanha)</option>
+                                    <option value="cn">居民身份证 (China)</option>
+                                    <option value="vn">Mã số BHXH (Vietnã)</option>
+                                    <option value="ro">CNP (Romênia)</option>
+                                </select>
 
-                </div>
-                <div id="direita">
-                    <label>Cargo</label>
-                    <input id="iptCargo" type="text" name="Nome Completo" placeholder="Digite o senha aqui!">
 
-                    <label>Nível</label>
-                    <input id="iptNivel" type="number" name="Nome Completo" placeholder="Digite o nível aqui!">
+                                <label>Documento</label>
+                                <input id="iptDocumento" type="text" placeholder="Digite seu documento aqui!" />
 
-                    <label>Senha</label>
-                    <input id="iptSenha" type="password" name="Nome Completo" placeholder="Digite a senha aqui!">
+                            </div>
+                            <div id="direita">
+                                <label>Cargo</label>
+                                <input id="iptCargo" type="text" name="Nome Completo"
+                                    placeholder="Digite o senha aqui!">
 
-                    <label>Confirmar senha</label>
-                    <input id="iptConfirmar" type="password" name="Nome Completo" placeholder="Confirme a senha aqui!">
+                                <label>Nível</label>
+                                <input id="iptNivel" type="number" name="Nome Completo"
+                                    placeholder="Digite o nível aqui!">
 
-                </div>
-            </div>
-            <button onclick="validarFormulario()" class="botaoPrincipal">Enviar</button>
-            <button id="fecharDialogo">Fechar</button>
+                                <label>Senha</label>
+                                <input id="iptSenha" type="password" name="Nome Completo"
+                                    placeholder="Digite a senha aqui!">
 
-        </dialog>
+                                <label>Confirmar senha</label>
+                                <input id="iptConfirmar" type="password" name="Nome Completo"
+                                    placeholder="Confirme a senha aqui!">
+
+                            </div>
+                        </div>
+                        <button onclick="validarFormulario()" class="botaoPrincipal">Enviar</button>
+                        <button id="fecharDialogo">Fechar</button>
+
+                    </dialog>
 
                     <input type="text" class="pesquisa" placeholder="Pesquisar">
                 </div>
@@ -109,11 +114,11 @@
                         <td>(11) 99321-5968</td>
                         <td>Analista de Dados</td>
                         <td><a href=# class="btn-editar"><span class="material-symbols-outlined">
-                                edit
-                            </span></a></td>
+                                    edit
+                                </span></a></td>
                         <td><a href=""><span class="material-symbols-outlined">
-                            delete
-                        </span></a></td>
+                                    delete
+                                </span></a></td>
                     </tr>
                     <tr>
 
@@ -122,11 +127,11 @@
                         <td>(11) 97034-1243</td>
                         <td>Analista de Dados</td>
                         <td><a href=# class="btn-editar"><span class="material-symbols-outlined">
-                                edit
-                            </span></a></td>
+                                    edit
+                                </span></a></td>
                         <td><a href=""><span class="material-symbols-outlined">
-                            delete
-                        </span></a></td>
+                                    delete
+                                </span></a></td>
                     </tr>
                     <tr>
 
@@ -135,11 +140,11 @@
                         <td>(11) 97563-7678</td>
                         <td>Analista de Dados</td>
                         <td><a href=# class="btn-editar"><span class="material-symbols-outlined">
-                                edit
-                            </span></a></td>
+                                    edit
+                                </span></a></td>
                         <td><a href=""><span class="material-symbols-outlined">
-                            delete
-                        </span></a></td>
+                                    delete
+                                </span></a></td>
                     </tr>
                     <tr>
 
@@ -148,11 +153,11 @@
                         <td>(11) 94228-6716</td>
                         <td>Analista de Dados</td>
                         <td><a href=# class="btn-editar"><span class="material-symbols-outlined">
-                                edit
-                            </span></a></td>
+                                    edit
+                                </span></a></td>
                         <td><a href=""><span class="material-symbols-outlined">
-                            delete
-                        </span></a></td>
+                                    delete
+                                </span></a></td>
                     </tr>
                     <tr>
                         <td>Roberto</td>
@@ -160,11 +165,11 @@
                         <td>(11) 95762-9865</td>
                         <td>Analista de Dados</td>
                         <td><a href=# class="btn-editar"><span class="material-symbols-outlined">
-                                edit
-                            </span></a></td>
+                                    edit
+                                </span></a></td>
                         <td><a href=""><span class="material-symbols-outlined">
-                            delete
-                        </span></a></td>
+                                    delete
+                                </span></a></td>
 
                     </tr>
                     <tr>
@@ -173,11 +178,11 @@
                         <td>(11) 99652-3274</td>
                         <td>Analista de Dados</td>
                         <td><a href=# class="btn-editar"><span class="material-symbols-outlined">
-                                edit
-                            </span></a></td>
+                                    edit
+                                </span></a></td>
                         <td><a href=""><span class="material-symbols-outlined">
-                            delete
-                        </span></a></td>
+                                    delete
+                                </span></a></td>
 
                     </tr>
                 </tbody>
@@ -206,199 +211,200 @@
         });
     });
 
-     
 
-    
+
+
     const dialog = document.getElementById('cadastroCol')
-        const fundo = document.getElementById('fundo')
-        const btnAbrir = document.getElementById('abrirDialogo')
-        const btnFechar = document.getElementById('fecharDialogo')
+    const fundo = document.getElementById('fundo')
+    const btnAbrir = document.getElementById('abrirDialogo')
+    const btnFechar = document.getElementById('fecharDialogo')
 
-        btnAbrir.addEventListener('click', () => {
-            tituloModal.textContent = 'Cadastro Colaborador';
-            dialog.showModal()
-            fundo.classList.add('embaçado')
-        })
+    btnAbrir.addEventListener('click', () => {
+        tituloModal.textContent = 'Cadastro Colaborador';
+        dialog.showModal()
+        fundo.classList.add('embaçado')
+    })
 
-        document.querySelectorAll('.btn-editar').forEach(btn => {
-          btn.addEventListener('click', function (e) {
-            e.preventDefault(); 
+    document.querySelectorAll('.btn-editar').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
             tituloModal.textContent = 'Editar Cadastro';
             dialog.showModal();
             fundo.classList.add('embaçado');
-          });
         });
+    });
 
-        // Caso eu vá fazer algum tipo de x para fechar, deixei aqui ja
-        btnFechar.addEventListener('click', () => {
-            dialog.close();
-            fundo.classList.remove('embaçado')
-        });
+    // Caso eu vá fazer algum tipo de x para fechar, deixei aqui ja
+    btnFechar.addEventListener('click', () => {
+        dialog.close();
+        fundo.classList.remove('embaçado')
+    });
 
-        // quando apertar e não for em algum elemento como input ou botao, o modal fecha
-        dialog.addEventListener('click', (event) => {
-          if (event.target === dialog) {
+    // quando apertar e não for em algum elemento como input ou botao, o modal fecha
+    dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) {
             dialog.close();
             fundo.classList.remove('embaçado');
-          }
-        });
-
-        let iptDocumento = document.getElementById('iptDocumento'); 
-
-        function resetarListenersDoInput() {
-            const novoInput = iptDocumento.cloneNode(true);
-            iptDocumento.parentNode.replaceChild(novoInput, iptDocumento);
-            iptDocumento = novoInput; 
         }
+    });
 
-        tipoDoc.addEventListener('change', () => {
-            const tipo = tipoDoc.value;
-        
-            resetarListenersDoInput();
-        
-            switch (tipo) {
-        case 'br': // CPF
-            iptDocumento.placeholder = '000.000.000-00';
-            iptDocumento.maxLength = 14;
-            iptDocumento.addEventListener('input', () => {
-                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
-                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-                valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-                valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-                iptDocumento.value = valor;
-            });
-            break;
+    let iptDocumento = document.getElementById('iptDocumento');
 
-        case 'us': // SSN
-            iptDocumento.placeholder = '000-00-0000';
-            iptDocumento.maxLength = 11;
-            iptDocumento.addEventListener('input', () => {
-                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
-                valor = valor.replace(/(\d{3})(\d)/, '$1-$2');
-                valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2');
-                iptDocumento.value = valor;
-            });
-            break;
-
-        case 'ca': // SIN
-            iptDocumento.placeholder = '000-000-000';
-            iptDocumento.maxLength = 11;
-            iptDocumento.addEventListener('input', () => {
-                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
-                valor = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1-$2-$3');
-                iptDocumento.value = valor;
-            });
-            break;
-
-        case 'sg': // NRIC
-            iptDocumento.placeholder = 'S1234567D';
-            iptDocumento.maxLength = 9;
-            iptDocumento.addEventListener('input', () => {
-                let valor = iptDocumento.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9);
-                valor = valor.replace(/^([STFG])(\d{7})([A-Z])?$/, '$1$2$3');
-                iptDocumento.value = valor;
-            });
-            break;
-
-        case 'fr': // INSEE
-            iptDocumento.placeholder = '1 84 12 76 451 089';
-            iptDocumento.maxLength = 15;
-            iptDocumento.addEventListener('input', () => {
-                let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 13);
-                valor = valor.replace(/(\d{1})(\d{2})(\d{2})(\d{2})(\d{3})(\d{3})/, '$1 $2 $3 $4 $5 $6');
-                iptDocumento.value = valor;
-            });
-            break;
-
-        case 'de': // Identifikationsnummer
-            iptDocumento.placeholder = '00000000000';
-            iptDocumento.maxLength = 11;
-            iptDocumento.addEventListener('input', () => {
-                iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
-            });
-            break;
-
-        case 'cn': // ID da China
-            iptDocumento.placeholder = '000000000000000000';
-            iptDocumento.maxLength = 18;
-            iptDocumento.addEventListener('input', () => {
-                iptDocumento.value = iptDocumento.value.replace(/[^0-9Xx]/g, '').slice(0, 18).toUpperCase();
-            });
-            break;
-
-        case 'vn': // Mã số BHXH
-            iptDocumento.placeholder = '0000000000';
-            iptDocumento.maxLength = 10;
-            iptDocumento.addEventListener('input', () => {
-                iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 10);
-            });
-            break;
-
-        case 'ro': // CNP
-            iptDocumento.placeholder = '0000000000000';
-            iptDocumento.maxLength = 13;
-            iptDocumento.addEventListener('input', () => {
-                iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 13);
-            });
-            break;
+    function resetarListenersDoInput() {
+        const novoInput = iptDocumento.cloneNode(true);
+        iptDocumento.parentNode.replaceChild(novoInput, iptDocumento);
+        iptDocumento = novoInput;
     }
-        });
 
-        function validarFormulario() {
-            const nome = document.getElementById('iptNome').value.trim()
-            const email = document.getElementById('iptEmail').value.trim()
-            const cargo = document.getElementById('iptCargo').value.trim()
-            const nivel = document.getElementById('iptNivel').value.trim()
-            const senha = document.getElementById('iptSenha').value
-            const confirmar = document.getElementById('iptConfirmar').value
-            const tipoDoc = document.getElementById('tipoDoc').value
-            const documento = document.getElementById('iptDocumento').value.trim()
+    tipoDoc.addEventListener('change', () => {
+        const tipo = tipoDoc.value;
 
-            if (!nome || !email || !cargo || !nivel || !senha || !confirmar || !tipoDoc || !documento) {
-                alert('Preencha todos os campos obrigatórios.')
-                return
-            }
+        resetarListenersDoInput();
 
-            if (!email.includes('@') || !email.includes('.')) {
-                alert('Digite um e-mail válido.')
-                return
-            }
+        switch (tipo) {
+            case 'br': // CPF
+                iptDocumento.placeholder = '000.000.000-00';
+                iptDocumento.maxLength = 14;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+                    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    iptDocumento.value = valor;
+                });
+                break;
 
-            var temNumero = false
-            var temLetra = false
+            case 'us': // SSN
+                iptDocumento.placeholder = '000-00-0000';
+                iptDocumento.maxLength = 11;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
+                    valor = valor.replace(/(\d{3})(\d)/, '$1-$2');
+                    valor = valor.replace(/(\d{2})(\d{1,4})$/, '$1-$2');
+                    iptDocumento.value = valor;
+                });
+                break;
 
-            if (senha.length < 8) {
-                alert('A senha deve ter no minímo 8 caracteres.')
-                return
-            }
+            case 'ca': // SIN
+                iptDocumento.placeholder = '000-000-000';
+                iptDocumento.maxLength = 11;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 9);
+                    valor = valor.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1-$2-$3');
+                    iptDocumento.value = valor;
+                });
+                break;
 
-            for (var atual = 0; atual < senha.length; atual++) {
-                var atual2 = senha[atual]
+            case 'sg': // NRIC
+                iptDocumento.placeholder = 'S1234567D';
+                iptDocumento.maxLength = 9;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 9);
+                    valor = valor.replace(/^([STFG])(\d{7})([A-Z])?$/, '$1$2$3');
+                    iptDocumento.value = valor;
+                });
+                break;
 
-                if (atual2 >= 'A' && atual2 <= 'Z' || atual2 >= 'a' && atual2 <= 'z') {
-                    temLetra = true
-                } else if (atual2 >= '0' && atual2 <= '9') {
-                    temNumero = true
-                }
-            }
+            case 'fr': // INSEE
+                iptDocumento.placeholder = '1 84 12 76 451 089';
+                iptDocumento.maxLength = 15;
+                iptDocumento.addEventListener('input', () => {
+                    let valor = iptDocumento.value.replace(/\D/g, '').slice(0, 13);
+                    valor = valor.replace(/(\d{1})(\d{2})(\d{2})(\d{2})(\d{3})(\d{3})/, '$1 $2 $3 $4 $5 $6');
+                    iptDocumento.value = valor;
+                });
+                break;
 
-            if (!temNumero) {
-                alert('A senha deve conter pelo menos um número.')
-                return
-            }
+            case 'de': // Identifikationsnummer
+                iptDocumento.placeholder = '00000000000';
+                iptDocumento.maxLength = 11;
+                iptDocumento.addEventListener('input', () => {
+                    iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 11);
+                });
+                break;
 
-            if (!temLetra) {
-                alert('A senha deve conter pelo menos uma letra.')
-                return
-            }
+            case 'cn': // ID da China
+                iptDocumento.placeholder = '000000000000000000';
+                iptDocumento.maxLength = 18;
+                iptDocumento.addEventListener('input', () => {
+                    iptDocumento.value = iptDocumento.value.replace(/[^0-9Xx]/g, '').slice(0, 18).toUpperCase();
+                });
+                break;
 
-            if (senha !== confirmar) {
-                alert('As senhas não coincidem.')
-                return
-            }
+            case 'vn': // Mã số BHXH
+                iptDocumento.placeholder = '0000000000';
+                iptDocumento.maxLength = 10;
+                iptDocumento.addEventListener('input', () => {
+                    iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 10);
+                });
+                break;
 
-            alert('Cadastro enviado com sucesso!')
+            case 'ro': // CNP
+                iptDocumento.placeholder = '0000000000000';
+                iptDocumento.maxLength = 13;
+                iptDocumento.addEventListener('input', () => {
+                    iptDocumento.value = iptDocumento.value.replace(/\D/g, '').slice(0, 13);
+                });
+                break;
         }
+    });
+
+    function validarFormulario() {
+        const nome = document.getElementById('iptNome').value.trim()
+        const email = document.getElementById('iptEmail').value.trim()
+        const cargo = document.getElementById('iptCargo').value.trim()
+        const nivel = document.getElementById('iptNivel').value.trim()
+        const senha = document.getElementById('iptSenha').value
+        const confirmar = document.getElementById('iptConfirmar').value
+        const tipoDoc = document.getElementById('tipoDoc').value
+        const documento = document.getElementById('iptDocumento').value.trim()
+
+        if (!nome || !email || !cargo || !nivel || !senha || !confirmar || !tipoDoc || !documento) {
+            alert('Preencha todos os campos obrigatórios.')
+            return
+        }
+
+        if (!email.includes('@') || !email.includes('.')) {
+            alert('Digite um e-mail válido.')
+            return
+        }
+
+        var temNumero = false
+        var temLetra = false
+
+        if (senha.length < 8) {
+            alert('A senha deve ter no minímo 8 caracteres.')
+            return
+        }
+
+        for (var atual = 0; atual < senha.length; atual++) {
+            var atual2 = senha[atual]
+
+            if (atual2 >= 'A' && atual2 <= 'Z' || atual2 >= 'a' && atual2 <= 'z') {
+                temLetra = true
+            } else if (atual2 >= '0' && atual2 <= '9') {
+                temNumero = true
+            }
+        }
+
+        if (!temNumero) {
+            alert('A senha deve conter pelo menos um número.')
+            return
+        }
+
+        if (!temLetra) {
+            alert('A senha deve conter pelo menos uma letra.')
+            return
+        }
+
+        if (senha !== confirmar) {
+            alert('As senhas não coincidem.')
+            return
+        }
+
+        alert('Cadastro enviado com sucesso!')
+    }
 
 </script>
+
 </html>

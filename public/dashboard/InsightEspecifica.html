@@ -142,135 +142,135 @@
 
 <script>
 
-function criarGradient(ctx) {
-  const gradiente = ctx.createLinearGradient(0, 0, 0, 500);
-  gradiente.addColorStop(0, '#10D3F9');
-  gradiente.addColorStop(1, '#740BC6');
-  return gradiente;
-}
+  function criarGradient(ctx) {
+    const gradiente = ctx.createLinearGradient(0, 0, 0, 500);
+    gradiente.addColorStop(0, '#10D3F9');
+    gradiente.addColorStop(1, '#740BC6');
+    return gradiente;
+  }
 
-// Definindo o pixel ratio uma vez
-const dpr = window.devicePixelRatio || 1;
-const canvasProcessos = document.getElementById('graficoProcessos');
-const ctxProcessos = canvasProcessos.getContext('2d');
+  // Definindo o pixel ratio uma vez
+  const dpr = window.devicePixelRatio || 1;
+  const canvasProcessos = document.getElementById('graficoProcessos');
+  const ctxProcessos = canvasProcessos.getContext('2d');
 
-canvasProcessos.width = canvasProcessos.offsetWidth * dpr;
-canvasProcessos.height = canvasProcessos.offsetHeight * dpr;
-ctxProcessos.scale(dpr, dpr);
+  canvasProcessos.width = canvasProcessos.offsetWidth * dpr;
+  canvasProcessos.height = canvasProcessos.offsetHeight * dpr;
+  ctxProcessos.scale(dpr, dpr);
 
 
-const graficoProcessos = new Chart(ctxProcessos, {
-  type: 'bar',
-  data: {
-    labels: ['Maya', 'Davinci', 'C4d', 'Blender', 'AfterEffects'],
-    datasets: [{
-      label: 'Uso de CPU (%)',
-      data: [20, 5, 12, 15, 25],
-      backgroundColor: "blue",
-      borderSkipped: false
-    }]
-  },
-  options: {
-    indexAxis: 'y',
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true },
-      title: {
-        display: true,
-        text: 'Distribuição do Uso de CPU entre Processos',
-        font: {
-          size: 20,
-          weight: 'bold'
-        },
-        padding: {
-          top: 10,
-          bottom: 20
-        }
-      }
+  const graficoProcessos = new Chart(ctxProcessos, {
+    type: 'bar',
+    data: {
+      labels: ['Maya', 'Davinci', 'C4d', 'Blender', 'AfterEffects'],
+      datasets: [{
+        label: 'Uso de CPU (%)',
+        data: [20, 5, 12, 15, 25],
+        backgroundColor: "blue",
+        borderSkipped: false
+      }]
     },
-    scales: {
-      x: {
-        beginAtZero: true,
-        max: 100,
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
         title: {
           display: true,
-          text: 'Média Porcentagem de Uso de CPU',
+          text: 'Distribuição do Uso de CPU entre Processos',
           font: {
-            size: 17,
+            size: 20,
             weight: 'bold'
+          },
+          padding: {
+            top: 10,
+            bottom: 20
           }
-        },
-        ticks: {
-          font: {
-            size: 17
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: 'Média Porcentagem de Uso de CPU',
+            font: {
+              size: 17,
+              weight: 'bold'
+            }
+          },
+          ticks: {
+            font: {
+              size: 17
+            }
           }
         }
       }
     }
-  }
-});
+  });
 
 
-const canvas = document.getElementById('graficoAlertas');
-const ctxAlertas = canvas.getContext('2d');
+  const canvas = document.getElementById('graficoAlertas');
+  const ctxAlertas = canvas.getContext('2d');
 
-canvas.width = canvas.offsetWidth * dpr;
-canvas.height = canvas.offsetHeight * dpr;
-ctxAlertas.scale(dpr, dpr);
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = canvas.offsetHeight * dpr;
+  ctxAlertas.scale(dpr, dpr);
 
-const gradienteAlertas = criarGradient(ctxAlertas);
+  const gradienteAlertas = criarGradient(ctxAlertas);
 
-const graficoAlertas = new Chart(ctxAlertas, {
-  type: 'bar',
-  data: {
-    labels: ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-    datasets: [{
-      label: 'Nº de Alertas',
-      data: [40, 30, 35, 50, 55],
-      backgroundColor: gradienteAlertas,
-      borderRadius: 10,
-      borderSkipped: false
-    }]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: { enabled: true },
-      title: {
-        display: true,
-        text: "Histórico de Alertas de CPU",
-        font: {
-          size: 28,
-          weight: 'bold'
-        },
-        padding: {
-          top: 10,
-          bottom: 20
-        }
-      }
+  const graficoAlertas = new Chart(ctxAlertas, {
+    type: 'bar',
+    data: {
+      labels: ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      datasets: [{
+        label: 'Nº de Alertas',
+        data: [40, 30, 35, 50, 55],
+        backgroundColor: gradienteAlertas,
+        borderRadius: 10,
+        borderSkipped: false
+      }]
     },
-    scales: {
-      y: {
-        beginAtZero: true,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
         title: {
           display: true,
-          text: 'Quantidade de Alertas',
+          text: "Histórico de Alertas de CPU",
           font: {
-            size: 26,
+            size: 28,
             weight: 'bold'
+          },
+          padding: {
+            top: 10,
+            bottom: 20
           }
-        },
-        ticks: {
-          font: {
-            size: 17
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Quantidade de Alertas',
+            font: {
+              size: 26,
+              weight: 'bold'
+            }
+          },
+          ticks: {
+            font: {
+              size: 17
+            }
           }
         }
       }
     }
-  }
-});
+  });
 
 
 
