@@ -142,116 +142,135 @@
 
 <script>
 
-  const ctxProcessos = document.getElementById('graficoProcessos');
+function criarGradient(ctx) {
+  const gradiente = ctx.createLinearGradient(0, 0, 0, 500);
+  gradiente.addColorStop(0, '#10D3F9');
+  gradiente.addColorStop(1, '#740BC6');
+  return gradiente;
+}
 
-  const dpr = window.devicePixelRatio || 1;               // Grafico estava embaçado, essas 3 linhas resolveram
-  ctxProcessos.width = ctxProcessos.offsetWidth * dpr;
-  ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
+// Definindo o pixel ratio uma vez
+const dpr = window.devicePixelRatio || 1;
+const canvasProcessos = document.getElementById('graficoProcessos');
+const ctxProcessos = canvasProcessos.getContext('2d');
 
-  const graficoProcessos = new Chart(ctxProcessos, {
-    type: 'bar',
-    data: {
-      labels: ['Maya', 'Davinci', 'C4d', 'Blender', 'AfterEffects'],
-      datasets: [{
-        label: 'Uso de CPU (%)',
-        data: [20, 5, 12, 15, 25],
-        backgroundColor: 'rgba(49, 144, 232, 1)',
-        borderSkipped: false
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: true },
-        title: {
-          display: true,
-          text: 'Distribuição do Uso de CPU entre Processos',
-          font: {
-            size: 20,
-            weight: 'bold'
-          },
-          padding: {
-            top: 10,
-            bottom: 20
-          }
-        }
-      },
-      scales: {
-        x: {
-          beginAtZero: true,
-          max: 100,
-          title: {
-            display: true,
-            text: 'Média Porcentagem de Uso de CPU',
-            font: {
-              size: 17,
-              weight: 'bold'
-            }
+canvasProcessos.width = canvasProcessos.offsetWidth * dpr;
+canvasProcessos.height = canvasProcessos.offsetHeight * dpr;
+ctxProcessos.scale(dpr, dpr);
 
-          }
-        }
-      },
-      ticks: {
+
+const graficoProcessos = new Chart(ctxProcessos, {
+  type: 'bar',
+  data: {
+    labels: ['Maya', 'Davinci', 'C4d', 'Blender', 'AfterEffects'],
+    datasets: [{
+      label: 'Uso de CPU (%)',
+      data: [20, 5, 12, 15, 25],
+      backgroundColor: "blue",
+      borderSkipped: false
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true },
+      title: {
+        display: true,
+        text: 'Distribuição do Uso de CPU entre Processos',
         font: {
-          size: 17
+          size: 20,
+          weight: 'bold'
+        },
+        padding: {
+          top: 10,
+          bottom: 20
         }
       }
-    }
-
-  });
-
-  const ctxAlertas = document.getElementById('graficoAlertas')
-
-  ctxAlertas.width = ctxAlertas.offsetWidth * dpr;
-  ctxAlertas.height = ctxAlertas.offsetHeight * dpr;
-
-  const graficoAlertas = new Chart(ctxAlertas, {
-    type: 'bar',
-    data: {
-      labels: ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-      datasets: [{
-        label: 'Nº de Alertas',
-        data: [40, 30, 35, 50, 55],
-        backgroundColor: "blue",
-        borderRadius: 10,
-        borderSkipped: false
-      }]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: true },
+    scales: {
+      x: {
+        beginAtZero: true,
+        max: 100,
         title: {
           display: true,
-          text: "Histórico de Alertas de CPU",
+          text: 'Média Porcentagem de Uso de CPU',
           font: {
-            size: 28,
+            size: 17,
             weight: 'bold'
-          },
-          padding: {
-            top: 10,
-            bottom: 20
           }
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          title: {
-            display: true,
-            text: 'Quantidade de Alertas',
-            font: {
-              size: 26,
-              weight: 'bold'
-            }
+        },
+        ticks: {
+          font: {
+            size: 17
           }
         }
       }
     }
-  });
+  }
+});
+
+
+const canvas = document.getElementById('graficoAlertas');
+const ctxAlertas = canvas.getContext('2d');
+
+canvas.width = canvas.offsetWidth * dpr;
+canvas.height = canvas.offsetHeight * dpr;
+ctxAlertas.scale(dpr, dpr);
+
+const gradienteAlertas = criarGradient(ctxAlertas);
+
+const graficoAlertas = new Chart(ctxAlertas, {
+  type: 'bar',
+  data: {
+    labels: ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+    datasets: [{
+      label: 'Nº de Alertas',
+      data: [40, 30, 35, 50, 55],
+      backgroundColor: gradienteAlertas,
+      borderRadius: 10,
+      borderSkipped: false
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: { enabled: true },
+      title: {
+        display: true,
+        text: "Histórico de Alertas de CPU",
+        font: {
+          size: 28,
+          weight: 'bold'
+        },
+        padding: {
+          top: 10,
+          bottom: 20
+        }
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Quantidade de Alertas',
+          font: {
+            size: 26,
+            weight: 'bold'
+          }
+        },
+        ticks: {
+          font: {
+            size: 17
+          }
+        }
+      }
+    }
+  }
+});
 
 
 
