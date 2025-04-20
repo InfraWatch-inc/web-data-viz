@@ -58,7 +58,7 @@ function postColaborador(req, res) {
 
     colaboradoresModel.postColaborador(nome, email, documento, cargo, senha, tipoDocumento, fkEmpresa, nivel)
     .then((resultado) => {
-        return res.status(200).json(resultado);
+        return res.status(201).json(resultado);
     })
     .catch((erro) => {
         console.log(erro);
@@ -119,17 +119,22 @@ function deleteColaborador(req, res){
         return res.status(400).send("idColaborador indefinido!");
     }
 
-    // TODO problema de fk constrint do fkResponsavel - setar fkEmpresa e fkResponsavel como null
+    let isColaborador = colaboradoresModel.getColaborador(idColaborador);
+
+    if (isColaborador.length == 0) {
+        return res.status(400).send("Usuário não existe no sistema");
+    }
+    
     colaboradoresModel.deleteColaborador(idColaborador)
     .then((resultado) => {
-        resultado.json()
-        .then(() => {
-            return res.status(200).json({"message":"Usuário deletado com sucesso"})
-        })        
+        return res.status(200).json({"message":"Usuário deletado com sucesso"})
     })
     .catch((erro) => {
         console.log(erro);
-        return res.status(500).json("Usuário não existe no sistema");
+        if(erro.sqlState == '23000'){
+            return res.status(400).json({"message":"Usuário não pode ser deletado, pois está vinculado a um outro usuário"});
+        }
+        return res.status(500).json(erro.sqlMessage);
     })
 }
 

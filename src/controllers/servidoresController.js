@@ -16,7 +16,7 @@ function validarCampos(res, corpoReq, campos) {
     return isValido;
 }
 
-function postServidor(req, res) {
+async function postServidor(req, res) {
     let campos = ["cepServer", "logradouroServer", "numeroServer", "bairroServer", "cidadeServer", "estadoServer", "paisServer", "complementoServer",
         "idEmpresaServer", "tagNameServer", "tipoServer", "uuidServer", "idInstanciaServer", "soServer", "componentesServer"];
     if(!validarCampos(res, req.body, campos)){
@@ -41,52 +41,33 @@ function postServidor(req, res) {
     
     let componentes = req.body.componentesServer; 
 
-    let idEndereco = enderecoModel.postEndereco(cep,logradouro,numero,bairro,cidade,estado,pais,complemento)
-    .then(() => {
-            let idServidor = servidoresModel.postServidor(idEmpresa, tagName, tipo, uuid, idInstancia, so, idEndereco)
-            .then(() => {
-                componentes.forEach((componente) => {
-                    let nome = componente.nome;
-                    let marca = componente.marca;                    
-                    let numeracao = componente.numeracao;
-                    let modelo = componente.modelo;
-                    let configuracoes = componente.configuracoes;
+    try{
+        const endereco = await enderecoModel.postEndereco(cep, logradouro, numero, bairro, cidade, estado, pais, complemento);
+        const idEndereco = endereco.insertId;
 
-                    let idComponente = componenteModel.postComponente(idServidor, nome, marca, numeracao, modelo)
-                    .then(() => {
-                        console.log("Componente cadastrada com sucesso!")
-                    })
-                    .catch((err) => {
-                        res.status(500).json(err.sqlMessage) 
-                    })
+        const servidor = await servidoresModel.postServidor(idEmpresa, tagName, tipo, uuid, idInstancia, so, idEndereco);
+        const idServidor = servidor.insertId;
 
-                    configuracoes.forEach((config) => {
-                        let unidadeMedida = config.unidadeMedida;
-                        let descricao = config.descricao;
-                        let limiteAtencao = config.limiteAtencao; 
-                        let limiteCritico = config.limiteCritico;  
-                        let funcaoPython = config.funcaoPython;
-                        
-                        configuracaoMonitoramentoModel.postConfiguracao(idComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython)
-                        .then(() => {
-                            console.log("Configuração cadastrada com sucesso!")
-                        })
-                        .catch((err) => {
-                            res.status(500).json(err.sqlMessage)
-                        })
-                    })                    
-                });
-            })
-            .catch((err) => {
-                res.status(500).json(err.sqlMessage)
-            })
-            
-            res.status(200).json("Servidor cadastrado com sucesso!")
-    })
-    .catch((err) => {
-        res.status(500).json(err.sqlMessage)
-    })
+        for (const componente of componentes) {
+            const { nome, marca, numeracao, modelo, configuracoes } = componente;
 
+            const comp = await componenteModel.postComponente(idServidor, nome, marca, numeracao, modelo);
+            const idComponente = comp.insertId;
+
+            for (const config of configuracoes) {
+                const { unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython } = config;
+
+                await configuracaoMonitoramentoModel.postConfiguracao(
+                    idComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython
+                );
+            }
+        }
+
+        return res.status(200).json("Servidor cadastrado com sucesso!");
+    } catch (err) {
+        console.error("Erro ao cadastrar servidor:", err);
+        return res.status(500).json(err.sqlMessage || err.message);
+    }
 }
 
 function getServidores(req , res){
@@ -112,13 +93,13 @@ function getServidor(req, res){
     })
 }
 
-function putServidor(req, res){
-    let campos = ["idServidor","tagName", "tipo", "uuid", "idInstancia", "so", "componentes"];
+async function putServidor(req, res){
+    let campos = ["tagNameServer", "tipoServer", "uuidServer", "idInstanciaServer", "soServer", "componentesServer"];
     if(!validarCampos(res, req.body, campos)){
         return;
     }
 
-    let idEmpresa = req.body.idEmpresaServer;
+    let idServidor = req.params.id;
     let tagName = req.body.tagNameServer;
     let tipo = req.body.tipoServer;
     let uuid = req.body.uuidServer;
@@ -127,148 +108,76 @@ function putServidor(req, res){
     
     let componentes = req.body.componentesServer;
 
-    servidoresModel.putServidor(idServidor, idEmpresa, tagName, tipo, uuid, idInstancia, so)
-    .then(() => {
-        console.log("Servidor atualizado com sucesso!")
-    })
-    .catch((err) => {  
-        res.status(500).json(err.sqlMessage) 
-    })
-    
-    componenteModel.getComponentesServidor(idServidor)
-    .then((resultado) => {
-        resultado.json((resultado) => {  
-            let idComponentes = resultado.map((componente) => { 
-                return componente.idComponente;
-            })
+    try{
+        await servidoresModel.putServidor(idServidor, tagName, tipo, uuid, idInstancia, so);
+        console.log("Servidor atualizado com sucesso!");
 
-            componentes.forEach((componente) => {
-                let nome = componente.nome;
-                let marca = componente.marca;                    
-                let numeracao = componente.numeracao;
-                let modelo = componente.modelo;
-                let configuracoes = componente.configuracoes;
-                
-                if(!idComponentes.includes(componente.idComponente)){
-                    let idComponente = componenteModel.postComponente(idServidor, nome, marca, numeracao, modelo)
-                    .then(() => {
-                        console.log("Componente cadastrada com sucesso!")
-                    })
-                    .catch((err) => {
-                        res.status(500).json(err.sqlMessage) 
-                    })
+        let componentesExistentes = await componenteModel.getComponentesServidor(idServidor);
+        let idComponentesExistentes = componentesExistentes.map(c => c.idComponente);
 
-                    configuracoes.forEach((config) => {
-                        let unidadeMedida = config.unidadeMedida;
-                        let descricao = config.descricao;
-                        let limiteAtencao = config.limiteAtencao; 
-                        let limiteCritico = config.limiteCritico;  
-                        let funcaoPython = config.funcaoPython;
-                        
-                        configuracaoMonitoramentoModel.postConfiguracao(idComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython)
-                        .then(() => {
-                            console.log("Configuração cadastrada com sucesso!")
-                        })
-                        .catch((err) => {
-                            res.status(500).json(err.sqlMessage)
-                        })
-                    })
-                } else{
-                    componenteModel.putComponente(componente.idComponente, nome, marca, numeracao, modelo)
-                    .then(() => {
-                        console.log("Componente atualizado com sucesso!")
-                    })
-                    .catch((err) => {
-                        res.status(500).json(err.sqlMessage) 
-                    })
+        for (const componente of componentes) {
+            const { idComponente, nome, marca, numeracao, modelo, configuracoes } = componente;
 
-                    configuracoes.forEach((config) => {
-                        let unidadeMedida = config.unidadeMedida;
-                        let descricao = config.descricao;
-                        let limiteAtencao = config.limiteAtencao; 
-                        let limiteCritico = config.limiteCritico;  
-                        let funcaoPython = config.funcaoPython;
-                        
-                        configuracaoMonitoramentoModel.putConfiguracao(config.idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython)
-                        .then(() => {
-                            console.log("Configuração atualizada com sucesso!")
-                        })
-                        .catch((err) => {
-                            res.status(500).json(err.sqlMessage)
-                        })
-                    })
+            if (!idComponentesExistentes.includes(idComponente)) {
+                const novoComp = await componenteModel.postComponente(idServidor, nome, marca, numeracao, modelo);
+                const idNovoComponente = novoComp.insertId;
+                console.log("Componente criado:", idNovoComponente);
+
+                for (const config of configuracoes) {
+                    const { unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython } = config;
+                    await configuracaoMonitoramentoModel.postConfiguracao(
+                        idNovoComponente, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython
+                    );
+                    console.log("Configuração criada");
                 }
-            })
-        })
-    })
-    .catch((err) => {
-        res.status(500).json(err.sqlMessage) 
-    })
+            } else {
+                await componenteModel.putComponente(idComponente, nome, marca, numeracao, modelo);
+                console.log("Componente atualizado:", idComponente);
+
+                for (const config of configuracoes) {
+                    const { idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython } = config;
+                    await configuracaoMonitoramentoModel.putConfiguracao(
+                        idConfiguracao, unidadeMedida, descricao, limiteAtencao, limiteCritico, funcaoPython
+                    );
+                    console.log("Configuração atualizada:", idConfiguracao);
+                }
+            }
+        }
+
+        return res.status(200).json("Servidor e componentes atualizados com sucesso!");
+
+    } catch (err) {
+        console.error("Erro ao atualizar servidor:", err);
+        return res.status(500).json(err.sqlMessage || err.message);
+    }
 }
 
-function deleteServidor(req, res){
-    let idServidor = req.params.idServidor;
+async function deleteServidor(req, res){
+    let idServidor = req.params.id;
 
-    let idComponentes = null;
-    let idConfiguracoes = null;
+    try {
+        const componentes = await componenteModel.getComponentesServidor(idServidor);
 
-    componenteModel.getComponentesServidor(idServidor)
-    .then((resultado) => {
-        resultado.json((resultado) => {  
-            idComponentes = resultado.map((componente) => { 
-                return componente.idComponente;
-            })
+        for (const componente of componentes) {
+            const idComponente = componente.idComponente;
 
-            // buscar configuracoes componentes 
-            idComponentes.forEach((idComponente) => {
-                configuracaoMonitoramentoModel.getConfiguracoesComponente(idComponente)
-                .then((resultado) => {
-                    resultado.json((resultado) => {
-                        idConfiguracoes = resultado.map((config) => { 
-                            return config.idConfiguracaoMonitoramento;
-                        });
-                    })
-                    .catch((err) => {
-                        res.status(500).json(err.sqlMessage)
-                    })
-                })
-                .catch((err) => {
-                    res.status(500).json(err.sqlMessage)
-                })
-            })
-        })
-    })
-    .catch((err) => {
-        res.status(500).json(err.sqlMessage)
-    })
+            const configuracoes = await configuracaoMonitoramentoModel.getConfiguracoesComponente(idComponente);
+            for (const config of configuracoes) {
+                await configuracaoMonitoramentoModel.deleteConfiguracao(config.idConfiguracaoMonitoramento);
+                console.log(`Configuração ${config.idConfiguracaoMonitoramento} deletada com sucesso!`);
+            }
 
-    idConfiguracoes.forEach((idConfiguracao) => {
-        configuracaoMonitoramentoModel.deleteConfiguracao(idConfiguracao)
-        .then(() => {
-            console.log("Configuração deletada com sucesso!")
-        })
-        .catch((err) => {
-            res.status(500).json(err.sqlMessage)
-        })
-    })
+            await componenteModel.deleteComponente(idComponente);
+            console.log(`Componente ${idComponente} deletado com sucesso!`);
+        }
 
-    idComponentes.forEach((idComponente) => {
-        componenteModel.deleteComponente(idComponente)
-        .then(() => {
-            console.log("Componente deletada com sucesso!")
-        })
-        .catch((err) => {
-            res.status(500).json(err.sqlMessage)
-        })
-    })
-
-    servidoresModel.deleteServidor(idServidor)
-    .then(() => {
+        await servidoresModel.deleteServidor(idServidor);
+        console.log(`Servidor ${idServidor} deletado com sucesso!`);
         res.status(200).json("Servidor deletado com sucesso!");
-    })
-    .catch((err) => {
-        res.status(500).json(err.sqlMessage);
-    })
+
+    } catch (err) {
+        res.status(500).json(err.sqlMessage || err.message);
+    }
 }
 
 module.exports = {

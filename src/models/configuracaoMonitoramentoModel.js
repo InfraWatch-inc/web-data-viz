@@ -31,7 +31,6 @@ function getConfiguracoesComponente(idComponente){ // TODO
 }
 
 module.exports = {
-    getConfiguracoes,
     getConfiguracoesServidor,
     postConfiguracao,
     putConfiguracao,
