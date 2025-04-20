@@ -142,11 +142,22 @@
 
 <script>
 
-  const ctxProcessos = document.getElementById('graficoProcessos');
+  function criarGradient(ctx) {
+    const gradiente = ctx.createLinearGradient(0, 0, 0, 500);
+    gradiente.addColorStop(0, '#10D3F9');
+    gradiente.addColorStop(1, '#740BC6');
+    return gradiente;
+  }
 
-  const dpr = window.devicePixelRatio || 1;               // Grafico estava embaçado, essas 3 linhas resolveram
-  ctxProcessos.width = ctxProcessos.offsetWidth * dpr;
-  ctxProcessos.height = ctxProcessos.offsetHeight * dpr;
+  // Definindo o pixel ratio uma vez
+  const dpr = window.devicePixelRatio || 1;
+  const canvasProcessos = document.getElementById('graficoProcessos');
+  const ctxProcessos = canvasProcessos.getContext('2d');
+
+  canvasProcessos.width = canvasProcessos.offsetWidth * dpr;
+  canvasProcessos.height = canvasProcessos.offsetHeight * dpr;
+  ctxProcessos.scale(dpr, dpr);
+
 
   const graficoProcessos = new Chart(ctxProcessos, {
     type: 'bar',
@@ -155,7 +166,7 @@
       datasets: [{
         label: 'Uso de CPU (%)',
         data: [20, 5, 12, 15, 25],
-        backgroundColor: 'rgba(49, 144, 232, 1)',
+        backgroundColor: "blue",
         borderSkipped: false
       }]
     },
@@ -189,23 +200,26 @@
               size: 17,
               weight: 'bold'
             }
-
+          },
+          ticks: {
+            font: {
+              size: 17
+            }
           }
-        }
-      },
-      ticks: {
-        font: {
-          size: 17
         }
       }
     }
-
   });
 
-  const ctxAlertas = document.getElementById('graficoAlertas')
 
-  ctxAlertas.width = ctxAlertas.offsetWidth * dpr;
-  ctxAlertas.height = ctxAlertas.offsetHeight * dpr;
+  const canvas = document.getElementById('graficoAlertas');
+  const ctxAlertas = canvas.getContext('2d');
+
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = canvas.offsetHeight * dpr;
+  ctxAlertas.scale(dpr, dpr);
+
+  const gradienteAlertas = criarGradient(ctxAlertas);
 
   const graficoAlertas = new Chart(ctxAlertas, {
     type: 'bar',
@@ -214,7 +228,7 @@
       datasets: [{
         label: 'Nº de Alertas',
         data: [40, 30, 35, 50, 55],
-        backgroundColor: "blue",
+        backgroundColor: gradienteAlertas,
         borderRadius: 10,
         borderSkipped: false
       }]
@@ -246,6 +260,11 @@
             font: {
               size: 26,
               weight: 'bold'
+            }
+          },
+          ticks: {
+            font: {
+              size: 17
             }
           }
         }
