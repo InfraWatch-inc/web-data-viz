@@ -54,28 +54,32 @@ async function cadastrarEmp(req, res) {
 
   let empresa;
 
-
+  
+  
   try {
     const isEmpresaExists = await empresaModel.buscarPorCnpj(numeroTin)
-
+    
     if (isEmpresaExists.length > 0) {
       return res.status(401).json({ mensagem: `a empresa com o cnpj ${numeroTin} já existe` });
     }
-
-
-
+    
+    
+    
     endereco = await empresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, pais)
-    await empresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, endereco.insertId)
-    await colaboradoresModel.cadastrarColaborador(nome, email, documento, cargo, senha, tipoDocumento, empresa.insertId)
+    empresa = await empresaModel.cadastrarEmp(razaoSocial,numeroTin,telefone,site,endereco.insertId);
+    
+
+    await colaboradoresModel.postColaborador(nome,email,documento,cargo,senha,tipoDocumento,empresa.insertId,2);
 
     res.status(201).json({ mensagem: "Empresa cadastrada com sucesso" });
+
   } catch (erro) {
 
     if (empresa) {
       empresaModel.excluirEmpresa(empresa.insertId);
     }
 
-    res.status(500).json(erro)
+    res.status(500).json(erro.message)
   }
 
 

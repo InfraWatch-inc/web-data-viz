@@ -11,13 +11,6 @@ const divPaginas = [divPagina1, divPagina2, divPagina3, divPagina4, divPagina5];
 const modal = document.getElementById('modal');
 
 let informacoesCadastro = {
-    empresa: {
-        razaoSocialServer: '',
-        numeroTinServer: '',
-        paisServer: '',
-        telefoneServer: '',
-        siteServer: ''
-    },
     endereco: {
         cepServer: '',
         logradouroServer: '',
@@ -26,6 +19,13 @@ let informacoesCadastro = {
         bairroServer: '',
         cidadeServer: '',
         estadoServer: ''
+    },
+    empresa: {
+        razaoSocialServer: '',
+        numeroTinServer: '',
+        paisServer: '',
+        telefoneServer: '',
+        siteServer: ''
     },
     colaboradorResponsavel: {
         nomeServer: '',
