@@ -64,8 +64,8 @@ async function cadastrarEmp(req, res) {
 
 
 
-    empresa = await empresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, fkEndereco)
-    await empresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, empresa.insertId)
+    endereco = await empresaModel.cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, pais)
+    await empresaModel.cadastrarEmp(razaoSocial, numeroTin, telefone, site, endereco.insertId)
     await colaboradoresModel.cadastrarColaborador(nome, email, documento, cargo, senha, tipoDocumento, empresa.insertId)
 
     res.status(201).json({ mensagem: "Empresa cadastrada com sucesso" });
