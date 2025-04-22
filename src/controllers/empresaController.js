@@ -69,7 +69,7 @@ async function cadastrarEmp(req, res) {
     empresa = await empresaModel.cadastrarEmp(razaoSocial,numeroTin,telefone,site,endereco.insertId);
     
 
-    await colaboradoresModel.postColaborador(nome,email,documento,cargo,senha,tipoDocumento,empresa.insertId,2);
+    await colaboradoresModel.postColaborador(nome,email,documento,cargo,senha,tipoDocumento,empresa.insertId,3);
 
     res.status(201).json({ mensagem: "Empresa cadastrada com sucesso" });
 
