@@ -62,7 +62,7 @@ function atualizarPagina(isAvancando) {
 }
 
 function avancar() {
-    if (eval('validarPagina' + (paginaAtual + 1) + '(true)')) {
+    if (eval('validarPagina' + (paginaAtual + 1) + '(true)') && paginaAtual != 4) {
         atualizarPagina(true);
         return;
     }
@@ -306,7 +306,10 @@ function cadastrar() {
         body: JSON.stringify(informacoesCadastro),
     })
     .then(function (resposta) {
-        console.log("resposta: ", resposta);
+        resposta.json()
+            .then((res) => {
+                console.log(res);
+        })
         
         if (resposta.ok) {
             abrirModal("Cadastro realizado com sucesso! Redirecionando para tela de Login...", false);
@@ -314,12 +317,18 @@ function cadastrar() {
             setTimeout(() => {
                 window.location = "login.html";
             }, 2000);
+
+            
         } else {
             resposta.json()
             .then(res => abrirModal(res.mensagem, true));   
         }
     })
     .catch(function (resposta) {
+        resposta.json()
+            .then((res) => {
+                console.log(res);
+            })
         abrirModal("Erro ao realizar o cadatro...", true);
     });
 

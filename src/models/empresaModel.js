@@ -12,20 +12,20 @@ function buscarPorCnpj(razaoSocial) {
   return database.executar(instrucaoSql);
 }
 
-function cadastrarEmp(razaoSocial, numeroTin, telefone, site, pais) {
+function cadastrarEmp(razaoSocial, numeroTin, telefone, site, fkEndereco) {
     var instrucaoSql = `
         INSERT INTO Empresa (razaoSocial, numeroTin, telefone, site, pais)
-         VALUES ('${razaoSocial}', '${numeroTin}', '${telefone}', '${site}', '${pais}');
+         VALUES ('${razaoSocial}', '${numeroTin}', '${telefone}', '${site}', '${fkEndereco}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
 
-function cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, fkEmpresa) {
+function cadastrarEnd(cep, logradouro, numero, bairro, cidade, estado, complemento, pais) {
     var instrucaoSql = `
         INSERT INTO Endereco (cep, logradouro, numero, bairro, cidade, estado, complemento) 
         VALUES ('${cep}', '${logradouro}', '${numero}', '${bairro}', '${cidade}', '${estado}', '${complemento}', 
-        '${fkEmpresa}');
+        '${pais}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

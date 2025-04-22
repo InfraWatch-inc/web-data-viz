@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/InsigthtEspecifica.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+  <title>Document</title>
+</head>
+
+<body>
+
+  <header>
+    <nav class="header">
+      <div class="user_div">
+        <div class="img"></div>
+        <span class="user_name">Carlos Eduardo</span>
+      </div>
+
+      <ul><a href="./insghts.html">Insights</a></ul>
+      <ul><a href="./suporte.html">Suporte</a></ul>
+
+      <button class="sair">Sair</button>
+    </nav>
+  </header>
+
+  <div class="insight-container">
+
+
+    <div class="bcentral">
+
+      <div class="besquerda">
+
+        <div class="tipo-componente-dis">
+          <div class="tipo-componente">
+            <h1>CPU</h1>
+          </div>
+        </div>
+
+
+        <div class="gprocessos">
+
+          <div class="graficopro">
+            <canvas id="graficoProcessos" style="height: 90%; width: 100%;"></canvas>
+          </div>
+
+          <div class="select-comppro">
+
+            <select name="" id="slct_comp_processos">
+
+              <option value="processos-cpu">CPU</option>
+              <option value="processos-ram">RAM</option>
+              <option value="processos-gpu">GPU</option>
+
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="bdireita">
+        <div class="boxcimadis">
+
+          <div class="boxcima">
+            <div class="cimaesc">
+              <div class="card">
+                <h3>CPU's</h3>
+                <p>69</p>
+              </div>
+              <div class="card">
+                <h3>CPU's em <br>Alertas</h3>
+                <p>22</p>
+              </div>
+            </div>
+            <div class="cimadir">
+
+              <div class="boxFiltros">
+                <select class="filtro" id="metricas">
+                  <option value="" disabled>Selecione uma métrica</option>
+                  <option value="uso" selected>Uso</option>
+                  <option value="">exemplo-02</option>
+                  <option value="">exemplo-03</option>
+                  <option value="">Media geral</option>
+                </select>
+
+                <select class="filtro" id="modelos">
+                  <option value="" disabled selected>Selecione um modelo</option>
+                  <option value="">exemplo-01</option>
+                  <option value="">exemplo-02</option>
+                  <option value="">exemplo-03</option>
+                  <option value="">Todos</option>
+                </select>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="galertas">
+          <div class="filtros-graficos-alertas">
+
+            <select class="filtro" id="metricas">
+              <option value="" disabled selected>Tipo de Alerta</option>
+              <option value="">exemplo-02</option>
+              <option value="">exemplo-03</option>
+              <option value="">Media geral</option>
+            </select>
+
+            <select class="filtro" id="modelos">
+              <option value="" disabled selected>Semestral</option>
+              <option value="">exemplo-01</option>
+              <option value="">exemplo-02</option>
+              <option value="">exemplo-03</option>
+              <option value="">Todos</option>
+            </select>
+
+          </div>
+          <canvas id="graficoAlertas" style="height: 70%; width: 90%;"></canvas>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</body>
+
+</html>
+
+<script>
+
+  function criarGradient(ctx) {
+    const gradiente = ctx.createLinearGradient(0, 0, 0, 500);
+    gradiente.addColorStop(0, '#10D3F9');
+    gradiente.addColorStop(1, '#740BC6');
+    return gradiente;
+  }
+
+  // Definindo o pixel ratio uma vez
+  const dpr = window.devicePixelRatio || 1;
+  const canvasProcessos = document.getElementById('graficoProcessos');
+  const ctxProcessos = canvasProcessos.getContext('2d');
+
+  canvasProcessos.width = canvasProcessos.offsetWidth * dpr;
+  canvasProcessos.height = canvasProcessos.offsetHeight * dpr;
+  ctxProcessos.scale(dpr, dpr);
+
+
+  const graficoProcessos = new Chart(ctxProcessos, {
+    type: 'bar',
+    data: {
+      labels: ['Maya', 'Davinci', 'C4d', 'Blender', 'AfterEffects'],
+      datasets: [{
+        label: 'Uso de CPU (%)',
+        data: [20, 5, 12, 15, 25],
+        backgroundColor: "blue",
+        borderSkipped: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+        title: {
+          display: true,
+          text: 'Distribuição do Uso de CPU entre Processos',
+          font: {
+            size: 20,
+            weight: 'bold'
+          },
+          padding: {
+            top: 10,
+            bottom: 20
+          }
+        }
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: 'Média Porcentagem de Uso de CPU',
+            font: {
+              size: 17,
+              weight: 'bold'
+            }
+          },
+          ticks: {
+            font: {
+              size: 17
+            }
+          }
+        }
+      }
+    }
+  });
+
+
+  const canvas = document.getElementById('graficoAlertas');
+  const ctxAlertas = canvas.getContext('2d');
+
+  canvas.width = canvas.offsetWidth * dpr;
+  canvas.height = canvas.offsetHeight * dpr;
+  ctxAlertas.scale(dpr, dpr);
+
+  const gradienteAlertas = criarGradient(ctxAlertas);
+
+  const graficoAlertas = new Chart(ctxAlertas, {
+    type: 'bar',
+    data: {
+      labels: ['Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      datasets: [{
+        label: 'Nº de Alertas',
+        data: [40, 30, 35, 50, 55],
+        backgroundColor: gradienteAlertas,
+        borderRadius: 10,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true },
+        title: {
+          display: true,
+          text: "Histórico de Alertas de CPU",
+          font: {
+            size: 28,
+            weight: 'bold'
+          },
+          padding: {
+            top: 10,
+            bottom: 20
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Quantidade de Alertas',
+            font: {
+              size: 26,
+              weight: 'bold'
+            }
+          },
+          ticks: {
+            font: {
+              size: 17
+            }
+          }
+        }
+      }
+    }
+  });
+
+
+
+</script>
