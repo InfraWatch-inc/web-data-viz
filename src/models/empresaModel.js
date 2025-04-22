@@ -14,7 +14,7 @@ function buscarPorCnpj(razaoSocial) {
 
 function cadastrarEmp(razaoSocial, numeroTin, telefone, site, fkEndereco) {
   var instrucaoSql = `
-        INSERT INTO Empresa (razaoSocial, numeroTin, telefone, site, pais)
+        INSERT INTO Empresa (razaoSocial, numeroTin, telefone, site, fkEndereco)
          VALUES ('${razaoSocial}', '${numeroTin}', '${telefone}', '${site}', '${fkEndereco}');
     `;
   console.log("Executando a instrução SQL: \n" + instrucaoSql);
