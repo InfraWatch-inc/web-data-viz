@@ -15,7 +15,7 @@
     <nav class="header">
       <div class="user_div">
         <div class="img"></div>
-        <span class="user_name">Carlos Eduardo</span>
+        <span class="user_name" id="nome_usuario"></span>
       </div>
 
       <ul>
@@ -60,3 +60,9 @@
 </body>
 
 </html>
+
+<script>
+
+nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+</script>

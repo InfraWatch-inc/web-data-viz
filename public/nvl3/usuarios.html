@@ -16,7 +16,7 @@
         <nav class="navbar">
             <div class="user_div">
                 <div class="img"></div>
-                <span class="user_name">Beatriz</span>
+                <span class="user_name" id="nome_usuario"></span>
             </div>
 
             <ul><a href="./servidores.html">Monitoramento</a></ul>
@@ -405,6 +405,8 @@
 
         alert('Cadastro enviado com sucesso!')
     }
+
+    nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
 </script>
 
