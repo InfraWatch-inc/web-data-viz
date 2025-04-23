@@ -32,14 +32,6 @@
     <div class="main-content">
         <div class="container">
             <div class="header">
-                <div class="nav">
-                    <button id="abrirModal" class="btn-Modal">Adicionar</button>
-                    <button class="filtro">
-                        Filtro
-                    </button>
-                    <input type="text" class="pesquisa" placeholder="Pesquisar">
-
-                </div>
                 <div class="dropdown">
                     <button class="dropdown-status">STATUS ▼</button>
                     <ul class="dropdown-menu">
@@ -130,6 +122,9 @@
 
 </html>
 <script>
+
+    nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
     const pesquisa = document.querySelector('.pesquisa');
     const linhas = document.querySelectorAll('tbody tr');
     const btnDropdown = document.querySelector('.dropdown-status');
@@ -148,6 +143,5 @@
         });
     };
 
-    nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
 </script>
