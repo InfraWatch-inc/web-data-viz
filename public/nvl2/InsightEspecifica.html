@@ -11,9 +11,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
 
   <title>Document</title>
+
+  <script src="../js/sessao.js"></script>
+
 </head>
 
-<body>
+<body onload="carregar()">
 
   <header>
     <nav class="header">
@@ -25,7 +28,7 @@
       <ul><a href="./insghts.html">Insights</a></ul>
       <ul><a href="./suporte.html">Suporte</a></ul>
 
-      <button class="sair">Sair</button>
+      <button class="sair" onclick="limparSessao()">Sair</button>
     </nav>
   </header>
 

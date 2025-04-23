@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="../css/InsigthtEspecifica.css">
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  <script src="../js/sessao.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
 
   <title>Document</title>
 </head>
 
-<body>
+<body onload="carregar()">
 
   <header>
     <nav class="header">
@@ -27,7 +27,7 @@
       <ul><a href="./usuarios.html">Usuários</a></ul>
       <ul><a href="./suporte.html">Suporte</a></ul>
 
-      <button class="sair">Sair</button>
+      <button class="sair" onclick="limparSessao()">Sair</button>
     </nav>
   </header>
 

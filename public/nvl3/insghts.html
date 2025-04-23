@@ -7,13 +7,14 @@
   <title>Insigths | InfraWatch</title>
   <link rel="stylesheet" href="../css/insghts.css" />
   <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
+  <script src="../js/sessao.js"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
 </head>
 
-<body>
+<body onload="carregar()">
   <header>
     <nav class="header">
       <div class="user_div">
@@ -34,7 +35,7 @@
         <a href="./suporte.html">Suporte</a>
       </ul>
 
-      <button class="sair">Sair</button>
+      <button class="sair" onclick="limparSessao()">Sair</button>
     </nav>
   </header>
 

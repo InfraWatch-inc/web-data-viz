@@ -14,7 +14,7 @@ function validarSessao() {
 
 function limparSessao() {
     sessionStorage.clear();
-    window.location = "../login.html";
+    window.location = "../index.html";
 }
 
 // carregamento (loading)
@@ -32,5 +32,17 @@ function finalizarAguardar(texto) {
         divErrosLogin.style.display = "flex";
         divErrosLogin.innerHTML = texto;
     }
+}
+
+function carregar() {
+
+    if (sessionStorage.NIVEL != 1 && sessionStorage.NIVEL != 2 && sessionStorage.NIVEL != 3) {
+        window.location = "../index.html"
+    }
+
+    if (sessionStorage.NIVEL == null) {
+        window.location = "../index.html"
+    }
+
 }
 

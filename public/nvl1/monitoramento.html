@@ -7,7 +7,7 @@
 
     <title>Monitoramento | InfraWatch</title>
 
-
+    <script src="../js/sessao.js"></script>
     <link rel="stylesheet" href="../css/monitoramento.css">
     <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body onload="carregar()">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
 
@@ -30,7 +30,7 @@
             <ul><a href="./servidores.html">Servidores</a></ul>
             <ul><a href="./suporte.html">Suporte</a></ul>
 
-            <button class="sair">Sair</button>
+            <button class="sair" onclick="limparSessao()">Sair</button>
         </nav>
     </header>
 
