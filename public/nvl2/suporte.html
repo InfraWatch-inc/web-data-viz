@@ -1,63 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../css/suporte.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap"
-      rel="stylesheet"
-    />
-    <title>Suporte</title>
-  </head>
-  <body>
-    <header>
-      <nav class="header">
-        <div class="user_div">
-          <div class="img"></div>
-          <span class="user_name">Carlos Eduardo</span>
-        </div>
 
-        <ul>
-          <a href="./insghts.html">Insights</a>
-        </ul>
-        <ul>
-          <a href="./suporte.html">Suporte</a>
-        </ul>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../css/suporte.css" />
+  <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
+  <title>Suporte | InfraWatch</title>
+</head>
 
-        <button class="sair">Sair</button>
-      </nav>
-    </header>
-
-    <main>
-      <div id="div_suporte_container">
-        <div id="div_titulo">
-          <h1>Suporte</h1>
-        </div>
-        <div id="div_conteudo">
-          <div id="div_assunto">
-            <h2>Assunto</h2>
-            <input
-              type="text"
-              id="inp_assunto"
-              placeholder="Informe o assunto"
-            />
-          </div>
-          <div id="div_desc">
-            <h2>Descrição</h2>
-            <input
-              type="text"
-              id="inp_descricao"
-              placeholder="Descreva o assunto e qual a necessidade"
-            />
-          </div>
-          <div id="div_anexo">
-            <input type="file" id="inp_anexo" placeholder="Enviar anexo" />
-            <label for="inp_anexo">Enviar anexo</label>
-          </div>
-          <button id="btn_enviar">Enviar Chamado</button>
-        </div>
+<body>
+  <header>
+    <nav class="header">
+      <div class="user_div">
+        <div class="img"></div>
+        <span class="user_name">Carlos Eduardo</span>
       </div>
-    </main>
-  </body>
+
+      <ul>
+        <a href="./insghts.html">Insights</a>
+      </ul>
+      <ul>
+        <a href="./suporte.html">Suporte</a>
+      </ul>
+
+      <button class="sair">Sair</button>
+    </nav>
+  </header>
+
+  <main>
+    <div id="div_suporte_container">
+      <div id="div_titulo">
+        <h1>Suporte</h1>
+      </div>
+      <div id="div_conteudo">
+        <div id="div_assunto">
+          <h2>Assunto</h2>
+          <input type="text" id="inp_assunto" placeholder="Informe o assunto" />
+        </div>
+        <div id="div_desc">
+          <h2>Descrição</h2>
+          <input type="text" id="inp_descricao" placeholder="Descreva o assunto e qual a necessidade" />
+        </div>
+        <div id="div_anexo">
+          <input type="file" id="inp_anexo" placeholder="Enviar anexo" />
+          <label for="inp_anexo">Enviar anexo</label>
+        </div>
+        <button id="btn_enviar">Enviar Chamado</button>
+      </div>
+    </div>
+  </main>
+</body>
+
 </html>
