@@ -359,6 +359,7 @@
         const confirmar = document.getElementById('iptConfirmar').value
         const tipoDoc = document.getElementById('tipoDoc').value
         const documento = document.getElementById('iptDocumento').value.trim()
+        const idEmpresa = sessionStorage.ID_EMPRESA
 
         if (!nome || !email || !cargo || !nivel || !senha || !confirmar || !tipoDoc || !documento) {
             alert('Preencha todos os campos obrigatórios.')
@@ -408,21 +409,26 @@
             headers: {
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify({
+                nomeServer: nome,
+                emailServer: email,
+                documentoServer: documento,
+                cargoServer: cargo,
+                senhaServer: senha,
+                tipoDocumentoServer: tipoDoc,
+                fkEmpresaServer: idEmpresa,
+                nivelServer: nivel
+            })
         })
             .then(function (resposta) {
                 resposta.json()
                     .then((res) => {
                         console.log(res);
                     })
-
                 if (resposta.ok) {
-
                     console.log("ok")
-
                 } else {
-
                     console.log("caralho")
-
                 }
             })
             .catch(function (resposta) {

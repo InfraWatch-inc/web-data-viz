@@ -15,7 +15,8 @@ router.get("/buscar/:idEmpresa/:id", function (req, res) {
     colaboradoresController.getColaborador(req, res);
 });
 
-router.post("/cadastrar", function (req, res) { 
+router.post("/postColaborador", function (req, res) { 
+    console.log("gay")
     colaboradoresController.postColaborador(req, res);
 });
 
