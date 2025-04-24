@@ -108,7 +108,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbodyUsuarios">
                     <tr>
                         <td>Cláudio</td>
                         <td>claudio@gmail.com</td>
@@ -403,10 +403,44 @@
             return
         }
 
+        fetch("/colaboradores/postColaborador", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(function (resposta) {
+                resposta.json()
+                    .then((res) => {
+                        console.log(res);
+                    })
+
+                if (resposta.ok) {
+
+                    console.log("ok")
+
+                } else {
+
+                    console.log("caralho")
+
+                }
+            })
+            .catch(function (resposta) {
+                resposta.json()
+                    .then((res) => {
+                        console.log(res);
+                    })
+                console.log("Erro ao realizar o cadatro...", true);
+            });
+
         alert('Cadastro enviado com sucesso!')
     }
 
     nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+
+
+
 
 </script>
 
