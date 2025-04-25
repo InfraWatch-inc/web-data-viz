@@ -32,6 +32,51 @@ function buscarDadosTempoReal(req, res) {
       });
   }
   
+  function buscarDados(req, res) {
+
+    const uuid = req.params.uuid
+
+    if(uuid == undefined){
+      console.log("uuid indefinido Aaaa")
+    }
+    monitoramentoModel.getServidor(uuid).then((resultado) => {
+      res.status(200).json(resultado);
+    });
+  }
+
+  function CadastrarCaptura(req, res) {
+
+    // let dados = dados.body.json
+    const dados = req.body
+
+    console.log(dados)
+
+    var dadoCaptura = dados["dadoCaptura"]
+    var dataHora = dados["dataHora"]
+    var fkConfiguracaoMonitoramento = dados["fkConfiguracaoMonitoramento"]
+
+    console.log(dadoCaptura)
+    monitoramentoModel.CadastrarCaptura(dadoCaptura, dataHora, fkConfiguracaoMonitoramento).then((resultado) => {
+      res.status(200).json(resultado);
+    });
+  }
+
+  function CadastrarAlerta(req, res) {
+    monitoramentoModel.CadastrarAlerta(uuid).then((resultado) => {
+      res.status(200).json(resultado);
+    });
+  }
+
+  function CadastrarProcesso(req, res) {
+    monitoramentoModel.CadastrarProcesso(uuid).then((resultado) => {
+      res.status(200).json(resultado);
+    });
+  }
+
   module.exports = {
-    buscarDadosTempoReal
+    // buscarDadosTempoReal,
+    buscarDados,
+    CadastrarCaptura,
+    CadastrarAlerta,
+    CadastrarProcesso
   };

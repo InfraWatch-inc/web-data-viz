@@ -363,4 +363,18 @@ select {
     /* border: 1px solid red; */
 }
 
+@media only screen and (min-width: 600px) /* Dispositivos pequenos - Celular */ {
 
+}
+
+@media only screen and (min-width: 768px) /* Dispositivos médios - Tablets */ {
+    
+}
+
+@media only screen and (min-width: 992px) /* Dispositivos grandes - desktop */ {
+    
+}
+
+@media only screen and (min-width: 1200px) /* Dispositivos extragrandes - desktop */ {
+    
+}
