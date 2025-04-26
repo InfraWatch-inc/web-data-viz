@@ -34,15 +34,15 @@ function finalizarAguardar(texto) {
     }
 }
 
-// function carregar() {
+function carregar() {
 
-//     if (sessionStorage.NIVEL != 1 && sessionStorage.NIVEL != 2 && sessionStorage.NIVEL != 3) {
-//         window.location = "../index.html"
-//     }
+    if (sessionStorage.NIVEL != 1 && sessionStorage.NIVEL != 2 && sessionStorage.NIVEL != 3) {
+        window.location = "../index.html"
+    }
 
-//     if (sessionStorage.NIVEL == null) {
-//         window.location = "../index.html"
-//     }
+    if (sessionStorage.NIVEL == null) {
+        window.location = "../index.html"
+    }
 
-// }
+}
 
