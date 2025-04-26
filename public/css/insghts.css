@@ -97,7 +97,20 @@ main {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 85vh;
+  height: 90vh;
+}
+
+main a {
+  width: 90%;
+  height: 20%;
+  display: flex;
+  justify-content: center;
+  transition: 0.4s;
+}
+
+main a:hover {
+  transform: translateY(-2px);
+  transition: 0.4s;
 }
 
 #div_kpis {
@@ -107,12 +120,12 @@ main {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 25px;
 }
 
 .kpi {
   width: 100%;
-  height: 65%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -163,10 +176,21 @@ main {
   margin: 0px;
 }
 
+#div_gpu_icon img{
+  width: 80px;
+}
+
 .alerta_kpi {
-  font-size: large;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
   font-weight: bold;
   margin: 0px;
+  /* border: 1px solid; */
+}
+
+.alerta_kpi span {
+  font-size: 14px;
 }
 
 .titulo_kpi {
@@ -272,7 +296,7 @@ select {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
   }
 
   .kpi {
