@@ -48,6 +48,13 @@ ul a {
   font-size: 1.8rem;
   word-spacing: 0.2rem;
   color: #374151;
+  transition: 0.4s;
+}
+
+ul a:hover {
+  color: #10D3F9;
+  transition: 0.4s;
+  transform: translateY(-2px);
 }
 
 .user_div {
@@ -80,7 +87,16 @@ ul a {
   color: white;
   font-size: 1.6rem;
   border: none;
+  cursor: pointer;
+  transition: 0.4s;
 }
+
+.sair:hover {
+  transform: translateY(-2px);
+  transition: 0.4s;
+  box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
+}
+
 main {
   width: 100vw;
   height: 80vh;
@@ -108,6 +124,7 @@ main {
   justify-content: center;
   align-items: center;
 }
+
 #div_titulo h1 {
   font-size: 4.2rem;
   color: #000000;
@@ -130,11 +147,13 @@ main {
   justify-content: space-around;
   align-items: start;
 }
+
 #div_assunto h2 {
   font-size: 1.6rem;
   color: #000000;
   font-weight: 400;
 }
+
 #div_assunto input {
   width: 100%;
   height: 56%;
@@ -154,11 +173,13 @@ main {
   justify-content: space-around;
   align-items: start;
 }
+
 #div_desc h2 {
   font-size: 1.6rem;
   color: #000000;
   font-weight: 400;
 }
+
 #div_desc input {
   width: 100%;
   height: 80%;
@@ -191,6 +212,7 @@ main {
   height: 0.1px;
   position: absolute;
 }
+
 #div_anexo label {
   display: block;
   position: relative;

@@ -43,7 +43,7 @@
           <img src="../assets/icon/cpu-solid.png" alt="" />
         </div>
         <div class="alerta_kpi" id="div_alertas_cpu">
-          <span>76 Alertas</span>
+          <span>12 Alertas</span>
         </div>
       </div>
       <div class="kpi" id="div_gpu">
@@ -54,7 +54,7 @@
           <img src="../assets/icon/gpu-solid.png" alt="" />
         </div>
         <div class="alerta_kpi" id="div_alertas_gpu">
-          <span>76 Alertas</span>
+          <span>24 Alertas</span>
         </div>
       </div>
       <div class="kpi" id="div_disco">
@@ -65,7 +65,7 @@
           <img src="../assets/icon/HardDisk.webp" alt="" />
         </div>
         <div class="alerta_kpi" id="div_alertas_disco">
-          <span>76 Alertas</span>
+          <span>7 Alertas</span>
         </div>
       </div>
       <div class="kpi" id="div_ram">
@@ -76,7 +76,7 @@
           <img src="../assets/icon/ram-solid.webp" alt="" />
         </div>
         <div class="alerta_kpi" id="div_alertas_ram">
-          <span>76 Alertas</span>
+          <span>11 Alertas</span>
         </div>
       </div>
     </div>
@@ -101,25 +101,39 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  const ctx = document.getElementById("myChart");
+  const ctx = document.getElementById("myChart").getContext('2d');
+  
+  // Criar o gradiente para "Moderado" (azul para roxo)
+  const gradienteModerate = ctx.createLinearGradient(0, 0, 0, 400);
+  gradienteModerate.addColorStop(0, '#10D3F9'); // Azul claro no topo
+  gradienteModerate.addColorStop(1, '#740BC6'); // Roxo na base
+  
+  // Criar o gradiente para "Críticos" (roxo para azul - cores invertidas)
+  const gradienteCriticos = ctx.createLinearGradient(0, 0, 0, 400);
+  gradienteCriticos.addColorStop(0, '#740BC6'); // Roxo no topo
+  gradienteCriticos.addColorStop(1, '#10D3F9'); // Azul claro na base
 
+  // Usar os gradientes nas respectivas datasets
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: ["HD", "DISCO", "GPU", "CPU", "RAM"],
+      labels: ["HD", "SSD", "GPU", "CPU", "RAM"],
       datasets: [
         {
           label: "Moderado",
-          data: [13, 11, 5, 1, 3],
+          data: [1, 3, 10, 7, 8],
           borderWidth: 1,
-          backgroundColor: "#7728B5",
+          backgroundColor: gradienteModerate,
+          borderRadius: 10,
+          borderSkipped: false
         },
-
         {
           label: "Criticos",
-          data: [12, 19, 3, 5, 2],
+          data: [1, 2, 14, 5, 3],
           borderWidth: 1,
-          backgroundColor: "#33CDEB",
+          backgroundColor: gradienteCriticos,
+          borderRadius: 10,
+          borderSkipped: false
         },
       ],
     },

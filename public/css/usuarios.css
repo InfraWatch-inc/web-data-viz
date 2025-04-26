@@ -69,6 +69,13 @@ ul a {
   font-size: 1.8rem;
   word-spacing: 0.2rem;
   color: #374151;
+  transition: 0.4s;
+}
+
+ul a:hover {
+  color: #10D3F9;
+  transition: 0.4s;
+  transform: translateY(-2px);
 }
 
 
@@ -76,14 +83,19 @@ ul a {
   width: 8%;
   height: 4vh;
   border-radius: 10px;
-  background: linear-gradient(to bottom, #740BC6, #10D3F9);
+  background: linear-gradient(to bottom, #740bc6, #10d3f9);
   color: white;
   font-size: 1.6rem;
   border: none;
+  cursor: pointer;
+  transition: 0.4s;
 }
 
-
-
+.sair:hover {
+  transform: translateY(-2px);
+  transition: 0.4s;
+  box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
+}
 
 .body-container {
   display: flex;

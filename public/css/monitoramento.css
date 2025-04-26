@@ -38,7 +38,7 @@ header {
     background-color: #F9FAFB;
 }
 
-.user_div { 
+.user_div {
     height: 5vh;
     width: 20%;
     display: flex;
@@ -70,6 +70,13 @@ ul a {
     font-size: 1.8rem;
     word-spacing: 0.2rem;
     color: #374151;
+    transition: 0.4s;
+}
+
+ul a:hover {
+    color: #10D3F9;
+    transition: 0.4s;
+    transform: translateY(-2px);
 }
 
 
@@ -77,10 +84,18 @@ ul a {
     width: 8%;
     height: 4vh;
     border-radius: 10px;
-    background: linear-gradient(to bottom, #740BC6, #10D3F9);
+    background: linear-gradient(to bottom, #740bc6, #10d3f9);
     color: white;
     font-size: 1.6rem;
     border: none;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair:hover {
+    transform: translateY(-2px);
+    transition: 0.4s;
+    box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
 }
 
 section {
@@ -110,13 +125,13 @@ h2 {
     font-size: 24px;
     font-weight: 500;
 }
-  
+
 .process-list {
     max-height: 600px;
     overflow-y: auto;
     padding-right: 8px;
 }
-  
+
 .process-item {
     /* border: 1px solid red; */
     width: 90%;
@@ -124,42 +139,42 @@ h2 {
     border-radius: 8px;
     padding: 15px;
     margin-bottom: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-  
+
 .process-name {
     font-weight: bold;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
 }
-  
+
 .process-number {
     margin-right: 8px;
     font-weight: bold;
 }
-  
+
 .usage-info {
     margin: 4px 0;
     color: #555;
     font-size: 14px;
 }
-  
-  /* Estilização da barra de rolagem */
+
+/* Estilização da barra de rolagem */
 .process-list::-webkit-scrollbar {
     width: 6px;
 }
-  
+
 .process-list::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
 }
-  
+
 .process-list::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 10px;
 }
-  
+
 .process-list::-webkit-scrollbar-thumb:hover {
     background: #aaa;
 }
@@ -194,7 +209,7 @@ h2 {
     background-color: #e0e0e0;
     margin: 10px 0;
 }
-  
+
 
 .titulo {
     width: 20%;
@@ -203,14 +218,20 @@ h2 {
     text-align: center;
 }
 
-.disco, .ram, .cpu, .gpu{
+.disco,
+.ram,
+.cpu,
+.gpu {
     width: 24%;
     height: 100%;
     display: flex;
     /* border: 1px solid red; */
 }
 
-.infos_disco, .infos_ram, .infos_cpu, .infos_gpu {
+.infos_disco,
+.infos_ram,
+.infos_cpu,
+.infos_gpu {
     width: 45%;
     text-align: left;
     display: flex;
@@ -228,7 +249,10 @@ p {
     font-weight: 500;
 }
 
-.disco_grafico, .ram_grafico, .cpu_grafico, .gpu_grafico {
+.disco_grafico,
+.ram_grafico,
+.cpu_grafico,
+.gpu_grafico {
     width: 70%;
     display: flex;
     align-items: center;
@@ -250,6 +274,7 @@ p {
     padding: 20px;
     /* box-sizing: border-box;   */
 }
+
 .container {
     display: flex;
     flex-direction: row;
@@ -290,7 +315,7 @@ select {
     background-color: #f5f5f5;
     border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-header h3 {
@@ -306,7 +331,7 @@ select {
     left: 0;
     background-color: white;
     min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 10;
     border-radius: 4px;
     margin-top: 2px;
@@ -363,18 +388,18 @@ select {
     /* border: 1px solid red; */
 }
 
-@media only screen and (min-width: 600px) /* Dispositivos pequenos - Celular */ {
+@media only screen and (min-width: 600px)
+/* Dispositivos pequenos - Celular */
+    {}
 
-}
+@media only screen and (min-width: 768px)
+/* Dispositivos médios - Tablets */
+    {}
 
-@media only screen and (min-width: 768px) /* Dispositivos médios - Tablets */ {
-    
-}
+@media only screen and (min-width: 992px)
+/* Dispositivos grandes - desktop */
+    {}
 
-@media only screen and (min-width: 992px) /* Dispositivos grandes - desktop */ {
-    
-}
-
-@media only screen and (min-width: 1200px) /* Dispositivos extragrandes - desktop */ {
-    
-}
+@media only screen and (min-width: 1200px)
+/* Dispositivos extragrandes - desktop */
+    {}
