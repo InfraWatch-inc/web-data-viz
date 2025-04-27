@@ -531,7 +531,7 @@ p {
     }
 }
 
-@media only screen and (max-width: 1075px){
+/* @media only screen and (max-width: 1075px){
     .titulo {
         width: 20%;
         font-size: 1rem;
@@ -578,7 +578,7 @@ p {
         font-size: 1.2rem;
     }
 
-}
+} */
 
 @media only screen and (max-width: 850px){
     .titulo {
