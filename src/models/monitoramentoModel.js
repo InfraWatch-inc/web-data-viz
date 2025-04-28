@@ -1,52 +1,29 @@
 var database = require("../database/config");
 
-function tempoReal(idServidor){
-    var instrucaoSql = `SELECT * FROM viewTempoReal WHERE idServidor = ${idServidor};`;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
-}
-
-
 function getServidor(uuid){
-
     var instrucaoSql = `SELECT * FROM viewGetServidor where uuidPlacaMae = "${uuid}";`
     console.log("Consultei getServidor")
     return database.executar(instrucaoSql);
 }
 
+function cadastrarAlerta(fkConfiguracaoMonitoramento, nivel, dataHora, valor){
 
-function CadastrarCaptura(dadoCaptura, dataHora, fkConfiguracaoMonitoramento){
+    var instrucaoSql =`
+    INSERT INTO Alerta(fkConfiguracaoMonitoramento, nivel, dataHora, valor) VALUES (${fkConfiguracaoMonitoramento}, ${nivel}, '${dataHora}', ${valor});
+    `;
 
-    console.log("Estou no cadastro da captura")
-    
-    var instrucaoSql = `INSERT INTO captura (dadoCaptura, dataHora, fkConfiguracaoMonitoramento)
-    VALUES ('${dadoCaptura}', '${dataHora}', '${fkConfiguracaoMonitoramento}');`
-    
     return database.executar(instrucaoSql);
 }
 
-function CadastrarAlerta(){
+function cadastrarProcesso(){
+    var instrucaoSql = `
+    INSERT INTO Processo(nome, usoCpu, usoGpu, usoRam, fkServidor) VALUES ('${nome}', ${usoCpu}, ${usoGpu}, ${usoRam}, ${fkServidor});`
 
-    var instrucaoSql = `INSERT INTO captura  VALUES
-
-        ;`
-    console.log("Consultei getServidor")
-    return database.executar(instrucaoSql);
-}
-
-function CadastrarProcesso(){
-
-    var instrucaoSql = `INSERT INTO captura VALUES
-
-        ;`
-    console.log("Consultei getServidor")
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
-    tempoReal,
     getServidor,
-    CadastrarCaptura,
-    CadastrarAlerta,
-    CadastrarProcesso
+    cadastrarAlerta,
+    cadastrarProcesso
 }

@@ -1,82 +1,91 @@
 var monitoramentoModel = require("../models/monitoramentoModel");
 
-function buscarDadosTempoReal(req, res) {
-    const idServidor = req.params.idServidor;
-    
-    if (!idServidor) {
-      return res.status(400).json({ erro: 'ID do servidor é obrigatório' });
-    }
-  
-    monitoramentoModel.tempoReal(idServidor)
-      .then(dadosTempoReal => {
-        if (dadosTempoReal.length === 0) {
-          return res.status(404).json({ erro: 'Dados não encontrados para este servidor' });
-        }
-  
-        const dados = dadosTempoReal[0];
-        
-        // Converte strings JSON em objetos.
-        if (typeof dados.processosMonitorados === 'string') {
-          dados.processosMonitorados = JSON.parse(dados.processosMonitorados);
-        }
-        
-        if (typeof dados.dadosGraficosLinhas === 'string') {
-          dados.dadosGraficosLinhas = JSON.parse(dados.dadosGraficosLinhas);
-        }
-  
-        return res.status(200).json(dados);
-      })
-      .catch(erro => {
-        console.error(`Erro no controller de tempo real: ${erro.message}`);
-        return res.status(500).json({ erro: 'Erro interno do servidor' });
-      });
-  }
-  
+monitoramento = {
+  1:[],
+};
   function buscarDados(req, res) {
 
     const uuid = req.params.uuid
 
     if(uuid == undefined){
-      console.log("uuid indefinido Aaaa")
+      console.log("uuid indefinido")
     }
     monitoramentoModel.getServidor(uuid).then((resultado) => {
       res.status(200).json(resultado);
     });
   }
 
-  function CadastrarCaptura(req, res) {
-
-    // let dados = dados.body.json
+  function cadastrarCaptura(req, res) {
+    /*
+    {
+      dadosCaptura:
+      {
+          dadoCaptura: undefined,
+          componente: undefined,
+          metrica: undefined,
+          unidade: undefined
+      },
+      dataHora: undefined,
+      idServidor: undefined,
+      processos: []
+    }
+    */
     const dados = req.body
 
-    console.log(dados)
+    if(dados.dadosCaptura != undefined){
+      if(monitoramento[dados.idServidor] == undefined){
+        monitoramento[dados.idServidor] = []
+      }
 
-    var dadoCaptura = dados["dadoCaptura"]
-    var dataHora = dados["dataHora"]
-    var fkConfiguracaoMonitoramento = dados["fkConfiguracaoMonitoramento"]
+      if(monitoramento[dados.idServidor].length == 100){
+        monitoramento[dados.idServidor].shift()
+      }
+      monitoramento[dados.idServidor].push(dados)
 
-    console.log(dadoCaptura)
-    monitoramentoModel.CadastrarCaptura(dadoCaptura, dataHora, fkConfiguracaoMonitoramento).then((resultado) => {
-      res.status(200).json(resultado);
-    });
+      return res.status(200).json(monitoramento[dados.idServidor])
+    } else {
+
+      if(dados.idServidor == undefined){
+        res.status(400).json({ "mensagem": "idServidor indefinido" })
+      }
+
+      dadosServidor = monitoramento[dados.idServidor]
+
+      return res.status(200).json(dadosServidor)
+    }
   }
 
-  function CadastrarAlerta(req, res) {
-    monitoramentoModel.CadastrarAlerta(uuid).then((resultado) => {
+  function cadastrarAlerta(req, res) {
+    if (!req.body) {
+      return res.status(400).json({ "mensagem": 'Dados do alerta são obrigatórios' });
+    }
+
+    /*
+    {
+      dadoCaptura: undefined,
+      dataHora: undefined,
+      fkConfiguracaoMonitoramento: undefined,
+      nivel: undefined,
+      processos: []
+    }
+    */
+
+    const dados = req.body;
+    const processos = dados.processos;
+
+
+    monitoramentoModel.cadastrarAlerta(dados.fkConfiguracaoMonitoramento, dados.dataHora, dados.dadoCaptura).then((resultado) => {
       res.status(200).json(resultado);
     });
-  }
 
-  function CadastrarProcesso(req, res) {
-    monitoramentoModel.CadastrarProcesso(uuid).then((resultado) => {
-      res.status(200).json(resultado);
+    processos.forEach((processo) => {
+      monitoramentoModel.cadastrarProcesso(dados.fkConfiguracaoMonitoramento, dados.dataHora, processo).then((resultado) => {
+        res.status(200).json(resultado);
+      });
     });
   }
-
   module.exports = {
-    // buscarDadosTempoReal,
     buscarDados,
-    CadastrarCaptura,
-    CadastrarAlerta,
-    CadastrarProcesso
+    cadastrarCaptura,
+    cadastrarAlerta
   };
