@@ -1,8 +1,9 @@
 var database = require("../database/config");
 
 function getServidor(uuid){
-    var instrucaoSql = `SELECT * FROM viewGetServidor where uuidPlacaMae = "${uuid}";`
-    console.log("Consultei getServidor")
+    var instrucaoSql = `
+    SELECT * FROM viewGetServidor where uuidPlacaMae = "${uuid}";`;
+
     return database.executar(instrucaoSql);
 }
 
@@ -15,9 +16,9 @@ function cadastrarAlerta(fkConfiguracaoMonitoramento, nivel, dataHora, valor){
     return database.executar(instrucaoSql);
 }
 
-function cadastrarProcesso(){
+function cadastrarProcesso(nome, usoCpu, usoGpu, usoRam, fkServidor){
     var instrucaoSql = `
-    INSERT INTO Processo(nome, usoCpu, usoGpu, usoRam, fkServidor) VALUES ('${nome}', ${usoCpu}, ${usoGpu}, ${usoRam}, ${fkServidor});`
+    INSERT INTO Processo(nome, usoCpu, usoGpu, usoRam, fkServidor) VALUES ('${nome}', ${usoCpu}, ${usoGpu}, ${usoRam}, ${fkServidor});`;
 
     return database.executar(instrucaoSql);
 }
