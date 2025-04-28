@@ -164,13 +164,16 @@
         gpu: { usage: '45%', temperature: '62°C' }
     };
 
-
+    // Objeto para reber os dados no intevalo de 10 minutos a 30 minutos
+    
     const graphDataMinuto = {
         gpu: [],
         cpu: [],
         disk: [],
         ram: []
     };
+
+    // Objeto para receber os dados no intervalo de 30 segundos a 1 minuto.
 
     const graphData = {
         gpu: [],
