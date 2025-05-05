@@ -119,5 +119,6 @@ module.exports = {
   cadastrarCaptura,
   cadastrarAlerta,
   getCapturas,
-  cadastrarProcessos
+  cadastrarProcessos,
+  monitoramento
 };
