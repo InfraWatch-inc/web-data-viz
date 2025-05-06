@@ -3,7 +3,7 @@ WORKDIR /
 COPY ./ .
 RUN npm install 
 
-FROM node:lts-alphine3.20 AS deploy
+FROM node:lts-alpine3.20 AS deploy
 WORKDIR /
 COPY --from=libs ./node_modules  ./node_modules
 COPY ./ .
