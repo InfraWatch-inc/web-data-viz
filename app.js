@@ -53,4 +53,4 @@ app.listen(PORTA_APP, function () {
     \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
 });
 
-bucketController.enviar("s3-vitoria-bronze");
+// bucketController.enviar("s3-vitoria-bronze");
