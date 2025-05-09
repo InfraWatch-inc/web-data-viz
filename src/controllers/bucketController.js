@@ -1,6 +1,6 @@
 var horarioColeta = undefined;
 var dados = undefined;
-var s3 = require("@aws-sdk/client-s3");
+var { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 var monitoramentoController = require("./monitoramentoController");
 
 async function delay(ms) {
@@ -8,7 +8,7 @@ async function delay(ms) {
 }
 
 async function enviar(bucketName){
-  const s3Client = new s3.S3Client({region: "us-east-1"});
+  const s3Client = new S3Client({region: "us-east-1"});
     while (true){
 
         horarioColeta =  Date.now();
