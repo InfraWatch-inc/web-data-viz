@@ -13,13 +13,15 @@ async function enviar(bucketName){
         horarioColeta =  Date.now();
           
         dados = monitoramentoController.monitoramento;
-        
-        monitoramentoController.monitoramento.forEach((item) => {
-          // LÓGICA DE REMOVER ITENS DE CADA SERVIDOR PARA FICAR APENAS 30 REGISTROS RECENTES
-          if (item.length > 30) {
-            item.splice(0, item.length - 30);
-          }
-        });
+
+
+        for(let i = 0; i < Object.keys(monitoramentoController.monitoramento).length; i++){
+          monitoramentoController.monitoramento[servidor].forEach((item) => {
+            if (item.length > 30) {
+              item.splice(0, item.length - 30);
+            }
+          });
+        }
 
         const s3Client = new s3.S3Client({region: "us-east-1"});
         const fileName = `captura-${horarioColeta}.json`;
