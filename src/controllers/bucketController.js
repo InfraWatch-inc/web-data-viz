@@ -10,19 +10,23 @@ async function enviar(bucketName){
             console.log("24 horas");
           }, 86400000);
 
-        horarioColeta = new Date();
+        horarioColeta =  Date.now();
           
-        dados = monitoramentoController.monitoramento;
-        const s3Client = new s3.S3Client({});
-        const fileName = `captura-${horarioColeta.now()}.json`;
+        dados = monitoramentoController.monitoramento; // TODO limpar variavel de monirotamento.
+        const s3Client = new s3.S3Client({region: "us-east-1"});
+        const fileName = `captura-${horarioColeta}.json`;
+        
+       
+            const comand = new s3.PutObjectCommand({
+                Bucket: bucketName,
+                Key: fileName,
+                Body: dados,
+              })
+            
+            const response = await s3Client.send(comand);
 
-        await s3Client.send(
-            new PutObjectCommand({
-              Bucket: bucketName,
-              Key: fileName,
-              Body: dados,
-            }),
-        );
+            console.log(response)
+        
 
     }
 }
@@ -30,3 +34,22 @@ async function enviar(bucketName){
 module.exports = {
     enviar
 }
+
+
+// try {
+//     return await s3Client
+//       .send(new PutObjectCommand(bucketParams))
+//       .then((result) => {
+//         return process.send({
+//           type: 'success',
+//           fileName: f.name,
+//           result,
+//         });
+//       });
+//     } catch (erro) {
+//         process.send({
+//          type: 'error',
+//          fileName: f.name,
+//          error: erro,
+//     });
+//   }
