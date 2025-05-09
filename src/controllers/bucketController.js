@@ -3,12 +3,13 @@ var dados = undefined;
 var s3 = require("@aws-sdk/client-s3");
 var monitoramentoController = require("./monitoramentoController");
 
+async function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function enviar(bucketName){
+  const s3Client = new s3.S3Client({region: "us-east-1"});
     while (true){
-        setTimeout(() => {
-          console.log("24 horas");
-        }, 8);
 
         horarioColeta =  Date.now();
           
@@ -23,19 +24,26 @@ async function enviar(bucketName){
         //   });
         // }
 
-        const s3Client = new s3.S3Client({region: "us-east-1"});
-        const fileName = `captura-${horarioColeta}.json`;
         
+        const fileName = `captura-${horarioColeta}.json`;
+        const jsonString = JSON.stringify(dados, null, 2);
        
-        const comand = new s3.PutObjectCommand({
-          Bucket: bucketName,
-          Key: fileName,
-          Body: dados,
-        })
-            
-        const response = await s3Client.send(comand);
+        try {
+          const command = new PutObjectCommand({
+            Bucket: bucketName,
+            Key: fileName,
+            Body: jsonString,
+            ContentType: "application/json"
+          });
+    
+          const response = await s3Client.send(command);
+          console.log("Arquivo enviado:", fileName, response);
+        } catch (error) {
+          console.error("Erro ao enviar para o S3:", error);
+        }
 
         console.log(response)
+        await delay(8640000); // 24 horas em milissegundos
     }
 }
 
