@@ -7,27 +7,33 @@ var monitoramentoController = require("./monitoramentoController");
 async function enviar(bucketName){
     while (true){
         setTimeout(() => {
-            console.log("24 horas");
-          }, 86400000);
+          console.log("24 horas");
+        }, 86400000);
 
         horarioColeta =  Date.now();
           
-        dados = monitoramentoController.monitoramento; // TODO limpar variavel de monirotamento.
+        dados = monitoramentoController.monitoramento;
+        
+        monitoramentoController.monitoramento.forEach((item) => {
+          // LÓGICA DE REMOVER ITENS DE CADA SERVIDOR PARA FICAR APENAS 30 REGISTROS RECENTES
+          if (item.length > 30) {
+            item.splice(0, item.length - 30);
+          }
+        });
+
         const s3Client = new s3.S3Client({region: "us-east-1"});
         const fileName = `captura-${horarioColeta}.json`;
         
        
-            const comand = new s3.PutObjectCommand({
-                Bucket: bucketName,
-                Key: fileName,
-                Body: dados,
-              })
+        const comand = new s3.PutObjectCommand({
+          Bucket: bucketName,
+          Key: fileName,
+          Body: dados,
+        })
             
-            const response = await s3Client.send(comand);
+        const response = await s3Client.send(comand);
 
-            console.log(response)
-        
-
+        console.log(response)
     }
 }
 
