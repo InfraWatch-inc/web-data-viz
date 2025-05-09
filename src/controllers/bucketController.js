@@ -8,20 +8,20 @@ async function enviar(bucketName){
     while (true){
         setTimeout(() => {
           console.log("24 horas");
-        }, 86400000);
+        }, 8);
 
         horarioColeta =  Date.now();
           
         dados = monitoramentoController.monitoramento;
 
-
-        for(let i = 0; i < Object.keys(monitoramentoController.monitoramento).length; i++){
-          monitoramentoController.monitoramento[servidor].forEach((item) => {
-            if (item.length > 30) {
-              item.splice(0, item.length - 30);
-            }
-          });
-        }
+        console.log("dados", dados);
+        // for(let i = 0; i < Object.keys(monitoramentoController.monitoramento).length; i++){
+        //   monitoramentoController.monitoramento[i].forEach((item) => {
+        //     if (item.length > 30) {
+        //       item.splice(0, item.length - 30);
+        //     }
+        //   });
+        // }
 
         const s3Client = new s3.S3Client({region: "us-east-1"});
         const fileName = `captura-${horarioColeta}.json`;
