@@ -16,15 +16,12 @@ async function enviar(bucketName){
         dados = monitoramentoController.monitoramento;
 
         console.log("dados", dados);
-        // for(let i = 0; i < Object.keys(monitoramentoController.monitoramento).length; i++){
-        //   monitoramentoController.monitoramento[i].forEach((item) => {
-        //     if (item.length > 30) {
-        //       item.splice(0, item.length - 30);
-        //     }
-        //   });
-        // }
+        for (const servidor in dados) {
+          if (Array.isArray(dados[servidor]) && dados[servidor].length > 30) {
+            dados[servidor].splice(0, dados[servidor].length - 30);
+          }
+        }
 
-        
         const fileName = `captura-${horarioColeta}.json`;
         const jsonString = JSON.stringify(dados, null, 2);
        
