@@ -11,11 +11,13 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
     <script src="../js/sessao.js"></script>
+    <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
 
+    <script src="../js/servidores.js"></script>
 
 </head>
 
-<body onload="carregar()">
+<body onload="getServidores()">
     <header>
         <nav class="navbar">
             <div class="user_div">
@@ -32,6 +34,13 @@
     <div class="main-content">
         <div class="container">
             <div class="header">
+                <div class="alinhamento-esquerda">
+                    <button onclick="modalColaborador()" class="btn-add-servidor">Adicionar</button>
+                    <button onclick="modalFiltro()" class="filtro-servidor"><i class="fa-solid fa-filter"></i>Filtro</button>
+                    <input class="input" placeholder=" 🔍 Pesquisar Servidor..." type="search" name="" id="pesquisa-servidor">
+                </div>
+
+
                 <div class="dropdown">
                     <button class="dropdown-status">STATUS ▼</button>
                     <ul class="dropdown-menu">
@@ -42,7 +51,7 @@
                 </div>
             </div>
 
-            <table>
+            <table id="tabela">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -56,70 +65,7 @@
                         <th>Uso CPU</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>#294</td>
-                        <td><a href="./monitoramento.html">PixelForge</a></td>
-                        <td>am12masdn...</td>
-                        <td>24</td>
-                        <td>32</td>
-                        <td>4</td>
-                        <td class="alerta">70 ºC</td>
-                        <td class="alerta">60%</td>
-                        <td class="alerta">60%</td>
-                    </tr>
-
-
-                    <tr>
-                        <td>#293</td>
-                        <td><a href="./monitoramento.html">RenderTitan</a></td>
-                        <td>ogw612n...</td>
-                        <td>8</td>
-                        <td>16</td>
-                        <td>1</td>
-                        <td class="alerta">50 ºC</td>
-                        <td>30%</td>
-                        <td>30%</td>
-                    </tr>
-
-                    <tr>
-                        <td>#295</td>
-
-                        <td><a href="./monitoramento.html">FrameStorm</a></td>
-                        <td>12522874...</td>
-                        <td>16</td>
-                        <td>24</td>
-                        <td>2</td>
-                        <td>30 ºC</td>
-                        <td>24%</td>
-                        <td>24%</td>
-                    </tr>
-
-
-                    <tr>
-                        <td>#296</td>
-                        <td><a href="./monitoramento.html">RayTracerX</a></td>
-                        <td>12522874...</td>
-                        <td>16</td>
-                        <td>16</td>
-                        <td>2</td>
-                        <td>30 ºC</td>
-                        <td>24%</td>
-                        <td>24%</td>
-                    </tr>
-
-
-                    <tr>
-                        <td>#297</td>
-                        <td><a href="./monitoramento.html">RayTracerY</a></td>
-                        <td>12522874...</td>
-                        <td>16</td>
-                        <td>16</td>
-                        <td>2</td>
-                        <td>30 ºC</td>
-                        <td>24%</td>
-                        <td>24%</td>
-                    </tr>
+                <tbody id="corpo-tabela">
                 </tbody>
             </table>
         </div>
