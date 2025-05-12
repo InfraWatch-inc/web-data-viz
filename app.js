@@ -21,7 +21,8 @@ var colaboradoresRouter = require("./src/routes/colaboradores");
 var insightsRouter = require("./src/routes/insights");
 var empresasRouter = require("./src/routes/empresas");
 var servidoresRouter = require("./src/routes/servidores");
-var monitoramentoRouter = require("./src/routes/monitoramento")
+var monitoramentoRouter = require("./src/routes/monitoramento");
+var suporteRouter = require("./src/routes/suporte");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -35,6 +36,7 @@ app.use("/insights", insightsRouter);
 app.use("/empresas", empresasRouter);
 app.use("/servidores", servidoresRouter);
 app.use("/monitoramento", monitoramentoRouter);
+app.use("/suporte", suporteRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
@@ -53,4 +55,4 @@ app.listen(PORTA_APP, function () {
     \t\tPara alterar o ambiente, comente ou descomente as linhas 1 ou 2 no arquivo 'app.js'\n\n`);
 });
 
-bucketController.enviar("s3-vitoria-bronze");
+bucketController.enviar(process.env.BUCKET_NAME);

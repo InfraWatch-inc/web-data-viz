@@ -48,7 +48,7 @@
           <input type="file" id="inp_anexo" placeholder="Enviar anexo" />
           <label for="inp_anexo">Enviar anexo</label>
         </div>
-        <button id="btn_enviar">Enviar Chamado</button>
+        <button id="btn_enviar" onclick="abrirChamado()">Enviar Chamado</button>
       </div>
     </div>
   </main>
@@ -60,5 +60,95 @@
 <script>
 
 nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
+async function abrirChamado(){
+  const assunto = document.getElementById('inp_assunto').value;
+  const description = document.getElementById('inp_descricao').value;
+  const anexoInput = document.getElementById('inp_anexo').value;
+
+  if(!assunto || !description){
+    alert("Preencha todos os campos obrigatórios!");
+    return;
+  }
+
+  let temAnexo = anexoInput.files && anexoInput.files.length > 0;
+
+  let documentDescription = {
+    "type": "doc",
+    "version": 1,
+    "content": [
+        {
+            "type": "paragraph",
+            "content": [
+                {
+                    "type": "text",
+                    "text": description  
+                }
+            ]
+        }
+    ]
+  };
+
+  let auth = process.env.AUTH;
+  let credenciais = process.env.CREDENCIAIS;
+
+  try{
+    const issueRes = await fetch('https://plcvision.atlassian.net/rest/api/3/issue', {
+    method: 'POST',
+    headers: {
+        'Authorization': `Basic ${credenciais}`,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        "fields": {
+            "project": {
+                "id": "10001",
+                "key": "SUP"  
+            },
+            "summary": assunto,
+            "description": documentDescription,  
+            "issuetype": {
+                "name": "Task"  
+            },
+      }})
+    })
+
+    const issueData = await issueRes.json();
+    console.log('Issue criada:', issueData);
+
+    if(temAnexo && issueData.id){
+      let issueId = issueData.id;
+      let file = anexoInput.files[0];
+      
+      //Formato para enviar um form como arquivo ou imagem.
+      let formData = new formData();
+      formData.append('file', file);
+
+      const envioAnexoRes = await fetch(`https://plcvision.atlassian.net/rest/api/3/issue/${issueId}/attachments`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Basic ${credentials}`,
+            'Accept': 'application/json',
+            'X-Atlassian-Token': 'no-check'  
+          },
+          body: formData
+      });
+
+      const envioAnexoData = await envioAnexoRes.json();
+      console.log('Anexo enviado:', envioAnexoData);
+    }
+
+    alert('Chamado aberto com sucesso!');
+
+    document.getElementById('inp_assunto').value = '';
+    document.getElementById('inp_descricao').value = '';
+    document.getElementById('inp_anexo').value = '';
+  } catch (err){
+    console.error('Erro ao criar issue ou enviar anexo:', err);
+    alert('Erro ao criar o chamado. Verifique o console para mais detalhes.');
+  }
+
+}
 
 </script>
