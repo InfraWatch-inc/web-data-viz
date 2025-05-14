@@ -30,7 +30,7 @@ const criarIssue = async (assunto, descricao) => {
       ]
     };
 
-    const response = await fetch(`${jiraConfig.baseUrl}/issue`, {
+    const resposta = await fetch(`${jiraConfig.baseUrl}/issue`, {
       method: 'POST',
       headers: {
         'Authorization': `Basic ${credentials}`,
@@ -52,16 +52,50 @@ const criarIssue = async (assunto, descricao) => {
       })
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(`Erro ao criar issue: ${JSON.stringify(error)}`);
+    if (!resposta.ok) {
+      const erro = await resposta.json();
+      throw new Error(`Erro ao criar issue: ${JSON.stringify(erro)}`);
     }
 
-    return await response.json();
-  } catch (error) {
-    console.error('Erro no modelo ao criar issue:', error);
-    throw error;
+    return await resposta.json();
+  } catch (erro) {
+    console.error('Erro no modelo ao criar issue:', erro);
+    throw erro;
   }
 };
 
-//TODO implementando a lógica do arquivo teste.
+
+const adicionarAnexo = async (issueId, arquivo) =>{
+  try{
+    const credentials = getCredentials();
+
+    const formData = new FormData();
+    formData.append(File, arquivo);
+
+    const resposta = await fetch(`${jiraConfig.baseUrl}/issue/${issueId}/attachments`,  {
+      method: 'POST',
+      headers: {
+        'Autorization': `Basic ${credentials}`,
+        'Accept': 'Aplication/json',
+        'X-Atlassian-Token': 'no-check'
+      },
+      body: formData
+    });
+    
+    if(!resposta.ok){
+        const erro = await resposta.json();
+        throw new Error(`Erro ao adicionar o anexar: ${JSON.stringify(erro)}`);
+    }
+
+    return await resposta.json();
+  }catch (erro){
+      console.error('Erro na Model ao adionar anexo: ', erro);
+      throw erro;
+  }
+
+}  
+
+module.exports = {
+  criarIssue,
+  adicionarAnexo
+}

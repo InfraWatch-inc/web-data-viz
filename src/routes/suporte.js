@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 
-//Armazanando na Ram como um buffer.
+// Armazanando na Ram como um buffer.
 var storage = multer.memoryStorage();
 const upload = multer({
     storage: storage,
