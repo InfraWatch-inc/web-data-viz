@@ -39,7 +39,7 @@ async function enviar(bucketName){
           console.error("Erro ao enviar para o S3:", error);
         }
 
-        await delay(8640000); // 24 horas em milissegundos
+        await delay(86400000); // 24 horas em milissegundos
     }
 }
 
