@@ -30,7 +30,7 @@ async function enviar(bucketName){
       if(dados.length == 0){
         continue 
       }
-      
+
       for(servidor in dados){
         let dadosReestruturados = [];
 
@@ -43,7 +43,13 @@ async function enviar(bucketName){
             "isAlerta":true,
           }
 
-          captura.dadosCaptura.forEach((cap) => {
+          capturas = captura.dadosCaptura;
+          
+          if(capturas.length == 0){
+            continue
+          }
+          
+          capturas.forEach((cap) => {
             let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
             dicionaro[`${coluna}`] = cap.dadoCaptura;
           });
