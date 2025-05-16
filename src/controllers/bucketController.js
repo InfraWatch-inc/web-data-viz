@@ -11,7 +11,7 @@ async function enviar(bucketName){
   const s3Client = new S3Client({region: "us-east-1"});
     while (true){
 
-      horarioColeta =  Date.now();
+      horarioColeta =  new Date(Date.now());
         
       dados = monitoramentoController.monitoramento;
 
@@ -21,7 +21,7 @@ async function enviar(bucketName){
         }
       }
 
-      const ano = horarioColeta.getFullYear();
+      const ano = horarioColeta.get();
       const mes = String(horarioColeta.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
       const dia = String(horarioColeta.getDate()).padStart(2, '0');
 
