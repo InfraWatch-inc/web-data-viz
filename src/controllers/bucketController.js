@@ -27,6 +27,9 @@ async function enviar(bucketName){
 
       const fileName = `captura-${dia}/${mes}/${ano}.json`;
       
+      if(dados.length == 0){
+        continue 
+      }
       
       for(servidor in dados){
         let dadosReestruturados = [];
