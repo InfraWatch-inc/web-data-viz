@@ -27,50 +27,46 @@ async function enviar(bucketName){
 
       const fileName = `captura-${dia}/${mes}/${ano}.json`;
       
-      if(Object.keys(dados).length == 0){
-        continue 
-      }
+      if(Object.keys(dados).length != 0){
+        for(servidor in dados){
+          let dadosReestruturados = [];
 
-      for(servidor in dados){
-        let dadosReestruturados = [];
+          for(captura in servidor){
+            servidor = `SRV-${captura.idServidor}`;
 
-        for(captura in servidor){
-          servidor = `SRV-${captura.idServidor}`;
+            dicionario = {
+              "servidor":servidor,
+              "dtHora":captura.dataHora,
+              "isAlerta":true,
+            }
 
-          dicionario = {
-            "servidor":servidor,
-            "dtHora":captura.dataHora,
-            "isAlerta":true,
+            capturas = captura.dadosCaptura;
+            
+            if(capturas.length != 0){
+              capturas.forEach((cap) => {
+                let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
+                dicionaro[`${coluna}`] = cap.dadoCaptura;
+              });
+            
+              dadosReestruturados.push(dicionario);
+            }          
           }
-
-          capturas = captura.dadosCaptura;
-          
-          if(capturas.length == 0){
-            continue
-          }
-
-          capturas.forEach((cap) => {
-            let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
-            dicionaro[`${coluna}`] = cap.dadoCaptura;
-          });
-          
-          dadosReestruturados.push(dicionario);
         }
-      }
 
-      const jsonString = JSON.stringify(dadosReestruturados, null, 2);
-      try {
-        const command = new PutObjectCommand({
-          Bucket: bucketName,
-          Key: fileName,
-          Body: jsonString,
-          ContentType: "application/json"
-        });
-  
-        const response = await s3Client.send(command);
-        console.log("Arquivo enviado:", fileName, response);
-      } catch (error) {
-        console.error("Erro ao enviar para o S3:", error);
+        const jsonString = JSON.stringify(dadosReestruturados, null, 2);
+        try {
+          const command = new PutObjectCommand({
+            Bucket: bucketName,
+            Key: fileName,
+            Body: jsonString,
+            ContentType: "application/json"
+          });
+    
+          const response = await s3Client.send(command);
+          console.log("Arquivo enviado:", fileName, response);
+        } catch (error) {
+          console.error("Erro ao enviar para o S3:", error);
+        }
       }
 
       await delay(86400000); // 24 horas em milissegundos
