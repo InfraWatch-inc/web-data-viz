@@ -28,9 +28,8 @@ async function enviar(bucketName){
       const fileName = `captura-${dia}/${mes}/${ano}.json`;
       
       if(Object.keys(dados).length != 0){
+        let dadosReestruturados = [];
         for(servidor in dados){
-          let dadosReestruturados = [];
-
           for(captura in servidor){
             servidor = `SRV-${captura.idServidor}`;
 
@@ -42,7 +41,7 @@ async function enviar(bucketName){
 
             capturas = captura.dadosCaptura;
             
-            if(capturas == undefined || capturas.length != 0){
+            if(capturas != undefined){
               capturas.forEach((cap) => {
                 let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
                 dicionaro[`${coluna}`] = cap.dadoCaptura;
