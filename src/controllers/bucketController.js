@@ -27,7 +27,7 @@ async function enviar(bucketName){
 
       const fileName = `captura-${dia}/${mes}/${ano}.json`;
       
-      if(dados.length == 0){
+      if(Object.keys(dados).length == 0){
         continue 
       }
 
@@ -48,7 +48,7 @@ async function enviar(bucketName){
           if(capturas.length == 0){
             continue
           }
-          
+
           capturas.forEach((cap) => {
             let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
             dicionaro[`${coluna}`] = cap.dadoCaptura;

@@ -1,7 +1,6 @@
 var monitoramentoModel = require("../models/monitoramentoModel");
 
 monitoramento = {
-  1:[],
 };
 function getCapturas(req, res) {
   const idServidor = req.params.idServidor;
