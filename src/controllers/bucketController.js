@@ -22,37 +22,41 @@ async function enviar(bucketName){
       }
 
       const ano = horarioColeta.getFullYear();
-      const mes = String(horarioColeta.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+      const mes = String(horarioColeta.getMonth() + 1).padStart(2, '0');
       const dia = String(horarioColeta.getDate()).padStart(2, '0');
 
       const fileName = `captura_${dia}-${mes}-${ano}.json`;
       
-      if(Object.keys(dados).length != 0){
+      if (Object.keys(dados).length !== 0) {
         let dadosReestruturados = [];
-        for(servidor in dados){
-          for(captura in servidor){
-            servidor = `SRV-${captura.idServidor}`;
 
-            dicionario = {
-              "servidor":servidor,
-              "dtHora":captura.dataHora,
-              "isAlerta":true,
-            }
+        for (const servidorId in dados) {
+          const capturasServidor = dados[servidorId];
 
-            capturas = captura.dadosCaptura;
-            
-            if(capturas != undefined){
+          for (const captura of capturasServidor) {
+            const nomeServidor = `SRV-${captura.idServidor}`;
+
+            let dicionario = {
+              servidor: nomeServidor,
+              dtHora: captura.dataHora,
+              isAlerta: true,
+            };
+
+            const capturas = captura.dadosCaptura;
+
+            if (capturas !== undefined) {
               capturas.forEach((cap) => {
-                let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
-                dicionaro[`${coluna}`] = cap.dadoCaptura;
+                const coluna = `${cap.componente}${cap.numeracao}`; // Adicione + '_' + cap.descricaoFormatada se desejar
+                dicionario[coluna] = cap.dadoCaptura;
               });
-            
+
               dadosReestruturados.push(dicionario);
-            }          
+            }
           }
         }
 
         const jsonString = JSON.stringify(dadosReestruturados, null, 2);
+
         try {
           const command = new PutObjectCommand({
             Bucket: bucketName,
@@ -60,13 +64,14 @@ async function enviar(bucketName){
             Body: jsonString,
             ContentType: "application/json"
           });
-    
+
           const response = await s3Client.send(command);
           console.log("Arquivo enviado:", fileName, response);
         } catch (error) {
           console.error("Erro ao enviar para o S3:", error);
         }
-      }
+     }
+
 
       await delay(10000);
       //await delay(86400000); // 24 horas em milissegundos
