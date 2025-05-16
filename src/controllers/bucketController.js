@@ -25,7 +25,7 @@ async function enviar(bucketName){
       const mes = String(horarioColeta.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
       const dia = String(horarioColeta.getDate()).padStart(2, '0');
 
-      const fileName = `captura-${dia}/${mes}/${ano}.json`;
+      const fileName = `captura_${dia}-${mes}-${ano}.json`;
       
       if(Object.keys(dados).length != 0){
         let dadosReestruturados = [];
