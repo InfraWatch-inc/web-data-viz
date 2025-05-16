@@ -69,7 +69,8 @@ async function enviar(bucketName){
         }
       }
 
-      await delay(86400000); // 24 horas em milissegundos
+      await delay(10000);
+      //await delay(86400000); // 24 horas em milissegundos
     }
 }
 
