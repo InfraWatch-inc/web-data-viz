@@ -42,7 +42,7 @@ async function enviar(bucketName){
 
             capturas = captura.dadosCaptura;
             
-            if(capturas.length != 0){
+            if(capturas == undefined || capturas.length != 0){
               capturas.forEach((cap) => {
                 let coluna = `${cap.componente}${cap.numeracao}`; // TODO ADD DESCRICAO DO COMPONENTE 
                 dicionaro[`${coluna}`] = cap.dadoCaptura;
