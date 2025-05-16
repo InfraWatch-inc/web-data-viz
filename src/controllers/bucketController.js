@@ -21,7 +21,7 @@ async function enviar(bucketName){
         }
       }
 
-      const ano = horarioColeta.get();
+      const ano = horarioColeta.getFullYear();
       const mes = String(horarioColeta.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
       const dia = String(horarioColeta.getDate()).padStart(2, '0');
 
