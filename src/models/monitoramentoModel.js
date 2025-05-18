@@ -23,18 +23,13 @@ function cadastrarProcesso(nome, usoCpu, usoGpu, usoRam, fkServidor, dataHora){
     return database.executar(instrucaoSql);
 }
 
+
 function listagemServidores(idEmpresa){
-    console.log("id. ", idEmpresa)
     var instrucaoSql = `
     SELECT * FROM viewListagemServidores WHERE idEmpresa = "${idEmpresa}";
     `;
-   
-    return database.executar(instrucaoSql).then((resultado) => {
-        console.log("Resultado da consulta SQL:", resultado);  
-        return resultado;
-    }).catch((erro) => {
-        console.error("Erro na execução da consulta SQL:", erro);
-  });
+
+    return database.executar(instrucaoSql);
 }
 
 module.exports = {

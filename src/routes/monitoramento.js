@@ -23,9 +23,8 @@ router.post("/cadastrar/processos", function (req, res) {
     monitoramentoController.cadastrarProcessos(req, res);
 });
 
-router.get("/:idEmpresa", function (req, res){
-    console.log("idEmpresa recebido na rota:", req.params.idEmpresa); 
-    monitoramentoController.listagemServidores(req, res)
+router.get("/listagem/:idEmpresa", function (req, res){
+    monitoramentoController.listagemServidores(req, res);
 })
 
 module.exports = router;

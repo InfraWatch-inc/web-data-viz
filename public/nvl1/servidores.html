@@ -84,49 +84,82 @@
     const btnDropdown = document.querySelector('.dropdown-status');
     const menuDropdown = document.querySelector('.dropdown-menu');
 
-    function carregarListagem(){
-        document.addEventListener("DOMContentLoaded", function() {
-            let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
-            console.log("ID da empresa na nova página:", idEmpresa);
+    let servidores;
+    let nucleoCpu = 4;
+    let threadsCpu = 8;
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
-            if (idEmpresa) {
-                try {
-                    fetch(`http://127.0.0.1:8000/monitoramento/${idEmpresa}`)
-                        .then(resposta => {
-                            if (!resposta.ok) {
-                                console.log("Erro ao buscar os dados.");
-                                return;
-                            }
-                            return resposta.json();
-                        })
-                        .then(data => {
-                            console.log("Dados recebidos do Servidor: ", data);
-                        })
-                        .catch(error => {
-                            console.error("Erro ao obter os dados: ", error);
-                        });
-                } catch (error) {
-                    console.error("Erro ao obter os dados: ", error);
-                }
-            } else {
-                console.log("ID da empresa não encontrado no sessionStorage.");
+        if (idEmpresa) {
+            try {
+                fetch(`http://127.0.0.1:8000/monitoramento/listagem/${idEmpresa}`)
+                    .then(resposta => {
+                        if (!resposta.ok) {
+                            console.log("Erro ao buscar os dados.");
+                            return;
+                        }
+                        return resposta.json();
+                    })
+                    .then(data => {
+                        console.log("Dados recebidos do Servidor: ", data);
+
+                        servidores = data;
+
+                        if(Array.isArray(servidores)){
+                            listagemBody()
+                        }else {
+                            console.log("Servidor não encontrado.")
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro ao obter os dados: ", error);
+                    });                } catch (error) {
+                console.error("Erro ao obter os dados: ", error);
             }
+        } else {
+            console.log("ID da empresa não encontrado no sessionStorage.");
+        }
+    });
+
+
+    function listagemBody(){
+        let body = document.getElementById('corpo-tabela');
+        body.innerHTML = "";
+
+        servidores.forEach(servidor => {
+            const linha = document.createElement('tr');
+
+            let totalNucleo = servidor.qtdCpu * nucleoCpu;
+            let totalThreads = servidor.qtdCpu * threadsCpu; 
+
+            linha.innerHTML= `
+                <td>${servidor.id}</td>
+                <td>${servidor.nome}</td>
+                <td>${servidor.idInstancia}</td>
+                <td>${totalNucleo}</td>
+                <td>${totalThreads}</td>
+                <td>${servidor.qtdGpu}</td>
+            `
+
+            body.appendChild(linha);
         });
     }
 
 
 
-    btnDropdown.onclick = () => {
-        menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
-    };
 
-    pesquisa.oninput = () => {
-        const termo = pesquisa.value.toLowerCase();
-        linhas.forEach(linha => {
-            const nome = linha.querySelector('td').textContent.toLowerCase();
-            linha.style.display = nome.includes(termo) ? '' : 'none';
-        });
-    };
+    // btnDropdown.onclick = () => {
+    //     menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
+    // };
+
+    // pesquisa.oninput = () => {
+    //     const termo = pesquisa.value.toLowerCase();
+    //     linhas.forEach(linha => {
+    //         const nome = linha.querySelector('td').textContent.toLowerCase();
+    //         linha.style.display = nome.includes(termo) ? '' : 'none';
+    //     });
+    // };
 
 
 </script>

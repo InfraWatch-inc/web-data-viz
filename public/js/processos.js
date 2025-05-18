@@ -1,7 +1,7 @@
 let dadosObjeto;
 
 async function carregarDados(){
-    let idServidor = req.params.idServidor;
+    // let idServidor = req.params.idServidor;
     try{
         const resposta = await fetch(`http://127.0.0.1:8000/monitoramento/coletar/dados/3`);
         

@@ -1,3 +1,4 @@
+const { result } = require("lodash");
 var monitoramentoModel = require("../models/monitoramentoModel");
 
 monitoramento = {
@@ -114,22 +115,25 @@ function cadastrarProcessos(req, res) {
 }
 
 function listagemServidores(req, res){
-  let idEmpresa = req.params.idEmpresa;
-  
-  if(idEmpresa == undefined){
+  if(!req.params){
     return res.status(400).json("id da empresa indefinido.")
   }
 
-  monitoramentoModel.listagemServidores(idEmpresa).then((resultado) => {  
-    console.log("Resultado do banco. ", resultado)
-    if(resultado.length > 0){
+  let idEmpresa = parseInt(req.params.idEmpresa);
+  console.log("id controller ", idEmpresa)
+
+  monitoramentoModel.listagemServidores(idEmpresa).then(resultado => {  
+    console.log("Resultado da model. ", resultado ? resultado:0, "vazio")
+    if(resultado && resultado.length > 0){
+      console.log("here")
       res.status(200).json(resultado);
     }else {
-      res.status(404).json(resultado);
+      console.log("aqui")
+      res.status(404).json([]);
     }
   })
   .catch((erro) => {
-    res.status(500).json("Erro. ", erro.mensagem)
+    res.status(500).json({ erro: "Erro ao buscar servidores", mensagem: erro.mensagem })
   })  
 }
 
