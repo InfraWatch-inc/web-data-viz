@@ -84,6 +84,37 @@
     const btnDropdown = document.querySelector('.dropdown-status');
     const menuDropdown = document.querySelector('.dropdown-menu');
 
+    function carregarListagem(){
+        document.addEventListener("DOMContentLoaded", function() {
+            let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
+            console.log("ID da empresa na nova página:", idEmpresa);
+
+            if (idEmpresa) {
+                try {
+                    fetch(`http://127.0.0.1:8000/monitoramento/${idEmpresa}`)
+                        .then(resposta => {
+                            if (!resposta.ok) {
+                                console.log("Erro ao buscar os dados.");
+                                return;
+                            }
+                            return resposta.json();
+                        })
+                        .then(data => {
+                            console.log("Dados recebidos do Servidor: ", data);
+                        })
+                        .catch(error => {
+                            console.error("Erro ao obter os dados: ", error);
+                        });
+                } catch (error) {
+                    console.error("Erro ao obter os dados: ", error);
+                }
+            } else {
+                console.log("ID da empresa não encontrado no sessionStorage.");
+            }
+        });
+    }
+
+
 
     btnDropdown.onclick = () => {
         menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';

@@ -113,11 +113,32 @@ function cadastrarProcessos(req, res) {
   res.status(200).json({ "mensagem": "Processos cadastrados com sucesso" });
 }
 
+function listagemServidores(req, res){
+  let idEmpresa = req.params.idEmpresa;
+  
+  if(idEmpresa == undefined){
+    return res.status(400).json("id da empresa indefinido.")
+  }
+
+  monitoramentoModel.listagemServidores(idEmpresa).then((resultado) => {  
+    console.log("Resultado do banco. ", resultado)
+    if(resultado.length > 0){
+      res.status(200).json(resultado);
+    }else {
+      res.status(404).json(resultado);
+    }
+  })
+  .catch((erro) => {
+    res.status(500).json("Erro. ", erro.mensagem)
+  })  
+}
+
 module.exports = {
   buscarDados,
   cadastrarCaptura,
   cadastrarAlerta,
   getCapturas,
   cadastrarProcessos,
-  monitoramento
+  monitoramento,
+  listagemServidores
 };

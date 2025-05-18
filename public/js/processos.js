@@ -1,3 +1,30 @@
+let dadosObjeto;
+
+async function carregarDados(){
+    let idServidor = req.params.idServidor;
+    try{
+        const resposta = await fetch(`http://127.0.0.1:8000/monitoramento/coletar/dados/3`);
+        
+        if(!resposta.ok){
+            console.error("Erro no fecth");
+            return;
+        }
+
+        const capturaObjeto = await resposta.json()
+        if(Array.isArray(capturaObjeto)){
+            dadosObjeto = capturaObjeto;
+            tratarProcessos()
+        }else {
+            console.error("Resposta não é uma lista")
+        }
+    
+    }catch(erro){
+        console.error("Erro: ", erro)
+    }
+}
+
+
+
 // Processos
 
 function adicionarProcessos(process, index) {
@@ -26,40 +53,39 @@ function adicionarProcessos(process, index) {
     processItem.appendChild(gpuInfo);
                 
     document.getElementById('processList').appendChild(processItem);
-    }
+}
           
-    function atualizarProcessosLista(processes) {
+function atualizarProcessosLista(processes) {
     const processListElement = document.getElementById('processList');
     processListElement.innerHTML = '';
                 
-processes.forEach((process, index) => {
+    processes.forEach((process, index) => {
         adicionarProcessos(process, index + 1);
     });
 }
-          
-// dados de test, temporário
-const testProcesses = [
-    { name: 'maya', cpu: 20, ram: 27, gpu: 7 },
-    { name: 'blender', cpu: 15, ram: 18, gpu: 20 },
-    { name: 'c4d', cpu: 10, ram: 11, gpu: 12 },
-    { name: 'afterEffects', cpu: 32, ram: 34, gpu: 34 },
-    { name: 'davinci', cpu: 12, ram: 10, gpu: 17 }
-];
-              
-atualizarProcessosLista(testProcesses);
-          
-function testDataUpdate() {
-    return testProcesses.map(process => {
+
+function tratarProcessos() {
+
+    return dadosObjeto[0].processos.map(process => {
         return {
-            name: process.name,
-            cpu: Math.max(1, Math.min(100, process.cpu + Math.floor(Math.random() * 5) - 2)),
-            ram: Math.max(1, Math.min(100, process.ram + Math.floor(Math.random() * 5) - 2)),
-            gpu: Math.max(1, Math.min(100, process.gpu + Math.floor(Math.random() * 5) - 2))
+            name: process.nome,
+            cpu: parseFloat(process.uso_cpu).toFixed(2),
+            ram: parseFloat(process.uso_ram).toFixed(2),
+            gpu: parseFloat(process.uso_gpu).toFixed(2)
         };
     });
 }
           
-setInterval(() => {
-    const updatedProcesses = testDataUpdate();
+
+
+async function main(){
+    await carregarDados();
+    atualizarProcessosLista(tratarProcessos());
+
+    setInterval(() => {
+    const updatedProcesses = tratarProcessos();
     atualizarProcessosLista(updatedProcesses);
-}, 5000);
+    }, 5000);
+}
+
+main();
