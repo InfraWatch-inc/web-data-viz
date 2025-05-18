@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.802.0",
+    "@slack/bolt": "^4.3.0",
     "@slack/web-api": "^7.9.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

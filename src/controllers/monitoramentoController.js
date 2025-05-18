@@ -137,6 +137,18 @@ function listagemServidores(req, res){
   })  
 }
 
+function abrirChamado(req, res){
+  if(!req.body){
+    return res.status(404).json({"mensagem": "Dados para o chamado não encontrado"})
+  }
+
+  const info = req.body;
+
+  monitoramentoModel.abrirChamado(info.idAlerta, info.idServidor,info.nivel, info.dataHora, info.componente, info.metrica, info.valor).then(resultado =>{
+    res.status(200).json(resultado);
+  })
+}
+
 module.exports = {
   buscarDados,
   cadastrarCaptura,
@@ -144,5 +156,6 @@ module.exports = {
   getCapturas,
   cadastrarProcessos,
   monitoramento,
-  listagemServidores
+  listagemServidores,
+  abrirChamado
 };

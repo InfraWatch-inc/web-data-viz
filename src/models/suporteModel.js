@@ -38,7 +38,7 @@ const criarIssue = async (assunto, descricao) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "fields": {
+        "fields": { 
           "project": {
             "id": jiraConfig.projectId,
             "key": jiraConfig.projectKey
@@ -60,7 +60,6 @@ const criarIssue = async (assunto, descricao) => {
     return await resposta.json();
   } catch (erro) {
     console.error('Erro no modelo ao criar issue:', erro);
-    throw erro;
   }
 };
 

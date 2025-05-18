@@ -25,6 +25,10 @@ router.post("/cadastrar/processos", function (req, res) {
 
 router.get("/listagem/:idEmpresa", function (req, res){
     monitoramentoController.listagemServidores(req, res);
+});
+
+router.post("/cadastrar/chamado", function (req, res) {
+    monitoramentoController.abrirChamado(req, res);
 })
 
 module.exports = router;

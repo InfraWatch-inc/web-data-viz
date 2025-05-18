@@ -79,6 +79,14 @@ ul a:hover {
   transform: translateY(-2px);
 }
 
+.notificacao {
+  background-image: url("../assets/icon/notificacao.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 20%;
+  height: 5%;
+}
+
 
 .sair {
   width: 8%;
@@ -158,16 +166,6 @@ button {
   height: 4vh;
   background: #24284B;
   color: white;
-}
-
-.filtro {
-  background: white;
-  border: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  height: 4vh;
-  color: black;
 }
 
 input {
