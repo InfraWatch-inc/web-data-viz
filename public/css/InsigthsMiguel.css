@@ -94,7 +94,7 @@ main {
     flex-direction: column;
     width: 100vw;
     height: 155vh;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     align-items: center;
     justify-content: space-evenly;
 }
@@ -158,6 +158,9 @@ main {
     width: 97%;
     height: 50%;
     background-color: white;
+    justify-content: center;
+    align-items: center;
+    padding: 3%;
 }
 
 .gDisc {
@@ -167,6 +170,8 @@ main {
     height: 40%;
     background-color: white;
     justify-content: center;
+        padding: 1%;
+
 }
 
 .box2 {
