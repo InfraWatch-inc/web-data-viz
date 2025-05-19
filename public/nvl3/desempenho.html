@@ -113,7 +113,7 @@
 
 async function listaChamados() {
   try {
-    const res = await fetch("http://127.0.0.1:8080/desempenho/buscar/chamado");
+    const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
     
     if (!res.ok) {
       const errorText = await res.text();
