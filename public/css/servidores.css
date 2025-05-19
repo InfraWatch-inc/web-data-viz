@@ -87,11 +87,17 @@ ul a:hover {
   height: 5%;
 }
 
+.dropdonw_content {
+  border: red 1px solid;
+  border: none;
+  cursor: pointer;
+}
+
 
 .sair {
-  width: 8%;
+  width: 100%;
   height: 4vh;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   background: linear-gradient(to bottom, #740bc6, #10d3f9);
   color: white;
   font-size: 1.6rem;

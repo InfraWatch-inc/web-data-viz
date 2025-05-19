@@ -110,7 +110,23 @@
 <script>
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
- const res = fetch("http://localhost:8080/desempenho/buscarChamado")
-  console.log(res);
+
+async function listaChamados() {
+  try {
+    const res = await fetch("http://127.0.0.1:8080/desempenho/buscar/chamado");
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
+    }
+
+    const data = await res.json();
+    console.log("Chamados:", data);
+  } catch (error) {
+    console.error("Erro ao buscar chamados:", error);
+  }
+}
+
+listaChamados()
 
   </script>

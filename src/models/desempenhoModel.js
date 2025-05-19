@@ -1,5 +1,3 @@
-const { getChamado } = require("../controllers/desempenhoController");
-
 const jiraConfig = {
     baseUrl: process.env.BASE_URL,
     auth: process.env.AUTH,
@@ -12,21 +10,32 @@ const getCredentials = () => {
   return btoa(`${jiraConfig.email}:${jiraConfig.auth}`);
 };
 
-async function getChamado(){
-    try{
-        const recebe = await fetch(`${jiraConfig.baseUrl}/rest/api/3/search?jql=issuetype=Task`)
+async function getChamado() {
+    try {
+        const response = await fetch(`${jiraConfig.baseUrl}/search?jql=issuetype=Task`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Basic ${getCredentials()}`, 
+                'Accept': 'application/json'
+            }
+        });
 
-        if(!recebe.ok){
-          return console.error("erro no fetch. ", recebe.json);
-        } 
-        
-        const guardar = {
-            // vai pegar o servidor, o status (critico/moderado), o componente e a data
-            descricao: await recebe.json.issues.fields.description.content.content.text,
-            // status (pendente/ em andamento/ concluído)
-            status: await recebe.json().issues.statusCategory.name
-        } 
-    } catch(erro){
-     console.error("erro ao executar. ", erro);
+        if (!response.ok) {
+            const errorData = await response.text();
+            console.error("Erro no fetch:", errorData);
+            return null;
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (erro) {
+        console.error("Erro ao executar:", erro);
+        return null;
     }
+}
+
+
+module.exports = {
+  getChamado
 }
