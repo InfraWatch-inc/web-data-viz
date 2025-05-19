@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armazenamento | InfraWatch</title>
+    <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
+    <link rel="stylesheet" href="../css/InsigthsMiguel.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <nav class="header">
+            <div class="user_div">
+                <div class="img"></div>
+                <span class="user_name">André Muller</span>
+            </div>
+
+            <ul>
+                <a href="./insights.html">Insights</a>
+            </ul>
+            <ul>
+                <a href="./suporte.html">Suporte</a>
+            </ul>
+
+            <button class="sair" onclick="limparSessao()">Sair</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="box">
+
+            <div class="bEsq">
+                <div class="kpis">
+
+                </div>
+                <div class="regiao">
+                    <div class="gRegiao">
+
+                    </div>
+                </div>
+            </div>
+            <div class="bDir">
+                <div class="gPeriodo">
+
+                </div>
+                <div class="gDisc">
+                    <canvas id="chartDisc"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="box2">
+            <div class="lProcessos">
+
+            </div>
+        </div>
+
+    </main>
+
+</body>
+
+</html>
+
+<script>
+    const ctxDisc = document.getElementById('chartDisc');
+
+    new Chart(ctxDisc, {
+        type: 'bar',
+        data: {
+            labels: ['Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
+            datasets: [{
+                label: 'Alertas',
+                data: [1, 3, 2, 0, 0, 1],
+                backgroundColor: 'blue',
+            }]
+        },
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Alertas de Disco',
+                    font: {
+                        size: 18
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quant. Alertas'
+                    }
+                }
+            }
+        }
+    });
+
+</script>
