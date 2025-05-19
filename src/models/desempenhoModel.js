@@ -27,7 +27,32 @@ async function getChamado() {
         }
 
         const data = await response.json();
-        return data;
+        
+        let descricoes = [];
+        let statusArray = [];
+
+        if (data.issues) {
+            data.issues.forEach(issue => {
+                let descricao = '';
+                if (issue.fields.description && issue.fields.description.content) {
+                    issue.fields.description.content.forEach(paragraph => {
+                        paragraph.content.forEach(contentItem => {
+                            if (contentItem.type === 'text') {
+                                descricao += contentItem.text + ' '; 
+                            }
+                        });
+                    });
+                }
+
+                let status = '';
+                if (issue.fields.statusCategory) {
+                    status = issue.fields.statusCategory.name;
+                }
+
+                descricoes.push(descricao.trim());
+                statusArray.push(status);
+            });
+        }
 
     } catch (erro) {
         console.error("Erro ao executar:", erro);
@@ -36,6 +61,6 @@ async function getChamado() {
 }
 
 
-module.exports = {
+module.exports =  {
   getChamado
 }
