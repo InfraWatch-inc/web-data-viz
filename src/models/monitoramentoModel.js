@@ -24,6 +24,13 @@ function getServidor(uuid){
     return database.executar(instrucaoSql);
 }
 
+function getServidorComponente(uuid){
+    var instrucaoSql = `
+    SELECT * FROM servidor where uuidPlacaMae = "${uuid}";`;
+
+    return database.executar(instrucaoSql);
+}
+
 function cadastrarAlerta(fkConfiguracaoMonitoramento, nivel, dataHora, valor){
 
     var instrucaoSql =`
@@ -130,5 +137,6 @@ module.exports = {
     cadastrarAlerta,
     cadastrarProcesso,
     listagemServidores,
-    abrirChamado
+    abrirChamado,
+    getServidorComponente
 }

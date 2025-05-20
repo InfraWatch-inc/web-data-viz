@@ -7,6 +7,11 @@ router.get("/:uuid", function (req, res) {
     monitoramentoController.buscarDados(req, res);
 });
 
+router.get("/componente/:uuid", function (req, res) {
+    monitoramentoController.buscarDadosComponente(req, res);
+});
+
+
 router.post("/cadastrar/dados/:idServidor", function (req, res) {
     monitoramentoController.cadastrarCaptura(req, res);
 });

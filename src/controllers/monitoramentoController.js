@@ -33,6 +33,19 @@ function buscarDados(req, res) {
   });
 }
 
+function buscarDadosComponente(req, res) {
+
+  const uuid = req.params.uuid
+
+  if(uuid == undefined){
+    console.log("uuid indefinido")
+  }
+  monitoramentoModel.getServidorComponente(uuid).then((resultado) => {
+    res.status(200).json(resultado);
+  });
+}
+
+
 function cadastrarCaptura(req, res) {
   /*
   {
@@ -157,5 +170,6 @@ module.exports = {
   cadastrarProcessos,
   monitoramento,
   listagemServidores,
-  abrirChamado
+  abrirChamado,
+  buscarDadosComponente
 };

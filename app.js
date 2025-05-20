@@ -24,6 +24,7 @@ var servidoresRouter = require("./src/routes/servidores");
 var monitoramentoRouter = require("./src/routes/monitoramento");
 var suporteRouter = require("./src/routes/suporte");
 var desempenhoRouter = require("./src/routes/desempenho")
+var componenteRouter = require("./src/routes/componente")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -39,6 +40,7 @@ app.use("/servidores", servidoresRouter);
 app.use("/monitoramento", monitoramentoRouter);
 app.use("/suporte", suporteRouter);
 app.use("/desempenho", desempenhoRouter);
+app.use("/componente", componenteRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
