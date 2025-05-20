@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/desempenho.css">
 </head>
 
-<body onload="carregar()">
+<body>
   <header>
     <nav class="header">
       <div class="user_div">
@@ -31,84 +31,15 @@
       <button class="sair" onclick="limparSessao()">Sair</button>
     </nav>
   </header>
+<div class="listagem">
 
-  <main>
-    <div id="div_kpis">
-      <a href="./InsightEspecifica.html">
-        <div class="kpi" id="div_cpu">
-          <div class="titulo_kpi" id="div_titulo_kpi_cpu">
-            <span>CPU</span>
-          </div>
-          <div class="icon_kpi" id="div_cpu_icon">
-            <img src="../assets/icon/microchip-solid.svg" alt="" />
-          </div>
-          <div class="alerta_kpi" id="div_alertas_cpu">
-            <span>12 Alertas</span>
-          </div>
-        </div>
-      </a>
-      <a href="">
-        <div class="kpi" id="div_gpu">
-          <div class="titulo_kpi" id="div_titulo_kpi_gpu">
-            <span>GPU</span>
-          </div>
-          <div class="icon_kpi" id="div_gpu_icon">
-            <img src="../assets/icon/gpu.png" alt="" />
-          </div>
-          <div class="alerta_kpi" id="div_alertas_gpu">
-            <span>24 Alertas</span>
-          </div>
-        </div>
-      </a>
-      <a href="">
-        <div class="kpi" id="div_disco">
-          <div class="titulo_kpi" id="div_titulo_kpi_disco">
-            <span>DISCO</span>
-          </div>
-          <div class="icon_kpi" id="div_disco_icon">
-            <img src="../assets/icon/hard-drive-solid.svg" alt="" />
-          </div>
-          <div class="alerta_kpi" id="div_alertas_disco">
-            <span>7 Alertas</span>
-          </div>
-        </div>
-      </a>
-      <a href="">
-        <div class="kpi" id="div_ram">
-          <div class="titulo_kpi" id="div_titulo_kpi_ram">
-            <span>RAM</span>
-          </div>
-          <div class="icon_kpi" id="div_ram_icon">
-            <img src="../assets/icon/memory-solid.svg" alt="" />
-          </div>
-          <div class="alerta_kpi" id="div_alertas_ram">
-            <span>11 Alertas</span>
-          </div>
-        </div>
-      </a>
-    </div>
-    <div id="div_grafico">
-      <div id="div_header_grafico">
-        <select name="slt_tempo" class="select" id="slt_tempo">
-          <option value="semana">Ultima semana</option>
-          <option selected value="mes">Ultimo mes</option>
-          <option value="ano">Ultimo Ano</option>
-        </select>
-      </div>
-
-      <div id="div_canva" class="div_canva">
-        <canvas id="myChart" style="width: 70%;
-        height: 80%;"></canvas>
-      </div>
-    </div>
-  </main>
+</div>
 </body>
 
 </html>
-
-
 <script>
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+
 
 
 async function listaChamados() {
@@ -128,5 +59,6 @@ async function listaChamados() {
 }
 
 listaChamados()
+
 
   </script>
