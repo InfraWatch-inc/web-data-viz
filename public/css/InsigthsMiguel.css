@@ -17,7 +17,7 @@ body {
 
 header {
     width: 100vw;
-    height: 15vh;
+    height: 12vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -93,7 +93,7 @@ main {
     display: flex;
     flex-direction: column;
     width: 100vw;
-    height: 90vh;
+    height: 87vh;
     /* border: 1px solid red; */
     align-items: center;
     justify-content: space-evenly;
