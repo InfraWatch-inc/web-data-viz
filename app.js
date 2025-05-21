@@ -25,7 +25,7 @@ var monitoramentoRouter = require("./src/routes/monitoramento");
 var suporteRouter = require("./src/routes/suporte");
 var desempenhoRouter = require("./src/routes/desempenho")
 var componenteRouter = require("./src/routes/componente")
-var alertasMemoriaRouter = require(".src/routes/alertasMemoria");
+var alertasMemoriaRouter = require("./src/routes/alertasMemoria");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

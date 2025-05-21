@@ -10,3 +10,5 @@ alertasMemoriaController.getAlertasPeriodo(req, res);
 router.get("/qtdAlertaD", function (req, res){
 alertasMemoriaController.getAlertasDisco(req, res);
 });
+
+module.exports = router;
