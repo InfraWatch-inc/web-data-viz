@@ -7,4 +7,5 @@ router.post("/cadastrar/dados/:idServidor", function (req, res) {
     componenteController.cadastrarCaptura(req, res);
 });
 
+
 module.exports = router;

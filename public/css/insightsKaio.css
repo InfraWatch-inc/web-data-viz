@@ -1,0 +1,163 @@
+* {
+    font-family: Sora;
+    color: #1f2937;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, #f9fafb, #b0f2ff);
+}
+
+header {
+    width: 100vw;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    width: 90%;
+    height: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #f9fafb;
+    overflow: hidden;
+}
+
+ul {
+    width: 15%;
+    display: flex;
+    justify-content: center;
+}
+
+ul a {
+    font-size: 1.8rem;
+    word-spacing: 0.2rem;
+    color: #374151;
+    transition: 0.4s;
+}
+
+ul a:hover {
+    color: #10D3F9;
+    transition: 0.4s;
+    transform: translateY(-2px);
+}
+
+.user_div {
+    height: 5vh;
+    width: 20%;
+    display: flex;
+    justify-content: space-betwee;
+    align-items: center;
+}
+
+
+.user_name {
+    font-size: 1.8rem;
+    word-spacing: 0.2rem;
+    color: #374151;
+}
+
+.sair {
+    width: 8%;
+    height: 4vh;
+    border-radius: 10px;
+    background: linear-gradient(to bottom, #740bc6, #10d3f9);
+    color: white;
+    font-size: 1.6rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sair:hover {
+    transform: translateY(-2px);
+    transition: 0.4s;
+    box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
+}
+
+
+
+.filtros {
+    display: flex;
+    justify-content: space-evenly;
+     width: 100%;
+    /* background-color: #1f2937; */
+}
+
+.filtros select {
+    width: 15%;
+    height: 2.8rem;
+    padding: 0 1.4rem;
+    border-radius: 0.55rem;
+    border: 1px solid rgb(167, 166, 166);
+    font-size: 1.2rem;
+    background-color: #f9fafb;
+    box-shadow: 0.125rem 0.125rem 0.375rem rgba(0, 0, 0, 0.35);
+    
+}
+
+.kpis-gerais {
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.kpi {
+    border: 1px solid rgb(167, 166, 166);
+    align-items: center;
+    width: 20%;
+    height: 8rem;
+    text-align: center;
+    border-radius:  0.55rem;
+    background-color: #f9fafb;
+    padding: 0.4rem;
+}
+
+.graficos-insights {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+}
+
+
+.grafico-historico {
+    margin-top: 3%;
+    width: 45%;
+    height: 50vh;
+    border-radius:  0.55rem;
+    background-color: #f9fafb;
+    box-shadow: 0.125rem 0.125rem 0.375rem rgba(0, 0, 0, 0.507);
+     padding: 0.7rem;
+}
+
+
+.grafico-periodo {
+    margin-top: 3%;
+    width: 45%;
+    height: 50vh;
+    border-radius:  0.55rem;
+    background-color: #f9fafb;
+    box-shadow: 0.125rem 0.125rem 0.375rem rgba(0, 0, 0, 0.507);
+    padding: 0.7rem;
+   
+}
+
+
+
+
+

@@ -3,11 +3,8 @@ const componenteModel = require("../models/componenteModel");
 async function cadastrarCaptura(req, res) {
   try {
     const idServidor = req.params.idServidor;
-    const dados = req.body; // seu array com { fkServidor, componentes }
+    const dados = req.body; 
 
-    // O JSON que você manda pelo Python é tipo:
-    // [ { fkServidor: 4, componentes: [ {...}, {...} ] } ]
-    // Então extrair os componentes do primeiro objeto do array
     if (!Array.isArray(dados) || dados.length === 0) {
       return res.status(400).json({ error: "Dados inválidos" });
     }
