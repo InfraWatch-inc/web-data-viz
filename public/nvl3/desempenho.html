@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desempenho dos Operadores</title>
-    <link rel="stylesheet" href="../css/desempenho.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desempenho dos Operadores</title>
+  <link rel="stylesheet" href="../css/desempenho.css">
 </head>
 
 <body>
@@ -31,34 +32,229 @@
       <button class="sair" onclick="limparSessao()">Sair</button>
     </nav>
   </header>
-<div class="listagem">
 
+  <div class="card">
+    <div class="card-header">
+      <h2>Lista de Chamados em Abertos</h2>
+      <div class="pesquisa">
+        <input type="text" placeholder="Pesquisar">
+      </div>
+
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Servidor</th>
+          <th>Componentes</th>
+          <th>Tempo</th>
+          <th>Status</th>
+          <th>Operador Responsável</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PixelForge</td>
+          <td>CPU</td>
+          <td class="tempo">120 MINUTOS</td>
+          <td class="status-critico">Crítico</td>
+          <td>Matheus Diniz</td>
+        </tr>
+        <tr>
+          <td>RenderTitan</td>
+          <td>DISCO</td>
+          <td class="tempo">84 MINUTOS</td>
+          <td class="status-moderado">Moderado</td>
+          <td>Hugo Carvalho</td>
+        </tr>
+        <tr>
+          <td>FrameStorm</td>
+          <td>CPU</td>
+          <td class="tempo">72 MINUTOS</td>
+          <td class="status-critico">Crítico</td>
+          <td>Grigor Mascarenhas</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="kpis">
+    <div class="chamados">
+      <h3>Chamados abertos</h3>
+      <div class="vermelho">15</div>
+    </div>
+    <div class="chamados">
+      <h3>Chamados resolvidos</h3>
+      <div class="nmr">27</div>
+    </div>
+  </div>
+
+  <div class="bottom-layout">
+      <div class="grafico-container">
+    <div class="grafico-header">
+      <h3 class="grafico-titulo">Distribuição de Chamados por Componente</h3>
+      <select>
+        <option value="semana">Última semana</option>
+        <option value="mes">Último mês</option>
+      </select>
+    </div>
+    <div id="containerGrafico">
+  <canvas id="meuGrafico"></canvas>
 </div>
+
+
+  </div>
+
+
+    <!-- desempenho-->
+    <div class="card-desempenho">
+      <div class="filtros">
+        <div class="titulo">Desempenho dos Operadores</div>
+        <div class="pesquisa">
+          <input type="text" placeholder="Pesquisar">
+        </div>
+        <div class="date-filter">
+          <span class="calendar-icon"></span>
+          <span>Dia Atual</span>
+          <div class="arrow-icon"></div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Operador</th>
+            <th>Atribuídos</th>
+            <th>Realizados</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Matheus Diniz</td>
+            <td>17</td>
+            <td class="red-text">12</td>
+          </tr>
+          <tr>
+            <td>Hugo Carvalho</td>
+            <td>15</td>
+            <td class="red-text">10</td>
+          </tr>
+          <tr>
+            <td>Grigor Mascarenhas</td>
+            <td>7</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Jonathan Calleri</td>
+            <td>4</td>
+            <td>4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  </div>
 </body>
 
+
 </html>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+
+  window.onload = function () {
+    const ctx = document.getElementById('meuGrafico').getContext('2d');
+    const meuGrafico = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['HD', 'Disco', 'GPU', 'CPU', 'RAM'],
+        datasets: [
+          {
+            label: 'Crítico',
+            data: [15, 40, 95, 50, 30],
+            backgroundColor: 'rgba(0, 229, 255, 0.8)',
+            borderRadius: 6,
+            barThickness: 25
+          },
+          {
+            label: 'Moderado',
+            data: [10, 35, 55, 53, 55],
+            backgroundColor: 'rgba(111, 66, 193, 0.8)',
+            borderRadius: 6,
+            barThickness: 25
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: {
+            top: 10,
+            bottom: 10,
+            left: 0,
+            right: 0
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'right',
+            labels: {
+              usePointStyle: true,
+              padding: 20
+            }
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false
+          }
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Componentes'
+            },
+            grid: {
+              display: false
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Quantidade de Chamados'
+            },
+            beginAtZero: true,
+            grid: {
+              color: '#e0e0e0'
+            }
+          }
+        }
+      }
+    });
+  };
+
+
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
+  async function listaChamados() {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
 
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
+      }
 
-async function listaChamados() {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
-    
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
+      const data = await res.json();
+      console.log("Chamados:", data);
+    } catch (error) {
+      console.error("Erro ao buscar chamados:", error);
     }
-
-    const data = await res.json();
-    console.log("Chamados:", data);
-  } catch (error) {
-    console.error("Erro ao buscar chamados:", error);
   }
-}
 
-listaChamados()
+  listaChamados()
 
 
-  </script>
+</script>
