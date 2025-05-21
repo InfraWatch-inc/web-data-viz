@@ -21,7 +21,10 @@ function getAlertasPeriodo(req, res) {
 
 
 function getAlertasDisco(req, res) {
-    alertasMemoriaModel.getAlertasDisco()
+
+    const idEmpresa = req.query.idEmpresa;
+
+    alertasMemoriaModel.getAlertasDisco(idEmpresa)
         .then(
             function (resultado) {
                 res.json(resultado);
