@@ -23,8 +23,8 @@
             <div class="user_div">
                 <div class="img"></div>
                 <div class="dropdonw_user">
+                    <span class="user_name" id="nome_usuario"></span>   
                     <div class="dropdonw_content">
-                        <span class="user_name" id="nome_usuario"></span>   
                         <button class="sair" onclick="limparSessao()">Sair</button>
                     </div>
                 </div>
@@ -152,6 +152,30 @@
             body.appendChild(linha);
         });
     }
+
+    document.querySelector('.dropdonw_user').addEventListener('click', function(event) {
+    const dropdownContent = this.querySelector('.dropdonw_content');
+    
+    if (event.target.closest('.dropdonw_content') || event.target.closest('.sair')) {
+        return;
+    }
+
+    if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
+        dropdownContent.style.display = 'block';  
+    } else {
+        dropdownContent.style.display = 'none';   
+    }
+    });
+
+    document.addEventListener('click', function(event) {
+    const dropdown = document.querySelector('.dropdonw_user');
+    const dropdownContent = dropdown.querySelector('.dropdonw_content');
+    
+    if (!dropdown.contains(event.target)) {
+        dropdownContent.style.display = 'none'; 
+    }
+    });
+
 
 
 
