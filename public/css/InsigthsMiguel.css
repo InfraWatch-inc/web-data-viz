@@ -132,7 +132,7 @@ main {
     justify-content: space-evenly;
     width: 100%;
     height: 33%;
-    
+
 }
 
 .dSelects select {
@@ -142,8 +142,9 @@ main {
     text-align: center;
     border: 1px solid rgb(167, 166, 166);
     border-radius: 8px;
-
+    cursor:pointer;
 }
+
 
 .dqtdAlert {
     display: flex;
