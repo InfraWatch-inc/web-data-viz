@@ -135,7 +135,6 @@ border: 1px solid #ccc;
 .pesquisa input {
   width: 100%;
   padding: 8px 30px 8px 10px;
-  border: 1px solid var(--border-color);
   border-radius: 5px;
 }
 
@@ -170,41 +169,59 @@ table {
 }
 
 /* kpis */
-.kpis {
-gap: 30px;
+.kpis-container {
   display: flex;
-  justify-content: space-around;
-  height: 90%;
-  width: 30%;
+  gap: 40px; /* mais espaço entre as colunas */
+  justify-content: center;
+  height: 75%;
+  margin-top: 25px;
+  font-size: 18px;
 }
 
-.chamados {
-  background: rgb(255, 255, 255);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  font-family: sans-serif;
+.kpis-coluna {
+  width: 260px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  width: 50%;
+  padding: 15px;
+ 
 }
 
-.chamados h3 {
-  font-size: 18.5px;
+.kpis-coluna div {
+  margin: 12px 0;
+  
+}
+
+.titulo{
+  padding: 10px;
+}
+
+.status-critico-titulo{
+  border-bottom: 2px solid #e0e0e0;
+padding: 10px;
+  color: #10d3f9;
+
+}
+
+.nmr-titulo{
+  border-bottom: 2px solid #e0e0e0;
+padding: 10px;
+}
+
+
+.vermelho-titulo {
+  color: red;
   font-weight: bold;
-  margin-bottom: 15px;
+    border-bottom: 2px solid #e0e0e0;
+padding: 10px;
 }
 
-.chamados .nmr {
-  font-size: 22px;
-  font-weight: 500;
+.nmr {
+  font-weight: bold;
 }
 
 
-
-.vermelho {
-  font-size: 22px;
-  color: #ff5252;
-}
 
 .bottom-layout {
   display: flex;
@@ -218,10 +235,9 @@ gap: 30px;
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', sans-serif;
   width: 50%;
-  height: 90%;
-  padding: 20px;
+  height: 91%;
+  padding: 15px;
   
 }
 
@@ -230,11 +246,10 @@ gap: 30px;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 15px;
 }
 
 .filtros .titulo {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 10px;
   flex: 1 1 100%;
@@ -261,7 +276,7 @@ gap: 30px;
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 thead {
@@ -270,15 +285,17 @@ thead {
 
 thead th {
   text-align: center;
-  padding: 10px;
+  padding: 9px;
   font-weight: 600;
   color: #333;
+  font-size: 18px;
 }
 
 tbody td {
   padding: 14px;
   border-bottom: 1px solid #f0f0f0;
   text-align: center;
+  font-size: 20px;
 }
 
 .red-text {
@@ -291,7 +308,7 @@ tbody td {
       width: 50%;
       background-color: #ffff;
       border-radius: 15px;
-      height: 90%;
+      height: 91%;
 
     }
 
