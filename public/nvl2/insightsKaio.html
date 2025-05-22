@@ -67,6 +67,7 @@
         
         <div class="kpi">
             <span style="font-size: 1.4rem; font-weight: 600;">Período com mais alertas</span>
+            <span id="resultadoKPI4" class="resultadoKPI"></span>
         </div>
     </div>
     
@@ -111,6 +112,19 @@
                 })
             }).then(resposta => resposta.json()).then(dados => {
                 console.log("Dados recebidos:", dados);
+
+                 var total = dados[0].totalAlertas
+                console.log(total)
+                for (let i = 0; i < dados.length; i++) {
+
+                    if(dados[i].totalAlertas > total)
+                    var PeriodoComMaisAlertas = dados[i].periodoDia
+                }
+
+                console.log(PeriodoComMaisAlertas)
+
+                resultadoKPI4.innerHTML = `${PeriodoComMaisAlertas}`
+                
             }).catch(erro => {
                 console.error("Erro na requisição:", erro);
             });
@@ -155,6 +169,19 @@
                 })
             }).then(resposta => resposta.json()).then(dados => {
                 console.log("Dados recebidos:", dados);
+
+                var total = dados[0].totalAlertas
+                console.log(total)
+                for (let i = 0; i < dados.length; i++) {
+
+                    if(dados[i].totalAlertas > total)
+                    var PeriodoComMaisAlertas = dados[i].periodoDia
+                }
+
+                console.log(PeriodoComMaisAlertas)
+
+                resultadoKPI4.innerHTML = `${PeriodoComMaisAlertas}`
+
             }).catch(erro => {
                 console.error("Erro na requisição:", erro);
             });
@@ -199,6 +226,19 @@
                     idEmpresa: sessionStorage.ID_EMPRESA
                 })
             }).then(resposta => resposta.json()).then(dados => {
+
+                var total = dados[0].totalAlertas
+                console.log(total)
+                for (let i = 0; i < dados.length; i++) {
+
+                    if(dados[i].totalAlertas > total)
+                    var PeriodoComMaisAlertas = dados[i].periodoDia
+                }
+
+                console.log(PeriodoComMaisAlertas)
+
+                resultadoKPI4.innerHTML = `${PeriodoComMaisAlertas}`
+
                 console.log("Dados recebidos:", dados);
             }).catch(erro => {
                 console.error("Erro na requisição:", erro);
