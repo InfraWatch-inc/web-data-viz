@@ -26,6 +26,7 @@ var suporteRouter = require("./src/routes/suporte");
 var desempenhoRouter = require("./src/routes/desempenho")
 var componenteRouter = require("./src/routes/componente")
 var alertasMemoriaRouter = require("./src/routes/alertasMemoria");
+var alertasProcessamentoRouter = require("./src/routes/alertasProcessamento");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -43,6 +44,7 @@ app.use("/suporte", suporteRouter);
 app.use("/desempenho", desempenhoRouter);
 app.use("/componente", componenteRouter);
 app.use("/alertasMemoria", alertasMemoriaRouter);
+app.use("/alertasProcessamento", alertasProcessamentoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

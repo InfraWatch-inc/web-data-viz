@@ -7,12 +7,12 @@
     <title>Armazenamento | InfraWatch</title>
     <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
     <link rel="stylesheet" href="../css/insightsKaio.css">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/sessao.js"></script>
 </head>
 
-<body>
+<body onload="inicializarPagina()">
 
     <header>
         <nav class="header">
@@ -32,59 +32,209 @@
         </nav>
     </header>
 
-      <div class="filtros">
+    <div class="filtros">
 
-              <select id="select-tempo">
-                          <option value="" disabled selected>Fator Temporal</option>
-                          <option value="">Trimestral</option>
-                          <option value="">Semestral</option>
-                          <option value="">Anual</option>
-              </select>
-         
-              <select id="select-componente">
-                          <option value="" disabled selected>Componente</option>
-                          <option value="">GPU</option>
-                          <option value="">CPU</option>
-                          <option value="">GPU e CPU</option>
-              </select>
+        <select id="select-tempo">
+            <option value="" disabled selected>Fator Temporal</option>
+            <option value="1">Trimestral</option>
+            <option value="2">Semestral</option>
+            <option value="3">Anual</option>
+        </select>
 
-      </div>
+        <select id="select-componente">
+            <option value="" disabled selected>Componente</option>
+            <option value="">GPU</option>
+            <option value="">CPU</option>
+            <option value="">GPU e CPU</option>
+        </select>
+
+    </div>
 
 
-      <div class="kpis-gerais">
-            <div class="kpi">
-                <span style="font-size: 1.4rem; font-weight: 600;">Componentes com mais alertas críticos</span>
-            </div>
+    <div class="kpis-gerais">
+        <div class="kpi">
+            <span style="font-size: 1.4rem; font-weight: 600;">Componentes com mais alertas críticos</span><br>
+            <span id="resultadoKPI1" class="resultadoKPI"></span>
+        </div>
 
-            <div class="kpi">
-                <span style="font-size: 1.4rem; font-weight: 600;">Marca de CPU que mais gerou alertas</span>
-            </div>
+        <div class="kpi">
+            <span style="font-size: 1.4rem; font-weight: 600;">Marca de CPU que mais gerou alertas</span>
+        </div>
 
-            <div class="kpi">
-                <span style="font-size: 1.4rem; font-weight: 600;">Marca de GPU que mais gerou alertas</span>
-            </div>
-
-            <div class="kpi">
-                <span style="font-size: 1.4rem; font-weight: 600;">Período com mais alertas</span>
-            </div>
-      </div>
-
-      <div class="graficos-insights"> 
-
-          <div class="grafico-historico">
-            <canvas id="grafico-alertas"></canvas>
-          </div>
-           <div class="grafico-periodo">
-            <canvas id="chartPeriodo"></canvas>
-          </div>
-
-      </div>
+        <div class="kpi">
+            <span style="font-size: 1.4rem; font-weight: 600;">Marca de GPU que mais gerou alertas</span>
+        </div>
         
-    </body>
+        <div class="kpi">
+            <span style="font-size: 1.4rem; font-weight: 600;">Período com mais alertas</span>
+        </div>
+    </div>
+    
+    <div class="graficos-insights">
+
+        <div class="grafico-historico">
+            <canvas id="grafico-alertas"></canvas>
+        </div>
+        <div class="grafico-periodo">
+            <canvas id="chartPeriodo"></canvas>
+        </div>
+
+    </div>
+
+</body>
 
 </html>
 
 <script>
+
+    function inicializarPagina() {
+        obterDados();
+    }
+    document.getElementById("select-tempo").addEventListener("change", obterDados);
+    document.getElementById("select-componente").addEventListener("change", obterDados);
+
+    
+    function obterDados() { 
+        
+        var escolhaTemporal = document.getElementById("select-tempo").value
+        var escolhaComponente = document.getElementById("select-componente").value
+
+        if (escolhaTemporal == '3') {
+
+            fetch("/alertasProcessamento/AlertasPorPeriodoAnual", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA
+                })
+            }).then(resposta => resposta.json()).then(dados => {
+                console.log("Dados recebidos:", dados);
+            }).catch(erro => {
+                console.error("Erro na requisição:", erro);
+            });
+
+
+            fetch("/alertasProcessamento/MaiorQtdAlertaCriticoAnual", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA
+                })
+            }).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    throw "Nenhum resultado encontrado!!";
+                }
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos USUARIOS: ", JSON.stringify(resposta));
+                
+                    resultadoKPI1.innerHTML = `${resposta[0].componente} - ${resposta[0].totalAlertasCritcios} `
+                
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            
+            }
+            }).catch(function (resposta) {
+                console.error(resposta);
+            });
+
+        } else if (escolhaTemporal == '2') {
+
+            fetch("/alertasProcessamento/AlertasPorPeriodoSemestral", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA
+                })
+            }).then(resposta => resposta.json()).then(dados => {
+                console.log("Dados recebidos:", dados);
+            }).catch(erro => {
+                console.error("Erro na requisição:", erro);
+            });
+
+
+            fetch("/alertasProcessamento/MaiorQtdAlertaCriticoSemestral", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA
+                })
+            }).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    throw "Nenhum resultado encontrado!!";
+                }
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos USUARIOS: ", JSON.stringify(resposta));
+                
+                    resultadoKPI1.innerHTML = `${resposta[0].componente} - ${resposta[0].totalAlertasCritcios} `
+                
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            
+            }
+            }).catch(function (resposta) {
+                console.error(resposta);
+            });
+            
+
+        } else {
+
+            fetch("/alertasProcessamento/AlertasPorPeriodoTrimestral", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA
+                })
+            }).then(resposta => resposta.json()).then(dados => {
+                console.log("Dados recebidos:", dados);
+            }).catch(erro => {
+                console.error("Erro na requisição:", erro);
+            });
+
+
+            fetch("/alertasProcessamento/MaiorQtdAlertaCriticoTrimestral", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA
+                })
+            }).then(function (resposta) {
+            if (resposta.ok) {
+                if (resposta.status == 204) {
+                    throw "Nenhum resultado encontrado!!";
+                }
+                resposta.json().then(function (resposta) {
+                    console.log("Dados recebidos USUARIOS: ", JSON.stringify(resposta));
+                
+                    resultadoKPI1.innerHTML = `${resposta[0].componente} - ${resposta[0].totalAlertasCritcios} `
+                
+                });
+            } else {
+                throw ('Houve um erro na API!');
+            
+            }
+            }).catch(function (resposta) {
+                console.error(resposta);
+            });
+            
+        }
+    }
+
 
     const ctx = document.getElementById('grafico-alertas').getContext('2d');
 
@@ -97,65 +247,65 @@
                     label: 'Críticos',
                     data: [18, 9, 18, 30, 14],
                     backgroundColor: '#7e22ce', // roxo
-                     barThickness: 80
+                    barThickness: 80
                 },
                 {
                     label: 'Moderado',
                     data: [10, 8, 20, 10, 0],
                     backgroundColor: '#06b6d4', // azul claro
-                     barThickness: 80
+                    barThickness: 80
                 }
             ]
         },
-    options: {
-        plugins: {
-            title: {
-                display: true,
-                text: 'Histórico de Alertas GPU e CPU',
-                font: {
-                    size: 18,
-                    weight: 'bold'
+        options: {
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Histórico de Alertas GPU e CPU',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    },
+                    padding: {
+                        bottom: 20
+                    }
                 },
-                padding: {
-                    bottom: 20
-                }
-            },
-            legend: {
-                display: true,
-                position: 'top',
-                align: 'center',
-                labels: {
-                    font: {
-                        size: 14
-                    }
-                }
-            }
-        },
-        responsive: true,
-        scales: {
-            x: {
-                stacked: true,
-                title: {
+                legend: {
                     display: true,
-                    text: 'Meses do Ano',
-                    font: {
-                        size: 20
+                    position: 'top',
+                    align: 'center',
+                    labels: {
+                        font: {
+                            size: 14
+                        }
                     }
                 }
             },
-            y: {
-                stacked: true,
-                beginAtZero: true,
-                title: {
-                    display: true,
-                    text: 'Quantidades de alertas',
-                    font: {
-                        size: 20
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'Meses do Ano',
+                        font: {
+                            size: 20
+                        }
+                    }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Quantidades de alertas',
+                        font: {
+                            size: 20
+                        }
                     }
                 }
             }
         }
-    }
 
     });
 
@@ -201,9 +351,9 @@
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text:  'Quantidades de alertas',
+                        text: 'Quantidades de alertas',
                         font: {
-                            size: 20                          
+                            size: 20
                         }
                     }
                 },
@@ -212,7 +362,7 @@
                         display: true,
                         text: 'Ultimos 6 meses',
                         font: {
-                            size: 20           
+                            size: 20
                         }
                     }
                 }
@@ -220,6 +370,3 @@
         }
     });
 </script>
-
-      
-    
