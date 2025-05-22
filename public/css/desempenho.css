@@ -13,15 +13,20 @@ html {
 
 body {
   background: linear-gradient(to bottom, #f9fafb, #b0f2ff);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
   width: 100vw;
-  height: 20vh;
+  height: 20%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 
 .header {
   width: 90%;
@@ -34,6 +39,20 @@ header {
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   background-color: #f9fafb;
+}
+.mae{
+width: 100%;
+height: 80%;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.cima{
+  display: flex;
+  height: 50%;
+  width: 89%;
+  gap: 50px;
 }
 
 ul {
@@ -96,9 +115,8 @@ ul a:hover {
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  margin-bottom: 20px;
-  width: 60%;
-  margin-left: 50px;
+  width: 80%;
+  height: 90%;
 }
 
 .card-header {
@@ -109,8 +127,9 @@ ul a:hover {
 }
 
 .pesquisa {
-  position: relative;
-  width: 200px;
+border: 1px solid #ccc;
+  width: 15%;
+  border-radius: 6px;
 }
 
 .pesquisa input {
@@ -133,17 +152,7 @@ table {
   border-collapse: collapse;
 }
 
-th,
-td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #6a6a6c;
-}
 
-th {
-  font-weight: 500;
-  color: #777;
-}
 
 .status-critico {
   color: #10d3f9;
@@ -162,35 +171,35 @@ th {
 
 /* kpis */
 .kpis {
-  position: absolute; 
-  top: 180px;
-  right: 180px;
+gap: 30px;
   display: flex;
-  gap: 40px;
-  z-index: 10;
-  flex-direction: column;
+  justify-content: space-around;
+  height: 90%;
+  width: 30%;
 }
 
 .chamados {
   background: rgb(255, 255, 255);
-  padding: 15px 25px;
+  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   font-family: sans-serif;
   text-align: center;
-  
+  width: 50%;
 }
 
 .chamados h3 {
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: 18.5px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 .chamados .nmr {
   font-size: 22px;
   font-weight: 500;
 }
+
+
 
 .vermelho {
   font-size: 22px;
@@ -199,23 +208,21 @@ th {
 
 .bottom-layout {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-  margin-top: 20px;
+  height: 50%;
+  width: 89%;
+  gap: 50px;
 }
 
 /* desempenho */
 .card-desempenho {
   background-color: white;
-  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', sans-serif;
-  width: 100%;
-  max-width: 550px;
-  margin-left: auto;
-  margin-right: 40px;
+  width: 50%;
+  height: 90%;
+  padding: 20px;
+  
 }
 
 .filtros {
@@ -227,18 +234,13 @@ th {
 }
 
 .filtros .titulo {
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 600;
   margin-bottom: 10px;
   flex: 1 1 100%;
 }
 
-.filtros .pesquisa input {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
-}
+
 
 .date-filter {
   display: flex;
@@ -267,15 +269,16 @@ thead {
 }
 
 thead th {
-  text-align: left;
-  padding: 10px 8px;
+  text-align: center;
+  padding: 10px;
   font-weight: 600;
   color: #333;
 }
 
 tbody td {
-  padding: 10px 8px;
+  padding: 14px;
   border-bottom: 1px solid #f0f0f0;
+  text-align: center;
 }
 
 .red-text {
@@ -285,28 +288,34 @@ tbody td {
 
 /* grafico */
 .grafico-container {
-      width: 70%;
-      max-width: 700px;
-      margin: auto;
+      width: 50%;
       background-color: #ffff;
       border-radius: 15px;
-      
+      height: 90%;
+
     }
 
     .grafico-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 10px 10px 10px;
+      height: 25%;
+      padding: 20px;
     }
 
     .grafico-titulo {
-      font-size: 18px;
+      font-size: 22px;
       margin: 0;
     }
 
     
 #containerGrafico {
   width: 100%;
-  height: 300px;
+  height: 75%;
+  padding: 20px;
 }
+
+.grafiquinho{
+width: 100%;
+}
+
