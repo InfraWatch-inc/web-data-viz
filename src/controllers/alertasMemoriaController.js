@@ -1,11 +1,20 @@
 let alertasMemoriaModel = require("../models/alertasMemoriaModel");
 
 function getAlertasPeriodo(req, res) {
-    alertasMemoriaModel.getAlertasPeriodo()
+
+    const idEmpresa = req.query.idEmpresa;
+
+
+    console.log("idEmpresa");
+    console.log(idEmpresa);
+
+    alertasMemoriaModel.getAlertasPeriodo(idEmpresa)
 
         .then(
             function (resultado) {
                 res.json(resultado);
+                console.log("resultado")
+                console.log(resultado)
             }
         ).catch(
             function (erro) {

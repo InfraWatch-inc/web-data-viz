@@ -164,63 +164,96 @@
             console.log(`#ERRO: ${resposta}`);
         });
 
+    let meses = [];
+    let manha = [];
+    let tarde = [];
+    let noite = [];
+
+    fetch(`/alertasMemoria/qtdAlertaP?idEmpresa=${idEmpresa}`)
+        .then(resposta => resposta.json())
+        .then(json => {
+            console.log(json);
 
 
-
-    const ctxPeriodo = document.getElementById('chartPeriodo');
-
-    new Chart(ctxPeriodo, {
-        type: 'bar',
-        data: {
-            labels: ['Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
-            datasets: [
-                {
-                    label: 'Manhã',
-                    data: [3, 1, 1, 1, 0, 1],
-                    backgroundColor: '#33BFD4'
-                },
-                {
-                    label: 'Tarde',
-                    data: [2, 3, 0, 0, 1, 0],
-                    backgroundColor: '#F76B3C'
-                },
-                {
-                    label: 'Noite',
-                    data: [4, 4, 3, 1, 1, 3],
-                    backgroundColor: '#003F4F'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Alertas de RAM por período',
-                    font: {
-                        size: 18,
-                        weight: 'bold'
-                    }
-                },
-
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Quantidades de alertas'
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Ultimos 6 meses'
-                    }
+            for (let i = 0; i < json.length; i++) {
+                if (!meses.includes(json[i].mes_formatado)) {
+                    meses.push(json[i].mes_formatado);
                 }
             }
-        }
-    });
+
+            for (let i = 0; i < meses.length; i++) {
+                let qtdManha = 0
+                let qtdTarde = 0
+                let qtdNoite = 0
+
+                for (let j = 0; j < json.length; j++) {
+                    if (json[j].mes_formatado === meses[i]) {
+                        if (json[j].periodo_dia === 'Manhã') {
+                            qtdManha = json[j].quantidade_alertas
+                        };
+                        if (json[j].periodo_dia === 'Tarde') {
+                            qtdTarde = json[j].quantidade_alertas
+                        };
+                        if (json[j].periodo_dia === 'Noite') {
+                            qtdNoite = json[j].quantidade_alertas
+                        };
+                    }
+                }
+
+                manha.push(qtdManha);
+                tarde.push(qtdTarde);
+                noite.push(qtdNoite);
+            }
+
+            new Chart(document.getElementById('chartPeriodo'), {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [
+                        {
+                            label: 'Manhã',
+                            data: manha,
+                            backgroundColor: '#33BFD4'
+                        },
+                        {
+                            label: 'Tarde',
+                            data: tarde,
+                            backgroundColor: '#F76B3C'
+                        },
+                        {
+                            label: 'Noite',
+                            data: noite,
+                            backgroundColor: '#003F4F'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Alertas de RAM por período'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Quantidade de alertas'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Meses'
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(erro => console.log('Erro:', erro));
 
 
 </script>
