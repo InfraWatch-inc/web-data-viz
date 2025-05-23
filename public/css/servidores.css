@@ -55,7 +55,7 @@ header {
 }
 
 .dropdonw_user{
-  width: 50%;
+  width: 60%;
   height: 100%;
   /* border: red 1px solid; */
   margin-top: 14px;
@@ -202,6 +202,51 @@ button {
   height: 4vh;
   background: #24284B;
   color: white;
+}
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  width: 35%;
+  height: 60%;
+  border: 1px solid red;
+  z-index: 1;
+  position: absolute;
+  display: none;
+  /* display: ; */
+  transform: translate(60%, -35%);
+  border-radius: 15px;
+}
+
+.content-servidor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  background: white;
+  border-radius: 15px;
+}
+
+.servidor-modal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 85%;
+  height: 20%;
+}
+
+label {
+  margin-right: 160px;
+  margin-top: 10px;
+}
+
+.inputServidor {
+  width: 100%;
 }
 
 input {

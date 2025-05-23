@@ -23,7 +23,7 @@
             <div class="user_div">
                 <div class="img"></div>
                 <div class="dropdonw_user">
-                    <span class="user_name" id="nome_usuario"></span>   
+                    <span class="user_name" id="nome_usuario"></span>
                     <div class="dropdonw_content">
                         <button class="sair" onclick="limparSessao()">Sair</button>
                     </div>
@@ -43,7 +43,8 @@
             <div class="header">
                 <div class="alinhamento-esquerda">
                     <button onclick="modalColaborador()" class="btn-add-servidor">Adicionar</button>
-                    <input class="input" placeholder="🔍 Pesquisar Servidor..." type="search" name="" id="pesquisa-servidor">
+                    <input class="input" placeholder="🔍 Pesquisar Servidor..." type="search" name=""
+                        id="pesquisa-servidor">
                 </div>
 
 
@@ -54,6 +55,25 @@
                         <li><a href="">Total Alertas: 6</a></li>
 
                     </ul>
+                </div>
+            </div>
+
+            <div class="modal">
+                <div class="content-servidor">
+                    <h3>Cadastro Servidor</h3>
+                    <div class="servidor-modal">
+                        <label for="">campo:</label>
+                        <input type="text" class="inputServidor" id="tagName">
+                    </div>
+                    <div class="servidor-modal">
+                        <label for="">campo:</label>
+                        <input type="text" class="inputServidor" id="tagName">
+                    </div>
+                    <div class="servidor-modal">
+                        <label for="">campo:</label>
+                        <input type="text" class="inputServidor" id="tagName">
+                    </div>
+                    <button>Cadastrar</button>
                 </div>
             </div>
 
@@ -83,7 +103,7 @@
 </html>
 <script>
 
-    
+
     nome_usuario.innerHTML = `${sessionStorage.NOME_USUARIO}   <img src="../assets/icon/arrow_donw.png" alt="" width="20" height="15">`;
 
     const pesquisa = document.querySelector('.pesquisa');
@@ -94,8 +114,8 @@
     let servidores;
     let nucleoCpu = 4;
     let threadsCpu = 8;
-    
-    document.addEventListener("DOMContentLoaded", function() {
+
+    document.addEventListener("DOMContentLoaded", function () {
         let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
         if (idEmpresa) {
@@ -113,15 +133,16 @@
 
                         servidores = data;
 
-                        if(Array.isArray(servidores)){
+                        if (Array.isArray(servidores)) {
                             listagemBody()
-                        }else {
+                        } else {
                             console.log("Servidor não encontrado.")
                         }
                     })
                     .catch(error => {
                         console.error("Erro ao obter os dados: ", error);
-                    });                } catch (error) {
+                    });
+            } catch (error) {
                 console.error("Erro ao obter os dados: ", error);
             }
         } else {
@@ -130,7 +151,7 @@
     });
 
 
-    function listagemBody(){
+    function listagemBody() {
         let body = document.getElementById('corpo-tabela');
         body.innerHTML = "";
 
@@ -138,9 +159,9 @@
             const linha = document.createElement('tr');
 
             let totalNucleo = servidor.qtdCpu * nucleoCpu;
-            let totalThreads = servidor.qtdCpu * threadsCpu; 
+            let totalThreads = servidor.qtdCpu * threadsCpu;
 
-            linha.innerHTML= `
+            linha.innerHTML = `
                 <td>${servidor.id}</td>
                 <td>${servidor.nome}</td>
                 <td>${servidor.idInstancia}</td>
@@ -153,44 +174,54 @@
         });
     }
 
-    document.querySelector('.dropdonw_user').addEventListener('click', function(event) {
-    const dropdownContent = this.querySelector('.dropdonw_content');
-    
-    if (event.target.closest('.dropdonw_content') || event.target.closest('.sair')) {
-        return;
-    }
+    document.querySelector('.dropdonw_user').addEventListener('click', function (event) {
+        const dropdownContent = this.querySelector('.dropdonw_content');
 
-    if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
-        dropdownContent.style.display = 'block';  
-    } else {
-        dropdownContent.style.display = 'none';   
-    }
+        if (event.target.closest('.dropdonw_content') || event.target.closest('.sair')) {
+            return;
+        }
+
+        if (dropdownContent.style.display === 'none' || dropdownContent.style.display === '') {
+            dropdownContent.style.display = 'block';
+        } else {
+            dropdownContent.style.display = 'none';
+        }
     });
 
-    document.addEventListener('click', function(event) {
-    const dropdown = document.querySelector('.dropdonw_user');
-    const dropdownContent = dropdown.querySelector('.dropdonw_content');
-    
-    if (!dropdown.contains(event.target)) {
-        dropdownContent.style.display = 'none'; 
-    }
+    document.addEventListener('click', function (event) {
+        const dropdown = document.querySelector('.dropdonw_user');
+        const dropdownContent = dropdown.querySelector('.dropdonw_content');
+
+        if (!dropdown.contains(event.target)) {
+            dropdownContent.style.display = 'none';
+        }
     });
 
 
+    // async function pesquisa() {
+    //     let search = document.getElementById("pesquisa-servidor")
+
+    //     if (!search) {
+    //         console.log("Campo vazio")
+    //     }
+
+    //     fetch(`/servidores/pesquisa/${search}`, {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "Application/json"
+    //         }
+    //     })
+    // }
 
 
 
-    // btnDropdown.onclick = () => {
-    //     menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
-    // };
-
-    // pesquisa.oninput = () => {
-    //     const termo = pesquisa.value.toLowerCase();
-    //     linhas.forEach(linha => {
-    //         const nome = linha.querySelector('td').textContent.toLowerCase();
-    //         linha.style.display = nome.includes(termo) ? '' : 'none';
-    //     });
-    // };
+    pesquisa.oninput = () => {
+        const termo = pesquisa.value.toLowerCase();
+        linhas.forEach(linha => {
+            const nome = linha.querySelector('td').textContent.toLowerCase();
+            linha.style.display = nome.includes(termo) ? '' : 'none';
+        });
+    };
 
 
 </script>

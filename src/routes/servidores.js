@@ -23,4 +23,6 @@ router.put("/atualizar/:id", function (req, res){
     servidoresController.putServidor(req, res);
 })
 
+router.get("/pesquisa/:nome")
+
 module.exports = router;
