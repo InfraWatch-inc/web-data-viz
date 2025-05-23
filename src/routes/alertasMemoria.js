@@ -11,4 +11,12 @@ router.get("/qtdAlertaD", function (req, res){
 alertasMemoriaController.getAlertasDisco(req, res);
 });
 
+router.get("/totalRAM", function (req, res){
+alertasMemoriaController.getKpiTotalRam(req, res);
+});
+
+router.get("/totalDisc", function (req, res){
+    alertasMemoriaController.getKpiTotalDisc(req, res);
+})
+
 module.exports = router;

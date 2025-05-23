@@ -50,7 +50,51 @@ function getAlertasDisco(req, res) {
         );
 }
 
+function getKpiTotalRam(req, res) {
+
+    const idEmpresa = req.query.idEmpresa;
+
+    alertasMemoriaModel.getKpiTotalRam(idEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao buscar dados do usuario ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
+function getKpiTotalDisc(req, res) {
+
+    const idEmpresa = req.query.idEmpresa;
+
+    alertasMemoriaModel.getKpiTotalDisc(idEmpresa)
+        .then(
+            function (resultado) {
+                res.json(resultado);
+            }
+        ).catch(
+            function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao buscar dados do usuario ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            }
+        );
+}
+
 module.exports = {
     getAlertasDisco,
-    getAlertasPeriodo
+    getAlertasPeriodo,
+    getKpiTotalDisc,
+    getKpiTotalRam
 }

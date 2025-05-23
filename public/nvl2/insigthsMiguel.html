@@ -54,11 +54,11 @@
                     <div class="dqtdAlert">
                         <div class="card">
                             <p>Total Alertas RAM</p>
-                            <span>7</span>
+                            <span id="spnTotalRam"></span>
                         </div>
                         <div class="card">
                             <p>Total Alertas Disco</p>
-                            <span>56</span>
+                            <span id="spnTotalDis"></span>
                         </div>
                     </div>
 
@@ -71,7 +71,7 @@
 
                         <div class="cplus">
                             <p>Periodo com mais alertas</p>
-                            <span>Noturno</span>
+                            <span id="spnPeriodoMais"></span>
                         </div>
 
                     </div>
@@ -101,8 +101,7 @@
 
 <script>
 
-    let nome_mes = []
-    let qtd_alerta = []
+
 
     const idEmpresa = sessionStorage.ID_EMPRESA;
 
@@ -114,7 +113,10 @@
     }).then(function (resposta) {
         console.log("resposta: ", resposta);
         resposta.json().then(json => {
-            console.log(json)
+            // console.log(json)
+
+            let nome_mes = []
+            let qtd_alerta = []
 
             for (let i = 0; i < json.length; i++) {
                 nome_mes.push(json[i].mes_formatado)
@@ -165,19 +167,22 @@
             console.log(`#ERRO: ${resposta}`);
         });
 
-    let meses = [];
-    let manha = [];
-    let tarde = [];
-    let noite = [];
+    let l = ""
 
     fetch(`/alertasMemoria/qtdAlertaP?idEmpresa=${idEmpresa}`)
         .then(resposta => resposta.json())
         .then(json => {
-            console.log(json);
-
+            // console.log(json);
+            l = json.length
+            let meses = [];
+            let manha = [];
+            let tarde = [];
+            let noite = [];
 
             for (let i = 0; i < json.length; i++) {
+                console.log(i);
                 if (!meses.includes(json[i].mes_formatado)) {
+                    console.log(json[[i]]);
                     meses.push(json[i].mes_formatado);
                 }
             }
@@ -187,23 +192,39 @@
                 let qtdTarde = 0
                 let qtdNoite = 0
 
+                let cManha = 0
+                let cTarde = 0
+                let cNoite = 0
+
                 for (let j = 0; j < json.length; j++) {
                     if (json[j].mes_formatado === meses[i]) {
                         if (json[j].periodo_dia === 'Manhã') {
-                            qtdManha = json[j].quantidade_alertas
+                            cManha++
+                            qtdManha += json[j].quantidade_alertas
                         };
                         if (json[j].periodo_dia === 'Tarde') {
-                            qtdTarde = json[j].quantidade_alertas
+                            cTarde++
+                            qtdTarde += json[j].quantidade_alertas
                         };
                         if (json[j].periodo_dia === 'Noite') {
-                            qtdNoite = json[j].quantidade_alertas
+                            cNoite++
+                            qtdNoite += json[j].quantidade_alertas
                         };
                     }
+                }
+
+                if (cManha > cTarde && cManha > cNoite) {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Manhã"
+                } else if (cNoite > cTarde && cNoite > cManha) {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Noite"
+                } else if (cTarde > cNoite && cTarde > cManha) {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Tarde"
                 }
 
                 manha.push(qtdManha);
                 tarde.push(qtdTarde);
                 noite.push(qtdNoite);
+
             }
 
             new Chart(document.getElementById('chartPeriodo'), {
@@ -256,6 +277,40 @@
                     }
                 }
             });
+        })
+
+
+
+        .catch(erro => console.log('Erro:', erro));
+
+
+
+    fetch(`/alertasMemoria/totalRAM?idEmpresa=${idEmpresa}`)
+        .then(resposta => resposta.json())
+        .then(json => {
+            console.log(json);
+
+            let somaAlertas = 0
+            for (i = 0; i < json.length; i++) {
+                somaAlertas += json[i].totalAlertasRAM
+            }
+
+            this.document.getElementById("spnTotalRam").innerHTML = somaAlertas;
+
+        })
+        .catch(erro => console.log('Erro:', erro));
+
+
+    fetch(`/alertasMemoria/totalDisc?idEmpresa=${idEmpresa}`)
+        .then(resposta => resposta.json())
+        .then(json => {
+
+            let somaAlertas = 0
+            for (i = 0; i < json.length; i++) {
+                somaAlertas += json[i].totalAlertasDisc
+            }
+
+            this.document.getElementById("spnTotalDis").innerHTML = somaAlertas;
         })
         .catch(erro => console.log('Erro:', erro));
 
