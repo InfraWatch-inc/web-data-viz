@@ -35,17 +35,10 @@
     <div class="filtros">
 
         <select id="select-tempo">
-            <option value="" disabled selected>Fator Temporal</option>
-            <option value="1">Trimestral</option>
-            <option value="2">Semestral</option>
-            <option value="3">Anual</option>
-        </select>
-
-        <select id="select-componente">
-            <option value="" disabled selected>Componente</option>
-            <option value="">GPU</option>
-            <option value="">CPU</option>
-            <option value="">GPU e CPU</option>
+            <option value="3" disabled selected>Fator Temporal</option>
+            <option value="3">Trimestral</option>
+            <option value="6">Semestral</option>
+            <option value="12">Anual</option>
         </select>
 
     </div>
@@ -59,18 +52,20 @@
 
         <div class="kpi">
             <span style="font-size: 1.4rem; font-weight: 600;">Marca de CPU que mais gerou alertas</span>
+            <span id="resultadoKPI2" class="resultadoKPI"></span>
         </div>
 
         <div class="kpi">
             <span style="font-size: 1.4rem; font-weight: 600;">Marca de GPU que mais gerou alertas</span>
+            <span id="resultadoKPI3" class="resultadoKPI"></span>
         </div>
-        
+
         <div class="kpi">
             <span style="font-size: 1.4rem; font-weight: 600;">Período com mais alertas</span>
             <span id="resultadoKPI4" class="resultadoKPI"></span>
         </div>
     </div>
-    
+
     <div class="graficos-insights">
 
         <div class="grafico-historico">
@@ -91,188 +86,147 @@
     function inicializarPagina() {
         obterDados();
     }
+
     document.getElementById("select-tempo").addEventListener("change", obterDados);
-    document.getElementById("select-componente").addEventListener("change", obterDados);
+   
 
-    
-    function obterDados() { 
-        
+    function obterDados() {
+
         var escolhaTemporal = document.getElementById("select-tempo").value
-        var escolhaComponente = document.getElementById("select-componente").value
 
-        if (escolhaTemporal == '3') {
+        function separarAlertasCriticosComponentes(dados) {
+            // Separando quantidade de Alertas Crticicos dos componentes CPU e GPU
+                var qtdAlertaCriticoCPU = 0;
+                var qtdAlertaCriticoGPU = 0;
 
-            fetch("/alertasProcessamento/AlertasPorPeriodoAnual", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idEmpresa: sessionStorage.ID_EMPRESA
-                })
-            }).then(resposta => resposta.json()).then(dados => {
-                console.log("Dados recebidos:", dados);
+                dados.forEach(i => {
 
-                 var total = dados[0].totalAlertas
-                console.log(total)
-                for (let i = 0; i < dados.length; i++) {
+                    if (i.Componente == 'CPU' && i.nivel == '2') {
+                        qtdAlertaCriticoCPU++;
+                    } else if (i.Componente == 'GPU' && i.nivel == '2') {
+                        qtdAlertaCriticoGPU++;
+                    }
 
-                    if(dados[i].totalAlertas > total)
-                    var PeriodoComMaisAlertas = dados[i].periodoDia
-                }
-
-                console.log(PeriodoComMaisAlertas)
-
-                resultadoKPI4.innerHTML = `${PeriodoComMaisAlertas}`
-                
-            }).catch(erro => {
-                console.error("Erro na requisição:", erro);
-            });
-
-
-            fetch("/alertasProcessamento/MaiorQtdAlertaCriticoAnual", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idEmpresa: sessionStorage.ID_EMPRESA
-                })
-            }).then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    throw "Nenhum resultado encontrado!!";
-                }
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos USUARIOS: ", JSON.stringify(resposta));
-                
-                    resultadoKPI1.innerHTML = `${resposta[0].componente} - ${resposta[0].totalAlertasCritcios} `
-                
                 });
-            } else {
-                throw ('Houve um erro na API!');
-            
-            }
-            }).catch(function (resposta) {
-                console.error(resposta);
-            });
 
-        } else if (escolhaTemporal == '2') {
+                console.log("Quantidade de alertas críticos CPU: " + qtdAlertaCriticoCPU);
+                console.log("Quantidade de alertas críticos GPU: " + qtdAlertaCriticoGPU);
 
-            fetch("/alertasProcessamento/AlertasPorPeriodoSemestral", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idEmpresa: sessionStorage.ID_EMPRESA
-                })
-            }).then(resposta => resposta.json()).then(dados => {
-                console.log("Dados recebidos:", dados);
-
-                var total = dados[0].totalAlertas
-                console.log(total)
-                for (let i = 0; i < dados.length; i++) {
-
-                    if(dados[i].totalAlertas > total)
-                    var PeriodoComMaisAlertas = dados[i].periodoDia
-                }
-
-                console.log(PeriodoComMaisAlertas)
-
-                resultadoKPI4.innerHTML = `${PeriodoComMaisAlertas}`
-
-            }).catch(erro => {
-                console.error("Erro na requisição:", erro);
-            });
-
-
-            fetch("/alertasProcessamento/MaiorQtdAlertaCriticoSemestral", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idEmpresa: sessionStorage.ID_EMPRESA
-                })
-            }).then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    throw "Nenhum resultado encontrado!!";
-                }
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos USUARIOS: ", JSON.stringify(resposta));
-                
-                    resultadoKPI1.innerHTML = `${resposta[0].componente} - ${resposta[0].totalAlertasCritcios} `
-                
-                });
-            } else {
-                throw ('Houve um erro na API!');
-            
-            }
-            }).catch(function (resposta) {
-                console.error(resposta);
-            });
-            
-
-        } else {
-
-            fetch("/alertasProcessamento/AlertasPorPeriodoTrimestral", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idEmpresa: sessionStorage.ID_EMPRESA
-                })
-            }).then(resposta => resposta.json()).then(dados => {
-
-                var total = dados[0].totalAlertas
-                console.log(total)
-                for (let i = 0; i < dados.length; i++) {
-
-                    if(dados[i].totalAlertas > total)
-                    var PeriodoComMaisAlertas = dados[i].periodoDia
-                }
-
-                console.log(PeriodoComMaisAlertas)
-
-                resultadoKPI4.innerHTML = `${PeriodoComMaisAlertas}`
-
-                console.log("Dados recebidos:", dados);
-            }).catch(erro => {
-                console.error("Erro na requisição:", erro);
-            });
-
-
-            fetch("/alertasProcessamento/MaiorQtdAlertaCriticoTrimestral", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    idEmpresa: sessionStorage.ID_EMPRESA
-                })
-            }).then(function (resposta) {
-            if (resposta.ok) {
-                if (resposta.status == 204) {
-                    throw "Nenhum resultado encontrado!!";
-                }
-                resposta.json().then(function (resposta) {
-                    console.log("Dados recebidos USUARIOS: ", JSON.stringify(resposta));
-                
-                    resultadoKPI1.innerHTML = `${resposta[0].componente} - ${resposta[0].totalAlertasCritcios} `
-                
-                });
-            } else {
-                throw ('Houve um erro na API!');
-            
-            }
-            }).catch(function (resposta) {
-                console.error(resposta);
-            });
-            
+                if(qtdAlertaCriticoCPU > qtdAlertaCriticoGPU) {
+                    document.getElementById("resultadoKPI1").innerHTML = "CPU: " + qtdAlertaCriticoCPU;
+                } else {
+                    document.getElementById("resultadoKPI1").innerHTML = "GPU: " + qtdAlertaCriticoGPU;
+                }   
         }
+
+        function separarQtdAlertasPorPeriodoComponentes(dados) {
+            // Separando quantidade de Alertas por periodo dos componentes CPU e GPU
+
+                var qtdAlertaManha = 0;
+                var qtdAlertaTarde = 0; 
+                var qtdAlertaNoite = 0;
+
+                dados.forEach(i => {
+                    if(i.periodoDia == 'Manhã') {
+                        qtdAlertaManha++;
+                    } else if(i.periodoDia == 'Tarde') {
+                        qtdAlertaTarde++;
+                    } else if(i.periodoDia == 'Noite') {
+                        qtdAlertaNoite++;
+                    }
+                })
+                console.log("Quantidade de alertas Manhã: " + qtdAlertaManha); 
+                console.log("Quantidade de alertas Tarde: " + qtdAlertaTarde);
+                console.log("Quantidade de alertas Noite: " + qtdAlertaNoite);
+
+                if(qtdAlertaManha > qtdAlertaTarde && qtdAlertaManha > qtdAlertaNoite) {
+                    document.getElementById("resultadoKPI4").innerHTML = "Manhã: " + qtdAlertaManha;
+                } else if(qtdAlertaTarde > qtdAlertaManha && qtdAlertaTarde > qtdAlertaNoite) {
+                    document.getElementById("resultadoKPI4").innerHTML = "Tarde: " + qtdAlertaTarde;
+                } else {
+                    document.getElementById("resultadoKPI4").innerHTML = "Noite: " + qtdAlertaNoite;
+                }
+        }
+
+        function separarAlertasPorMarcaComponentes(dados) {
+
+             // Separando quantidade de Alertas por marca dos componentes CPU e GPU
+
+                var qtdAlertaMarcaIntelCPU = 0;
+                var qtdAlertaMarcaAmdCPU = 0;
+                var qtdAlertaMarcaNvidiaGPU = 0;
+                var qtdAlertaMarcaAmdGPU = 0;
+                var qtdAlertaMarcaIntelGPU = 0;
+
+                dados.forEach(i => {
+                    if(i.Componente == 'CPU' && i.marca == 'Intel') {
+                        qtdAlertaMarcaIntelCPU++;
+                    } else if(i.Componente == 'CPU' && i.marca == 'AMD') {
+                        qtdAlertaMarcaAmdCPU++;
+                    } else if(i.Componente == 'GPU' && i.marca == 'NVIDIA') {
+                        qtdAlertaMarcaNvidiaGPU++;
+                    } else if(i.Componente == 'GPU' && i.marca == 'AMD') {
+                        qtdAlertaMarcaAmdGPU++;
+                    } else if(i.Componente == 'GPU' && i.marca == 'Intel') {
+                        qtdAlertaMarcaIntelGPU++;
+                    }
+                })
+
+                console.log("Quantidade de alertas Intel CPU: " + qtdAlertaMarcaIntelCPU);
+                console.log("Quantidade de alertas AMD CPU: " + qtdAlertaMarcaAmdCPU);
+                console.log("Quantidade de alertas NVIDIA GPU: " + qtdAlertaMarcaNvidiaGPU);
+                console.log("Quantidade de alertas AMD GPU: " + qtdAlertaMarcaAmdGPU);
+                console.log("Quantidade de alertas Intel GPU: " + qtdAlertaMarcaIntelGPU);
+
+                if(qtdAlertaMarcaIntelCPU > qtdAlertaMarcaAmdCPU) {
+                    document.getElementById("resultadoKPI2").innerHTML = "Intel: " + qtdAlertaMarcaIntelCPU;
+                } else {
+                    document.getElementById("resultadoKPI2").innerHTML = "AMD: " + qtdAlertaMarcaAmdCPU;
+                }
+
+                if(qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaAmdGPU && qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaIntelGPU) {
+                    document.getElementById("resultadoKPI3").innerHTML = "NVIDIA: " + qtdAlertaMarcaNvidiaGPU;
+                } else if(qtdAlertaMarcaAmdGPU > qtdAlertaMarcaIntelGPU) {
+                    document.getElementById("resultadoKPI3").innerHTML = "AMD: " + qtdAlertaMarcaAmdGPU;
+                } else {
+                    document.getElementById("resultadoKPI3").innerHTML = "Intel: " + qtdAlertaMarcaIntelGPU;
+                }
+
+        }
+        
+
+            if(escolhaTemporal){
+               fetch("/alertasProcessamento/informacoesAlertas", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idEmpresa: sessionStorage.ID_EMPRESA,
+                    idEscolhaTemporal: escolhaTemporal
+                    
+                })
+            }).then(resposta => resposta.json()).then(dados => {
+                console.log("Dados recebidos do periodo:", dados);  
+
+                
+                // Separando quantidade de Alertas Crticicos dos componentes CPU e GPU
+                separarAlertasCriticosComponentes(dados);
+
+                // Separando quantidade de Alertas por periodo dos componentes CPU e GPU
+                separarQtdAlertasPorPeriodoComponentes(dados);
+
+                // Separando quantidade de Alertas por marca dos componentes CPU e GPU
+                separarAlertasPorMarcaComponentes(dados);
+
+
+
+            }).catch(erro => {
+                console.error("Erro na requisição:", erro);
+            });
+
+        }
+
     }
 
 
@@ -284,13 +238,13 @@
             labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
             datasets: [
                 {
-                    label: 'Críticos',
+                    label: 'Moderado',
                     data: [18, 9, 18, 30, 14],
                     backgroundColor: '#7e22ce', // roxo
                     barThickness: 80
                 },
                 {
-                    label: 'Moderado',
+                    label: 'Críticos',
                     data: [10, 8, 20, 10, 0],
                     backgroundColor: '#06b6d4', // azul claro
                     barThickness: 80
