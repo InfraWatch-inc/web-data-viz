@@ -10,6 +10,7 @@ async function delay(ms) {
 async function enviar(bucketName){
   const s3Client = new S3Client({region: "us-east-1"});
     while (true){
+      await delay(86400000);
 
       horarioColeta =  new Date(Date.now());
         
@@ -71,10 +72,6 @@ async function enviar(bucketName){
           console.error("Erro ao enviar para o S3:", error);
         }
      }
-
-
-      await delay(10000);
-      //await delay(86400000); // 24 horas em milissegundos
     }
 }
 

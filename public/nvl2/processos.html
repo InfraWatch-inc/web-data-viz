@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insigths Processos | InfraWatch</title>
+  <link rel="stylesheet" href="../css/insghts.css" />
+  <link rel="stylesheet" href="../css/processos.css" />
+  <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script src="../js/sessao.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
+
+  <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="body">
+  <header>
+    <nav class="header">
+      <div class="user_div">
+        <div class="img"></div>
+        <span class="user_name">André Muller</span>
+      </div>
+
+      <ul>
+        <a href="./insights.html">Insights</a>
+      </ul>
+      <ul>
+        <a href="./suporte.html">Suporte</a>
+      </ul>
+
+      <button class="sair" onclick="limparSessao()">Sair</button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="kpis">
+        <!--PARTE DE CIMA DA DASH - KPI's-->
+        <div>
+            <div>
+                <span>Insights de Processos no último Semstre:</span>7
+                <button class="filter-btn" onclick="abrirFiltro()"><span>Filtros<i class="fa-solid fa-filter"></i></span></button>
+            </div>
+            <div>
+                <div class="kpi-content">
+            <div>
+                <span>Processo com mais alertas críticos</span>
+            </div>
+            <div>
+                <span class="kpi-text" id="kpiAlertasCritico">Blender</span>
+            </div>
+        </div>
+        <div class="kpi-content">
+            <div>
+                <span>Processo com mais alertas atenção</span>
+            </div>
+            <div>
+                <span class="kpi-text" id="kpiAlertasAtencao">Maya</span>
+            </div>
+        </div>
+        <div class="kpi-content">
+            <div>
+                <span>Componente mais utilizado</span>
+            </div>
+            <div>
+                <span class="kpi-text" id="kpiComponente">CPU</span>
+            </div>
+        </div>
+        <div class="filtros">
+            <div>
+                <label for="iptDtFinal">De:</label>
+                <input type="date" name="" id="iptDtInicial">
+            </div>
+            <div>
+                <label for="iptQuantidade" >Período:</label>
+                <input type="number" name="" class="ipt-periodo" id="iptQuantidade">
+                <select name="" id="slctPeriodo">
+                    <option value="1">Mês</option>
+                    <option value="3">Trimestre</option>
+                    <option value="6">Semestre</option>
+                    <option value="12">Ano</option>
+                </select>
+               
+            </div>
+            <div> 
+                <button onclick="coletarDados()" class="btn-filtro">Aplicar Filtros</button>
+            </div>
+        </div>
+    </div>
+    <div class="graphs">
+        <!--PARTE INFERIOR DA DASH - Gráficos-->
+        <div class="graph-filtro">
+            <div class="graph-superior">
+                <label for="scltComponente">Componente:</label>
+                <select name="" id="scltComponente" oninput="alterarComponente(this.value)">
+                    <option value="cpu">CPU</option>
+                    <option value="gpu">GPU</option>
+                    <option value="ram">RAM</option>
+                </select>
+            </div>
+            <div class="graph-inferior">
+                <canvas id="chartConsumoProcessos"></canvas>
+            </div>
+        </div>
+        <div class="graph">
+            <canvas id="chartAlertasProcessos"></canvas>
+        </div>
+    </div>
+  </main>
+  <!-- TODO fazer estilização e modal de filtros-->
+  <dialog id="modal" class="modal">
+    <div class="dialogo" id="dialogo">
+      <div class="dialogo-conteudo">
+        <p id="msgModal"></p>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/insightsProcessos.js"></script>
+</body>
+</html>
+
