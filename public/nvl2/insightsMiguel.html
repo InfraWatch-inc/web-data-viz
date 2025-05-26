@@ -53,26 +53,40 @@
                     </div>
                     <div class="dqtdAlert">
                         <div class="card">
-                            <p>Total Alertas RAM</p>
-                            <span id="spnTotalRam"></span>
+                            <p>Alertas moderados RAM</p>
+                            <span id="spnModeradoRam" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
                         </div>
                         <div class="card">
-                            <p>Total Alertas Disco</p>
-                            <span id="spnTotalDis"></span>
+                            <p>Alertas moderados Disco</p>
+                            <span id="spnModeradoDisc" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
                         </div>
+
+                        <div class="card">
+                            <p>Periodo com mais alertas</p>
+                            <span id="spnPeriodoMais" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
+                        </div>
+
                     </div>
 
                     <div class="dPlus">
 
                         <div class="cplus">
-                            <p>Região com mais alertas</p>
-                            <span>none</span>
+                            <p>Alertas Críticos RAM</p>
+                            <span id="spnCriticoRam"
+                                style="color: red; font-weight: 600; font-size: 1.3rem;">none</span>
+                        </div>
+
+                        <div class="cplus">
+                            <p>Alertas Críticos Disco</p>
+                            <span id="spnCriticoDisc"
+                                style="color: red; font-weight: 600; font-size: 1.3rem;">none</span>
                         </div>
 
                         <div class="cplus">
                             <p>Periodo com mais alertas</p>
-                            <span id="spnPeriodoMais"></span>
+                            <span id="spnTotal" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
                         </div>
+
 
                     </div>
 
@@ -235,7 +249,7 @@
                         {
                             label: 'Manhã',
                             data: manha,
-                            backgroundColor: '#e8d8ff',
+                            backgroundColor: '#b38bff',
                             borderRadius: 7
                         },
                         {
@@ -290,12 +304,19 @@
         .then(json => {
             console.log(json);
 
-            let somaAlertas = 0
+            let contModerado = 0;
+            let contCrit = 0;
+
             for (i = 0; i < json.length; i++) {
-                somaAlertas += json[i].totalAlertasRAM
+                if (json[i].tipo_alerta === "Critico") {
+                    contCrit += json[i].totalAlertasRAM
+                } else if (json[i].tipo_alerta === "Moderado") {
+                    contModerado += json[i].totalAlertasRAM
+                }
             }
 
-            this.document.getElementById("spnTotalRam").innerHTML = somaAlertas;
+            this.document.getElementById("spnModeradoRam").innerHTML = contModerado;
+            this.document.getElementById("spnCriticoRam").innerHTML = contCrit;
 
         })
         .catch(erro => console.log('Erro:', erro));
@@ -305,12 +326,21 @@
         .then(resposta => resposta.json())
         .then(json => {
 
-            let somaAlertas = 0
+
+            let contModerado = 0;
+            let contCrit = 0;
+
             for (i = 0; i < json.length; i++) {
-                somaAlertas += json[i].totalAlertasDisc
+                if (json[i].tipo_alerta === "Critico") {
+                    contCrit += json[i].totalAlertasDisc
+                } else if (json[i].tipo_alerta === "Moderado") {
+                    contModerado += json[i].totalAlertasDisc
+                }
             }
 
-            this.document.getElementById("spnTotalDis").innerHTML = somaAlertas;
+            this.document.getElementById("spnModeradoDisc").innerHTML = contModerado
+            this.document.getElementById("spnCriticoDisc").innerHTML = contCrit
+
         })
         .catch(erro => console.log('Erro:', erro));
 

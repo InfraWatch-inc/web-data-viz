@@ -131,7 +131,7 @@ main {
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    height: 33%;
+    height: 23%;
 
 }
 
@@ -142,7 +142,7 @@ main {
     text-align: center;
     border: 1px solid rgb(167, 166, 166);
     border-radius: 8px;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 
@@ -153,13 +153,13 @@ main {
     justify-content: space-evenly;
     /* border: 1px solid; */
     width: 100%;
-    height: 33%;
+    height: 38%;
 }
 
 .dqtdAlert .card {
     display: flex;
-    width: 45%;
-    height: 60%;
+    width: 32%;
+    height: 70%;
     background-color: white;
     justify-content: center;
     align-items: center;
@@ -167,6 +167,10 @@ main {
     border-radius: 8px;
     flex-direction: column;
     transition: 0.4s;
+}
+
+.dqtdAlert .card p {
+    font-size: 0.9rem;
 }
 
 .card:hover {
@@ -182,7 +186,7 @@ main {
     justify-content: space-evenly;
     /* border: 1px solid; */
     width: 100%;
-    height: 33%;
+    height: 38%;
 }
 
 .dPlus .cplus {
@@ -190,12 +194,16 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 45%;
-    height: 60%;
+    width: 32%;
+    height: 70%;
     background-color: white;
     border: 1px solid rgb(167, 166, 166);
     border-radius: 8px;
     transition: 0.4s;
+}
+
+.dPlus .cplus p {
+    font-size: 0.9rem;
 }
 
 .cplus:hover {
@@ -241,7 +249,19 @@ main {
     justify-content: center;
     align-items: center;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.4s;
+        cursor: pointer;
 
+}
+
+.gPeriodo:hover {
+    transform: translatey(-3px);
+    transition: 0.4s;
+}
+
+.gDisc:hover {
+    transform: translatey(-3px);
+    transition: 0.4s;
 }
 
 .gDisc {
@@ -252,6 +272,8 @@ main {
     background-color: white;
     justify-content: center;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.4s;
+    cursor: pointer;
 }
 
 /* Tablets */
