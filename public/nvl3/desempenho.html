@@ -47,12 +47,12 @@
 
         </div>
 
-        <table>
+        <table id="ranking-alertas">
           <thead>
             <tr>
               <th>Servidor</th>
               <th>Componentes</th>
-              <th>Tempo</th>
+              <th>Tempo (MINUTOS)</th>
               <th>Status</th>
               <th>Operador Responsável</th>
             </tr>
@@ -61,28 +61,28 @@
             <tr>
               <td>PixelForge</td>
               <td>CPU</td>
-              <td class="tempo">120 MINUTOS</td>
+              <td class="tempo">120</td>
               <td class="status-critico">Crítico</td>
               <td>Matheus Diniz</td>
             </tr>
             <tr>
               <td>RenderTitan</td>
               <td>DISCO</td>
-              <td class="tempo">84 MINUTOS</td>
+              <td class="tempo">84</td>
               <td class="status-moderado">Moderado</td>
               <td>Hugo Carvalho</td>
             </tr>
             <tr>
               <td>FrameStorm</td>
               <td>CPU</td>
-              <td class="tempo">72 MINUTOS</td>
+              <td class="tempo">72</td>
               <td class="status-critico">Crítico</td>
               <td>Grigor Mascarenhas</td>
             </tr>
             <tr>
               <td>RenderTitan</td>
               <td>CPU</td>
-              <td class="tempo">50 MINUTOS</td>
+              <td class="tempo">50</td>
               <td class="status-moderado">Moderado</td>
               <td>Jonathan Calleri</td>
             </tr>
@@ -91,6 +91,7 @@
 
       </div>
       <div class="kpis-container">
+        
         <!-- Chamados Abertos -->
         <div class="kpis-coluna">
           <div class="titulo"><strong>Chamados Abertos</strong></div>
@@ -288,6 +289,19 @@
     try {
       const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
 
+        json_dados.forEach(entrada => {
+        const linha = `
+        <tr>
+          <td>${entrada.servidor}</td>
+          <td>${entrada.componente}</td>
+          <td class = "${entrada.tipo_alertas.toLowerCase()}">${entrada.tipo_alertas}</td>
+          <td>${entrada.data_hora}</td>
+          <td>${entrada.operador_responsavel}</td>
+        </tr>  
+        `;
+        tbody.innerHTML += linha;
+      });
+
       if (!res.ok) {
         const errorText = await res.text();
         throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
@@ -298,9 +312,29 @@
     } catch (error) {
       console.error("Erro ao buscar chamados:", error);
     }
+  
   }
 
   listaChamados()
 
-
+  // fetch("/desempenho/buscar/chamado")
+  //   .then(res => res.json())
+  //   .then(alertas => {
+  //     const tbody = document.querySelector("ranking-alertas tbody");
+  //     tbody.innerHTML = "";
+  //     console.log("coco xixi bunda");
+      
+  //     alertas.forEach(entrada => {
+  //       const linha = `
+  //       <tr>
+  //         <td>${entrada.servidor}</td>
+  //         <td>${entrada.componente}</td>
+  //         <td class = "${entrada.tipo_alertas.toLowerCase()}">${entrada.tipo_alertas}</td>
+  //         <td>${entrada.data_hora}</td>
+  //         <td>${entrada.operador_responsavel}</td>
+  //       </tr>  
+  //       `;
+  //       tbody.innerHTML += linha;
+  //     });
+  //   });
 </script>
