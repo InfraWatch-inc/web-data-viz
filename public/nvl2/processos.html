@@ -37,87 +37,88 @@
   </header>
 
   <main class="main-content">
-    <div class="kpis">
+    <div class="div-titulo">
         <!--PARTE DE CIMA DA DASH - KPI's-->
-        <div>
-            <div>
-                <span>Insights de Processos no último Semstre:</span>7
-                <button class="filter-btn" onclick="abrirFiltro()"><span>Filtros<i class="fa-solid fa-filter"></i></span></button>
-            </div>
-            <div>
-                <div class="kpi-content">
-            <div>
-                <span>Processo com mais alertas críticos</span>
-            </div>
-            <div>
-                <span class="kpi-text" id="kpiAlertasCritico">Blender</span>
+        <div class="titulo-dash">
+            <div class="content-titulo">
+                <span class="titulo-text" id="tituloDash">Insights de Processos no último Semestre:</span>
+                <button class="filtro-btn" onclick="modal.showModal()">Filtros<i class="fa-solid fa-filter filter-logo"></i></button>
             </div>
         </div>
-        <div class="kpi-content">
-            <div>
-                <span>Processo com mais alertas atenção</span>
+        <div class="kpis">
+            <div class="kpi-content">
+                <div>
+                    <span>Processo com mais alertas críticos</span>
+                </div>
+                <div>
+                    <span class="kpi-text critico" id="kpiAlertasCritico">Blender</span>
+                </div>
             </div>
-            <div>
-                <span class="kpi-text" id="kpiAlertasAtencao">Maya</span>
+            <div class="kpi-content">
+                <div>
+                    <span>Processo com mais alertas atenção</span>
+                </div>
+                <div>
+                    <span class="kpi-text moderado" id="kpiAlertasAtencao">Maya</span>
+                </div>
             </div>
-        </div>
-        <div class="kpi-content">
-            <div>
-                <span>Componente mais utilizado</span>
+            <div class="kpi-content">
+                <div>
+                    <span>Componente mais utilizado</span>
+                </div>
+                <div>
+                    <span class="kpi-text critico" id="kpiComponente">CPU</span>
+                </div>
             </div>
-            <div>
-                <span class="kpi-text" id="kpiComponente">CPU</span>
-            </div>
-        </div>
-        <div class="filtros">
-            <div>
-                <label for="iptDtFinal">De:</label>
-                <input type="date" name="" id="iptDtInicial">
-            </div>
-            <div>
-                <label for="iptQuantidade" >Período:</label>
-                <input type="number" name="" class="ipt-periodo" id="iptQuantidade">
-                <select name="" id="slctPeriodo">
-                    <option value="1">Mês</option>
-                    <option value="3">Trimestre</option>
-                    <option value="6">Semestre</option>
-                    <option value="12">Ano</option>
-                </select>
-               
-            </div>
-            <div> 
-                <button onclick="coletarDados()" class="btn-filtro">Aplicar Filtros</button>
+            <div class="kpi-content">
+                <div>
+                    <span>Período mais ativo</span>
+                </div>
+                <div>
+                    <span class="kpi-text critico" id="kpiPeriodo">Noite</span>
+                </div>
             </div>
         </div>
     </div>
     <div class="graphs">
         <!--PARTE INFERIOR DA DASH - Gráficos-->
-        <div class="graph-filtro">
-            <div class="graph-superior">
-                <label for="scltComponente">Componente:</label>
-                <select name="" id="scltComponente" oninput="alterarComponente(this.value)">
-                    <option value="cpu">CPU</option>
-                    <option value="gpu">GPU</option>
-                    <option value="ram">RAM</option>
-                </select>
-            </div>
-            <div class="graph-inferior">
-                <canvas id="chartConsumoProcessos"></canvas>
-            </div>
-        </div>
         <div class="graph">
             <canvas id="chartAlertasProcessos"></canvas>
+        </div>
+
+        <div class="graph">
+            <canvas id="chartConsumoProcessos"></canvas>
         </div>
     </div>
   </main>
   <!-- TODO fazer estilização e modal de filtros-->
   <dialog id="modal" class="modal">
-    <div class="dialogo" id="dialogo">
-      <div class="dialogo-conteudo">
-        <p id="msgModal"></p>
+    <div class="modal-content">
+      <h2>Filtros</h2>
+  
+      <div class="group">
+        <label for="iptDtInicial">Fator temporal - De:</label>
+        <input type="date" id="iptDtInicial" class="input">
       </div>
+  
+      <div class="group">
+        <label for="iptDtFinal">Fator temporal - Até:</label>
+        <input type="date" id="iptDtFinal" class="input">
+      </div>
+  
+      <div class="group">
+        <label for="slctComponente">Componente para visualizar consumo:</label>
+        <select id="slctComponente" class="input">
+          <option value="cpu">CPU</option>
+          <option value="gpu">GPU</option>
+          <option value="ram">RAM</option>
+        </select>
+      </div>
+  
+      <button onclick="coletarDados()" class="btn-filtro">Aplicar Filtros</button>
     </div>
   </dialog>
+   
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="../js/insightsProcessos.js"></script>

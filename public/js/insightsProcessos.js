@@ -12,15 +12,27 @@ let dadosDash = {
     consumoProcessos:{
         gpu:{
             processos:[],
-            dados:[]
+            dados:{
+                manha:[],
+                tarde:[],
+                noite:[]
+            }
         },
         cpu:{
             processos:[],
-            dados:[]
+            dados:{
+                manha:[],
+                tarde:[],
+                noite:[]
+            }
         },
         ram:{
             processos:[],
-            dados:[]
+            dados:{
+                manha:[],
+                tarde:[],
+                noite:[]
+            }
         }
     }
 }
@@ -29,9 +41,7 @@ let chartInstance;
 
 function coletarDados(){
     let dtInicial = iptDtInicial.value;
-
-    let quantidade = iptQuantidade.value;
-    let meses = slctPeriodo.value;
+    let dtFinal = iptDtFinal.value;
 
     let periodo = 1;
     let dataInicial = undefined;
@@ -39,6 +49,29 @@ function coletarDados(){
 
     let dataFinalFormatada = undefined;
     let dataInicialFormatada = undefined;
+
+    // TODO verificar se as datas estao vazias 
+        // se tiver vazio, pega a data atual e calcula a dt final de 1 semestre atras
+
+    // TODO se só dt inicial estiver preenchido, pega a data atual e calcula a dt final de 1 semestre atras
+
+    // TODO validar as data para preencher o #tituloDash
+        // msg default: Insights de Processos
+        // se for de 3 meses, escrever: Insights de Processos no último Trimestre
+        // se for de 6 meses, escrever: Insights de Processos no último Semestre
+        // se for de 12 meses, escrever: Insights de Processos no último Ano
+        // se for meses quebrados fora esses, mostra os meses de fato
+        // se for menos que 1 mes, escrever: Insights de Processos nos ultimos X dias 
+
+        // verificar pluralidade de meses 
+            // se for 1 mes, escrever: Insights de Processos no último Mês
+            // se for mais que 1 mes, escrever: Insights de Processos nos últimos X Meses
+
+        // verificar se a data inicial é maior que a data final
+            // popar erro 
+
+        // verificar se a data atual é a de hoje
+            // msg vai mudar para: Insights de Processos no(s) ultimo(s) "X" "tempo" desde a data "dataFormatada"
 
     if(dtInicial == ''){
         dataInicial = new Date(Date.now());
@@ -61,7 +94,6 @@ function coletarDados(){
         quantidade = '1';
         iptQuantidade.value = quantidade;
     }
-
     
     periodo = Number(quantidade) * Number(meses);
     console.log(periodo);
@@ -91,28 +123,25 @@ function coletarDados(){
             {nome:'DaVinci', alertasAtencao:6, alertasCritico:1}
         ],
         dadosProcessosConsumo:{
-            gpu:[
-                {nome:'Blender', captura:92},
-                {nome:'Maya', captura:79},
-                {nome:'After Effects', captura:74},
-                {nome:'Unity', captura:49},
-                {nome:'DaVinci', captura:47}
+            cpu: [
+                {nome:'Blender', capturaManha:28, capturaTarde:58, capturaNoite:82},
+                {nome:'Maya', capturaManha:26, capturaTarde:33, capturaNoite:60},
+                {nome:'AfterEffects', capturaManha:38, capturaTarde:27, capturaNoite:53},
+                {nome:'Unity', capturaManha:38, capturaTarde:32, capturaNoite:22},
+                {nome:'DaVinci', capturaManha:14, capturaTarde:13, capturaNoite:15}
             ],
-            cpu:[
-                {nome:'Blender', captura:93},
-                {nome:'Maya', captura:88},
-                {nome:'After Effects', captura:74},
-                {nome:'Unity', captura:34},
-                {nome:'DaVinci', captura:29}
+            gpu: [
+                {nome:'Blender', capturaManha:34, capturaTarde:52, capturaNoite:92},
+                {nome:'AfterEffects', capturaManha:22, capturaTarde:25, capturaNoite:38},
+                {nome:'Unity', capturaManha:41, capturaTarde:48, capturaNoite:49}
             ],
-            ram:[
-                {nome:'Blender', captura:80},
-                {nome:'Maya', captura:75},
-                {nome:'After Effects', captura:68},
-                {nome:'Unity', captura:43},
-                {nome:'DaVinci', captura:21}
+            ram: [
+                {nome:'Maya', capturaManha:30, capturaTarde:20, capturaNoite:10},
+                {nome:'Blender', capturaManha:20, capturaTarde:30, capturaNoite:10},
+                {nome:'DaVinci', capturaManha:10, capturaTarde:5, capturaNoite:1},
+                {nome:'AfterEffects', capturaManha:5, capturaTarde:25, capturaNoite:38},
+                {nome:'Unity', capturaManha:1, capturaTarde:48, capturaNoite:49}
             ]
-            
         }
     }
 
@@ -124,6 +153,7 @@ function organizarDados(dados){
     dadosDash.kpiAtencao = dados.processoMaisAtencao;
     dadosDash.componenteUso = dados.componenteMaisConsumido;
 
+
     dados.dadosProcessosAlertas.forEach((processo)=>{
         dadosDash.alertasProcessos.processos.push(processo.nome);
         dadosDash.alertasProcessos.alertas.atencao.push(processo.alertasAtencao);
@@ -132,18 +162,24 @@ function organizarDados(dados){
 
     dados.dadosProcessosConsumo.gpu.forEach((processo) => {
         dadosDash.consumoProcessos.gpu.processos.push(processo.nome);
-        dadosDash.consumoProcessos.gpu.dados.push(processo.captura);
+        dadosDash.consumoProcessos.gpu.dados.manha.push(processo.capturaManha);
+        dadosDash.consumoProcessos.gpu.dados.tarde.push(processo.capturaTarde);
+        dadosDash.consumoProcessos.gpu.dados.noite.push(processo.capturaNoite);
     });
-
+    
     dados.dadosProcessosConsumo.cpu.forEach((processo) => {
         dadosDash.consumoProcessos.cpu.processos.push(processo.nome);
-        dadosDash.consumoProcessos.cpu.dados.push(processo.captura);
+        dadosDash.consumoProcessos.cpu.dados.manha.push(processo.capturaManha);
+        dadosDash.consumoProcessos.cpu.dados.tarde.push(processo.capturaTarde);
+        dadosDash.consumoProcessos.cpu.dados.noite.push(processo.capturaNoite);
     });
 
     dados.dadosProcessosConsumo.ram.forEach((processo) => {
         dadosDash.consumoProcessos.ram.processos.push(processo.nome);
-        dadosDash.consumoProcessos.ram.dados.push(processo.captura);
-    });
+        dadosDash.consumoProcessos.ram.dados.manha.push(processo.capturaManha);
+        dadosDash.consumoProcessos.ram.dados.tarde.push(processo.capturaTarde);
+        dadosDash.consumoProcessos.ram.dados.noite.push(processo.capturaNoite);
+    });   
 
     atualizarFront(); 
 }
@@ -162,7 +198,7 @@ function atualizarFront(){
     carregarGraficoAlertasProcessos(dadosDash.alertasProcessos.processos, dadosDash.alertasProcessos.alertas);
 
     let componente = dadosDash.componenteUso;
-    let dadosConsumo = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}.dados`)
+    let dadosConsumo = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}`)
     let processos = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}.processos`)
     carregarGraficoConsumoProcessos(componente, processos, dadosConsumo);
 }
@@ -180,9 +216,21 @@ function carregarGraficoConsumoProcessos(componente, processos, dadosConsumo){
             labels: processos,
             datasets: [
                 {
-                    label: 'Consumo',
-                    data: dadosConsumo,
-                    backgroundColor: '#7728B5',
+                    label: 'Manhã',
+                    data: dadosConsumo.dados.manha,
+                    backgroundColor: '#2AACC5',
+                    borderRadius: 5
+                },
+                {
+                    label: 'Tarde',
+                    data: dadosConsumo.dados.tarde,
+                    backgroundColor: '#FF5F2F',
+                    borderRadius: 5
+                },
+                {
+                    label: 'Noite',
+                    data: dadosConsumo.dados.noite,
+                    backgroundColor: '#004755',
                     borderRadius: 5
                 }
             ]
@@ -192,7 +240,7 @@ function carregarGraficoConsumoProcessos(componente, processos, dadosConsumo){
             plugins: {
                 title: {
                     display: true,
-                    text: `Processos que mais Consumem ${componente}`,
+                    text: `Processos que mais Consumem ${componente} por Período`,
                     font: {
                         size: 18,
                         weight: 'bold'
@@ -231,17 +279,17 @@ function carregarGraficoAlertasProcessos(processos, dadoAlertas){
             labels: processos,
             datasets: [
                 {
-                    label: 'Atenção',
-                    data: dadoAlertas.atencao,
-                    backgroundColor: '#7728B5',
+                    label: 'Críticos',
+                    data: dadoAlertas.critico,
+                    backgroundColor: '#CD3030',
                     borderRadius: 5,
                 },
                 {
-                    label: 'Críticos',
-                    data: dadoAlertas.critico,
-                    backgroundColor: '#33CDEB',
+                    label: 'Moderados',
+                    data: dadoAlertas.atencao,
+                    backgroundColor: '#FFA100',
                     borderRadius: 5,
-                }
+                } 
             ]
         },
         options: {

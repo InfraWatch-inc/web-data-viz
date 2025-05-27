@@ -4,18 +4,83 @@
     align-items: center;
 }
 
+.critico{
+    color: #CD3030;
+}
+
+.moderado{
+    color: #FFA100;
+}
+
 .main-content{
     width: 90%;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.kpis{
+.div-titulo{
     width: 100%;
     height: 25%;
     display: flex;
+    flex-direction: column;
+    justify-content: left;
+}
+
+.titulo-dash{
+    width: 100%;
+    height: 20%;
+}
+
+.content-titulo{
+    width: 100%;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.titulo-text{
+    font-size: 1.4rem;
+    word-spacing: 0.2rem;
+    font-weight: bold;
+}
+
+.kpis{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.titulo-dash{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filtro-btn{
+    width: 10%;
+    height: 3vh;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #740bc6, #10d3f9);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+}
+
+.filtro-btn:hover{
+    cursor: pointer;
+    transform: translateY(-2px);
+    transition: 0.4s;
+    box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
+}
+
+.filter-logo{
+    font-size: 1.2rem;
+    color: white;
 }
 
 .kpi-content{
@@ -32,35 +97,12 @@
 .kpi-text{
     font-size: 2rem;
     word-spacing: 0.2rem;
-}
-
-.filtros{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 20vw;
-}
-
-.btn-filtro{
-    width: 50%;
-    height: 3vh;
-    border-radius: 5px;
-    background: linear-gradient(to bottom, #740bc6, #10d3f9);
-    color: white;
-    font-size: 1rem;
-    border: none;
-}
-
-.btn-filtro:hover{
-    cursor: pointer;
-    transform: translateY(-2px);
-    transition: 0.4s;
-    box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
+    font-weight: bold;
 }
 
 .graphs{
     width: 100%;
-    height: 80%;
+    height: 70%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -78,39 +120,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.graph-filtro{
-    width: 70%;
-    height: 90%;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    background-color: #f9fafb;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.graph-superior{
-    height: 10%;
-    width: 100%;
-    display: flex;
-    justify-content: left;
-    padding: 10px 10px 10px 10px;
-    gap: 4%;
-}
-
-.graph-inferior{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 90%;
+    padding: 10px;
 }
 
 #chartConsumoProcessos, #chartAlertasProcessos{
-    width: 100%;
-    height: 80%;
+    width: 50%;
+    height: 50%;
 }
 
 select, input{
@@ -128,3 +143,102 @@ select, input{
 .ipt-periodo{
     width: 2rem;
 }
+
+/* MODAL DE FILTRO */
+/* Tela escurecida para modal */
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Centralizar modal na tela */
+  .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.25);
+    font-family: 'Segoe UI', sans-serif;
+    z-index: 1000;
+  }
+  
+  /* Conteúdo do modal */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+  
+  /* Título */
+  .modal-content h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3e3e70;
+    text-align: center;
+  }
+  
+  /* Agrupamento de label + input/select */
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  /* Estilo dos rótulos */
+  label {
+    font-weight: 600;
+    color: #4a4a6a;
+    font-size: 0.9rem;
+  }
+  
+  /* Input e select com estilo */
+  .input, select {
+    padding: 0.65rem;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9ff;
+    font-size: 1rem;
+    color: #333;
+    width: 100%;
+    transition: 0.2s;
+  }
+  
+  .input:focus, select:focus {
+    border-color: #740bc6;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(116, 11, 198, 0.15);
+  }
+  
+  /* Botão de aplicar filtros */
+  .btn-filtro {
+    margin-top: 1.2rem;
+    padding: 0.8rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #740bc6, #10d3f9);
+    color: white;
+    font-weight: bold;
+    border: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-filtro:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(116, 11, 198, 0.3);
+  }
+  
+  /* Responsivo para telas menores */
+  @media (max-height: 500px) {
+    .modal {
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  }
+  
