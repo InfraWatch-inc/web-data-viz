@@ -285,46 +285,11 @@
 
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
 
-  async function listaChamados() {
-    try {
-      const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
+  // async function listaChamados() {
+  //   try {
+  //     const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
 
-        json_dados.forEach(entrada => {
-        const linha = `
-        <tr>
-          <td>${entrada.servidor}</td>
-          <td>${entrada.componente}</td>
-          <td class = "${entrada.tipo_alertas.toLowerCase()}">${entrada.tipo_alertas}</td>
-          <td>${entrada.data_hora}</td>
-          <td>${entrada.operador_responsavel}</td>
-        </tr>  
-        `;
-        tbody.innerHTML += linha;
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
-      }
-
-      const data = await res.json();
-      console.log("Chamados:", data);
-    } catch (error) {
-      console.error("Erro ao buscar chamados:", error);
-    }
-  
-  }
-
-  listaChamados()
-
-  // fetch("/desempenho/buscar/chamado")
-  //   .then(res => res.json())
-  //   .then(alertas => {
-  //     const tbody = document.querySelector("ranking-alertas tbody");
-  //     tbody.innerHTML = "";
-  //     console.log("coco xixi bunda");
-      
-  //     alertas.forEach(entrada => {
+  //       json_dados.forEach(entrada => {
   //       const linha = `
   //       <tr>
   //         <td>${entrada.servidor}</td>
@@ -336,5 +301,40 @@
   //       `;
   //       tbody.innerHTML += linha;
   //     });
-  //   });
+
+  //     if (!res.ok) {
+  //       const errorText = await res.text();
+  //       throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
+  //     }
+
+  //     const data = await res.json();
+  //     console.log("Chamados:", data);
+  //   } catch (error) {
+  //     console.error("Erro ao buscar chamados:", error);
+  //   }
+  
+  // }
+
+  // listaChamados()
+
+  fetch("/desempenho/buscar/chamado")
+    .then(res => res.json())
+    .then(alertas => {
+      const tbody = document.querySelector("ranking-alertas tbody");
+      tbody.innerHTML = "";
+      console.log("coco xixi bunda");
+      
+      alertas.forEach(entrada => {
+        const linha = `
+        <tr>
+          <td>${entrada.servidor}</td>
+          <td>${entrada.componente}</td>
+          <td class = "${entrada.tipo_alertas.toLowerCase()}">${entrada.tipo_alertas}</td>
+          <td>${entrada.data_hora}</td>
+          <td>${entrada.operador_responsavel}</td>
+        </tr>  
+        `;
+        tbody.innerHTML += linha;
+      });
+    });
 </script>

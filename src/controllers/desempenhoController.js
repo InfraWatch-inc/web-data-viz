@@ -14,14 +14,20 @@ var desempenhoModel = require("../models/desempenhoModel");
 //         });
 // }
 
-function receberChamado(req,res){
+function receberChamado(req, res) {
     const dados = req.body;
-    console.log("json recebido do python", dados);
-    console.log(req.body);
+
+    if (!dados || Object.keys(dados).length === 0) {
+        return res.status(400).json({ erro: "Nenhum dado recebido" });
+    }
+
+    console.log("JSON recebido do Python:", dados);
     
-    res.status(200).json({mensagem: "Chamado recebido"});
-    
+    // Aqui você pode salvar no banco, enviar para outro lugar etc.
+
+    res.status(200).json({ mensagem: "Chamado recebido com sucesso" });
 }
+
 
 module.exports = {
     // getChamado,
