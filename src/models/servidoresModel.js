@@ -32,10 +32,17 @@ function deleteServidor(idServidor){
     return database.executar(instrucaoSql);
 }
 
+function cadastrarServidor(nomeServidor, sistemaOperacional) {
+    var instrucaoSql = `INSERT INTO Servidor (tagName, SO) VALUES ('${nomeServidor}', '${sistemaOperacional}');`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     postServidor,
     getServidores,
     getServidor,
     putServidor,
-    deleteServidor
+    deleteServidor,
+    cadastrarServidor
 };

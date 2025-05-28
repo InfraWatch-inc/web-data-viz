@@ -112,7 +112,13 @@ function coletarDados(){
     console.log(dataFinalFormatada);
     
     // TODO BUSCAR NO BANCO OS DADOS DE ALERTAS DENTRO DAS DATAS INFORMADAS
-    
+    //fetch(`localhost:8080/insights/processos/${sessionStorage.ID_EMPRESA}`)
+    //.then(){
+
+    //}
+    //.catch(){
+
+    //}
 
 
     dados = {

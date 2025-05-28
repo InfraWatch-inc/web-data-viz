@@ -23,6 +23,10 @@ router.put("/atualizar/:id", function (req, res){
     servidoresController.putServidor(req, res);
 })
 
+router.post("/cadastrarServidor", function (req, res){
+    servidoresController.cadastrarServidor(req, res);
+})
+
 router.get("/pesquisa/:nome")
 
 module.exports = router;

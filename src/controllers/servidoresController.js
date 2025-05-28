@@ -180,10 +180,27 @@ async function deleteServidor(req, res){
     }
 }
 
+function cadastrarServidor(req, res){
+    let nomeServidor = req.body.nomeServidor;
+    let sistemaOperacional = req.body.so;
+
+    if(nomeServidor == undefined || sistemaOperacional == undefined){
+        console.log("Varivaveis indefinidas")
+        return res.status(400).json({
+            mensagem: "Os campos 'nomeServidor' e 'so' são obrigatórios."
+        });
+    }
+
+    servidoresModel.cadastrarServidor(nomeServidor, sistemaOperacional).then((resultado) => {
+        res.status(200).json(resultado)
+    })
+}
+
 module.exports = {
     getServidores,
     getServidor,
     postServidor,
     putServidor,
-    deleteServidor
+    deleteServidor,
+    cadastrarServidor
 };

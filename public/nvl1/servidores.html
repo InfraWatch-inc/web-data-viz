@@ -60,20 +60,23 @@
 
             <div class="modal">
                 <div class="content-servidor">
-                    <h3>Cadastro Servidor</h3>
+                    <div class="cima">
+                        <h3>Cadastro Servidor</h3>
+                        <div class="fecharModal"></div>
+                    </div>
                     <div class="servidor-modal">
-                        <label for="">campo:</label>
+                        <label for="">Nome do servidor:</label>
                         <input type="text" class="inputServidor" id="tagName">
                     </div>
                     <div class="servidor-modal">
-                        <label for="">campo:</label>
+                        <label for="">Sistema operacional:</label>
                         <input type="text" class="inputServidor" id="tagName">
                     </div>
-                    <div class="servidor-modal">
+                    <!-- <div class="servidor-modal">
                         <label for="">campo:</label>
                         <input type="text" class="inputServidor" id="tagName">
-                    </div>
-                    <button>Cadastrar</button>
+                    </div> -->
+                    <button onclick="cadastrar()">Cadastrar</button>
                 </div>
             </div>
 
@@ -106,8 +109,7 @@
 
     nome_usuario.innerHTML = `${sessionStorage.NOME_USUARIO}   <img src="../assets/icon/arrow_donw.png" alt="" width="20" height="15">`;
 
-    const pesquisa = document.querySelector('.pesquisa');
-    const linhas = document.querySelectorAll('tbody tr');
+    const pesquisa = document.querySelector('.input');
     const btnDropdown = document.querySelector('.dropdown-status');
     const menuDropdown = document.querySelector('.dropdown-menu');
 
@@ -197,31 +199,72 @@
         }
     });
 
+    function modalColaborador() {
+        const modal = document.querySelector('.modal');
+        const modalContent = document.querySelector('.content-servidor');
+        const iconFechar = document.querySelector('.fecharModal');
+        
+        modal.style.display = 'block'
+        
+        function fecharModal(event) {
+            const clicouFora = !modalContent.contains(event.target);
+            const clicouNoX = event.target === iconFechar;
 
-    // async function pesquisa() {
-    //     let search = document.getElementById("pesquisa-servidor")
+            if (clicouFora || clicouNoX) {
+                modal.style.display = 'none';
+                document.removeEventListener('click', fecharModal);
+            }
+        }
 
-    //     if (!search) {
-    //         console.log("Campo vazio")
-    //     }
+        setTimeout(() => {
+            document.addEventListener('click', fecharModal)
+        }, 100);
 
-    //     fetch(`/servidores/pesquisa/${search}`, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "Application/json"
-    //         }
-    //     })
-    // }
-
-
+    }
 
     pesquisa.oninput = () => {
         const termo = pesquisa.value.toLowerCase();
+        const linhas = document.querySelectorAll('tbody tr');
+
         linhas.forEach(linha => {
             const nome = linha.querySelector('td').textContent.toLowerCase();
             linha.style.display = nome.includes(termo) ? '' : 'none';
         });
     };
+
+    function cadastrar(){
+        let nomeServidor = document.getElementById();
+        let so = document.getElementById();
+
+        fetch("/servidores/cadastrarServidor", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                "nomeServidor": nomeServidor,
+                "so": so
+            })
+        })
+        .then(function (resposta) {
+            resposta.json()
+                .then((res) => {
+                    console.log(res);
+            })
+            
+            if(resposta.ok){
+                // TODO implementar modal de sucesso para o usuário.
+            }
+
+        })
+        .catch(function (resposta) {
+            resposta.json()
+                .then((res) => {
+                    console.log(res)
+                })
+        })
+
+    }
 
 
 </script>
