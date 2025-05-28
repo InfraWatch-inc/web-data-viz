@@ -1,4 +1,4 @@
-const { result } = require("lodash");
+// const { result } = require("lodash");
 var monitoramentoModel = require("../models/monitoramentoModel");
 
 monitoramento = {

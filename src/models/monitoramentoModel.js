@@ -26,7 +26,7 @@ function getServidor(uuid){
 
 function getServidorComponente(uuid){
     var instrucaoSql = `
-    SELECT * FROM servidor where uuidPlacaMae = "${uuid}";`;
+    SELECT * FROM servidor WHERE uuidPlacaMae = "F9E39100-E5A1-11EE-82B9-AB3C23F52400";`;
 
     return database.executar(instrucaoSql);
 }
@@ -114,8 +114,9 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
         });
 
         if(!resposta.ok){
-            const erro = await resposta.json();
-            throw new Error(`Erro ao criar a issue: ${JSON.stringify({erro})}`);
+            const erro = await resposta.text();
+            console.error('Erro ao criar a issue no Jira:', erro);
+            // throw new Error(`Erro ao criar a issue: ${JSON.stringify({erro})}`);
         }
 
         const retornoJira = await resposta.json();
