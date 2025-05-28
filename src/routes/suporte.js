@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 
+const suporteController = require('../controllers/suporteController');
+
 // Armazanando na Ram como um buffer.
 var storage = multer.memoryStorage();
 const upload = multer({

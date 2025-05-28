@@ -50,30 +50,26 @@ function coletarDados(){
     let dataFinalFormatada = undefined;
     let dataInicialFormatada = undefined;
 
-    // TODO verificar se as datas estao vazias 
-        // se tiver vazio, pega a data atual e calcula a dt final de 1 semestre atras
+    if(dtInicial == '' && dtFinal == ''){
+        periodo = 6;
+        dataInicial = new Date(Date.now());
+        dataInicial.setMonth(dataInicial.getMonth() - periodo);
+        console.log(dataInicial)
 
-    // TODO se só dt inicial estiver preenchido, pega a data atual e calcula a dt final de 1 semestre atras
+        let dia = String(dataInicial.getDate()).padStart(2, '0');
+        let mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
+        let ano = dataInicial.getFullYear();
+        dataInicialFormatada = `${ano}-${mes}-${dia}`;
 
-    // TODO validar as data para preencher o #tituloDash
-        // msg default: Insights de Processos
-        // se for de 3 meses, escrever: Insights de Processos no último Trimestre
-        // se for de 6 meses, escrever: Insights de Processos no último Semestre
-        // se for de 12 meses, escrever: Insights de Processos no último Ano
-        // se for meses quebrados fora esses, mostra os meses de fato
-        // se for menos que 1 mes, escrever: Insights de Processos nos ultimos X dias 
+        dataFinal = dataInicial;
 
-        // verificar pluralidade de meses 
-            // se for 1 mes, escrever: Insights de Processos no último Mês
-            // se for mais que 1 mes, escrever: Insights de Processos nos últimos X Meses
+        dia = String(dataInicial.getDate()).padStart(2, '0');
+        mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
+        ano = dataInicial.getFullYear();
+        dataFinalFormatada = `${ano}-${mes}-${dia}`;
+    }
 
-        // verificar se a data inicial é maior que a data final
-            // popar erro 
-
-        // verificar se a data atual é a de hoje
-            // msg vai mudar para: Insights de Processos no(s) ultimo(s) "X" "tempo" desde a data "dataFormatada"
-
-    if(dtInicial == ''){
+    if(dtInicial == '' && dtFinal != ''){
         dataInicial = new Date(Date.now());
         const dia = String(dataInicial.getDate()).padStart(2, '0');
         const mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
@@ -81,21 +77,29 @@ function coletarDados(){
         dataInicialFormatada = `${ano}-${mes}-${dia}`;
         iptDtInicial.value = dataInicialFormatada;
     } else {
-        dataInicial = new Date(dtInicial);
+        // TODO popar erro data final
+    } 
+
+    if(dataInicial >= dataFinal){
+        // TODO popar erro
     }
 
-    if((quantidade == '' || quantidade == undefined || quantidade == NaN )&& meses == '1'){
-        quantidade = '1';
-        meses = '6';
-        iptQuantidade.value = quantidade;
-        slctPeriodo.value = meses;
+    // TODO validar as data para preencher o #tituloDash
+       // msg default: Insights de Processos
+       // se for de 3 meses, escrever: Insights de Processos no último Trimestre
+       // se for de 6 meses, escrever: Insights de Processos no último Semestre
+       // se for de 12 meses, escrever: Insights de Processos no último Ano
+       // se for meses quebrados fora esses, mostra os meses de fato
+       // se for menos que 1 mes, escrever: Insights de Processos nos ultimos X dias 
+       // verificar pluralidade de meses 
+           // se for 1 mes, escrever: Insights de Processos no último Mês
+           // se for mais que 1 mes, escrever: Insights de Processos nos últimos X Meses
+       // verificar se a data inicial é maior que a data final
+           // popar erro 
+       // verificar se a data atual é a de hoje
+           // msg vai mudar para: Insights de Processos no(s) ultimo(s) "X" "tempo" desde a data "dataFormatada"
 
-    } else if(quantidade == ''){
-        quantidade = '1';
-        iptQuantidade.value = quantidade;
-    }
-    
-    periodo = Number(quantidade) * Number(meses);
+ 
     console.log(periodo);
     console.log(dataInicial) // funciona
     dataInicial.setMonth(dataInicial.getMonth() - periodo);
