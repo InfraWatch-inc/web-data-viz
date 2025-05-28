@@ -154,12 +154,12 @@ table {
 
 
 .status-critico {
-  color: #10d3f9;
+  color: #CD3030;
   font-weight: 500;
 }
 
 .status-moderado {
-  color: #740bc6;
+  color: #FFA100;
   font-weight: 500;
 }
 
@@ -200,8 +200,7 @@ table {
 .status-critico-titulo{
   border-bottom: 2px solid #e0e0e0;
 padding: 10px;
-  color: #10d3f9;
-
+color: #CD3030;
 }
 
 .nmr-titulo{
