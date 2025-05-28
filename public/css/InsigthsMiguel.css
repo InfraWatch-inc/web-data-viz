@@ -250,7 +250,7 @@ main {
     align-items: center;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     transition: 0.4s;
-        cursor: pointer;
+    cursor: pointer;
 
 }
 
@@ -274,6 +274,12 @@ main {
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     transition: 0.4s;
     cursor: pointer;
+}
+
+.radio {
+    display: flex;
+    cursor: pointer;
+    width: 5%;
 }
 
 /* Tablets */
