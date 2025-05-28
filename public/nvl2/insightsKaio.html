@@ -34,12 +34,15 @@
 
     <div class="filtros">
 
-        <select id="select-tempo">
-            <option value="3" disabled selected>Fator Temporal</option>
-            <option value="3">Trimestral</option>
-            <option value="6">Semestral</option>
-            <option value="12">Anual</option>
-        </select>
+        <span style="font-size: 2rem; font-weight: 600;">Selecione o tempo que deseja analisar os alertas: </span>
+
+        <div id="select-tempo">
+            <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
+                    name="escolhaTemporal" value="3" checked>Trimestral</span>
+            <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
+                    name="escolhaTemporal" value="5">Semestral</span>
+        
+        </div>
 
     </div>
 
@@ -62,7 +65,7 @@
 
         <div class="kpi">
             <span style="font-size: 1.4rem; font-weight: 600;">Período com mais alertas</span>
-            <span id="resultadoKPI4" class="resultadoKPI"></span>
+            <span id="resultadoKPI4" class="resultadoKPI" style="margin-top: 5%;"></span>
         </div>
     </div>
 
@@ -85,118 +88,181 @@
 
     function inicializarPagina() {
         obterDados();
+
     }
 
-    document.getElementById("select-tempo").addEventListener("change", obterDados);
-   
+    var escolhaTempo = document.getElementsByName("escolhaTemporal");
+    var escolhaTemporalSelecionado = Array.from(escolhaTempo).find(r => r.checked);
+    var escolhaTemporal = escolhaTemporalSelecionado.value
+
+    escolhaTempo.forEach(radio => {
+        radio.addEventListener('change', () => {
+            escolhaTemporal = radio.value;
+            obterDados();
+        });
+    });
+
+    // Variável para armazenar o resultado por mês, componente e nível
+    var resultadoPorMesComponenteNivel = {}
+
+    var GraficoAlertas;
+
+
 
     function obterDados() {
 
-        var escolhaTemporal = document.getElementById("select-tempo").value
+
+        console.log("Valor de escolhaTemporal test:", escolhaTemporal);
 
         function separarAlertasCriticosComponentes(dados) {
-            // Separando quantidade de Alertas Crticicos dos componentes CPU e GPU
-                var qtdAlertaCriticoCPU = 0;
-                var qtdAlertaCriticoGPU = 0;
+            // Separando quantidade de Alertas Crticicos e Moderados dos componentes CPU e GPU
+            var qtdAlertaCriticoCPU = 0;
+            var qtdAlertaCriticoGPU = 0;
+            var qtdAlertaModeradoCPU = 0;
+            var qtdAlertaModeradoGPU = 0;
 
-                dados.forEach(i => {
+            dados.forEach(i => {
 
-                    if (i.Componente == 'CPU' && i.nivel == '2') {
-                        qtdAlertaCriticoCPU++;
-                    } else if (i.Componente == 'GPU' && i.nivel == '2') {
-                        qtdAlertaCriticoGPU++;
-                    }
+                if (i.Componente == 'CPU' && i.nivel == '2') {
+                    qtdAlertaCriticoCPU++;
+                } else if (i.Componente == 'GPU' && i.nivel == '2') {
+                    qtdAlertaCriticoGPU++;
+                }
 
-                });
+            });
 
-                console.log("Quantidade de alertas críticos CPU: " + qtdAlertaCriticoCPU);
-                console.log("Quantidade de alertas críticos GPU: " + qtdAlertaCriticoGPU);
+            dados.forEach(i => {
 
-                if(qtdAlertaCriticoCPU > qtdAlertaCriticoGPU) {
-                    document.getElementById("resultadoKPI1").innerHTML = "CPU: " + qtdAlertaCriticoCPU;
-                } else {
-                    document.getElementById("resultadoKPI1").innerHTML = "GPU: " + qtdAlertaCriticoGPU;
-                }   
+                var mes = i.nomeMes
+
+                if (i.Componente == 'CPU' && i.nivel == '1') {
+                    qtdAlertaModeradoCPU++;
+                } else if (i.Componente == 'GPU' && i.nivel == '1') {
+                    qtdAlertaModeradoGPU++;
+                }
+
+            });
+
+            console.log("Quantidade de alertas críticos CPU: " + qtdAlertaCriticoCPU);
+            console.log("Quantidade de alertas críticos GPU: " + qtdAlertaCriticoGPU);
+            console.log("Quantidade de alertas moderados CPU: " + qtdAlertaModeradoCPU);
+            console.log("Quantidade de alertas moderados GPU: " + qtdAlertaModeradoGPU);
+
+            if (qtdAlertaCriticoCPU > qtdAlertaCriticoGPU) {
+                document.getElementById("resultadoKPI1").innerHTML = "CPU: " + qtdAlertaCriticoCPU;
+            } else {
+                document.getElementById("resultadoKPI1").innerHTML = "GPU: " + qtdAlertaCriticoGPU;
+            }
+
         }
 
         function separarQtdAlertasPorPeriodoComponentes(dados) {
             // Separando quantidade de Alertas por periodo dos componentes CPU e GPU
 
-                var qtdAlertaManha = 0;
-                var qtdAlertaTarde = 0; 
-                var qtdAlertaNoite = 0;
+            var qtdAlertaManha = 0;
+            var qtdAlertaTarde = 0;
+            var qtdAlertaNoite = 0;
 
-                dados.forEach(i => {
-                    if(i.periodoDia == 'Manhã') {
-                        qtdAlertaManha++;
-                    } else if(i.periodoDia == 'Tarde') {
-                        qtdAlertaTarde++;
-                    } else if(i.periodoDia == 'Noite') {
-                        qtdAlertaNoite++;
-                    }
-                })
-                console.log("Quantidade de alertas Manhã: " + qtdAlertaManha); 
-                console.log("Quantidade de alertas Tarde: " + qtdAlertaTarde);
-                console.log("Quantidade de alertas Noite: " + qtdAlertaNoite);
-
-                if(qtdAlertaManha > qtdAlertaTarde && qtdAlertaManha > qtdAlertaNoite) {
-                    document.getElementById("resultadoKPI4").innerHTML = "Manhã: " + qtdAlertaManha;
-                } else if(qtdAlertaTarde > qtdAlertaManha && qtdAlertaTarde > qtdAlertaNoite) {
-                    document.getElementById("resultadoKPI4").innerHTML = "Tarde: " + qtdAlertaTarde;
-                } else {
-                    document.getElementById("resultadoKPI4").innerHTML = "Noite: " + qtdAlertaNoite;
+            dados.forEach(i => {
+                if (i.periodoDia == 'Manhã') {
+                    qtdAlertaManha++;
+                } else if (i.periodoDia == 'Tarde') {
+                    qtdAlertaTarde++;
+                } else if (i.periodoDia == 'Noite') {
+                    qtdAlertaNoite++;
                 }
+            })
+            console.log("Quantidade de alertas Manhã: " + qtdAlertaManha);
+            console.log("Quantidade de alertas Tarde: " + qtdAlertaTarde);
+            console.log("Quantidade de alertas Noite: " + qtdAlertaNoite);
+
+            if (qtdAlertaManha > qtdAlertaTarde && qtdAlertaManha > qtdAlertaNoite) {
+                document.getElementById("resultadoKPI4").innerHTML = "Manhã: " + qtdAlertaManha;
+            } else if (qtdAlertaTarde > qtdAlertaManha && qtdAlertaTarde > qtdAlertaNoite) {
+                document.getElementById("resultadoKPI4").innerHTML = "Tarde: " + qtdAlertaTarde;
+            } else {
+                document.getElementById("resultadoKPI4").innerHTML = "Noite: " + qtdAlertaNoite;
+            }
         }
 
         function separarAlertasPorMarcaComponentes(dados) {
 
-             // Separando quantidade de Alertas por marca dos componentes CPU e GPU
+            // Separando quantidade de Alertas por marca dos componentes CPU e GPU
 
-                var qtdAlertaMarcaIntelCPU = 0;
-                var qtdAlertaMarcaAmdCPU = 0;
-                var qtdAlertaMarcaNvidiaGPU = 0;
-                var qtdAlertaMarcaAmdGPU = 0;
-                var qtdAlertaMarcaIntelGPU = 0;
+            var qtdAlertaMarcaIntelCPU = 0;
+            var qtdAlertaMarcaAmdCPU = 0;
+            var qtdAlertaMarcaNvidiaGPU = 0;
+            var qtdAlertaMarcaAmdGPU = 0;
+            var qtdAlertaMarcaIntelGPU = 0;
 
-                dados.forEach(i => {
-                    if(i.Componente == 'CPU' && i.marca == 'Intel') {
-                        qtdAlertaMarcaIntelCPU++;
-                    } else if(i.Componente == 'CPU' && i.marca == 'AMD') {
-                        qtdAlertaMarcaAmdCPU++;
-                    } else if(i.Componente == 'GPU' && i.marca == 'NVIDIA') {
-                        qtdAlertaMarcaNvidiaGPU++;
-                    } else if(i.Componente == 'GPU' && i.marca == 'AMD') {
-                        qtdAlertaMarcaAmdGPU++;
-                    } else if(i.Componente == 'GPU' && i.marca == 'Intel') {
-                        qtdAlertaMarcaIntelGPU++;
-                    }
-                })
-
-                console.log("Quantidade de alertas Intel CPU: " + qtdAlertaMarcaIntelCPU);
-                console.log("Quantidade de alertas AMD CPU: " + qtdAlertaMarcaAmdCPU);
-                console.log("Quantidade de alertas NVIDIA GPU: " + qtdAlertaMarcaNvidiaGPU);
-                console.log("Quantidade de alertas AMD GPU: " + qtdAlertaMarcaAmdGPU);
-                console.log("Quantidade de alertas Intel GPU: " + qtdAlertaMarcaIntelGPU);
-
-                if(qtdAlertaMarcaIntelCPU > qtdAlertaMarcaAmdCPU) {
-                    document.getElementById("resultadoKPI2").innerHTML = "Intel: " + qtdAlertaMarcaIntelCPU;
-                } else {
-                    document.getElementById("resultadoKPI2").innerHTML = "AMD: " + qtdAlertaMarcaAmdCPU;
+            dados.forEach(i => {
+                if (i.Componente == 'CPU' && i.marca == 'Intel') {
+                    qtdAlertaMarcaIntelCPU++;
+                } else if (i.Componente == 'CPU' && i.marca == 'AMD') {
+                    qtdAlertaMarcaAmdCPU++;
+                } else if (i.Componente == 'GPU' && i.marca == 'NVIDIA') {
+                    qtdAlertaMarcaNvidiaGPU++;
+                } else if (i.Componente == 'GPU' && i.marca == 'AMD') {
+                    qtdAlertaMarcaAmdGPU++;
+                } else if (i.Componente == 'GPU' && i.marca == 'Intel') {
+                    qtdAlertaMarcaIntelGPU++;
                 }
+            })
 
-                if(qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaAmdGPU && qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaIntelGPU) {
-                    document.getElementById("resultadoKPI3").innerHTML = "NVIDIA: " + qtdAlertaMarcaNvidiaGPU;
-                } else if(qtdAlertaMarcaAmdGPU > qtdAlertaMarcaIntelGPU) {
-                    document.getElementById("resultadoKPI3").innerHTML = "AMD: " + qtdAlertaMarcaAmdGPU;
-                } else {
-                    document.getElementById("resultadoKPI3").innerHTML = "Intel: " + qtdAlertaMarcaIntelGPU;
-                }
+            console.log("Quantidade de alertas Intel CPU: " + qtdAlertaMarcaIntelCPU);
+            console.log("Quantidade de alertas AMD CPU: " + qtdAlertaMarcaAmdCPU);
+            console.log("Quantidade de alertas NVIDIA GPU: " + qtdAlertaMarcaNvidiaGPU);
+            console.log("Quantidade de alertas AMD GPU: " + qtdAlertaMarcaAmdGPU);
+            console.log("Quantidade de alertas Intel GPU: " + qtdAlertaMarcaIntelGPU);
+
+            if (qtdAlertaMarcaIntelCPU > qtdAlertaMarcaAmdCPU) {
+                document.getElementById("resultadoKPI2").innerHTML = "Intel: " + qtdAlertaMarcaIntelCPU;
+            } else {
+                document.getElementById("resultadoKPI2").innerHTML = "AMD: " + qtdAlertaMarcaAmdCPU;
+            }
+
+            if (qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaAmdGPU && qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaIntelGPU) {
+                document.getElementById("resultadoKPI3").innerHTML = "NVIDIA: " + qtdAlertaMarcaNvidiaGPU;
+            } else if (qtdAlertaMarcaAmdGPU > qtdAlertaMarcaIntelGPU) {
+                document.getElementById("resultadoKPI3").innerHTML = "AMD: " + qtdAlertaMarcaAmdGPU;
+            } else {
+                document.getElementById("resultadoKPI3").innerHTML = "Intel: " + qtdAlertaMarcaIntelGPU;
+            }
 
         }
-        
 
-            if(escolhaTemporal){
-               fetch("/alertasProcessamento/informacoesAlertas", {
+        function separarAlertasPorMesEComponenteENivel(dados) {
+            // Separando quantidade de Alertas por mes dos componentes CPU e GPU
+
+            dados.forEach(i => {
+
+                if (!resultadoPorMesComponenteNivel[i.nomeMes]) {
+                    resultadoPorMesComponenteNivel[i.nomeMes] = {};
+                }
+
+                if (!resultadoPorMesComponenteNivel[i.nomeMes][i.Componente]) {
+                    resultadoPorMesComponenteNivel[i.nomeMes][i.Componente] = {};
+                }
+
+
+                if (!resultadoPorMesComponenteNivel[i.nomeMes][i.Componente][i.nivel]) {
+                    resultadoPorMesComponenteNivel[i.nomeMes][i.Componente][i.nivel] = 0;
+                }
+
+                resultadoPorMesComponenteNivel[i.nomeMes][i.Componente][i.nivel]++;
+            });
+            console.log("Resultado por mês, componente e nível:", resultadoPorMesComponenteNivel);
+
+            // Separando os meses presentes nos dados
+
+            return resultadoPorMesComponenteNivel;
+        }
+
+
+        console.log("Escolha temporal:", escolhaTemporal);
+
+        if (escolhaTemporal) {
+            fetch("/alertasProcessamento/informacoesAlertas", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -204,12 +270,14 @@
                 body: JSON.stringify({
                     idEmpresa: sessionStorage.ID_EMPRESA,
                     idEscolhaTemporal: escolhaTemporal
-                    
+
                 })
             }).then(resposta => resposta.json()).then(dados => {
-                console.log("Dados recebidos do periodo:", dados);  
+                console.log("Dados recebidos do periodo:", dados);
 
-                
+                // Reinicializando o objeto para cada nova requisição
+                resultadoPorMesComponenteNivel = {}; 
+
                 // Separando quantidade de Alertas Crticicos dos componentes CPU e GPU
                 separarAlertasCriticosComponentes(dados);
 
@@ -219,7 +287,101 @@
                 // Separando quantidade de Alertas por marca dos componentes CPU e GPU
                 separarAlertasPorMarcaComponentes(dados);
 
+                // Separando quantidade de Alertas por mes dos componentes CPU e GPU
+                separarAlertasPorMesEComponenteENivel(dados);
 
+                // Criando o gráfico de alertas por mês
+
+                var meses = Object.keys(resultadoPorMesComponenteNivel);
+
+                var moderado = meses.map(mes => {
+                    var cpu = resultadoPorMesComponenteNivel[mes]?.CPU?.["1"] || 0;
+                    var gpu = resultadoPorMesComponenteNivel[mes]?.GPU?.["1"] || 0;
+                    return cpu + gpu; // soma CPU + GPU para nível 1 (Moderado)
+                });
+
+                var critico = meses.map(mes => {
+                    var cpu = resultadoPorMesComponenteNivel[mes]?.CPU?.["2"] || 0;
+                    var gpu = resultadoPorMesComponenteNivel[mes]?.GPU?.["2"] || 0;
+                    return cpu + gpu; // soma CPU + GPU para nível 2 (Crítico)
+                });
+
+                if(GraficoAlertas) {
+                    GraficoAlertas.destroy();
+                }
+
+                const ctx = document.getElementById('grafico-alertas').getContext('2d');
+
+                GraficoAlertas = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: Object.keys(resultadoPorMesComponenteNivel),
+                        datasets: [
+                            {
+                                label: 'Moderado',
+                                data: moderado,
+                                backgroundColor: '#7e22ce', // roxo
+                                barThickness: 80
+                            },
+                            {
+                                label: 'Críticos',
+                                data: critico,
+                                backgroundColor: '#06b6d4', // azul claro
+                                barThickness: 80
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Histórico de Alertas GPU e CPU',
+                                font: {
+                                    size: 18,
+                                    weight: 'bold'
+                                },
+                                padding: {
+                                    bottom: 20
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                align: 'center',
+                                labels: {
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            }
+                        },
+                        responsive: true,
+                        scales: {
+                            x: {
+                                stacked: true,
+                                title: {
+                                    display: true,
+                                    text: 'Meses do Ano',
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            },
+                            y: {
+                                stacked: true,
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Quantidades de alertas',
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                });
 
             }).catch(erro => {
                 console.error("Erro na requisição:", erro);
@@ -230,78 +392,7 @@
     }
 
 
-    const ctx = document.getElementById('grafico-alertas').getContext('2d');
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio'],
-            datasets: [
-                {
-                    label: 'Moderado',
-                    data: [18, 9, 18, 30, 14],
-                    backgroundColor: '#7e22ce', // roxo
-                    barThickness: 80
-                },
-                {
-                    label: 'Críticos',
-                    data: [10, 8, 20, 10, 0],
-                    backgroundColor: '#06b6d4', // azul claro
-                    barThickness: 80
-                }
-            ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Histórico de Alertas GPU e CPU',
-                    font: {
-                        size: 18,
-                        weight: 'bold'
-                    },
-                    padding: {
-                        bottom: 20
-                    }
-                },
-                legend: {
-                    display: true,
-                    position: 'top',
-                    align: 'center',
-                    labels: {
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            },
-            responsive: true,
-            scales: {
-                x: {
-                    stacked: true,
-                    title: {
-                        display: true,
-                        text: 'Meses do Ano',
-                        font: {
-                            size: 20
-                        }
-                    }
-                },
-                y: {
-                    stacked: true,
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Quantidades de alertas',
-                        font: {
-                            size: 20
-                        }
-                    }
-                }
-            }
-        }
-
-    });
 
     const ctxPeriodo = document.getElementById('chartPeriodo');
 
