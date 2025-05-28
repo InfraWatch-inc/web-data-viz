@@ -39,7 +39,7 @@ let dadosDash = {
 
 let chartInstance;
 
-function coletarDados(){
+function coletarDados() {
     let dtInicial = iptDtInicial.value;
     let dtFinal = iptDtFinal.value;
 
@@ -47,116 +47,146 @@ function coletarDados(){
     let dataInicial = undefined;
     let dataFinal = undefined;
 
-    let dataFinalFormatada = undefined;
     let dataInicialFormatada = undefined;
+    let dataFinalFormatada = undefined;
 
-    if(dtInicial == '' && dtFinal == ''){
+    if (dtInicial === '' && dtFinal === '') {
         periodo = 6;
-        dataInicial = new Date(Date.now());
+        dataInicial = new Date();
         dataInicial.setMonth(dataInicial.getMonth() - periodo);
-        console.log(dataInicial)
 
         let dia = String(dataInicial.getDate()).padStart(2, '0');
         let mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
         let ano = dataInicial.getFullYear();
         dataInicialFormatada = `${ano}-${mes}-${dia}`;
 
-        dataFinal = dataInicial;
-
-        dia = String(dataInicial.getDate()).padStart(2, '0');
-        mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
-        ano = dataInicial.getFullYear();
+        dataFinal = new Date();
+        dia = String(dataFinal.getDate()).padStart(2, '0');
+        mes = String(dataFinal.getMonth() + 1).padStart(2, '0');
+        ano = dataFinal.getFullYear();
         dataFinalFormatada = `${ano}-${mes}-${dia}`;
-    }
-
-    if(dtInicial == '' && dtFinal != ''){
-        dataInicial = new Date(Date.now());
-        const dia = String(dataInicial.getDate()).padStart(2, '0');
-        const mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
-        const ano = dataInicial.getFullYear();
+    } else if (dtInicial === '' && dtFinal !== '') {
+        dataInicial = new Date();
+        let dia = String(dataInicial.getDate()).padStart(2, '0');
+        let mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
+        let ano = dataInicial.getFullYear();
         dataInicialFormatada = `${ano}-${mes}-${dia}`;
         iptDtInicial.value = dataInicialFormatada;
+
+        dataFinal = new Date(dtFinal);
+        dataFinalFormatada = dtFinal;
+    } else if (dtInicial !== '' && dtFinal !== '') {
+        dataInicial = new Date(dtInicial);
+        dataFinal = new Date(dtFinal);
+        dataInicialFormatada = dtInicial;
+        dataFinalFormatada = dtFinal;
     } else {
-        // TODO popar erro data final
-    } 
-
-    if(dataInicial >= dataFinal){
-        // TODO popar erro
+        alert('Data final inválida');
+        return;
     }
 
-    // TODO validar as data para preencher o #tituloDash
-       // msg default: Insights de Processos
-       // se for de 3 meses, escrever: Insights de Processos no último Trimestre
-       // se for de 6 meses, escrever: Insights de Processos no último Semestre
-       // se for de 12 meses, escrever: Insights de Processos no último Ano
-       // se for meses quebrados fora esses, mostra os meses de fato
-       // se for menos que 1 mes, escrever: Insights de Processos nos ultimos X dias 
-       // verificar pluralidade de meses 
-           // se for 1 mes, escrever: Insights de Processos no último Mês
-           // se for mais que 1 mes, escrever: Insights de Processos nos últimos X Meses
-       // verificar se a data inicial é maior que a data final
-           // popar erro 
-       // verificar se a data atual é a de hoje
-           // msg vai mudar para: Insights de Processos no(s) ultimo(s) "X" "tempo" desde a data "dataFormatada"
+    if (dataInicial > dataFinal) {
+        alert('Data inicial maior que a final. Verifique.');
+        return;
+    }
 
- 
-    console.log(periodo);
-    console.log(dataInicial) // funciona
-    dataInicial.setMonth(dataInicial.getMonth() - periodo);
-    console.log(dataInicial) // da erro
-    const dia = String(dataInicial.getDate()).padStart(2, '0');
-    const mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
-    const ano = dataInicial.getFullYear();
-    dataFinalFormatada = `${ano}-${mes}-${dia}`;
+    // Título do dashboard
+    const tituloDash = document.getElementById('tituloDash');
+    const dataInicio = new Date(dataInicialFormatada);
+    const dataFim = new Date(dataFinalFormatada);
+    const diferencaMs = dataFim.getTime() - dataInicio.getTime();
+    const dias = Math.ceil(diferencaMs / (1000 * 60 * 60 * 24));
+    const meses = (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 + (dataFim.getMonth() - dataInicio.getMonth());
 
-    console.log(dataFinalFormatada);
-    
-    // TODO BUSCAR NO BANCO OS DADOS DE ALERTAS DENTRO DAS DATAS INFORMADAS
-    //fetch(`localhost:8080/insights/processos/${sessionStorage.ID_EMPRESA}`)
-    //.then(){
+    let textoTitulo = 'Insights de Processos';
 
-    //}
-    //.catch(){
+    const hoje = new Date();
+    const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+    const dataFinalEhHoje = dataFinalFormatada === hojeStr;
 
-    //}
+    if (meses === 0 && dias < 30) {
+        textoTitulo += ` nos últimos ${dias} dia${dias === 1 ? '' : 's'}`;
+    } else if (meses === 1) {
+        textoTitulo += ` no último Mês`;
+    } else if (meses === 3) {
+        textoTitulo += ` no último Trimestre`;
+    } else if (meses === 6) {
+        textoTitulo += ` no último Semestre`;
+    } else if (meses === 12) {
+        textoTitulo += ` no último Ano`;
+    } else if (meses > 1) {
+        textoTitulo += ` nos últimos ${meses} Meses`;
+    }
 
+    if (dataFinalEhHoje) {
+        let tempoTexto = '';
+        if (meses === 0 && dias < 30) tempoTexto = `${dias} dia${dias === 1 ? '' : 's'}`;
+        else tempoTexto = `${meses} mês${meses === 1 ? '' : 'es'}`;
+        textoTitulo = `Insights de Processos nos últimos ${tempoTexto} desde ${dataInicialFormatada}`;
+    }
 
-    dados = {
-        processoMaisCritico:'Blender',
-        processoMaisAtencao:'Maya',
-        componenteMaisConsumido:'CPU',
-        dadosProcessosAlertas:[
-            {nome:'Blender', alertasAtencao:13, alertasCritico:23},
-            {nome:'Maya', alertasAtencao:14, alertasCritico:8},
-            {nome:'After Effects', alertasAtencao:14, alertasCritico:7},
-            {nome:'Unity', alertasAtencao:13, alertasCritico:6},
-            {nome:'DaVinci', alertasAtencao:6, alertasCritico:1}
-        ],
-        dadosProcessosConsumo:{
-            cpu: [
-                {nome:'Blender', capturaManha:28, capturaTarde:58, capturaNoite:82},
-                {nome:'Maya', capturaManha:26, capturaTarde:33, capturaNoite:60},
-                {nome:'AfterEffects', capturaManha:38, capturaTarde:27, capturaNoite:53},
-                {nome:'Unity', capturaManha:38, capturaTarde:32, capturaNoite:22},
-                {nome:'DaVinci', capturaManha:14, capturaTarde:13, capturaNoite:15}
-            ],
-            gpu: [
-                {nome:'Blender', capturaManha:34, capturaTarde:52, capturaNoite:92},
-                {nome:'AfterEffects', capturaManha:22, capturaTarde:25, capturaNoite:38},
-                {nome:'Unity', capturaManha:41, capturaTarde:48, capturaNoite:49}
-            ],
-            ram: [
-                {nome:'Maya', capturaManha:30, capturaTarde:20, capturaNoite:10},
-                {nome:'Blender', capturaManha:20, capturaTarde:30, capturaNoite:10},
-                {nome:'DaVinci', capturaManha:10, capturaTarde:5, capturaNoite:1},
-                {nome:'AfterEffects', capturaManha:5, capturaTarde:25, capturaNoite:38},
-                {nome:'Unity', capturaManha:1, capturaTarde:48, capturaNoite:49}
-            ]
+    tituloDash.innerText = textoTitulo;
+
+    // 🔄 Fetch para o backend
+    fetch('/dashboard/processos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            dataInicial: dataInicialFormatada,
+            dataFinal: dataFinalFormatada
+        })
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`Erro na requisição: ${res.status}`);
         }
-    }
-
-    organizarDados(dados);   
+        return res.json();
+    })
+    .then(dados => {
+        // todo substituir dados depois
+        const dadosMocados = {
+            processoMaisCritico: 'Blender',
+            processoMaisAtencao: 'Maya',
+            componenteMaisConsumido: 'CPU',
+            dadosProcessosAlertas: [
+                { nome: 'Blender', alertasAtencao: 13, alertasCritico: 23 },
+                { nome: 'Maya', alertasAtencao: 14, alertasCritico: 8 },
+                { nome: 'After Effects', alertasAtencao: 14, alertasCritico: 7 },
+                { nome: 'Unity', alertasAtencao: 13, alertasCritico: 6 },
+                { nome: 'DaVinci', alertasAtencao: 6, alertasCritico: 1 }
+            ],
+            dadosProcessosConsumo: {
+                cpu: [
+                    { nome: 'Blender', capturaManha: 28, capturaTarde: 58, capturaNoite: 82 },
+                    { nome: 'Maya', capturaManha: 26, capturaTarde: 33, capturaNoite: 60 },
+                    { nome: 'AfterEffects', capturaManha: 38, capturaTarde: 27, capturaNoite: 53 },
+                    { nome: 'Unity', capturaManha: 38, capturaTarde: 32, capturaNoite: 22 },
+                    { nome: 'DaVinci', capturaManha: 14, capturaTarde: 13, capturaNoite: 15 }
+                ],
+                gpu: [
+                    { nome: 'Blender', capturaManha: 34, capturaTarde: 52, capturaNoite: 92 },
+                    { nome: 'AfterEffects', capturaManha: 22, capturaTarde: 25, capturaNoite: 38 },
+                    { nome: 'Unity', capturaManha: 41, capturaTarde: 48, capturaNoite: 49 }
+                ],
+                ram: [
+                    { nome: 'Maya', capturaManha: 30, capturaTarde: 20, capturaNoite: 10 },
+                    { nome: 'Blender', capturaManha: 20, capturaTarde: 30, capturaNoite: 10 },
+                    { nome: 'DaVinci', capturaManha: 10, capturaTarde: 5, capturaNoite: 1 },
+                    { nome: 'AfterEffects', capturaManha: 5, capturaTarde: 25, capturaNoite: 38 },
+                    { nome: 'Unity', capturaManha: 1, capturaTarde: 48, capturaNoite: 49 }
+                ]
+            }
+        };
+        organizarDados(dadosMocados);
+    })
+    .catch(error => {
+        console.error('Erro ao buscar dados:', error);
+        alert('Falha ao buscar dados do dashboard.');
+    });
 }
+
 
 function organizarDados(dados){
     dadosDash.kpiCritico = dados.processoMaisCritico;
