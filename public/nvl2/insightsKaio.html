@@ -105,8 +105,14 @@
     // Variável para armazenar o resultado por mês, componente e nível
     var resultadoPorMesComponenteNivel = {}
 
+
+    var resultadoPorMesComponenteNivelPorPeriodo = {}
+
+    // Variável para armazenar o gráfico de alertas
     var GraficoAlertas;
 
+    // Variável para armazenar o gráfico de alertas por período
+    var GraficoAlertasPeriodo;
 
 
     function obterDados() {
@@ -258,6 +264,37 @@
             return resultadoPorMesComponenteNivel;
         }
 
+        function separarAlertasPorMesEComponenteNivelPorPeriodo(dados) {
+            // Separando quantidade de Alertas por mes dos componentes CPU e GPU
+
+            dados.forEach(i => {
+
+                if (!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes]) {
+                    resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes] = {};
+                }
+                
+                if(!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia]) {
+                    resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia] = {};
+                }
+                
+                if (!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente]) {
+                    resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente] = {};
+                }
+
+
+                if (!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente][i.nivel]) {
+                    resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente][i.nivel] = 0;
+                }
+
+                resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente][i.nivel]++;
+            });
+            console.log("Resultado por mês, componente e nível, PERIODO:", resultadoPorMesComponenteNivelPorPeriodo);
+
+            // Separando os meses presentes nos dados
+
+            return resultadoPorMesComponenteNivelPorPeriodo;
+        }
+
 
         console.log("Escolha temporal:", escolhaTemporal);
 
@@ -290,6 +327,9 @@
                 // Separando quantidade de Alertas por mes dos componentes CPU e GPU
                 separarAlertasPorMesEComponenteENivel(dados);
 
+                // Separando quantidade de Alertas por mes dos componentes CPU e GPU por periodo
+                separarAlertasPorMesEComponenteNivelPorPeriodo(dados);
+                
                 // Criando o gráfico de alertas por mês
 
                 var meses = Object.keys(resultadoPorMesComponenteNivel);
