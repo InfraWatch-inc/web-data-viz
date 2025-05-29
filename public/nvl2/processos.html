@@ -16,8 +16,8 @@
 
   <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
 </head>
-
-<body class="body" onload="carregar()">
+<!-- onload="carregar()" -->
+<body class="body" >
   <header>
     <nav class="header">
       <div class="user_div">
@@ -82,16 +82,16 @@
     </div>
     <div class="graphs">
         <!--PARTE INFERIOR DA DASH - Gráficos-->
-        <div class="graph">
+        <div class="graph" id="campoChartAlertas">
             <canvas id="chartAlertasProcessos"></canvas>
         </div>
 
-        <div class="graph">
+        <div class="graph" id="campoChartConsumo">
             <canvas id="chartConsumoProcessos"></canvas>
         </div>
     </div>
   </main>
-  <!-- TODO fazer estilização e modal de filtros-->
+
   <dialog id="modal" class="modal">
     <div class="modal-content">
       <h2>Filtros</h2>
@@ -109,13 +109,13 @@
       <div class="group">
         <label for="slctComponente">Componente para visualizar consumo:</label>
         <select id="slctComponente" class="input">
-          <option value="cpu">CPU</option>
-          <option value="gpu">GPU</option>
-          <option value="ram">RAM</option>
+          <option id="optCpu" value="cpu">CPU</option>
+          <option id="optGpu" value="gpu">GPU</option>
+          <option id="optRam" value="ram">RAM</option>
         </select>
       </div>
   
-      <button onclick="coletarDados()" class="btn-filtro">Aplicar Filtros</button>
+      <button onclick="resetarGraficos(), coletarDados()" class="btn-filtro">Aplicar Filtros</button>
     </div>
   </dialog>
    
