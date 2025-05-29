@@ -1,46 +1,4 @@
 var insightsModel = require("../models/insightsModel");
-// TODO
-function arrumarCondicao(corpoRequisicao, componente){
-    condicao = '';
-  
-    condicao += `idEmpresa = ${corpoRequisicao.idEmpresa} `;
-    condicao += `AND componente = '${componente}' `;
-
-    if(corpoRequisicao.nivelAlerta != 3){
-        condicao += `AND a.nivel = ${corpoRequisicao.nivelAlerta} `;
-    }
-    
-    if(corpoRequisicao.metrica != undefined){
-        condicao += `AND metrica = '${corpoRequisicao.metrica}' `;
-    } 
-
-    if(corpoRequisicao.dtInicio != undefined){
-        condicao += `AND dataHora >= '${corpoRequisicao.dtInicio}' `
-    } 
-
-    if(corpoRequisicao.dtFinal != undefined){
-        condicao += `AND dataHora < '${corpoRequisicao.dtInicio}' `;
-    }
-
-    return condicao;
-}
-
-function arrumarContexto(corpoRequisicao, componente){
-    contexto = '';
-    if(corpoRequisicao.modelo != undefined){
-        contexto =  `${corpoRequisicao.modelo}`
-    }
-
-    if(corpoRequisicao.localizacao != undefined){
-        contexto +=  `${corpoRequisicao.localizacao}`
-    }
-
-    if(corpoRequisicao.fatorTemporal != undefined){
-        contexto =  `${corpoRequisicao.fatorTemporal}`
-    }
-
-    return contexto;
-}
 
 function getAlertasComponentes(req, res) {
 
