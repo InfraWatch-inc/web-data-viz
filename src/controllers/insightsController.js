@@ -58,11 +58,33 @@ function postDadosProcessos(req, res){
     // TODO 
     let idEmpresa = req.params.idEmpresa;
 
-    insightsModel.postDadosProcessos()
-    .then()
-    .catch()
+    let dataInicial = req.body.dtInicial;
+    let dataFinal = req.body.dtFinal;
 
-    console.log(req.body);
+    insightsModel.postKpisProcessos(idEmpresa, dataInicial, dataFinal)
+    .then((resposta) => {
+        console.log(resposta);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+
+    insightsModel.postAlertasProcessos(idEmpresa, dataInicial, dataFinal)
+    .then((resposta) => {
+        console.log(resposta);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+
+    // TODO Organizar query em JSON
+    insightsModel.postConsumoProcessos(idEmpresa, dataInicial, dataFinal)
+    .then((resposta) => {
+        console.log(resposta);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
 }
 
 module.exports = {

@@ -25,8 +25,18 @@ function alertasComponentes(condicao){
     return database.executar(instrucaoSql);
 }
 
-function postDadosProcessos(idEmpresa, dtInicial, dtFinal){
-    const QUERY_SQL = `SELECT * FROM viewDadosProcessos WHERE dtInicial='${dtInicial}' AND dtFinal='${dtFinal}' AND idEmpresa = ${idEmpresa}`;
+function postKpisProcessos(idEmpresa, dtInicial, dtFinal){
+    const QUERY_SQL = `CALL prDashboardKPIs('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
+    return database.executar(QUERY_SQL);
+}
+
+function postAlertasProcessos(idEmpresa, dtInicial, dtFinal){
+    const QUERY_SQL = `CALL prDashboardAlertasJSON('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
+    return database.executar(QUERY_SQL);
+}
+
+function postConsumoProcessos(idEmpresa, dtInicial, dtFinal){
+    const QUERY_SQL = `CALL prDashboardConsumoSimples('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
     return database.executar(QUERY_SQL);
 }
 
@@ -35,5 +45,8 @@ module.exports = {
     graficoAlertas,
     processosInsights,
     alertasComponentes,
-    postDadosProcessos
+    postDadosProcessos,
+    postKpisProcessos,
+    postAlertasProcessos,
+    postConsumoProcessos
 }
