@@ -205,19 +205,22 @@ table {
   border-bottom: 2px solid #e0e0e0;
 padding: 10px;
 color: #CD3030;
+font-size: 20px;
 }
 
 .nmr-titulo{
   border-bottom: 2px solid #e0e0e0;
-padding: 10px;
+  padding: 10px;
+  font-size: 20px;
 }
 
 
 .vermelho-titulo {
   color: red;
   font-weight: bold;
-    border-bottom: 2px solid #e0e0e0;
-padding: 10px;
+  border-bottom: 2px solid #e0e0e0;
+  padding: 10px;
+  font-size: 20px;
 }
 
 .nmr {
@@ -241,6 +244,7 @@ padding: 10px;
   width: 50%;
   height: 91%;
   padding: 15px;
+  font-size: 20px;
   
 }
 
@@ -338,4 +342,42 @@ tbody td {
 .grafiquinho{
 width: 100%;
 }
+
+@media (max-width: 768px) {
+    .header {
+        align-items: center;
+        gap: 1rem;
+        height: 6vh;
+    }
+
+    .user_div {
+        width: 80%;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .user_name {
+        font-size: 1rem;
+    }
+
+    ul {
+        width: 80%;
+        flex-direction: row;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    ul a {
+        font-size: 1rem;
+    }
+
+    .sair {
+        width: 300px;
+        font-size: 1rem;
+    }
+
+    main {
+        /* border: 1px solid red; */
+        height: 160vh;
+    }}
 
