@@ -36,4 +36,8 @@ router.post("/cadastrar/chamado", function (req, res) {
     monitoramentoController.abrirChamado(req, res);
 })
 
+router.post("/listagemGeral/0", function (req, res) {
+    monitoramentoController.listagemGeral(req, res);
+})
+
 module.exports = router;

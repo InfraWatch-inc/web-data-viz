@@ -25,7 +25,7 @@
                 <div class="dropdonw_user">
                     <span class="user_name" id="nome_usuario"></span>
                     <div class="dropdonw_content">
-                        <button class="sair" onclick="limparSessao()">Sair</button>
+                        <span class="sair" onclick="limparSessao()">Sair</span>
                     </div>
                 </div>
             </div>
@@ -35,6 +35,7 @@
 
             <div class="notificacao" id="notificacao">
                 <div class="sino"></div>
+                <span id="countAlerta"></span>
             </div>
         </nav>
     </header>
@@ -48,11 +49,11 @@
                 </div>
 
 
-                <div class="dropdown">
+                <div class="dropdown" onclick="filtro()">
                     <button class="dropdown-status">Filtro ▼</button>
                     <ul class="dropdown-menu">
-                        <li><a href="">Total Crítico: 13</a></li>
-                        <li><a href="">Total Alertas: 6</a></li>
+                        <li><a href="">Total Crítico: <span id="countAlertaCritico"></span></a></li>
+                        <li><a href="">Total Alertas: <span id="countAlertaModerado"></span></a></li>
 
                     </ul>
                 </div>
@@ -78,14 +79,13 @@
                     </div> -->
                     <button onclick="cadastrar()">Cadastrar</button>
                 </div>
-            </div>
+            </div> 
 
             <table id="tabela">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Instância</th>
                         <th>Núcleos</th>
                         <th>Threads</th>
                         <th>Qtd. GPU</th>
@@ -119,7 +119,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
-
+            
         if (idEmpresa) {
             try {
                 fetch(`http://127.0.0.1:8000/monitoramento/listagem/${idEmpresa}`)
@@ -153,6 +153,8 @@
     });
 
 
+
+
     function listagemBody() {
         let body = document.getElementById('corpo-tabela');
         body.innerHTML = "";
@@ -166,7 +168,6 @@
             linha.innerHTML = `
                 <td>${servidor.id}</td>
                 <td>${servidor.nome}</td>
-                <td>${servidor.idInstancia}</td>
                 <td>${totalNucleo}</td>
                 <td>${totalThreads}</td>
                 <td>${servidor.qtdGpu}</td>
@@ -231,6 +232,11 @@
             linha.style.display = nome.includes(termo) ? '' : 'none';
         });
     };
+
+    function filtro() {
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+    }
 
     function cadastrar(){
         let nomeServidor = document.getElementById();

@@ -1,8 +1,9 @@
 // const { result } = require("lodash");
 var monitoramentoModel = require("../models/monitoramentoModel");
 
-monitoramento = {
-};
+listagem = {};
+monitoramento = {};
+
 function getCapturas(req, res) {
   const idServidor = req.params.idServidor;
 
@@ -160,6 +161,10 @@ function abrirChamado(req, res){
   monitoramentoModel.abrirChamado(info.idAlerta, info.idServidor,info.nivel, info.dataHora, info.componente, info.metrica, info.valor).then(resultado =>{
     res.status(200).json(resultado);
   })
+} 
+
+function listagemGeral(req, res) {
+  
 }
 
 module.exports = {
@@ -171,5 +176,6 @@ module.exports = {
   monitoramento,
   listagemServidores,
   abrirChamado,
-  buscarDadosComponente
+  buscarDadosComponente,
+  listagemGeral
 };

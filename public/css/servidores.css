@@ -62,7 +62,7 @@ header {
   cursor: pointer;
   position: relative;
   display: inline-block;
-  /* background: #F9FAFB; */
+  background-color: #F9FAFB;
 }
 
 .dropdonw_user:focus-within .dropdonw_content {
@@ -70,15 +70,17 @@ header {
 }
 
 .dropdonw_content {
-  width: 70%;
+  width: 100%;
   height: 80%;
   margin-top: 5px;
   /* border: red 1px solid; */
   /* background: #F9FAFB; */
+  background-color: #F9FAFB;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: absolute;
   display: none;
   z-index: 1;
+  /* text-align: start; */
 }
 
 .user_name {
@@ -114,6 +116,34 @@ ul a:hover {
   display: flex;
   align-items: center;
   justify-content: end;
+
+  /* & span {
+    width: 0.5%;
+   
+  } */
+
+  
+}
+
+.sair {
+    text-align: start;
+    font-size: 1.2rem;
+    border: 1px solid red;
+    position: absolute; 
+    /* top: 8%; */
+    /* left: 86.5%; */
+    width: 100%;
+    height: 4vh;
+    /* border-radius: 10px; */
+    /* background: linear-gradient(to bottom, #740bc6, #10d3f9); */
+    /* background-color: #10D3F9; */
+    color: #333;
+    /* margin-top: 10px; */
+    text-align: center  ;
+    font-size: 1.6rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s;
 }
 
 .sino {
@@ -121,19 +151,7 @@ ul a:hover {
   background-size: contain;
   background-repeat: no-repeat;
   width: 50%;
-  height: 100%;
-}
-
-.sair {
-  width: 100%;
-  height: 4vh;
-  /* border-radius: 10px; */
-  background: linear-gradient(to bottom, #740bc6, #10d3f9);
-  color: white;
-  font-size: 1.6rem;
-  border: none;
-  cursor: pointer;
-  transition: 0.4s;
+  height: 70%;
 }
 
 .sair:hover {
@@ -322,6 +340,7 @@ th {
   border-radius: 5px;
   font-size: 14px;
   cursor: pointer;
+  width: 100%;
 }
 
 .dropdown-menu {
@@ -331,9 +350,15 @@ th {
   border: 1px solid #ddd;
   border-radius: 6px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  min-width: 150px;
+  width: 9%;
   z-index: 10;
   margin-top: 5px;
+
+  & li{
+    list-style: none;
+    cursor: pointer;
+    /* width: 50%; */
+  }
 }
 
 .dropdown-menu li {

@@ -26,7 +26,7 @@ function getServidor(uuid){
 
 function getServidorComponente(uuid){
     var instrucaoSql = `
-    SELECT * FROM servidor WHERE uuidPlacaMae = "F9E39100-E5A1-11EE-82B9-AB3C23F52400";`;
+    SELECT * FROM servidor WHERE uuidPlacaMae = "123490EN400015";`;
 
     return database.executar(instrucaoSql);
 }
@@ -60,6 +60,16 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
     let tipoAlerta = "Moderado";
     let descricao, documentoDescricao, assunto;
 
+    let operadores = [
+        "Carlos Silva",
+        "Ana Souza",
+        "Pedro Lima",
+        "Mariana Costa",
+        "Lucas Rocha"
+    ];
+
+    let operador_responsavel = operadores[Math.floor(Math.random() * operadores.length)];
+
     if(nivel == 2){
         tipoAlerta = "Critico"
     }
@@ -74,7 +84,9 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
         `• Valor Capturado: ${valor}\n` +
         `• Data/Hora: ${dataHora}\n` +
         `• Servidor: ${idServidor}\n` +
-        `• ID do Alerta no Banco: ${idAlerta}`;
+        `• ID do Alerta no Banco: ${idAlerta}\n`; +
+        `• Operador Responsável: ${operadorResponsavel}`   
+        
 
     documentoDescricao = {
         "type": "doc",
