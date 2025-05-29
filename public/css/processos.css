@@ -198,15 +198,18 @@ select, input{
   }
   
   /* Input e select com estilo */
-  .input, select {
-    padding: 0.65rem;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    background-color: #f9f9ff;
-    font-size: 1rem;
-    color: #333;
+
+  input, select {
     width: 100%;
-    transition: 0.2s;
+    font-size: large;
+    height: 3.5rem;
+    padding: 1rem 1rem;
+    background-color: #f3f4f6;
+    border: #a4cafe solid thin;
+    border-radius: 12px;
+    outline-color: dodgerblue;
+    margin: 10px 0;
+    transition: linear 0.5s;
   }
   
   .input:focus, select:focus {

@@ -90,6 +90,9 @@ function coletarDados() {
         return;
     }
 
+    iptDtInicial.value = dataInicialFormatada;
+    iptDtFinal.value = dataFinalFormatada;
+
     // Título do dashboard
     const tituloDash = document.getElementById('tituloDash');
     const dataInicio = new Date(dataInicialFormatada);
@@ -120,12 +123,19 @@ function coletarDados() {
 
     if (dataFinalEhHoje) {
         let tempoTexto = '';
-        if (meses === 0 && dias < 30) tempoTexto = `${dias} dia${dias === 1 ? '' : 's'}`;
-        else tempoTexto = `${meses} mês${meses === 1 ? '' : 'es'}`;
+        if (meses === 0 && dias < 30) {
+            tempoTexto = `${dias} dia${dias === 1 ? '' : 's'}`;
+        } else if (meses === 6) {
+            tempoTexto = `1 semestre`;
+        } else if (meses === 12) {
+            tempoTexto = `1 ano`;
+        } else {
+            tempoTexto = `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+        }
         textoTitulo = `Insights de Processos nos últimos ${tempoTexto} desde ${dataInicialFormatada}`;
     }
 
-    tituloDash.innerText = textoTitulo;
+    tituloDash.innerText = textoTitulo +":";
 
     // 🔄 Fetch para o backend
     fetch(`/insights/processos/${sessionStorage.ID_EMPRESA}`, {
@@ -146,6 +156,13 @@ function coletarDados() {
     })
     .then(dados => {
         // todo substituir dados depois
+        
+        organizarDados(dados);
+    })
+    .catch(error => {
+        console.error('Erro ao buscar dados:', error);
+        alert('Falha ao buscar dados do dashboard.');
+
         const dadosMocados = {
             processoMaisCritico: 'Blender',
             processoMaisAtencao: 'Maya',
@@ -180,10 +197,6 @@ function coletarDados() {
             }
         };
         organizarDados(dadosMocados);
-    })
-    .catch(error => {
-        console.error('Erro ao buscar dados:', error);
-        alert('Falha ao buscar dados do dashboard.');
     });
 }
 
@@ -224,10 +237,62 @@ function organizarDados(dados){
     atualizarFront(); 
 }
 
-function alterarComponente(componente){
-    let dadosConsumo = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}`)
-    let processos = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}.processos`)
-    carregarGraficoConsumoProcessos(componente, processos, dadosConsumo);
+function resetarGraficos(){
+    dadosDash = {
+            kpiCritico: 'NA',
+            kpiAtencao: 'NA',
+            componenteUso: 'NA',
+            alertasProcessos:{
+                processos:[],
+                alertas:{
+                    atencao:[],
+                    critico:[]
+                }
+            },
+            consumoProcessos:{
+                gpu:{
+                    processos:[],
+                    dados:{
+                        manha:[],
+                        tarde:[],
+                        noite:[]
+                    }
+                },
+                cpu:{
+                    processos:[],
+                    dados:{
+                        manha:[],
+                        tarde:[],
+                        noite:[]
+                    }
+                },
+                ram:{
+                    processos:[],
+                    dados:{
+                        manha:[],
+                        tarde:[],
+                        noite:[]
+                    }
+                }
+            }
+        }
+
+    const chartConsumo = document.getElementById('chartConsumoProcessos');
+    if (chartConsumo) {
+        chartConsumo.remove(); 
+    }
+
+    const chartAlertas = document.getElementById('chartAlertasProcessos');
+    if (chartAlertas) {
+        chartAlertas.remove(); 
+    }
+
+    const canvasConsumo = `<canvas id="chartConsumoProcessos"></canvas>`;
+
+    const canvasAlertas = '<canvas id="chartAlertasProcessos"></canvas>';
+
+    document.getElementById('campoChartConsumo').innerHTML = canvasConsumo;
+    document.getElementById('campoChartAlertas').innerHTML = canvasAlertas;
 }
 
 function atualizarFront(){
@@ -236,21 +301,22 @@ function atualizarFront(){
     kpiAlertasCritico.innerText = dadosDash.kpiCritico;
 
     carregarGraficoAlertasProcessos(dadosDash.alertasProcessos.processos, dadosDash.alertasProcessos.alertas);
+    let componente = document.getElementById('slctComponente').value;
 
-    let componente = dadosDash.componenteUso;
-    let dadosConsumo = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}`)
-    let processos = eval(`dadosDash.consumoProcessos.${componente.toLowerCase()}.processos`)
+    if(document.getElementById('slctComponente').value == '' || document.getElementById('slctComponente').value == undefined || document.getElementById('slctComponente').value == null){
+        componente = dadosDash.componenteUso;
+        document.getElementById('slctComponente').selectedIndex = componente.toLowerCase() == 'cpu' ? 0 : componente.toLowerCase() == 'gpu' ? 1 : 2; 
+    } 
+    
+    let dadosConsumo = dadosDash.consumoProcessos[componente.toLowerCase()]
+    let processos = dadosDash.consumoProcessos[componente.toLowerCase()].processos
     carregarGraficoConsumoProcessos(componente, processos, dadosConsumo);
 }
 
 function carregarGraficoConsumoProcessos(componente, processos, dadosConsumo){
-    const consumo = document.getElementById('chartConsumoProcessos').getContext('2d');
+    const consumo = document.getElementById('chartConsumoProcessos');
 
-    if (chartInstance) {
-        chartInstance.destroy();
-    }
-
-    chartInstance = new Chart(consumo, {
+    new Chart(consumo, {
         type: 'bar',
         data: {
             labels: processos,
