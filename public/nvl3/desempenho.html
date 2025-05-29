@@ -301,13 +301,22 @@ async function receberChamado() {
     }
         tbody.innerHTML = "";
       dados.forEach(entrada => {
-      const classe = entrada.tipo_alertas ? entrada.tipo_alertas.toLowerCase() : "";
+     let classeLinha = "";
+
+  switch ((entrada.tipo_alerta || "").toLowerCase()) {
+    case "Critico":
+      classeLinha = "alerta-critico";
+      break;
+    case "Moderado":
+      classeLinha = "alerta-alerta";
+      break;
+  }
         const linha = `
-        <tr>
+        <tr class="${classeLinha}">
           <td>${entrada.servidor}</td>
           <td>${entrada.componente}</td>
           <td>${entrada.data_hora}</td>
-          <td>${entrada.tipo_alertas}</td>
+          <td>${entrada.tipo_alerta}</td>
           <td>${entrada.operador_responsavel}</td>
         </tr>  
         `;
