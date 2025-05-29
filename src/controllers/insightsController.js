@@ -54,33 +54,19 @@ function getAlertasComponentes(req, res) {
     });
 }
 
-function postInsightsComponente(req, res){
-    if(req.body.idEmpresa == undefined || req.params.componente == undefined ){
-        return res.status(400).json({"message":"idEmpresa ou Componente indefinido!"});
-    }
+function postDadosProcessos(req, res){
+    // TODO 
+    let idEmpresa = req.params.idEmpresa;
 
-    let condicao = arrumarCondicao(req.body, req.params.componente);
-    let contexto = arrumarContexto(req.body);
+    insightsModel.postDadosProcessos()
+    .then()
+    .catch()
 
-    let resposta = {
-        "processos":null,
-        "kpi":null,
-        "grafico":null
-    }
-
-    Promise.all(insightsModel.graficoAlertas(contexto, condicao), insightsModel.processosInsights(condicao), insightsModel.kpiInsights(condicao))
-    .then(function (resultado) {
-        resposta = resultado;
-        res.status(200).json(resposta);
-    })
-    .catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os insightss: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
+    console.log(req.body);
 }
 
 module.exports = {
     getAlertasComponentes,
-    postInsightsComponente
+    postInsightsComponente,
+    postDadosProcessos
 }

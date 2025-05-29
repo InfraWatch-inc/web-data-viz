@@ -11,4 +11,8 @@ router.post("/dadosComponente/:componente", function (req, res) {
     insightsController.postInsightsComponente(req, res);
 });
 
+router.post("/processos/:idEmpresa", function (req, res) {
+    insightsController.postDadosProcessos(req, res);
+});
+
 module.exports = router;

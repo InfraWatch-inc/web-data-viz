@@ -25,9 +25,15 @@ function alertasComponentes(condicao){
     return database.executar(instrucaoSql);
 }
 
+function postDadosProcessos(idEmpresa, dtInicial, dtFinal){
+    const QUERY_SQL = `SELECT * FROM viewDadosProcessos WHERE dtInicial='${dtInicial}' AND dtFinal='${dtFinal}' AND idEmpresa = ${idEmpresa}`;
+    return database.executar(QUERY_SQL);
+}
+
 module.exports = {
     kpiInsights,
     graficoAlertas,
     processosInsights,
-    alertasComponentes
+    alertasComponentes,
+    postDadosProcessos
 }
