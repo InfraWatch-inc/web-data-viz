@@ -59,32 +59,32 @@
           </thead>
           <tbody>
             <tr>
-              <td>PixelForge</td>
-              <td>CPU</td>
-              <td class="tempo">120</td>
-              <td class="status-critico">Crítico</td>
-              <td>Matheus Diniz</td>
+              <td></td>
+              <td></td>
+              <td class="tempo"></td>
+              <td class="status-critico"></td>
+              <td></td>
             </tr>
             <tr>
-              <td>RenderTitan</td>
-              <td>DISCO</td>
-              <td class="tempo">84</td>
-              <td class="status-moderado">Moderado</td>
-              <td>Hugo Carvalho</td>
+              <td></td>
+              <td></td>
+              <td class="tempo"></td>
+              <td class="status-moderado"></td>
+              <td></td>
             </tr>
             <tr>
-              <td>FrameStorm</td>
-              <td>CPU</td>
-              <td class="tempo">72</td>
-              <td class="status-critico">Crítico</td>
-              <td>Grigor Mascarenhas</td>
+              <td></td>
+              <td></td>
+              <td class="tempo"></td>
+              <td class="status-critico"></td>
+              <td></td>
             </tr>
             <tr>
-              <td>RenderTitan</td>
-              <td>CPU</td>
-              <td class="tempo">50</td>
-              <td class="status-moderado">Moderado</td>
-              <td>Jonathan Calleri</td>
+              <td></td>
+              <td></td>
+              <td class="tempo"></td>
+              <td class="status-moderado"></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
@@ -284,57 +284,51 @@
 
 
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
+  let info;
 
-  // async function listaChamados() {
-  //   try {
-  //     const res = await fetch("http://127.0.0.1:8000/desempenho/buscar/chamado");
+async function receberChamado() {
+  try {
+    const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
 
-  //       json_dados.forEach(entrada => {
-  //       const linha = `
-  //       <tr>
-  //         <td>${entrada.servidor}</td>
-  //         <td>${entrada.componente}</td>
-  //         <td class = "${entrada.tipo_alertas.toLowerCase()}">${entrada.tipo_alertas}</td>
-  //         <td>${entrada.data_hora}</td>
-  //         <td>${entrada.operador_responsavel}</td>
-  //       </tr>  
-  //       `;
-  //       tbody.innerHTML += linha;
-  //     });
+    if (!resposta.ok) {
+      console.error(`Erro na resposta: ${resposta.status}`);
+      return;
+    }
 
-  //     if (!res.ok) {
-  //       const errorText = await res.text();
-  //       throw new Error(`Erro do servidor: ${res.status} - ${errorText}`);
-  //     }
+    const dados = await resposta.json();
+    console.log("✅ Dados recebidos:", dados);
 
-  //     const data = await res.json();
-  //     console.log("Chamados:", data);
-  //   } catch (error) {
-  //     console.error("Erro ao buscar chamados:", error);
-  //   }
-  
-  // }
-
-  // listaChamados()
-
-  fetch("/desempenho/buscar/chamado")
-    .then(res => res.json())
-    .then(alertas => {
-      const tbody = document.querySelector("ranking-alertas tbody");
-      tbody.innerHTML = "";
-      console.log("coco xixi bunda");
+   
+      const tbody = document.querySelector("#ranking-alertas tbody");
       
-      alertas.forEach(entrada => {
+      console.log("coco xixi bunda");
+
+    if (!tbody) {
+      console.error("❌ Não foi possível encontrar o tbody da tabela!");
+      return;
+    }
+        tbody.innerHTML = "";
+      dados.forEach(entrada => {
+      const classe = entrada.tipo_alertas ? entrada.tipo_alertas.toLowerCase() : "";
         const linha = `
         <tr>
           <td>${entrada.servidor}</td>
           <td>${entrada.componente}</td>
-          <td class = "${entrada.tipo_alertas.toLowerCase()}">${entrada.tipo_alertas}</td>
           <td>${entrada.data_hora}</td>
+          <td>${entrada.tipo_alertas}</td>
           <td>${entrada.operador_responsavel}</td>
         </tr>  
         `;
         tbody.innerHTML += linha;
       });
-    });
+    
+  
+    
+  } catch (erro) {
+    console.error("❌ Erro ao buscar os dados:", erro);
+  }
+}
+  
+
+  receberChamado()
 </script>

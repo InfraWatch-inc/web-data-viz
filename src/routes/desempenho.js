@@ -8,8 +8,14 @@ router.post("/buscar/chamado", (req, res) => {
     const dados = req.body;
     console.log("Recebido do Python:", dados);
 
+    desempenhoController.receberChamado(req, res)
+
     // Aqui você pode processar os dados como quiser, ou salvar em banco
-    res.status(200).json({ status: "ok", mensagem: "Dados recebidos com sucesso" });
 });
+
+router.get("/recebe/chamado", (req, res) => {
+    desempenhoController.pegarChamado(req, res)
+})
+
 
 module.exports = router;
