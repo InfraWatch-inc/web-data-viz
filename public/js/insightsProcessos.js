@@ -123,12 +123,19 @@ function coletarDados() {
 
     if (dataFinalEhHoje) {
         let tempoTexto = '';
-        if (meses === 0 && dias < 30) tempoTexto = `${dias} dia${dias === 1 ? '' : 's'}`;
-        else tempoTexto = `${meses} mês${meses === 1 ? '' : 'es'}`;
+        if (meses === 0 && dias < 30) {
+            tempoTexto = `${dias} dia${dias === 1 ? '' : 's'}`;
+        } else if (meses === 6) {
+            tempoTexto = `1 semestre`;
+        } else if (meses === 12) {
+            tempoTexto = `1 ano`;
+        } else {
+            tempoTexto = `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+        }
         textoTitulo = `Insights de Processos nos últimos ${tempoTexto} desde ${dataInicialFormatada}`;
     }
 
-    tituloDash.innerText = textoTitulo;
+    tituloDash.innerText = textoTitulo +":";
 
     // 🔄 Fetch para o backend
     fetch(`/insights/processos/${sessionStorage.ID_EMPRESA}`, {
@@ -155,7 +162,7 @@ function coletarDados() {
     .catch(error => {
         console.error('Erro ao buscar dados:', error);
         alert('Falha ao buscar dados do dashboard.');
-        
+
         const dadosMocados = {
             processoMaisCritico: 'Blender',
             processoMaisAtencao: 'Maya',
