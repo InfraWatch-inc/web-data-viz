@@ -69,6 +69,7 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
     ];
 
     let operador_responsavel = operadores[Math.floor(Math.random() * operadores.length)];
+    console.log("Operador Responsável:", operador_responsavel);
 
     if(nivel == 2){
         tipoAlerta = "Critico"
@@ -84,9 +85,12 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
         `• Valor Capturado: ${valor}\n` +
         `• Data/Hora: ${dataHora}\n` +
         `• Servidor: ${idServidor}\n` +
-        `• ID do Alerta no Banco: ${idAlerta}\n`; +
-        `• Operador Responsável: ${operadorResponsavel}`   
+        `• ID do Alerta no Banco: ${idAlerta}\n` +
+        `• Operador Responsável: ${operador_responsavel}`   
         
+
+        console.log("Descrição do Chamado:", descricao);
+
 
     documentoDescricao = {
         "type": "doc",
