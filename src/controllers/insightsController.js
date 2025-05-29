@@ -67,6 +67,7 @@ function postDadosProcessos(req, res){
 
 module.exports = {
     getAlertasComponentes,
-    postInsightsComponente,
+    arrumarCondicao,
+    arrumarContexto,
     postDadosProcessos
 }

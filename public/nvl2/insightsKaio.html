@@ -335,6 +335,8 @@
                 var meses = Object.keys(resultadoPorMesComponenteNivel);
 
                 var moderado = meses.map(mes => {
+
+                    // Encadeamento, serve para ver se o objeto(mes) existe, se não retorna 0
                     var cpu = resultadoPorMesComponenteNivel[mes]?.CPU?.["1"] || 0;
                     var gpu = resultadoPorMesComponenteNivel[mes]?.GPU?.["1"] || 0;
                     return cpu + gpu; // soma CPU + GPU para nível 1 (Moderado)
