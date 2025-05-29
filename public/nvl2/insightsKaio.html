@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Armazenamento | InfraWatch</title>
+    <title>Processos | InfraWatch</title>
     <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
     <link rel="stylesheet" href="../css/insightsKaio.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
@@ -18,7 +18,7 @@
         <nav class="header">
             <div class="user_div">
                 <div class="img"></div>
-                <span class="user_name" id="txtUsuario">André Muller</span>
+                <span class="user_name" id="txtUsuario"></span>
             </div>
 
             <ul>
@@ -41,7 +41,7 @@
                     name="escolhaTemporal" value="3" checked>Trimestral</span>
             <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
                     name="escolhaTemporal" value="5">Semestral</span>
-        
+
         </div>
 
     </div>
@@ -272,11 +272,11 @@
                 if (!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes]) {
                     resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes] = {};
                 }
-                
-                if(!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia]) {
+
+                if (!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia]) {
                     resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia] = {};
                 }
-                
+
                 if (!resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente]) {
                     resultadoPorMesComponenteNivelPorPeriodo[i.nomeMes][i.periodoDia][i.Componente] = {};
                 }
@@ -313,7 +313,7 @@
                 console.log("Dados recebidos do periodo:", dados);
 
                 // Reinicializando o objeto para cada nova requisição
-                resultadoPorMesComponenteNivel = {}; 
+                resultadoPorMesComponenteNivel = {};
 
                 // Separando quantidade de Alertas Crticicos dos componentes CPU e GPU
                 separarAlertasCriticosComponentes(dados);
@@ -329,26 +329,27 @@
 
                 // Separando quantidade de Alertas por mes dos componentes CPU e GPU por periodo
                 separarAlertasPorMesEComponenteNivelPorPeriodo(dados);
-                
+
                 // Criando o gráfico de alertas por mês
 
                 var meses = Object.keys(resultadoPorMesComponenteNivel);
 
                 var moderado = meses.map(mes => {
 
-                    // Encadeamento, serve para ver se o objeto(mes) existe, se não retorna 0
-                    var cpu = resultadoPorMesComponenteNivel[mes]?.CPU?.["1"] || 0;
-                    var gpu = resultadoPorMesComponenteNivel[mes]?.GPU?.["1"] || 0;
-                    return cpu + gpu; // soma CPU + GPU para nível 1 (Moderado)
+                    // Encadeamento, serve para ver se o objeto(mes) existe, se não retorna 0, assim nao quebra o código
+                    var cpuGrafico1 = resultadoPorMesComponenteNivel[mes]?.CPU?.["1"] || 0;
+                    var gpuGrafico1 = resultadoPorMesComponenteNivel[mes]?.GPU?.["1"] || 0;
+                    return cpuGrafico1 + gpuGrafico1; // soma CPU + GPU para nível 1 (Moderado)
                 });
 
                 var critico = meses.map(mes => {
-                    var cpu = resultadoPorMesComponenteNivel[mes]?.CPU?.["2"] || 0;
-                    var gpu = resultadoPorMesComponenteNivel[mes]?.GPU?.["2"] || 0;
-                    return cpu + gpu; // soma CPU + GPU para nível 2 (Crítico)
+
+                    var cpuGrafico1 = resultadoPorMesComponenteNivel[mes]?.CPU?.["2"] || 0;
+                    var gpuGrafico1 = resultadoPorMesComponenteNivel[mes]?.GPU?.["2"] || 0;
+                    return cpuGrafico1 + gpuGrafico1; // soma CPU + GPU para nível 2 (Crítico)
                 });
 
-                if(GraficoAlertas) {
+                if (GraficoAlertas) {
                     GraficoAlertas.destroy();
                 }
 
@@ -425,6 +426,111 @@
 
                 });
 
+                // Criando o gráfico de alertas por período
+
+                var periodoManha = meses.map(mes => {
+
+                    var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0;
+                    var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0;
+
+                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0;
+                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0;
+
+                    return cpuModerado + cpuCritico + gpuModerado + gpuCritico;
+                })
+
+
+                var periodoTarde = meses.map(mes => {
+
+                    var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0;
+                    var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0;
+
+                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0;
+                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0;
+
+                    return cpuModerado + cpuCritico + gpuModerado + gpuCritico;
+                })
+
+                var periodoNoite = meses.map(mes => {
+
+                    var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
+                    var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
+
+                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
+                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
+
+                    return cpuModerado + cpuCritico + gpuModerado + gpuCritico;
+                })
+
+                console.log("Periodo Manhã:", periodoManha);
+                console.log("Periodo Tarde:", periodoTarde);
+                console.log("Periodo Noite:", periodoNoite);
+
+                if (GraficoAlertasPeriodo) {
+                    GraficoAlertasPeriodo.destroy();
+                }
+
+                const ctxPeriodo = document.getElementById('chartPeriodo');
+
+                GraficoAlertasPeriodo = new Chart(ctxPeriodo, {
+                    type: 'bar',
+                    data: {
+                        labels: meses,
+                        datasets: [
+                            {
+                                label: 'Manhã',
+                                data: periodoManha,
+                                backgroundColor: '#33BFD4'
+                            },
+                            {
+                                label: 'Tarde',
+                                data: periodoTarde,
+                                backgroundColor: '#F76B3C'
+                            },
+                            {
+                                label: 'Noite',
+                                data: periodoNoite,
+                                backgroundColor: '#003F4F'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Histórico de Alertas por Periodo GPU e CPU',
+                                font: {
+                                    size: 18,
+                                    weight: 'bold'
+                                }
+                            },
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Quantidades de alertas',
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text:'Ultimos 6 meses',
+                                    font: {
+                                        size: 20
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+
+
             }).catch(erro => {
                 console.error("Erro na requisição:", erro);
             });
@@ -435,65 +541,4 @@
 
 
 
-
-    const ctxPeriodo = document.getElementById('chartPeriodo');
-
-    new Chart(ctxPeriodo, {
-        type: 'bar',
-        data: {
-            labels: ['Dez', 'Jan', 'Fev', 'Mar', 'Abr', 'Mai'],
-            datasets: [
-                {
-                    label: 'Manhã',
-                    data: [3, 1, 1, 1, 0, 1],
-                    backgroundColor: '#33BFD4'
-                },
-                {
-                    label: 'Tarde',
-                    data: [2, 3, 0, 0, 1, 0],
-                    backgroundColor: '#F76B3C'
-                },
-                {
-                    label: 'Noite',
-                    data: [4, 4, 3, 1, 1, 3],
-                    backgroundColor: '#003F4F'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Histórico de Alertas por Periodo GPU e CPU',
-                    font: {
-                        size: 18,
-                        weight: 'bold'
-                    }
-                },
-
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Quantidades de alertas',
-                        font: {
-                            size: 20
-                        }
-                    }
-                },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Ultimos 6 meses',
-                        font: {
-                            size: 20
-                        }
-                    }
-                }
-            }
-        }
-    });
 </script>
