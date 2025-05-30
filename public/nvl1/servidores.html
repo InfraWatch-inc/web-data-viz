@@ -36,6 +36,11 @@
             <div class="notificacao" id="notificacao">
                 <div class="sino"></div>
                 <span id="countAlerta">24</span>
+                <div class="modalAlertas" >
+                    <div class="msg">
+                        <span class="msg-text">Alertas</span>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -60,6 +65,7 @@
                     </ul>
                 </div>
             </div>
+
 
             <div class="modal">
                 <div class="content-servidor">
@@ -285,6 +291,11 @@
         if (!dropdown.contains(event.target)) {
             dropdownContent.style.display = 'none';
         }
+    });
+
+    document.querySelector('.notificacao').addEventListener('click', function () {
+        const modalAlertas = document.querySelector('.modalAlertas');
+        modalAlertas.style.display = modalAlertas.style.display === 'block' ? 'none' : 'block';
     });
 
     function modalColaborador() {

@@ -160,6 +160,29 @@ ul a:hover {
   height: 70%;
 }
 
+.modalAlertas {
+  display: none;
+  position: absolute;
+  top: 12%;
+  left: 83.5%;
+  width: 15%;
+  height: 60%;
+  z-index: 1;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.msg {
+  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid blue;
+}
+
 .sair:hover {
   transform: translateY(-2px);
   transition: 0.4s;
@@ -227,6 +250,7 @@ button {
   background: #24284B;
   color: white;
 }
+
 
 .modal {
   display: flex;
