@@ -133,20 +133,38 @@
             .then(json => {
                 let nome_mes = [];
                 let qtd_alerta = [];
+                let somaPorMes = {};
 
-                let dadosFiltrados = [];
+                for (let i = 0; i < json.length; i++) {
+                    if (tipoAlerta === "todos" || json[i].tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase()) {
+                        let mes = json[i].mes_formatado;
 
-                for (let i = json.length - qtdMeses; i < json.length; i++) {
-                    let item = json[i];
-                    if (item && (tipoAlerta === "todos" || item.tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase()) && !nome_mes.includes(item.mes_formatado)) {
-                        nome_mes.push(item.mes_formatado);
-                        qtd_alerta.push(item.quantidade_alertas);
+                        if (!somaPorMes[mes]) {
+                            somaPorMes[mes] = 0;
+                        }
+
+                        somaPorMes[mes] += json[i].quantidade_alertas;
                     }
-
-                    
-
                 }
 
+                let todosMeses = [];
+                for (let i = 0; i < json.length; i++) {
+                    let mes = json[i].mes_formatado;
+                    if (somaPorMes[mes] && !todosMeses.includes(mes)) {
+                        todosMeses.push(mes);
+                    }
+                }
+
+                let inicio = 0;
+                if (todosMeses.length > qtdMeses) {
+                    inicio = todosMeses.length - qtdMeses;
+                }
+
+                for (let i = inicio; i < todosMeses.length; i++) {
+                    let mes = todosMeses[i];
+                    nome_mes.push(mes);
+                    qtd_alerta.push(somaPorMes[mes]);
+                }
                 if (chartDisc) chartDisc.destroy();
 
                 const ctxDisc = document.getElementById('chartDisc');
