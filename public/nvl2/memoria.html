@@ -138,10 +138,13 @@
 
                 for (let i = json.length - qtdMeses; i < json.length; i++) {
                     let item = json[i];
-                    if (item && (tipoAlerta === "todos" || item.tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase())) {
+                    if (item && (tipoAlerta === "todos" || item.tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase()) && !nome_mes.includes(item.mes_formatado)) {
                         nome_mes.push(item.mes_formatado);
                         qtd_alerta.push(item.quantidade_alertas);
                     }
+
+                    
+
                 }
 
                 if (chartDisc) chartDisc.destroy();
@@ -184,13 +187,14 @@
         fetch(`/alertasMemoria/qtdAlertaP?idEmpresa=${idEmpresa}`)
             .then(res => res.json())
             .then(json => {
-                let meses = []
-                let manha = []
-                let tarde = []
-                let noite = []
+                let meses = [];
+                let manha = [];
+                let tarde = [];
+                let noite = [];
+
+
 
                 for (let i = 0; i < json.length; i++) {
-
                     if ((tipoAlerta === "todos" || json[i].tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase())
                         && !meses.includes(json[i].mes_formatado)) {
                         meses.push(json[i].mes_formatado);
@@ -200,9 +204,9 @@
                 meses = meses.slice(-qtdMeses);
 
                 for (let i = 0; i < meses.length; i++) {
-                    let qtdManha = 0
-                    let qtdTarde = 0
-                    let qtdNoite = 0
+                    let qtdManha = 0;
+                    let qtdTarde = 0;
+                    let qtdNoite = 0;
 
                     for (let j = 0; j < json.length; j++) {
 
@@ -211,13 +215,11 @@
                             (tipoAlerta === "todos" || json[j].tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase())
                         ) {
                             if (json[j].periodo_dia === 'Manhã') {
-                                qtdManha += json[j].quantidade_alertas
-                            }
-                            else if (json[j].periodo_dia === 'Tarde') {
-                                qtdTarde += json[j].quantidade_alertas
-                            }
-                            else if (json[j].periodo_dia === 'Noite') {
-                                qtdNoite += json[j].quantidade_alertas
+                                qtdManha += json[j].quantidade_alertas;
+                            } else if (json[j].periodo_dia === 'Tarde') {
+                                qtdTarde += json[j].quantidade_alertas;
+                            } else if (json[j].periodo_dia === 'Noite') {
+                                qtdNoite += json[j].quantidade_alertas;
                             }
                         }
                     }
@@ -226,6 +228,19 @@
                     tarde.push(qtdTarde);
                     noite.push(qtdNoite);
                 }
+
+                let totalManha = manha.reduce((soma, atual) => soma + atual, 0);
+                let totalTarde = tarde.reduce((soma, atual) => soma + atual, 0);
+                let totalNoite = noite.reduce((soma, atual) => soma + atual, 0);
+
+                if (totalManha > totalTarde && totalManha > totalNoite) {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Manhã";
+                } else if (totalNoite > totalTarde && totalNoite > totalManha) {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Noite";
+                } else if (totalTarde > totalNoite && totalTarde > totalManha) {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Tarde";
+                }
+
 
                 if (chartPeriodo) chartPeriodo.destroy();
 
@@ -347,5 +362,5 @@
             carregarGraficos(tipoAlerta, qtdMeses);
         });
     };
-    
+
 </script>
