@@ -86,15 +86,6 @@ function cadastrarAlerta(req, res) {
     return res.status(400).json({ "mensagem": 'Dados do alerta são obrigatórios' });
   }
 
-  /*
-  {
-    dadoCaptura: undefined,
-    dataHora: undefined,
-    fkConfiguracaoMonitoramento: undefined,
-    nivel: undefined
-  }
-  */
-
   const dados = req.body;
 
   monitoramentoModel.cadastrarAlerta(dados.fkConfiguracaoMonitoramento, dados.nivel, dados.dataHora, dados.dadoCaptura).then((resultado) => {
@@ -106,25 +97,19 @@ function cadastrarProcessos(req, res) {
   if (!req.body) {
     return res.status(400).json({ "mensagem": 'Dados do processo são obrigatórios' });
   }
-  
-  /*
-  {
-    idServidor: undefined,
-    dataHora: undefined,
-    processos: []
-  }
-  */
+
   let idServidor = req.body.idServidor;
   let processos = req.body.processos;
   let dataHora = req.body.dataHora;
+  let idAlerta = req.body.idAlerta;
 
   console.log("processos", processos);
 
   processos.forEach((processo) => {
-    monitoramentoModel.cadastrarProcesso(processo.nome, processo["uso_cpu"], processo["uso_gpu"], processo["uso_ram"], idServidor, dataHora).then(() => {});
+    monitoramentoModel.cadastrarProcesso(processo.nome, processo["uso_cpu"], processo["uso_gpu"], processo["uso_ram"], idServidor, dataHora, fkAlerta).then(() => {});
   });
 
-  res.status(200).json({ "mensagem": "Processos cadastrados com sucesso" });
+  res.status(200).json({"mensagem": "Processos cadastrados com sucesso" });
 }
 
 function listagemServidores(req, res){

@@ -40,9 +40,9 @@ function cadastrarAlerta(fkConfiguracaoMonitoramento, nivel, dataHora, valor){
     return database.executar(instrucaoSql);
 }
 
-function cadastrarProcesso(nome, usoCpu, usoGpu, usoRam, fkServidor, dataHora){
+function cadastrarProcesso(nome, usoCpu, usoGpu, usoRam, fkServidor, dataHora, fkAlerta){
     var instrucaoSql = `
-    INSERT INTO Processo(nomeProcesso, usoCpu, usoGpu, usoRam, fkServidor, dataHora) VALUES ('${nome}', ${usoCpu}, ${usoGpu}, ${usoRam}, ${fkServidor}, '${dataHora}');`;
+    INSERT INTO Processo(nomeProcesso, usoCpu, usoGpu, usoRam, fkServidor, dataHora, fkAlerta) VALUES ('${nome}', ${usoCpu}, ${usoGpu}, ${usoRam}, ${fkServidor}, '${dataHora}', ${fkAlerta});`;
 
     return database.executar(instrucaoSql);
 }
