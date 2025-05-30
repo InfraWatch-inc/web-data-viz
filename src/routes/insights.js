@@ -3,7 +3,7 @@ var router = express.Router();
 
 var insightsController = require("../controllers/insightsController");
 
-router.get("/alertasComponentes", function (req, res) {
+router.get("/alertasComponentes/:periodo", function (req, res) {
     insightsController.getAlertasComponentes(req, res);
 });
 

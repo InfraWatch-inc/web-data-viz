@@ -1,15 +1,17 @@
 var insightsModel = require("../models/insightsModel");
 
 function getAlertasComponentes(req, res) {
+    let periodo = req.params.periodo;
 
-    insightsModel.alertasComponentes()
-    .then(function (resultado) {
-        res.status(200).json(resultado) 
-    }).catch(function (erro) {
-        console.log(erro);
-        console.log("Houve um erro ao buscar os insightss: ", erro.sqlMessage);
-        res.status(500).json(erro.sqlMessage);
-    });
+    insightsModel.getAlertasComponentes(periodo)
+    .then((resposta) =>{
+        console.log(resposta);
+    })
+    .catch(()=>{
+        res.status(200).send({"message":"Deu erro"})
+    })
+
+    res.status(200).send({"message":"Funcionou"})
 }
 
 async function postDadosProcessos(req, res){ 
@@ -45,7 +47,6 @@ async function postDadosProcessos(req, res){
     await insightsModel.postAlertasProcessos(idEmpresa, dataInicial, dataFinal)
     .then((resposta) => {
         data.dadosProcessosAlertas = resposta[0][0].dadosProcessosAlertas;
-;
     })
     .catch((error) => {
         isError = true
