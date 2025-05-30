@@ -137,7 +137,6 @@ function coletarDados() {
 
     tituloDash.innerText = textoTitulo +":";
 
-    // 🔄 Fetch para o backend
     fetch(`/insights/processos/${sessionStorage.ID_EMPRESA}`, {
         method: 'POST',
         headers: {

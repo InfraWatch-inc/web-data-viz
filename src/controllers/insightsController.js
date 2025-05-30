@@ -12,12 +12,11 @@ function getAlertasComponentes(req, res) {
     });
 }
 
-function postDadosProcessos(req, res){
-    // TODO 
+function postDadosProcessos(req, res){ 
     let idEmpresa = req.params.idEmpresa;
 
-    let dataInicial = req.body.dtInicial;
-    let dataFinal = req.body.dtFinal;
+    let dataInicial = req.body.dataInicial;
+    let dataFinal = req.body.dataFinal;
 
     insightsModel.postKpisProcessos(idEmpresa, dataInicial, dataFinal)
     .then((resposta) => {
@@ -47,8 +46,5 @@ function postDadosProcessos(req, res){
 
 module.exports = {
     getAlertasComponentes,
-    // postInsightsComponente,
-    arrumarCondicao,
-    arrumarContexto,
     postDadosProcessos
 }

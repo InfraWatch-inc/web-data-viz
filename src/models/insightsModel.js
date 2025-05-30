@@ -45,7 +45,6 @@ module.exports = {
     graficoAlertas,
     processosInsights,
     alertasComponentes,
-    postDadosProcessos,
     postKpisProcessos,
     postAlertasProcessos,
     postConsumoProcessos
