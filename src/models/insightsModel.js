@@ -19,7 +19,7 @@ function processosInsights(condicao){
 }
 
 function getAlertasComponentes(periodo, idEmpresa){
-    const QUERY = `SELECT * FROM viewPrimeiroInsights WHERE dataHora > DATE_SUB(NOW(), INTERVAL ${periodo} MONTH) AND idEmpresa = ${idEmpresa};`;
+    const QUERY = `SELECT * FROM viewPrimeiroInsights WHERE dataHora > DATE_SUB(NOW(), INTERVAL ${periodo}) AND idEmpresa = ${idEmpresa};`;
     return database.executar(QUERY);
 }
 

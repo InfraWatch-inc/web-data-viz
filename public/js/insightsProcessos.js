@@ -161,41 +161,6 @@ function coletarDados() {
     .catch(error => {
         console.error('Erro ao buscar dados:', error);
         alert('Falha ao buscar dados do dashboard.');
-
-        const dadosMocados = {
-            processoMaisCritico: 'Blender',
-            processoMaisAtencao: 'Maya',
-            componenteMaisConsumido: 'CPU',
-            dadosProcessosAlertas: [
-                { nome: 'Blender', alertasAtencao: 13, alertasCritico: 23 },
-                { nome: 'Maya', alertasAtencao: 14, alertasCritico: 8 },
-                { nome: 'After Effects', alertasAtencao: 14, alertasCritico: 7 },
-                { nome: 'Unity', alertasAtencao: 13, alertasCritico: 6 },
-                { nome: 'DaVinci', alertasAtencao: 6, alertasCritico: 1 }
-            ],
-            dadosProcessosConsumo: {
-                cpu: [
-                    { nome: 'Blender', manha: 28, tarde: 58, noite: 82 },
-                    { nome: 'Maya', manha: 26, tarde: 33, noite: 60 },
-                    { nome: 'AfterEffects', manha: 38, tarde: 27, noite: 53 },
-                    { nome: 'Unity', manha: 38, tarde: 32, noite: 22 },
-                    { nome: 'DaVinci', manha: 14, tarde: 13, noite: 15 }
-                ],
-                gpu: [
-                    { nome: 'Blender', manha: 34, tarde: 52, noite: 92 },
-                    { nome: 'AfterEffects', manha: 22, tarde: 25, noite: 38 },
-                    { nome: 'Unity', manha: 41, tarde: 48, noite: 49 }
-                ],
-                ram: [
-                    { nome: 'Maya', manha: 30, tarde: 20, noite: 10 },
-                    { nome: 'Blender', manha: 20, tarde: 30, noite: 10 },
-                    { nome: 'DaVinci', manha: 10, tarde: 5, noite: 1 },
-                    { nome: 'AfterEffects', manha: 5, tarde: 25, noite: 38 },
-                    { nome: 'Unity', manha: 1, tarde: 48, noite: 49 }
-                ]
-            }
-        };
-        organizarDados(dadosMocados);
     });
 }
 
