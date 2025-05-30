@@ -18,7 +18,11 @@ router.post("/cadastrar/dados/:idServidor", function (req, res) {
 
 router.get("/coletar/dados/:idServidor", function (req, res) {
     monitoramentoController.getCapturas(req, res);
-}); 
+});
+
+router.get("/coletar/dados", function (req, res) {
+    monitoramentoController.getTodosServidores(req, res);
+});
 
 router.post("/cadastrar/alerta", function (req, res) {
     monitoramentoController.cadastrarAlerta(req, res);
@@ -36,8 +40,5 @@ router.post("/cadastrar/chamado", function (req, res) {
     monitoramentoController.abrirChamado(req, res);
 })
 
-router.post("/listagemGeral/0", function (req, res) {
-    monitoramentoController.listagemGeral(req, res);
-})
 
 module.exports = router;

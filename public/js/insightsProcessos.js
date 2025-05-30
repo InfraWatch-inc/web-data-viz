@@ -137,7 +137,6 @@ function coletarDados() {
 
     tituloDash.innerText = textoTitulo +":";
 
-    // 🔄 Fetch para o backend
     fetch(`/insights/processos/${sessionStorage.ID_EMPRESA}`, {
         method: 'POST',
         headers: {
@@ -156,7 +155,7 @@ function coletarDados() {
     })
     .then(dados => {
         // todo substituir dados depois
-        
+        console.log(dados);
         organizarDados(dados);
     })
     .catch(error => {
@@ -176,23 +175,23 @@ function coletarDados() {
             ],
             dadosProcessosConsumo: {
                 cpu: [
-                    { nome: 'Blender', capturaManha: 28, capturaTarde: 58, capturaNoite: 82 },
-                    { nome: 'Maya', capturaManha: 26, capturaTarde: 33, capturaNoite: 60 },
-                    { nome: 'AfterEffects', capturaManha: 38, capturaTarde: 27, capturaNoite: 53 },
-                    { nome: 'Unity', capturaManha: 38, capturaTarde: 32, capturaNoite: 22 },
-                    { nome: 'DaVinci', capturaManha: 14, capturaTarde: 13, capturaNoite: 15 }
+                    { nome: 'Blender', manha: 28, tarde: 58, noite: 82 },
+                    { nome: 'Maya', manha: 26, tarde: 33, noite: 60 },
+                    { nome: 'AfterEffects', manha: 38, tarde: 27, noite: 53 },
+                    { nome: 'Unity', manha: 38, tarde: 32, noite: 22 },
+                    { nome: 'DaVinci', manha: 14, tarde: 13, noite: 15 }
                 ],
                 gpu: [
-                    { nome: 'Blender', capturaManha: 34, capturaTarde: 52, capturaNoite: 92 },
-                    { nome: 'AfterEffects', capturaManha: 22, capturaTarde: 25, capturaNoite: 38 },
-                    { nome: 'Unity', capturaManha: 41, capturaTarde: 48, capturaNoite: 49 }
+                    { nome: 'Blender', manha: 34, tarde: 52, noite: 92 },
+                    { nome: 'AfterEffects', manha: 22, tarde: 25, noite: 38 },
+                    { nome: 'Unity', manha: 41, tarde: 48, noite: 49 }
                 ],
                 ram: [
-                    { nome: 'Maya', capturaManha: 30, capturaTarde: 20, capturaNoite: 10 },
-                    { nome: 'Blender', capturaManha: 20, capturaTarde: 30, capturaNoite: 10 },
-                    { nome: 'DaVinci', capturaManha: 10, capturaTarde: 5, capturaNoite: 1 },
-                    { nome: 'AfterEffects', capturaManha: 5, capturaTarde: 25, capturaNoite: 38 },
-                    { nome: 'Unity', capturaManha: 1, capturaTarde: 48, capturaNoite: 49 }
+                    { nome: 'Maya', manha: 30, tarde: 20, noite: 10 },
+                    { nome: 'Blender', manha: 20, tarde: 30, noite: 10 },
+                    { nome: 'DaVinci', manha: 10, tarde: 5, noite: 1 },
+                    { nome: 'AfterEffects', manha: 5, tarde: 25, noite: 38 },
+                    { nome: 'Unity', manha: 1, tarde: 48, noite: 49 }
                 ]
             }
         };
@@ -215,23 +214,23 @@ function organizarDados(dados){
 
     dados.dadosProcessosConsumo.gpu.forEach((processo) => {
         dadosDash.consumoProcessos.gpu.processos.push(processo.nome);
-        dadosDash.consumoProcessos.gpu.dados.manha.push(processo.capturaManha);
-        dadosDash.consumoProcessos.gpu.dados.tarde.push(processo.capturaTarde);
-        dadosDash.consumoProcessos.gpu.dados.noite.push(processo.capturaNoite);
+        dadosDash.consumoProcessos.gpu.dados.manha.push(processo.manha);
+        dadosDash.consumoProcessos.gpu.dados.tarde.push(processo.tarde);
+        dadosDash.consumoProcessos.gpu.dados.noite.push(processo.noite);
     });
     
     dados.dadosProcessosConsumo.cpu.forEach((processo) => {
         dadosDash.consumoProcessos.cpu.processos.push(processo.nome);
-        dadosDash.consumoProcessos.cpu.dados.manha.push(processo.capturaManha);
-        dadosDash.consumoProcessos.cpu.dados.tarde.push(processo.capturaTarde);
-        dadosDash.consumoProcessos.cpu.dados.noite.push(processo.capturaNoite);
+        dadosDash.consumoProcessos.cpu.dados.manha.push(processo.manha);
+        dadosDash.consumoProcessos.cpu.dados.tarde.push(processo.tarde);
+        dadosDash.consumoProcessos.cpu.dados.noite.push(processo.noite);
     });
 
     dados.dadosProcessosConsumo.ram.forEach((processo) => {
         dadosDash.consumoProcessos.ram.processos.push(processo.nome);
-        dadosDash.consumoProcessos.ram.dados.manha.push(processo.capturaManha);
-        dadosDash.consumoProcessos.ram.dados.tarde.push(processo.capturaTarde);
-        dadosDash.consumoProcessos.ram.dados.noite.push(processo.capturaNoite);
+        dadosDash.consumoProcessos.ram.dados.manha.push(processo.manha);
+        dadosDash.consumoProcessos.ram.dados.tarde.push(processo.tarde);
+        dadosDash.consumoProcessos.ram.dados.noite.push(processo.noite);
     });   
 
     atualizarFront(); 
@@ -346,9 +345,9 @@ function carregarGraficoConsumoProcessos(componente, processos, dadosConsumo){
             plugins: {
                 title: {
                     display: true,
-                    text: `Processos que mais Consumem ${componente} por Período`,
+                    text: `Processos que mais Consumem ${componente.toUpperCase()} por Período em Porcentagem (%)`,
                     font: {
-                        size: 18,
+                        size: 19,
                         weight: 'bold'
                     }
                 },
@@ -403,7 +402,7 @@ function carregarGraficoAlertasProcessos(processos, dadoAlertas){
             plugins: {
                 title: {
                     display: true,
-                    text: 'Processos com mais Alertas',
+                    text: 'Processos com mais Alertas Críticos e Moderados',
                     font: {
                         size: 18,
                         weight: 'bold'

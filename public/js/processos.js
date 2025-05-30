@@ -3,7 +3,7 @@ let dadosObjeto;
 async function carregarDados(){
     // let idServidor = req.params.idServidor;
     try{
-        const resposta = await fetch(`http://127.0.0.1:8000/monitoramento/coletar/dados/3`);
+        const resposta = await fetch(`http://127.0.0.1:8000/monitoramento/coletar/dados/1`);
         
         if(!resposta.ok){
             console.error("Erro no fecth");

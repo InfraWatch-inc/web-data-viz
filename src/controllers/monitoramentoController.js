@@ -1,7 +1,6 @@
 // const { result } = require("lodash");
 var monitoramentoModel = require("../models/monitoramentoModel");
 
-listagem = {};
 monitoramento = {};
 
 function getCapturas(req, res) {
@@ -161,11 +160,16 @@ function abrirChamado(req, res){
   monitoramentoModel.abrirChamado(info.idAlerta, info.idServidor,info.nivel, info.dataHora, info.componente, info.metrica, info.valor).then(resultado =>{
     res.status(200).json(resultado);
   })
-} 
-
-function listagemGeral(req, res) {
-  
 }
+
+function getTodosServidores(req, res){
+  if(Object.keys(monitoramento).length == 0){
+    return res.status(404).json({"mensagem": "Nenhum servidor monitorado"})
+  }
+  return res.status(200).json(monitoramento);
+
+}
+
 
 module.exports = {
   buscarDados,
@@ -177,5 +181,5 @@ module.exports = {
   listagemServidores,
   abrirChamado,
   buscarDadosComponente,
-  listagemGeral
+  getTodosServidores
 };

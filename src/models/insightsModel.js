@@ -18,33 +18,31 @@ function processosInsights(condicao){
     return database.executar(instrucaoSql);
 }
 
-function alertasComponentes(condicao){
-    // TODO
-    var instrucaoSql = `SELECT * FROM viewPrimeiroInsights WHERE ${condicao};`;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+function getAlertasComponentes(periodo, idEmpresa){
+    const QUERY = `SELECT * FROM viewPrimeiroInsights WHERE dataHora > DATE_SUB(NOW(), INTERVAL ${periodo} MONTH) AND idEmpresa = ${idEmpresa};`;
+    return database.executar(QUERY);
 }
 
 function postKpisProcessos(idEmpresa, dtInicial, dtFinal){
-    const QUERY_SQL = `CALL prDashboardKPIs('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
-    return database.executar(QUERY_SQL);
+    const QUERY = `CALL prDashboardKPIs('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
+    return database.executar(QUERY);
 }
 
 function postAlertasProcessos(idEmpresa, dtInicial, dtFinal){
-    const QUERY_SQL = `CALL prDashboardAlertasJSON('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
-    return database.executar(QUERY_SQL);
+    const QUERY = `CALL prDashboardAlertasJSON('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
+    return database.executar(QUERY);
 }
 
 function postConsumoProcessos(idEmpresa, dtInicial, dtFinal){
-    const QUERY_SQL = `CALL prDashboardConsumoSimples('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
-    return database.executar(QUERY_SQL);
+    const QUERY = `CALL prDashboardConsumoSimples('${dtInicial}', '${dtFinal}', ${idEmpresa});`;
+    return database.executar(QUERY);
 }
 
 module.exports = {
     kpiInsights,
     graficoAlertas,
     processosInsights,
-    alertasComponentes,
+    getAlertasComponentes,
     postKpisProcessos,
     postAlertasProcessos,
     postConsumoProcessos

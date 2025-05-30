@@ -65,7 +65,10 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
         "Ana Souza",
         "Pedro Lima",
         "Mariana Costa",
-        "Lucas Rocha"
+        "Lucas Rocha",
+        "Kevin Santos",
+        "Raissa Silva",
+        "Italo Monteiro"
     ];
 
     let operador_responsavel = operadores[Math.floor(Math.random() * operadores.length)];

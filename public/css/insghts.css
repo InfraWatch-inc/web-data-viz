@@ -1,6 +1,5 @@
 * {
   font-family: Sora;
-  color: #1f2937;
   margin: 0;
   padding: 0;
   text-decoration: none;
@@ -45,8 +44,8 @@ ul {
 ul a {
   font-size: 1.8rem;
   word-spacing: 0.2rem;
-  color: #374151;
   transition: 0.4s;
+  color: #6B7280;
 }
 
 ul a:hover {
@@ -96,7 +95,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100vw;
+  width: 96.5%;
   height: 90vh;
 }
 
@@ -189,8 +188,13 @@ main a:hover {
   /* border: 1px solid; */
 }
 
+span{
+  color: #374151;
+}
+
 .alerta_kpi span {
   font-size: 14px;
+  color: #374151;
 }
 
 .titulo_kpi {
@@ -207,6 +211,10 @@ select {
   border: #c5c5c5 2px solid;
   cursor: pointer;
   margin-top: 50px;
+}
+
+.selecionado{
+  color: #374151 !important;
 }
 
 @media screen and (min-width: 1024px) {
@@ -246,7 +254,6 @@ select {
   ul a {
     font-size: 1.8rem;
     word-spacing: 0.2rem;
-    color: #374151;
   }
 
   .user_div {
@@ -285,7 +292,7 @@ select {
   main {
     display: flex;
     flex-direction: row;
-    width: 100vw;
+    width: 96.5%;
     height: 70vh;
   }
 
@@ -372,4 +379,9 @@ select {
     cursor: pointer;
     margin-top: 50px;
   }
+
+  .selecionado{
+    color: #374151;
+  }
 }
+

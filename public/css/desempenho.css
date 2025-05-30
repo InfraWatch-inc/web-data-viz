@@ -157,12 +157,12 @@ table {
 
 
 
-.status-critico {
+.alerta-critico {
   color: #CD3030;
   font-weight: 500;
 }
 
-.status-moderado {
+.alerta-moderado {
   color: #FFA100;
   font-weight: 500;
 }
@@ -245,6 +245,8 @@ font-size: 20px;
   height: 91%;
   padding: 15px;
   font-size: 20px;
+  overflow-y: auto;  
+overflow-x: hidden; 
   
 }
 
