@@ -117,13 +117,19 @@ ul a:hover {
   align-items: center;
   justify-content: end;
 
-  /* & span {
-    width: 0.5%;
-   
-  } */
-
-  
 }
+
+#countAlerta {
+  position: absolute;
+    width: 0.5%;
+    height: 2%;
+    right: 13.1%;
+    top: 7.4%;
+    font-size: 1.4rem;
+    font-weight: 500;;
+    color: red;
+    /* border: 1px solid red; */
+  }
 
 .sair {
     text-align: start;
