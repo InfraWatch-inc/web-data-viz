@@ -148,7 +148,7 @@
           </div>
         </div>
 
-        <table>
+        <table id="lista-desempenho">
           <thead>
             <tr>
               <th>Operador</th>
@@ -157,33 +157,33 @@
               <th>Com Atraso</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="lista-desempenho-body">
             <tr>
-              <td>Matheus Diniz</td>
-              <td>17</td>
-              <td class="red-text">12</td>
-              <td class="red-text">6</td>
+              <td></td>
+              <td></td>
+              <td class="red-text"></td>
+              <td class="red-text"></td>
             </tr>
             <tr>
-              <td>Hugo Carvalho</td>
-              <td>15</td>
-              <td class="red-text">10</td>
-              <td class="red-text">5</td>
+              <td></td>
+              <td></td>
+              <td class="red-text"></td>
+              <td class="red-text"></td>
 
 
             </tr>
             <tr>
-              <td>Grigor Mascarenhas</td>
-              <td>7</td>
-              <td>5</td>
-              <td class="red-text">3</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="red-text"></td>
 
             </tr>
             <tr>
-              <td>Jonathan Calleri</td>
-              <td>4</td>
-              <td>4</td>
-              <td>1</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
 
           </tbody>
@@ -201,135 +201,201 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 
-  window.onload = function () {
-    const ctx = document.getElementById('meuGrafico').getContext('2d');
-    const meuGrafico = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['HD', 'Disco', 'GPU', 'CPU', 'RAM'],
-        datasets: [
-          {
-            label: 'Crítico',
-            data: [15, 40, 95, 50, 30],
-            backgroundColor: 'rgba(	205, 48, 48)',
-            borderRadius: 6,
-            barThickness: 25
-          },
-          {
-            label: 'Moderado',
-            data: [10, 35, 55, 53, 55],
-            backgroundColor: 'rgba(255, 161, 0)',
-            borderRadius: 6,
-            barThickness: 25
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 10,
-            bottom: 10,
-            left: 0,
-            right: 0
-          }
-        },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'right',
-            labels: {
-              usePointStyle: true,
-              padding: 20
-            }
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false
-          }
-        },
-        scales: {
-          x: {
-            title: {
-              display: true,
-              text: 'Componentes'
-            },
-            grid: {
-              display: false
-            }
-          },
-          y: {
-            title: {
-              display: true,
-              text: 'Quantidade de Chamados'
-            },
-            beginAtZero: true,
-            grid: {
-              color: '#e0e0e0'
-            }
-          }
+    let meuGrafico = null;
+
+function carregar() {
+  nome_usuario.innerHTML = sessionStorage.NOME_USUARIO || "Usuário";
+  receberChamado();
+  listaDesempenho();
+}
+
+// LISTA DE CHAMADOS ABERTOS
+    async function receberChamado() {
+      try {
+        const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
+
+        if (!resposta.ok) {
+          console.error(`Erro na resposta: ${resposta.status}`);
+          return;
         }
+
+        const dados = await resposta.json();
+        const tbody = document.querySelector("#ranking-alertas tbody");
+        if (!tbody) {
+          console.error(" Não foi possível encontrar o tbody da tabela!");
+          return;
+        }
+
+        dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
+        tbody.innerHTML = "";
+
+        dados.forEach(entrada => {
+          let classeLinha = "";
+          const tipo = (entrada.tipo_alerta || "").toLowerCase();
+
+          if (tipo === "critico") {
+            classeLinha = "alerta-critico";
+          } else if (tipo === "moderado") {
+            classeLinha = "alerta-moderado";
+          }
+
+          const tempoFormatado = entrada.minutos_aberto > 120
+            ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
+            : `<td>${entrada.minutos_aberto}</td>`;
+
+          const linha = `
+            <tr class="${classeLinha}">
+              <td>${entrada.servidor}</td>
+              <td>${entrada.componente}</td>
+              ${tempoFormatado}
+              <td>${entrada.tipo_alerta}</td>
+              <td>${entrada.operador_responsavel}</td>
+            </tr>`;
+          tbody.innerHTML += linha;
+        });
+      atualizarGraficoComDados(dados);
+
+  } catch (erro) {
+    console.error(" Erro ao buscar os dados:", erro);
+  }
+}
+
+// 
+function atualizarGraficoComDados(dados) {
+  const componentes = [...new Set(dados.map(d => d.componente))];
+  const criticoCounts = componentes.map(() => 0);
+  const moderadoCounts = componentes.map(() => 0);
+
+  dados.forEach(chamado => {
+    const idx = componentes.indexOf(chamado.componente);
+    if (idx >= 0) {
+      if ((chamado.tipo_alerta || "").toLowerCase() === "critico") {
+        criticoCounts[idx]++;
+      } else if ((chamado.tipo_alerta || "").toLowerCase() === "moderado") {
+        moderadoCounts[idx]++;
       }
-    });
-  };
+    }
+  });
 
+  if (meuGrafico) {
+    if (meuGrafico.data && meuGrafico.data.labels && meuGrafico.data.datasets) {
+      meuGrafico.data.labels = componentes;
+      meuGrafico.data.datasets[0].data = criticoCounts;
+      meuGrafico.data.datasets[1].data = moderadoCounts;
+      meuGrafico.update();
+    } else {
+      console.warn("⚠️ meuGrafico está incompleto, recriando...");
+      meuGrafico.destroy();
+      meuGrafico = null;
+      criarGrafico(componentes, criticoCounts, moderadoCounts);
+    }
+  } else {
+    criarGrafico(componentes, criticoCounts, moderadoCounts);
+  }
+}
 
-  nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-  let info;
+function criarGrafico(componentes, criticoCounts, moderadoCounts) {
+  const ctx = document.getElementById("meuGrafico").getContext("2d");
+  meuGrafico = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: componentes,
+      datasets: [
+        {
+          label: "Crítico",
+          data: criticoCounts,
+          backgroundColor: "rgba(205, 48, 48)",
+          borderRadius: 6,
+          barThickness: 25,
+        },
+        {
+          label: "Moderado",
+          data: moderadoCounts,
+          backgroundColor: "rgba(255, 161, 0)",
+          borderRadius: 6,
+          barThickness: 25,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: { top: 10, bottom: 10, left: 0, right: 0 },
+      },
+      plugins: {
+        legend: {
+          display: true,
+          position: "right",
+          labels: { usePointStyle: true, padding: 20 },
+        },
+        tooltip: { mode: "index", intersect: false },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: "Componentes" },
+          grid: { display: false },
+        },
+        y: {
+          title: { display: true, text: "Quantidade de Chamados" },
+          beginAtZero: true,
+          grid: { color: "#e0e0e0" },
+        },
+      },
+    },
+  });
+}
 
-async function receberChamado() {
+//LISTA DESEMPENHO
+async function listaDesempenho() {
   try {
     const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
 
     if (!resposta.ok) {
-      console.error(`Erro na resposta: ${resposta.status}`);
+      console.error(` Erro na resposta: ${resposta.status}`);
       return;
     }
 
     const dados = await resposta.json();
-    console.log("✅ Dados recebidos:", dados);
-
-   
-      const tbody = document.querySelector("#ranking-alertas tbody");
-      
-      console.log("coco xixi bunda");
+    const tbody = document.querySelector("#lista-desempenho-body");
 
     if (!tbody) {
-      console.error("❌ Não foi possível encontrar o tbody da tabela!");
+      console.error(" Não foi possível encontrar o tbody da tabela!");
       return;
     }
-        tbody.innerHTML = "";
-      dados.forEach(entrada => {
-     let classeLinha = "";
 
-  switch ((entrada.tipo_alerta || "").toLowerCase()) {
-    case "Critico":
-      classeLinha = "alerta-critico";
-      break;
-    case "Moderado":
-      classeLinha = "alerta-alerta";
-      break;
-  }
-        const linha = `
-        <tr class="${classeLinha}">
-          <td>${entrada.servidor}</td>
-          <td>${entrada.componente}</td>
-          <td>${entrada.data_hora}</td>
-          <td>${entrada.tipo_alerta}</td>
-          <td>${entrada.operador_responsavel}</td>
-        </tr>  
-        `;
-        tbody.innerHTML += linha;
-      });
+    // Contar atribuições por operador
+    const contagem = {};
+    dados.forEach(chamado => {
+      const operador = chamado.operador_responsavel; 
+      if (operador) {
+        contagem[operador] = (contagem[operador] || 0) + 1;
+      }
+    });
+
+    // Ordenar do mais chamado atribuído para o menosn
+    const ranking = Object.entries(contagem).sort((a, b) => b[1] - a[1]);
+
     
-  
-    
+    tbody.innerHTML = "";
+    ranking.forEach(([operador, atribuicoes]) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${operador}</td>
+        <td>${atribuicoes}</td>
+        <td class="red-text"></td>
+        <td class="red-text"></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
   } catch (erro) {
-    console.error("❌ Erro ao buscar os dados:", erro);
+    console.error(" Erro ao carregar a lista de desempenho:", erro);
   }
 }
-  
 
-  receberChamado()
+
+
+
+
 </script>
