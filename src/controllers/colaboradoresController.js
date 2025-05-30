@@ -38,6 +38,30 @@ function postAutenticar(req, res){
     }
 }
 
+function postAutenticarDoPython(req, res){
+    const email = req.params.email;
+    const senha = req.params.senha;
+
+    if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (senha == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else {
+        colaboradoresModel.postAutenticar(email, senha)
+        .then((resultado) => {
+            if (resultado.length > 0) {
+                res.json(resultado[0]);
+            } else {
+                res.status(403).send("Email e/ou senha inválidos.");
+            }
+        })
+        .catch((erro) => {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 function postColaborador(req, res) {
     if(!validarCampos(res, req.body)){
         return;
@@ -140,6 +164,7 @@ function deleteColaborador(req, res){
 
 module.exports = {
     postAutenticar,
+    postAutenticarDoPython,
     getColaboradores,
     getColaborador,
     postColaborador,

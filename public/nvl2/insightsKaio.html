@@ -330,6 +330,15 @@
                 // Separando quantidade de Alertas por mes dos componentes CPU e GPU por periodo
                 separarAlertasPorMesEComponenteNivelPorPeriodo(dados);
 
+                // Legendas para os graficos
+
+                if(escolhaTemporal == 3){
+                    var LegendaEixoX = 'Ultimos 3 meses'
+                } else {
+                   var LegendaEixoX = 'Ultimos 6 meses'
+                }
+
+
                 // Criando o gráfico de alertas por mês
 
                 var meses = Object.keys(resultadoPorMesComponenteNivel);
@@ -349,6 +358,34 @@
                     return cpuGrafico1 + gpuGrafico1; // soma CPU + GPU para nível 2 (Crítico)
                 });
 
+                var moderadoCPU = meses.map(mes => {
+                    var cpuLegenda = resultadoPorMesComponenteNivel[mes]?.CPU?.["1"] || 0;
+
+                    return cpuLegenda;
+                })
+
+                var moderadoGPU = meses.map(mes => {
+                    var gpuLegenda = resultadoPorMesComponenteNivel[mes]?.GPU?.["1"] || 0;
+
+                    return gpuLegenda;
+                })
+
+                var criticoCPU = meses.map(mes => {
+                    var cpuLegenda = resultadoPorMesComponenteNivel[mes]?.CPU?.[2] || 0;
+                    return cpuLegenda;
+                })
+
+                var criticoGPU = meses.map(mes => {
+                    var gpuLegenda = resultadoPorMesComponenteNivel[mes]?.GPU?.[2] || 0;
+                    return gpuLegenda;
+                })
+
+                console.log("QUANTIDADE CPU MODERADO", moderadoCPU)
+                console.log("QUANTIDADE GPU MODERADO", moderadoGPU)
+
+                console.log("QUANTIDADE CPU CRITICO", criticoCPU)
+                console.log("QUANTIDADE GPU CRITICO", criticoGPU    )
+
                 if (GraficoAlertas) {
                     GraficoAlertas.destroy();
                 }
@@ -364,13 +401,15 @@
                                 label: 'Moderado',
                                 data: moderado,
                                 backgroundColor: '#7e22ce', // roxo
-                                barThickness: 80
+                                borderRadius: 5,
+                                barThickness: 90
                             },
                             {
                                 label: 'Críticos',
                                 data: critico,
                                 backgroundColor: '#06b6d4', // azul claro
-                                barThickness: 80
+                                borderRadius: 5,
+                                barThickness: 90
                             }
                         ]
                     },
@@ -396,6 +435,24 @@
                                         size: 14
                                     }
                                 }
+                            },
+                            tooltip: {
+                              callbacks: {
+                                label: function(context) {
+
+                                const mesEspecificoBarra = context.dataIndex;
+                                const criticoOUmoderado = context.datasetIndex;
+
+                                if(criticoOUmoderado === 0){
+                                    return `Moderado - CPU: ${moderadoCPU[mesEspecificoBarra]} GPU: ${moderadoGPU[mesEspecificoBarra]}`;  
+                                } else if(criticoOUmoderado === 1){
+                                    return `Critico - CPU: ${criticoCPU[mesEspecificoBarra]} GPU: ${criticoGPU[mesEspecificoBarra]}`;
+                                }
+
+                                return ''
+
+                                }
+                              }
                             }
                         },
                         responsive: true,
@@ -404,7 +461,7 @@
                                 stacked: true,
                                 title: {
                                     display: true,
-                                    text: 'Meses do Ano',
+                                    text: LegendaEixoX,
                                     font: {
                                         size: 20
                                     }
@@ -427,7 +484,7 @@
                 });
 
                 // Criando o gráfico de alertas por período
-
+                //ESSES SÃO ALERTAS DA MANHÃ DE TODOS OS MESES, FALTA SEPARAR ESSE TOTAL POR MESES
                 var periodoManha = meses.map(mes => {
 
                     var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0;
@@ -436,19 +493,24 @@
                     var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0;
                     var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0;
 
-                    return cpuModerado + cpuCritico + gpuModerado + gpuCritico;
+                    return {mes,
+                        total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
+                    }
                 })
 
+                console.log("OLHA AQUI VIADO", resultadoPorMesComponenteNivelPorPeriodo)
 
                 var periodoTarde = meses.map(mes => {
 
                     var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0;
                     var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0;
 
-                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0;
-                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0;
+                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["1"] || 0;
+                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["2"] || 0;
 
-                    return cpuModerado + cpuCritico + gpuModerado + gpuCritico;
+                    return {mes,
+                        total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
+                    }
                 })
 
                 var periodoNoite = meses.map(mes => {
@@ -459,7 +521,9 @@
                     var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
                     var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
 
-                    return cpuModerado + cpuCritico + gpuModerado + gpuCritico;
+                    return {mes,
+                        total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
+                    }
                 })
 
                 console.log("Periodo Manhã:", periodoManha);
@@ -480,17 +544,20 @@
                             {
                                 label: 'Manhã',
                                 data: periodoManha,
-                                backgroundColor: '#33BFD4'
+                                borderRadius: 5,
+                                backgroundColor: '#2AACC5'
                             },
                             {
                                 label: 'Tarde',
                                 data: periodoTarde,
-                                backgroundColor: '#F76B3C'
+                                borderRadius: 5,
+                                backgroundColor: '#FF5F2F'
                             },
                             {
                                 label: 'Noite',
                                 data: periodoNoite,
-                                backgroundColor: '#003F4F'
+                                borderRadius: 5,
+                                backgroundColor: '#004755'
                             }
                         ]
                     },
@@ -505,6 +572,19 @@
                                     weight: 'bold'
                                 }
                             },
+                             tooltip: {
+                              callbacks: {
+                                label: function(context) {
+
+                                // const mesEspecificoBarra = context.dataIndex;
+                                // const criticoOUmoderado = context.datasetIndex;
+
+    
+                                //     return `CPU: ${moderado[mesEspecificoBarra]} GPU: ${critico[mesEspecificoBarra]}`;
+
+                                    }
+                              }
+                            }
                         },
                         scales: {
                             y: {
@@ -520,7 +600,7 @@
                             x: {
                                 title: {
                                     display: true,
-                                    text:'Ultimos 6 meses',
+                                    text:LegendaEixoX,
                                     font: {
                                         size: 20
                                     }
