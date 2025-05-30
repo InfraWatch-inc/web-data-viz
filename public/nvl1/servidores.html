@@ -137,7 +137,7 @@
 
             if (idEmpresa) {
                 try {
-                    fetch(`http://127.0.0.1:8000/monitoramento/listagem/${idEmpresa}`)
+                    fetch(`http://${APP_HOST}:${APP_PORT}/monitoramento/listagem/${idEmpresa}`)
                         .then(resposta => {
                             if (!resposta.ok) {
                                 console.log("Erro ao buscar os dados.");
@@ -166,7 +166,7 @@
                 console.log("ID da empresa não encontrado no sessionStorage.");
             }
 
-            fetch("http://127.0.0.1:8000/monitoramento/coletar/dados")
+            fetch(`http://${APP_HOST}:${APP_PORT}/monitoramento/coletar/dados`)
                 .then(resposta => {
                     if (!resposta.ok) throw new Error("Resposta não OK");
                     return resposta.json();
