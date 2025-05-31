@@ -1,3 +1,6 @@
+const itensPorPagina = 5;
+let paginaAtual = 1;
+
 let exemplo_objeto = [
     {
       "id": "#294",
@@ -96,5 +99,23 @@ async function getServidores(){
     organizarServidores(exemplo_objeto)
 } 
 
+
+
+function atualizarPaginacao(totalItens) {
+    const totalPaginas = Math.ceil(totalItens / itensPorPagina);
+    const paginacao = document.getElementById('paginacao');
+    paginacao.innerHTML = '';
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const botaoPagina = document.createElement('button');
+        botaoPagina.textContent = i;
+        botaoPagina.className = 'pagina';
+        botaoPagina.onclick = () => {
+            paginaAtual = i;
+            getServidores();
+        };
+        paginacao.appendChild(botaoPagina);
+    }
+}
 
   
