@@ -101,7 +101,7 @@ function cadastrarProcessos(req, res) {
   let idServidor = req.body.idServidor;
   let processos = req.body.processos;
   let dataHora = req.body.dataHora;
-  let idAlerta = req.body.idAlerta;
+  let fkAlerta = req.body.idAlerta;
 
   console.log("processos", processos);
 

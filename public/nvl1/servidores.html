@@ -153,7 +153,12 @@
                             servidores = data;
 
                             if (Array.isArray(servidores)) {
-                                listagemBody()
+                                renderizarTabelaComCabecalhos(); // Renderiza a tabela com os cabeçalhos corretos
+                                if (estadoComponentesAtual === 'cpu_gpu') {
+                                    listagemBodyCpuGpu(); // Chama a função específica para CPU/GPU
+                                } else if (estadoComponentesAtual === 'ram_disco') {
+                                    listagemBodyRamDisco(); // Chama a função específica para RAM/Disco
+                                }
                             } else {
                                 console.log("Servidor não encontrado.")
                             }
@@ -175,11 +180,17 @@
                 })
                 .then(data => {
                     console.log("Dados recebidos do Servidor: ", data);
-
-                    // Mantém os dados organizados por ID
                     geralServidores = data;
-
-                    listagemBody(); // Você terá que adaptar essa função para lidar com isso
+                    if (Array.isArray(servidores) && servidores.length > 0 && geralServidores) {
+                        renderizarTabelaComCabecalhos(); // Renderiza a tabela com os cabeçalhos corretos
+                        if (estadoComponentesAtual === 'cpu_gpu') {
+                            listagemBodyCpuGpu(); // Chama a função específica para CPU/GPU
+                        } else if (estadoComponentesAtual === 'ram_disco') {
+                            listagemBodyRamDisco(); // Chama a função específica para RAM/Disco
+                        }
+                    } else {
+                        corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Nenhum servidor encontrado.</td></tr>`;
+                    }
                 })
                 .catch(error => {
                     console.error("Erro ao obter os dados: ", error);
@@ -251,6 +262,38 @@
             body.appendChild(linha);
         });
     }
+
+    // Função que carrega o cabeçalho da tabela.
+function renderizarTabelaComCabecalhos() {
+    corpoTabela.innerHTML = ""; // Limpa o corpo da tabela antes de qualquer coisa
+
+    if (estadoComponentesAtual === 'cpu_gpu') {
+        tabelaHeadRow.innerHTML = `
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Núcleos</th>
+            <th>Threads</th>
+            <th>Qtd. GPU</th>
+            <th>Temp. GPU</th>
+            <th>Uso GPU</th>
+            <th>Uso CPU</th>
+        `;
+        if (servidores && geralServidores) listagemBodyCpuGpu();
+    } else if (estadoComponentesAtual === 'ram_disco') {
+        tabelaHeadRow.innerHTML = `
+            <th>ID</th>
+            <th>Nome</th>
+            <th>RAM Total (GB)</th>
+            <th>RAM Uso (GB)</th>
+            <th>RAM %</th>
+            <th>Disco Total (GB)</th>
+            <th>Disco Uso (GB)</th>
+            <th>Disco %</th>
+        `;
+        if (servidores && geralServidores) listagemBodyRamDisco();
+    }
+    atualizarVisibilidadeFiltros();
+}
 
     function atualizarTabela() {
 
