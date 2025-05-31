@@ -70,6 +70,33 @@ async function postServidor(req, res) {
     }
 }
 
+function postServidorPython(req, res){
+    const {
+        fkEmpresa,
+        tagName,
+        tipo,
+        uuid,
+        idInstancia,
+        status,
+        dtCadastro,
+        so,
+        fkEndereco
+    } = req.body;
+
+    console.log("Dados recebidos do python", req.body)
+
+     servidoresModel.postServidorPython(
+        tagName, tipo, uuid, idInstancia, status,
+        dtCadastro, so, fkEmpresa, fkEndereco
+    ).then(() => {
+        res.status(201).json({ mensagem: "Servidor cadastrado com sucesso!" });
+    }).catch((erro) => {
+        console.error("Erro ao cadastrar servidor:", erro);
+        res.status(500).json({ erro: "Erro ao cadastrar servidor" });
+    });
+    
+}
+
 function getServidores(req , res){
     let idEmpresa = req.params.idEmpresa;
     servidoresModel.getServidores(idEmpresa)
@@ -202,5 +229,6 @@ module.exports = {
     postServidor,
     putServidor,
     deleteServidor,
-    cadastrarServidor
+    cadastrarServidor,
+    postServidorPython
 };

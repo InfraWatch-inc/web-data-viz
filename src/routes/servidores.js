@@ -15,6 +15,10 @@ router.post("/cadastrar", function (req, res) {
     servidoresController.postServidor(req, res);
 });
 
+router.post("/cadastrarDoPython", function (req, res) { 
+    servidoresController.postServidorPython(req, res);
+});
+
 router.delete("/deletar/:id", function (req, res){
     servidoresController.deleteServidor(req, res);
 });

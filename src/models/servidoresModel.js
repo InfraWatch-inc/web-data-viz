@@ -8,6 +8,14 @@ function postServidor(idEmpresa, tagName, tipo, uuid, idInstancia, so, idEnderec
     return database.executar(instrucaoSql);
 }
 
+function postServidorPython(tagName, tipo, uuid, idInstancia, status, dtCadastro, so, fkEmpresa, fkEndereco) {
+    var instrucaoSql = `
+        INSERT INTO Servidor (fkEmpresa, tagName, tipo, uuidPlacaMae, idInstancia, status,dtCadastro, SO, fkEndereco) 
+        VALUES ('${fkEmpresa}', '${tagName}', '${tipo}', '${uuid}', '${idInstancia}', '${status}', '${dtCadastro}', '${so}', '${fkEndereco}');`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function getServidores(idEmpresa){
     var instrucaoSql = `SELECT * FROM viewGetServidor WHERE idEmpresa = ${idEmpresa};`;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -40,6 +48,7 @@ function cadastrarServidor(nomeServidor, sistemaOperacional) {
 
 module.exports = {
     postServidor,
+    postServidorPython,
     getServidores,
     getServidor,
     putServidor,
