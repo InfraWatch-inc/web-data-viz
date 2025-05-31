@@ -91,10 +91,9 @@
                         </div>
 
                         <div class="cplus">
-                            <p>Periodo com mais alertas</p>
+                            <p>Total de alertas</p>
                             <span id="spnTotal" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
                         </div>
-
 
                     </div>
 
@@ -126,6 +125,73 @@
 
     let chartPeriodo;
     let chartDisc;
+
+    function carregarKPIs(qtdMeses) {
+
+        fetch(`/alertasMemoria/qtdAlertaP?idEmpresa=${idEmpresa}`)
+            .then(res => res.json())
+            .then(json => {
+                let meses = [];
+                let contModerado = 0;
+                let conCritico = 0;
+
+                // Obter meses únicos
+                for (let i = 0; i < json.length; i++) {
+                    if (!meses.includes(json[i].mes_formatado)) {
+                        meses.push(json[i].mes_formatado);
+                    }
+                }
+
+                let mesesFiltrados = meses.slice(-qtdMeses);
+
+                for (let i = 0; i < json.length; i++) {
+                    if (mesesFiltrados.includes(json[i].mes_formatado)) {
+                        if (json[i].tipo_alerta === "Moderado") {
+                            contModerado += json[i].quantidade_alertas;
+                        } else if (json[i].tipo_alerta === "Critico") {
+                            conCritico += json[i].quantidade_alertas;
+                        }
+                    }
+                }
+
+                document.getElementById("spnModeradoRam").innerHTML = contModerado;
+                document.getElementById("spnCriticoRam").innerHTML = conCritico;
+            })
+            .catch(erro => console.log('Erro RAM KPI:', erro));
+
+        fetch(`/alertasMemoria/qtdAlertaD?idEmpresa=${idEmpresa}`)
+            .then(res => res.json())
+            .then(json => {
+                let meses = [];
+                let conModerado = 0;
+                let conCritico = 0;
+
+                for (let i = 0; i < json.length; i++) {
+                    if (!meses.includes(json[i].mes_formatado)) {
+                        meses.push(json[i].mes_formatado);
+                    }
+                }
+
+                let mesesFiltrados = meses.slice(-qtdMeses);
+
+                for (let i = 0; i < json.length; i++) {
+                    if (mesesFiltrados.includes(json[i].mes_formatado)) {
+                        if (json[i].tipo_alerta === "Moderado") {
+                            conModerado += json[i].quantidade_alertas;
+                        } else if (json[i].tipo_alerta === "Critico") {
+                            conCritico += json[i].quantidade_alertas;
+                        }
+                    }
+                }
+
+                document.getElementById("spnModeradoDisc").innerHTML = conModerado;
+                document.getElementById("spnCriticoDisc").innerHTML = conCritico;
+
+            })
+            .catch(erro => console.log('Erro Disco KPI:', erro));
+
+
+    }
 
     function carregarGraficos(tipoAlerta, qtdMeses) {
         fetch(`/alertasMemoria/qtdAlertaD?idEmpresa=${idEmpresa}`)
@@ -201,7 +267,6 @@
                 });
             });
 
-
         fetch(`/alertasMemoria/qtdAlertaP?idEmpresa=${idEmpresa}`)
             .then(res => res.json())
             .then(json => {
@@ -209,8 +274,6 @@
                 let manha = [];
                 let tarde = [];
                 let noite = [];
-
-
 
                 for (let i = 0; i < json.length; i++) {
                     if ((tipoAlerta === "todos" || json[i].tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase())
@@ -227,7 +290,6 @@
                     let qtdNoite = 0;
 
                     for (let j = 0; j < json.length; j++) {
-
                         if (
                             json[j].mes_formatado === meses[i] &&
                             (tipoAlerta === "todos" || json[j].tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase())
@@ -257,8 +319,9 @@
                     document.getElementById("spnPeriodoMais").innerHTML = "Noite";
                 } else if (totalTarde > totalNoite && totalTarde > totalManha) {
                     document.getElementById("spnPeriodoMais").innerHTML = "Tarde";
+                } else {
+                    document.getElementById("spnPeriodoMais").innerHTML = "Empate";
                 }
-
 
                 if (chartPeriodo) chartPeriodo.destroy();
 
@@ -315,69 +378,31 @@
             });
     }
 
-    fetch(`/alertasMemoria/totalRAM?idEmpresa=${idEmpresa}`)
-        .then(resposta => resposta.json())
-        .then(json => {
-            let contModerado = 0;
-            let contCrit = 0;
-
-            for (let i = 0; i < json.length; i++) {
-                if (json[i].tipo_alerta === "Critico") {
-                    contCrit += json[i].totalAlertasRAM
-                }
-                else if (json[i].tipo_alerta === "Moderado") {
-                    contModerado += json[i].totalAlertasRAM
-                };
-            }
-
-            document.getElementById("spnModeradoRam").innerHTML = contModerado;
-            document.getElementById("spnCriticoRam").innerHTML = contCrit;
-        })
-        .catch(erro => console.log('Erro:', erro));
-
-    fetch(`/alertasMemoria/totalDisc?idEmpresa=${idEmpresa}`)
-        .then(resposta => resposta.json())
-        .then(json => {
-
-            let contModerado = 0;
-            let contCrit = 0;
-
-            for (let i = 0; i < json.length; i++) {
-
-                if (json[i].tipo_alerta === "Critico") {
-                    contCrit += json[i].totalAlertasDisc
-                }
-
-                else if (json[i].tipo_alerta === "Moderado") {
-                    contModerado += json[i].totalAlertasDisc
-                }
-            }
-
-            document.getElementById("spnModeradoDisc").innerHTML = contModerado;
-            document.getElementById("spnCriticoDisc").innerHTML = contCrit;
-        })
-
-        .catch(erro => console.log('Erro:', erro));
+    function carregarDashboard(tipoAlerta, qtdMeses) {
+        carregarKPIs(qtdMeses);
+        carregarGraficos(tipoAlerta, qtdMeses);
+    }
 
     window.onload = function () {
         const selectFator = document.getElementById("slctFatorTemp");
         let qtdMeses = parseInt(selectFator.value);
-
         let tipoAlerta = "todos";
 
-        carregarGraficos(tipoAlerta, qtdMeses);
+        carregarDashboard(tipoAlerta, qtdMeses);
 
         let radios = document.getElementsByName("radioTipoAlerta");
         for (let i = 0; i < radios.length; i++) {
             radios[i].addEventListener("change", function () {
                 tipoAlerta = this.value;
                 qtdMeses = parseInt(selectFator.value);
+
                 carregarGraficos(tipoAlerta, qtdMeses);
             });
         }
+
         selectFator.addEventListener("change", function () {
             qtdMeses = parseInt(this.value);
-            carregarGraficos(tipoAlerta, qtdMeses);
+            carregarDashboard(tipoAlerta, qtdMeses);
         });
     };
 
