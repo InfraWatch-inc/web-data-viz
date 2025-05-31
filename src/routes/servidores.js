@@ -11,6 +11,11 @@ router.get("/buscar/servidor/:id", function (req, res) {
     servidoresController.getServidor(req, res);
 });
 
+router.get("/buscar/servidorPython/:id", function (req, res) {
+    servidoresController.getServidorPython(req, res);
+});
+
+
 router.post("/cadastrar", function (req, res) { 
     servidoresController.postServidor(req, res);
 });

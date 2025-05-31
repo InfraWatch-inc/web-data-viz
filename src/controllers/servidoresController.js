@@ -110,7 +110,24 @@ function getServidores(req , res){
 }
 
 function getServidor(req, res){
-    servidoresModel.getServidor(req.params.id)
+
+    idServidor = req.params.id
+
+    servidoresModel.getServidor(idServidor)
+    .then((resultado) => {
+        res.status(200).json(resultado);
+    })
+    .catch((erro) => {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
+function getServidorPython(req, res){
+
+    idServidor = req.params.id
+
+    servidoresModel.getServidorPython(idServidor)
     .then((resultado) => {
         res.status(200).json(resultado);
     })
@@ -226,6 +243,7 @@ function cadastrarServidor(req, res){
 module.exports = {
     getServidores,
     getServidor,
+    getServidorPython,
     postServidor,
     putServidor,
     deleteServidor,

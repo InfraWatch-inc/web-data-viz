@@ -23,10 +23,17 @@ function getComponentesServidor(idServidor){
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function postConfiguracaoMonitoramento(unidadeMedida, descricao, fkComponente, limiteAtencao, limiteCritico, funcaoPython){
+    var instrucaoSql = `INSERT INTO ConfiguracaoMonitoramento (unidadeMedida, descricao, fkComponente, limiteAtencao, limiteCritico, funcaoPython) VALUES
+    ('${unidadeMedida}','${descricao}', '${fkComponente}','${limiteAtencao}', '${limiteCritico}','${funcaoPython}');`;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
 
 module.exports = {
     postComponente,
     putComponente,
     deleteComponente,
+    postConfiguracaoMonitoramento,
     getComponentesServidor
 };
