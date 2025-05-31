@@ -47,31 +47,31 @@
                             <option value="6" selected>6 meses</option>
                         </select>
                         <div class="sepAlerta">
-                            <p style="font-size: 0.9rem;">Selecione o tipo de alerta que deseja analisar:</p>
-                            <div class="radios" style="display: flex; justify-content: space-evenly;">
+                            <p style="font-size: 1.4rem;">Alertas que deseja visualiar:</p>
+                            <div class="radios" style="display: flex; justify-content: space-around;">
 
                                 <input type="radio" class="radio" id="op1" name="radioTipoAlerta" value="todos" checked>
-                                <span style="font-size: 0.9rem;">Todos</span>
+                                <span style="font-size: 1.2rem;">Todos</span>
                                 <input type="radio" class="radio" id="op2" name="radioTipoAlerta" value="moderado">
-                                <span style="font-size: 0.9rem;">Moderado</span>
+                                <span style="font-size: 1.2rem;">Moderado</span>
                                 <input type="radio" class="radio" id="op3" name="radioTipoAlerta" value="critico"> <span
-                                    style="font-size: 0.9rem;">Critico</span>
+                                    style="font-size: 1.2rem;">Critico</span>
                             </div>
                         </div>
                     </div>
                     <div class="dqtdAlert">
                         <div class="card">
                             <p>Alertas moderados RAM</p>
-                            <span id="spnModeradoRam" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
+                            <span id="spnModeradoRam" style="color: red; font-weight: 600; font-size: 1.5rem;"></span>
                         </div>
                         <div class="card">
                             <p>Alertas moderados Disco</p>
-                            <span id="spnModeradoDisc" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
+                            <span id="spnModeradoDisc" style="color: red; font-weight: 600; font-size: 1.5rem;"></span>
                         </div>
 
                         <div class="card">
                             <p>Periodo com mais alertas</p>
-                            <span id="spnPeriodoMais" style="color: red; font-weight: 600; font-size: 1.3rem;"></span>
+                            <span id="spnPeriodoMais" style="color: red; font-weight: 600; font-size: 1.5rem;"></span>
                         </div>
 
                     </div>
@@ -250,7 +250,11 @@
                             title: {
                                 display: true,
                                 text: 'Alertas de Disco',
-                                fontsize: 20
+                                font: {
+                                    size: 20
+
+
+                                }
                             }
                         },
                         scales: {
@@ -259,7 +263,23 @@
                                 title: {
                                     display: true,
                                     text: 'Quant. Alertas',
-                                    fontsize: 15
+                                    font: {
+                                        size: 18
+
+
+                                    }
+                                }
+                            },
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'meses',
+                                    font: {
+                                        size: 18
+
+
+                                    }
                                 }
                             }
                         }
@@ -355,7 +375,12 @@
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'Alertas de RAM por período'
+                                text: 'Alertas de RAM por período',
+                                font: {
+                                    size: 20
+
+
+                                }
                             }
                         },
                         scales: {
@@ -363,13 +388,23 @@
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Quantidade de alertas'
+                                    text: 'Quantidade de alertas',
+                                    font: {
+                                        size: 18
+
+
+                                    }
                                 }
                             },
                             x: {
                                 title: {
                                     display: true,
-                                    text: 'Meses'
+                                    text: 'Meses',
+                                    font: {
+                                        size: 18
+
+
+                                    }
                                 }
                             }
                         }
