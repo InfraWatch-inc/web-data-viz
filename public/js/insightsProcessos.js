@@ -37,7 +37,28 @@ let dadosDash = {
     }
 }
 
-let chartInstance;
+let isFirstLoad = true;
+
+function validarDatas(){
+    let dtInicial = iptDtInicial.value;
+    let dtFinal = iptDtFinal.value;
+
+    if(dtInicial == '' || dtFinal == ''){
+        alert('Data inicial e final não podem ser vazias.');
+        return;
+    }
+
+    let dataInicial = new Date(dtInicial);
+    let dataFinal = new Date(dtFinal);
+
+    if (dataInicial > dataFinal) {
+        alert('Data inicial maior que a final. Verifique.');
+        return;
+    }
+
+    resetarGraficos();
+    coletarDados();
+}
 
 function coletarDados() {
     let dtInicial = iptDtInicial.value;
@@ -85,11 +106,6 @@ function coletarDados() {
         return;
     }
 
-    if (dataInicial > dataFinal) {
-        alert('Data inicial maior que a final. Verifique.');
-        return;
-    }
-
     iptDtInicial.value = dataInicialFormatada;
     iptDtFinal.value = dataFinalFormatada;
 
@@ -121,20 +137,6 @@ function coletarDados() {
         textoTitulo += ` nos últimos ${meses} Meses`;
     }
 
-    if (dataFinalEhHoje) {
-        let tempoTexto = '';
-        if (meses === 0 && dias < 30) {
-            tempoTexto = `${dias} dia${dias === 1 ? '' : 's'}`;
-        } else if (meses === 6) {
-            tempoTexto = `1 semestre`;
-        } else if (meses === 12) {
-            tempoTexto = `1 ano`;
-        } else {
-            tempoTexto = `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
-        }
-        textoTitulo = `Insights de Processos nos últimos ${tempoTexto} desde ${dataInicialFormatada}`;
-    }
-
     tituloDash.innerText = textoTitulo +":";
 
     fetch(`/insights/processos/${sessionStorage.ID_EMPRESA}`, {
@@ -154,8 +156,10 @@ function coletarDados() {
         return res.json();
     })
     .then(dados => {
-        // todo substituir dados depois
-        console.log(dados);
+        if(dados.dadosProcessosAlertas == null || dados.dadosProcessosConsumo == null){
+            alert('Nenhum dado encontrado para o período selecionado.');
+            return;
+        }        
         organizarDados(dados);
     })
     .catch(error => {
@@ -257,6 +261,8 @@ function resetarGraficos(){
 
     document.getElementById('campoChartConsumo').innerHTML = canvasConsumo;
     document.getElementById('campoChartAlertas').innerHTML = canvasAlertas;
+
+    document.getElementById('modal').close();
 }
 
 function atualizarFront(){
@@ -267,11 +273,12 @@ function atualizarFront(){
     carregarGraficoAlertasProcessos(dadosDash.alertasProcessos.processos, dadosDash.alertasProcessos.alertas);
     let componente = document.getElementById('slctComponente').value;
 
-    if(document.getElementById('slctComponente').value == '' || document.getElementById('slctComponente').value == undefined || document.getElementById('slctComponente').value == null){
+    if(isFirstLoad){
         componente = dadosDash.componenteUso;
-        document.getElementById('slctComponente').selectedIndex = componente.toLowerCase() == 'cpu' ? 0 : componente.toLowerCase() == 'gpu' ? 1 : 2; 
+        document.getElementById('slctComponente').selectedIndex = componente.toLowerCase() == 'cpu' ? 0 : componente.toLowerCase() == 'gpu' ? 1 : 2;
+        isFirstLoad = false;
     } 
-    
+
     let dadosConsumo = dadosDash.consumoProcessos[componente.toLowerCase()]
     let processos = dadosDash.consumoProcessos[componente.toLowerCase()].processos
     carregarGraficoConsumoProcessos(componente, processos, dadosConsumo);
