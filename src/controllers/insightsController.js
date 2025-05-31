@@ -51,9 +51,10 @@ async function getAlertasComponentes(req, res) {
     })
     .catch((error)=>{
         res.status(200).send({"message":"Deu erro"})
+        return
     })
 
-    res.status(200).send(data)
+    // res.status(200).send(data)
 }
 
 async function postDadosProcessos(req, res){ 

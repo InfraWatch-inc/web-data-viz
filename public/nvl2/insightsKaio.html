@@ -40,7 +40,7 @@
             <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
                     name="escolhaTemporal" value="3" checked>Trimestral</span>
             <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
-                    name="escolhaTemporal" value="5">Semestral</span>
+                    name="escolhaTemporal" value="6">Semestral</span>
 
         </div>
 
@@ -89,7 +89,7 @@
     function inicializarPagina() {
         obterDados();
 
-    }
+    }   
 
     var escolhaTempo = document.getElementsByName("escolhaTemporal");
     var escolhaTemporalSelecionado = Array.from(escolhaTempo).find(r => r.checked);
@@ -117,6 +117,20 @@
 
     function obterDados() {
 
+        console.log("Valor de escolhaTemporal test:", escolhaTemporal);
+
+        // Reinicialiazinando os objetos
+        resultadoPorMesComponenteNivel = {};
+        resultadoPorMesComponenteNivelPorPeriodo = {};
+        meses = []; 
+
+        if (GraficoAlertas) {
+            GraficoAlertas.destroy();  
+        }
+
+        if (GraficoAlertasPeriodo) {
+            GraficoAlertasPeriodo.destroy();
+        }
 
         console.log("Valor de escolhaTemporal test:", escolhaTemporal);
 
@@ -484,51 +498,106 @@
                 });
 
                 // Criando o gráfico de alertas por período
-                //ESSES SÃO ALERTAS DA MANHÃ DE TODOS OS MESES, FALTA SEPARAR ESSE TOTAL POR MESES
-                var periodoManha = meses.map(mes => {
-
-                    var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0;
-                    var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0;
-
-                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0;
-                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0;
-
-                    return {mes,
-                        total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
-                    }
+        
+                // Manhã
+                const periodoManhaCPU = meses.map(mes => {
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0) 
                 })
 
-                console.log("OLHA AQUI VIADO", resultadoPorMesComponenteNivelPorPeriodo)
-
-                var periodoTarde = meses.map(mes => {
-
-                    var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0;
-                    var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0;
-
-                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["1"] || 0;
-                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["2"] || 0;
-
-                    return {mes,
-                        total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
-                    }
+                const periodoManhaGPU = meses.map(mes => {
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.GPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.GPU?.["2"] || 0) 
                 })
 
-                var periodoNoite = meses.map(mes => {
+               
 
-                    var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
-                    var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
+                // Tarde
 
-                    var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
-                    var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
-
-                    return {mes,
-                        total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
-                    }
+                const periodoTardeCPU = meses.map(mes => {
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0)
                 })
 
-                console.log("Periodo Manhã:", periodoManha);
-                console.log("Periodo Tarde:", periodoTarde);
-                console.log("Periodo Noite:", periodoNoite);
+                const periodoTardeGPU = meses.map(mes => {
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["2"] || 0)
+                })
+
+                
+               // Noite
+               
+               const periodoNoiteCPU = meses.map(mes => {
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0)
+               })
+
+               const periodoNoiteGPU = meses.map(mes => {
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.GPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.GPU?.["2"] || 0)
+               })
+
+               // Manhã
+                const periodoManhaTotal = meses.map((mes, index) => {
+                    return (periodoManhaCPU[index] || 0) + (periodoManhaGPU[index] || 0);
+                });
+            
+                // Tarde
+                const periodoTardeTotal = meses.map((mes, index) => {
+                    return (periodoTardeCPU[index] || 0) + (periodoTardeGPU[index] || 0);
+                });
+            
+                // Noite
+                const periodoNoiteTotal = meses.map((mes, index) => {
+                    return (periodoNoiteCPU[index] || 0) + (periodoNoiteGPU[index] || 0);
+                });
+               
+
+                console.log("OLHA AQUI VIADO", resultadoPorMesComponenteNivelPorPeriodo);
+
+                console.log("meses", meses);
+                console.log("periodoManhaCPU:", periodoManhaCPU);
+                console.log("periodoManhaGPU:", periodoManhaGPU);
+                console.log("periodoTardeCPU:", periodoTardeCPU);
+                console.log("periodoTardeGPU:", periodoTardeGPU);
+                console.log("periodoNoiteCPU:", periodoNoiteCPU);
+                console.log("periodoNoiteGPU:", periodoNoiteGPU);
+
+                console.log("tarde:", periodoTardeTotal);
+                console.log("noite:", periodoNoiteTotal);
+                console.log("manha:", periodoManhaTotal);
+
+                
+
+                // var periodoTarde = meses.map(mes => {
+
+                //     var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0;
+                //     var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0;
+
+                //     var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["1"] || 0;
+                //     var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["2"] || 0;
+
+                //     return {mes,
+                //         total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
+                //     }
+                // })
+
+                // var periodoNoite = meses.map(mes => {
+
+                //     var cpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
+                //     var cpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
+
+                //     var gpuModerado = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0;
+                //     var gpuCritico = resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0;
+
+                //     return {mes,
+                //         total: cpuModerado + cpuCritico + gpuModerado + gpuCritico
+                //     }
+                // })
+
+                // console.log("Periodo Manhã:", periodoManha);
+                // console.log("Periodo Tarde:", periodoTarde);
+                // console.log("Periodo Noite:", periodoNoite);
 
                 if (GraficoAlertasPeriodo) {
                     GraficoAlertasPeriodo.destroy();
@@ -543,19 +612,19 @@
                         datasets: [
                             {
                                 label: 'Manhã',
-                                data: periodoManha,
+                                data: periodoManhaTotal,
                                 borderRadius: 5,
                                 backgroundColor: '#2AACC5'
                             },
                             {
                                 label: 'Tarde',
-                                data: periodoTarde,
+                                data: periodoTardeTotal,
                                 borderRadius: 5,
                                 backgroundColor: '#FF5F2F'
                             },
                             {
                                 label: 'Noite',
-                                data: periodoNoite,
+                                data: periodoNoiteTotal,
                                 borderRadius: 5,
                                 backgroundColor: '#004755'
                             }
