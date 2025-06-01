@@ -99,8 +99,8 @@
 
                 </div>
                 <div class="regiao">
-                    <div class="gRegiao">
-
+                    <div class="gRegiao" style="padding: 1;">
+                        <canvas id="chartProblemas"></canvas>
                     </div>
                 </div>
             </div>
@@ -412,6 +412,96 @@
                 });
             });
     }
+
+
+
+
+
+    fetch(`/bucketOuroExterno/pegarJson/problemas.json`)
+        .then(res => res.json())
+        .then(json => {
+
+            let meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+            let picosEnergia = [];
+            let umidade = [];
+
+            for (let i = 0; i < meses.length; i++) {
+
+                let qtdPico = 0;
+                let qtdUmidade = 0;
+
+                for (let j = 0; j < json.length; j++) {
+                    if (json[j].mes === meses[i]) {
+                        if (json[j].tipo_problema === "picos.de.energia") {
+                            qtdPico += json[j].qtd_alertas;
+                        }
+                        if (json[j].tipo_problema === "excesso.de.umidade") {
+                            qtdUmidade += json[j].qtd_alertas;
+                        }
+                    }
+                }
+
+                picosEnergia.push(qtdPico);
+                umidade.push(qtdUmidade);
+            }
+
+            const ctxPro = document.getElementById('chartProblemas');
+            const chartProblemas = new Chart(ctxPro, {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: [
+                        {
+                            label: 'Picos de energia',
+                            data: picosEnergia,
+                            backgroundColor: '#b38bff'
+                        },
+                        {
+                            label: 'Umidade',
+                            data: umidade,
+                            backgroundColor: '#673dff'
+                        }
+                    ]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Alertas de Disco',
+                            font: {
+                                size: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Quant. Alertas',
+                                font: {
+                                    size: 18
+                                }
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Meses',
+                                font: {
+                                    size: 18
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+
+
 
     function carregarDashboard(tipoAlerta, qtdMeses) {
         carregarKPIs(qtdMeses);
