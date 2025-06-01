@@ -5,22 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servidores | InfraWatch</title>
-    <link rel="stylesheet" href="../css/servidores.css">
+    <link rel="stylesheet" href="../css/servidorN3.css">
     <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=account_circle" />
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
     <script src="../js/sessao.js"></script>
-
+    <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
 
 </head>
 
-<body onload="carregar()">
+<body>
     <header>
         <nav class="navbar">
             <div class="user_div">
                 <div class="img"></div>
-                <span class="user_name" id="nome_usuario"></span>
+                <div class="dropdonw_user">
+                    <span class="user_name" id="nome_usuario"></span>
+                    <div class="dropdonw_content">
+                        <span class="sair" onclick="limparSessao()">Sair</span>
+                    </div>
+                </div>
             </div>
 
             <ul><a href="./servidores.html">Monitoramento</a></ul>
@@ -28,36 +33,66 @@
             <ul><a href="./usuarios.html">Usuários</a></ul>
             <ul><a href="./suporte.html">Suporte</a></ul>
 
-            <button class="sair" onclick="limparSessao()">Sair</button>
+            <div class="notificacao" id="notificacao">
+                <div class="sino"></div>
+                <span id="countAlerta">0</span>
+                <div class="modalAlertas" style="display: none;">
+                    <div class="msg">
+                    </div>
+                </div>
+            </div>
         </nav>
     </header>
     <div class="main-content">
         <div class="container">
             <div class="header">
-                <div class="nav">
-                    <button id="abrirModal" class="btn-Modal">Adicionar</button>
-                    <button class="filtro">
-                        Filtro
-                    </button>
-                    <input type="text" class="pesquisa" placeholder="Pesquisar">
-
+                <div class="alinhamento-esquerda">
+                    <!-- <button onclick="modalColaborador()" class="btn-add-servidor">Adicionar</button> -->
+                    <input class="input" placeholder="🔍 Pesquisar Servidor..." type="search" name=""
+                        id="pesquisa-servidor">
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-status">STATUS ▼</button>
+
+
+                <div class="dropdown" onclick="filtro()">
+                    <button class="dropdown-status">Filtro ▼</button>
                     <ul class="dropdown-menu">
-                        <li><a href="">Total Crítico: 13</a></li>
-                        <li><a href="">Total Alertas: 6</a></li>
+                        <li><a href="" class="componenteArmazenamento">Componentes: HD, RAM</a></li>
+                        <li><a href="" class="componenteProcessos">Componentes: GPU, CPU</a></li>
+                        <li><a href="">Total Crítico: <span id="countAlertaCritico"></span></a></li>
+                        <li><a href="">Total Alertas: <span id="countAlertaModerado"></span></a></li>
 
                     </ul>
                 </div>
             </div>
 
-            <table>
+            <!-- 
+            <div class="modal">
+                <div class="content-servidor">
+                    <div class="cima">
+                        <h3>Cadastro Servidor</h3>
+                        <div class="fecharModal"></div>
+                    </div>
+                    <div class="servidor-modal">
+                        <label for="">Nome do servidor:</label>
+                        <input type="text" class="inputServidor" id="tagName">
+                    </div>
+                    <div class="servidor-modal">
+                        <label for="">Sistema operacional:</label>
+                        <input type="text" class="inputServidor" id="tagName">
+                    </div>
+                    <div class="servidor-modal">
+                        <label for="">campo:</label>
+                        <input type="text" class="inputServidor" id="tagName">
+                    </div>
+                    <button onclick="cadastrar()">Cadastrar</button>
+                </div>
+            </div> -->
+
+            <table id="tabela">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nome</th>
-                        <th>Instância</th>
                         <th>Núcleos</th>
                         <th>Threads</th>
                         <th>Qtd. GPU</th>
@@ -66,100 +101,14 @@
                         <th>Uso CPU</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                    <tr>
-                        <td>#294</td>
-                        <td><a href="./monitoramento.html">PixelForge</a></td>
-                        <td>am12masdn...</td>
-                        <td>24</td>
-                        <td>32</td>
-                        <td>5</td>
-                        <td class="alerta">70 ºC</td>
-                        <td class="alerta">60%</td>
-                        <td class="alerta">60%</td>
-                    </tr>
-
-
-                    <tr>
-                        <td>#293</td>
-                        <td><a href="./monitoramento.html">RenderTitan</a></td>
-                        <td>ogw612n...</td>
-                        <td>8</td>
-                        <td>16</td>
-                        <td>1</td>
-                        <td class="alerta">50 ºC</td>
-                        <td>30%</td>
-                        <td>30%</td>
-                    </tr>
-
-                    <tr>
-                        <td>#295</td>
-
-                        <td><a href="./monitoramento.html">FrameStorm</a></td>
-                        <td>12522874...</td>
-                        <td>16</td>
-                        <td>24</td>
-                        <td>2</td>
-                        <td>30 ºC</td>
-                        <td>24%</td>
-                        <td>24%</td>
-                    </tr>
-
-
-                    <tr>
-                        <td>#296</td>
-                        <td><a href="./monitoramento.html">RayTracerX</a></td>
-                        <td>12522874...</td>
-                        <td>16</td>
-                        <td>16</td>
-                        <td>2</td>
-                        <td>30 ºC</td>
-                        <td>24%</td>
-                        <td>24%</td>
-                    </tr>
-
-
-                    <tr>
-                        <td>#297</td>
-                        <td><a href="./monitoramento.html">RayTracerY</a></td>
-                        <td>12522874...</td>
-                        <td>16</td>
-                        <td>16</td>
-                        <td>2</td>
-                        <td>30 ºC</td>
-                        <td>24%</td>
-                        <td>24%</td>
-                    </tr>
-
+                <tbody id="corpo-tabela">
                 </tbody>
             </table>
         </div>
     </div>
     </div>
 
+    <script src="../js/servidores.js"></script>
 </body>
 
 </html>
-<script>
-    const pesquisa = document.querySelector('.pesquisa');
-    const linhas = document.querySelectorAll('tbody tr');
-    const btnDropdown = document.querySelector('.dropdown-status');
-    const menuDropdown = document.querySelector('.dropdown-menu');
-
-
-    btnDropdown.onclick = () => {
-        menuDropdown.style.display = menuDropdown.style.display === 'block' ? 'none' : 'block';
-    };
-
-    pesquisa.oninput = () => {
-        const termo = pesquisa.value.toLowerCase();
-        linhas.forEach(linha => {
-            const nome = linha.querySelector('td').textContent.toLowerCase();
-            linha.style.display = nome.includes(termo) ? '' : 'none';
-        });
-    };
-
-    nome_usuario.innerHTML = sessionStorage.NOME_USUARIO;
-
-</script>

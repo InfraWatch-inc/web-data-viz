@@ -1,0 +1,445 @@
+* {
+  font-family: Sora;
+  color: #1f2937;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  box-sizing: border-box;
+
+}
+
+body,
+html {
+  overflow: hidden;
+}
+
+body {
+  background: linear-gradient(to bottom, #F9FAFB, #B0F2FF)
+}
+
+header {
+  width: 100vw;
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar {
+  width: 90%;
+  height: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #F9FAFB;
+}
+
+.user_div {
+  height: 5vh;
+  width: 20%;
+  display: flex;
+  justify-content: space-betwee;
+  align-items: center;
+}
+
+.img {
+  background-image: url(../assets/icon/user-solid\ 1.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30%;
+  height: 100%;
+}
+
+.dropdonw_user{
+  width: 60%;
+  height: 100%;
+  /* border: red 1px solid; */
+  margin-top: 14px;
+  cursor: pointer;
+  position: relative;
+  display: inline-block;
+  background-color: #F9FAFB;
+}
+
+.dropdonw_user:focus-within .dropdonw_content {
+  display: block;
+}
+
+.dropdonw_content {
+  width: 100%;
+  height: 80%;
+  margin-top: 5px;
+  /* border: red 1px solid; */
+  /* background: #F9FAFB; */
+  background-color: #F9FAFB;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  display: none;
+  z-index: 1;
+  /* text-align: start; */
+}
+
+.user_name {
+  font-size: 1.6rem;
+  word-spacing: 0.2rem;
+  color: #374151;
+  
+}
+
+ul {
+  width: 11%;
+  display: flex;
+  justify-content: center;
+}
+
+ul a {
+  font-size: 1.6rem;
+  word-spacing: 0.2rem;
+  color: #374151;
+  transition: 0.4s;
+}
+
+ul a:hover {
+  color: #10D3F9;
+  transition: 0.4s;
+  transform: translateY(-2px);
+}
+
+.notificacao {
+  width: 10%;
+  height: 7vh;
+  /* border: 1px solid red; */
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+}
+
+#countAlerta {
+  position: absolute;
+    width: 0.5%;
+    height: 2%;
+    right: 10.7%;
+    top: 7.4%;
+    font-size: 1.4rem;
+    font-weight: 500;;
+    color: red;
+    /* border: 1px solid red; */
+  }
+
+.sair {
+    text-align: start;
+    font-size: 1.2rem;
+    border: 1px solid red;
+    position: absolute; 
+    /* top: 8%; */
+    /* left: 86.5%; */
+    width: 100%;
+    height: 4vh;
+    /* border-radius: 10px; */
+    /* background: linear-gradient(to bottom, #740bc6, #10d3f9); */
+    /* background-color: #10D3F9; */
+    color: #333;
+    /* margin-top: 10px; */
+    text-align: center  ;
+    font-size: 1.6rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.sino {
+  background-image: url("../assets/icon/notificacao.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 70%;
+}
+
+.modalAlertas {
+  display: none;
+  position: absolute;
+  top: 12%;
+  left: 83.5%;
+  width: 15%;
+  height: 60%;
+  z-index: 1;
+  /* border: 1px solid red; */
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modalAlertas .msg {
+  width: 100%; 
+  flex-grow: 1;            /* Faz este item ocupar o espaço vertical restante no .modalAlertas */
+  overflow-y: auto;        /* Adiciona rolagem vertical se as mensagens excederem a altura */
+  padding: 10px;   
+  box-sizing: border-box;
+  display: flex;           
+  flex-direction: column;
+  align-items: stretch;    /* Faz os filhos <p> esticarem para a largura total do .item */
+}
+
+.modalAlertas .msg p {
+  background-color: #f8f9fa; 
+  border: 1px solid #dee2e6;   
+  padding: 8px 12px;          
+  margin: 0 0 8px 0;         
+  border-radius: 4px;          
+  font-size: 0.925rem;         
+  line-height: 1.4;            
+  color: #212529;              
+  word-break: break-word;      
+  text-align: left;         
+}
+
+/* Remove a margem inferior do último parágrafo para um espaçamento consistente */
+.modalAlertas .msg p:last-child {
+  margin-bottom: 0;
+}
+
+.sair:hover {
+  transform: translateY(-2px);
+  transition: 0.4s;
+  box-shadow: 0 4px 8px rgba(116, 11, 198, 0.3);
+}
+
+section {
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+}
+
+.body-container {
+  display: flex;
+  height: 100vh;
+}
+
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 83vh;
+  width: 100%;
+}
+
+
+.container {
+  width: 89%;
+  height: 80%;
+  background: white;
+  padding: 3%;
+  border-radius: 10px;
+  margin: 0;
+
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 15%;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  padding: 6px 15px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: linear-gradient(to bottom, #740BC6, #10D3F9);
+  color: white;
+}
+
+.add {
+  height: 4vh;
+  background: #24284B;
+  color: white;
+}
+
+
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+  width: 35%;
+  height: 60%;
+  border: 1px solid red;
+  z-index: 1;
+  position: absolute;
+  display: none;
+  /* display: ; */
+  transform: translate(60%, -35%);
+  border-radius: 15px;
+}
+
+.content-servidor {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  background: white;
+  border-radius: 15px;
+}
+
+.cima {
+  width: 100%;
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid green; */
+  
+    & h3 {
+      text-align: center;
+      width: 88%;
+      font-size: 2rem;
+      font-weight: 500;
+    }
+}
+
+.fecharModal {
+  /* border: 1px solid gray; */
+  width: 12%;
+  height: 60%;
+  background-image: url("../assets/icon/fechar.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.servidor-modal {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 85%;
+  height: 20%;
+}
+
+label {
+  margin-right: 160px;
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.inputServidor {
+  width: 100%;
+}
+
+input {
+  height: 3vh;
+}
+
+.pesquisa {
+  padding: 15px 1px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+th {
+
+  font-size: 14px;
+}
+
+.alerta {
+  color: red;
+  font-weight: bold;
+}
+
+
+.dropdown-status {
+  background: white !important;
+  color: #333 !important;
+  border: 1px solid #ccc;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 9%;
+  z-index: 10;
+  margin-top: 5px;
+
+  & li{
+    list-style: none;
+    cursor: pointer;
+    /* width: 50%; */
+  }
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 15px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f0f0f0;
+  border-radius: 6px;
+}
+
+input, select {
+  min-width: 250px;
+  font-size: large;
+  padding: 1rem 1rem;
+  border: #0e0e0e solid thin;
+  border-radius: 12px;
+  outline-color: dodgerblue;
+  margin: 10px 0;
+  transition: linear 0.5s;
+}
+
