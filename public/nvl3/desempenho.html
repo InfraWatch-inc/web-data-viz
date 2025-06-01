@@ -31,58 +31,52 @@
   <div class="mae">
     <div class="cima">
       <div class="card">
-        <div class="card-header">
-          <h2>Lista de Chamados em Abertos</h2>
-          <div class="pesquisa">
-            <input type="text" id="pesquisaOperadorInput" placeholder="Pesquisar">
-          </div>
+  <div class="card-header">
+    <h2>Lista de Chamados em Abertos</h2>
+  </div>
 
-        </div>
-
-        <table id="ranking-alertas">
-          <div class="card-container">
-          <thead>
-            <tr>
-              <th>Servidor</th>
-              <th>Componentes</th>
-              <th>Tempo (MINUTOS)</th>
-              <th>Status</th>
-              <th>Operador Responsável</th>
-            </tr>
-          </thead>
-
-            <tbody>
-              <tr>
-                <td></td>
-                <td></td>
-                <td class="tempo"></td>
-              <td class="status-critico"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="tempo"></td>
-              <td class="status-moderado"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="tempo"></td>
-              <td class="status-critico"></td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="tempo"></td>
-              <td class="status-moderado"></td>
-              <td></td>
-            </tr>
-          </tbody>
-        </div>
-        </table>
+  <div class="table-wrapper"> <table id="ranking-alertas">
+      <thead>
+        <tr>
+          <th>Servidor</th>
+          <th>Componentes</th>
+          <th>Tempo (MINUTOS)</th>
+          <th>Status</th>
+          <th>Operador Responsável</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>CPU</td>
+          <td class="tempo">110</td>
+          <td class="status-critico">Critico</td>
+          <td>Italo Monteiro</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>CPU</td>
+          <td class="tempo">110</td>
+          <td class="status-critico">Critico</td>
+          <td>Raissa Silva</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>CPU</td>
+          <td class="tempo">109</td>
+          <td class="status-critico">Critico</td>
+          <td>Italo Monteiro</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>CPU</td>
+          <td class="tempo">109</td>
+          <td class="status-critico">Critico</td>
+          <td>Raissa Silva</td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
 
       </div>
     <div class="kpis-container">
@@ -134,55 +128,43 @@
 
       <!-- desempenho-->
       <div class="card-desempenho">
-        <div class="filtros">
-          <div class="titulo">Desempenho dos Operadores</div>
-          <div class="pesquisa">
-            <input type="text" id="pesquisaOperadorInput" placeholder="Pesquisar">
-          </div>
-          
-        </div>
+  <div class="filtros">
+    <div class="titulo">Desempenho dos Operadores</div>
+  </div>
 
-        <table id="lista-desempenho">
-          <thead>
-            <tr>
-              <th>Operador</th>
-              <th>Atribuídos</th>
-              <th>Realizados</th>
-              <th>Com Atraso</th>
-            </tr>
-          </thead>
-          <tbody id="lista-desempenho-body">
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="red-text"></td>
-              <td class="red-text"></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="red-text"></td>
-              <td class="red-text"></td>
-
-
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="red-text"></td>
-
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
+  <div class="table-wrapper-desempenho"> <table id="lista-desempenho">
+      <thead>
+        <tr>
+          <th>Operador</th>
+          <th>Atribuídos</th>
+          <th>Realizados</th>
+          </tr>
+      </thead>
+      <tbody id="lista-desempenho-body">
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="red-text"></td>
+          </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="red-text"></td>
+          </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
     </div>
   </div>
   </div>
@@ -200,7 +182,7 @@ function carregar() {
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO || "Usuário";
   receberChamado();
   listaDesempenho();
-   atualizarKpis();
+  atualizarKpis();
 }
 
 
@@ -258,15 +240,15 @@ async function receberChamado() {
       const chaveUnica = `${entrada.servidor}-${entrada.componente}-${entrada.minutos_aberto}-${entrada.tipo_alerta}-${entrada.operador_responsavel}`;
 
       if (chamadosExibidos.has(chaveUnica)) {
-        return; // já exibido
+        return;
       }
 
       chamadosExibidos.add(chaveUnica);
 
-      // Inicia classe da linha
+    
       let classeLinha = "";
 
-      // Classe por tipo de alerta
+      
       const tipo = (entrada.tipo_alerta || "").toLowerCase();
       if (tipo === "critico") {
         classeLinha = "alerta-critico";
@@ -275,13 +257,12 @@ async function receberChamado() {
       }
 
 
-      // Estilo do tempo
       const tempoFormatado = entrada.minutos_aberto > 180
         ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
         : `<td>${entrada.minutos_aberto}</td>`;
 
-      // Criação da linha HTML
-      const linha = `
+
+        const linha = `
         <tr class="${classeLinha.trim()}">
           <td>${entrada.servidor}</td>
           <td>${entrada.componente}</td>
