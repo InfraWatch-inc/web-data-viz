@@ -34,12 +34,13 @@
         <div class="card-header">
           <h2>Lista de Chamados em Abertos</h2>
           <div class="pesquisa">
-            <input type="text" placeholder="Pesquisar">
+            <input type="text" id="pesquisaOperadorInput" placeholder="Pesquisar">
           </div>
 
         </div>
 
         <table id="ranking-alertas">
+          <div class="card-container">
           <thead>
             <tr>
               <th>Servidor</th>
@@ -49,11 +50,12 @@
               <th>Operador Responsável</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="tempo"></td>
+
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="tempo"></td>
               <td class="status-critico"></td>
               <td></td>
             </tr>
@@ -79,29 +81,28 @@
               <td></td>
             </tr>
           </tbody>
+        </div>
         </table>
 
       </div>
-      <div class="kpis-container">
+    <div class="kpis-container">
         
-        <!-- Chamados Abertos -->
         <div class="kpis-coluna">
           <div class="titulo"><strong>Chamados Abertos</strong></div>
-          <div class="vermelho-titulo">15</div>
+          <div class="vermelho-titulo" id="chamadosAbertosTotal"></div>
           <div>Críticos</div>
-          <div class="status-critico-titulo">57%</div>
+          <div class="status-critico-titulo" id="chamadosAbertosCriticos"></div>
           <div>Moderados</div>
-          <div class="status-moderado">43%</div>
+          <div class="status-moderado" id="chamadosAbertosModerados"></div>
         </div>
 
-        <!-- Chamados Resolvidos -->
         <div class="kpis-coluna">
           <div class="titulo"><strong>Chamados Resolvidos</strong></div>
-          <div class="nmr-titulo">27</div>
+          <div class="nmr-titulo" id="chamadosResolvidosTotal">27</div>
           <div>Críticos</div>
-          <div class="status-critico-titulo">32%</div>
+          <div class="status-critico-titulo" id="chamadosResolvidosCriticos">12</div>
           <div>Moderados</div>
-          <div class="status-moderado">68%</div>
+          <div class="status-moderado" id="chamadosResolvidosModerados">15</div>
         </div>
       </div>
 
@@ -116,11 +117,8 @@
 
           <select class="date-filter">
             <option value="semana">Dia Atual</option>
-            <option value="semana">Última semana</option>
             <option value="mes">Último mês</option>
             <option value="mes">Último 6 meses</option>
-            <option value="mes">Último 1 ano</option>
-
 
           </select>
 
@@ -139,13 +137,9 @@
         <div class="filtros">
           <div class="titulo">Desempenho dos Operadores</div>
           <div class="pesquisa">
-            <input type="text" placeholder="Pesquisar">
+            <input type="text" id="pesquisaOperadorInput" placeholder="Pesquisar">
           </div>
-          <div class="date-filter">
-            <span class="calendar-icon"></span>
-            <span>Dia Atual</span>
-            <div class="arrow-icon"></div>
-          </div>
+          
         </div>
 
         <table id="lista-desempenho">
@@ -200,14 +194,16 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
     let meuGrafico = null;
 
 function carregar() {
   nome_usuario.innerHTML = sessionStorage.NOME_USUARIO || "Usuário";
   receberChamado();
   listaDesempenho();
+   atualizarKpis();
 }
+
+
 
 // LISTA DE CHAMADOS ABERTOS
 async function receberChamado() {
@@ -226,6 +222,30 @@ async function receberChamado() {
       console.error("Não foi possível encontrar o tbody da tabela!");
       return;
     }
+
+// KPI
+ let totalAbertos = 0;
+    let criticosAbertos = 0;
+    let moderadosAbertos = 0;
+
+    dados.forEach(chamado => {
+        totalAbertos++; 
+
+        const tipo = (chamado.tipo_alerta || "").toLowerCase();
+        if (tipo === "critico") {
+            criticosAbertos++;
+        } else if (tipo === "moderado") {
+            moderadosAbertos++;
+        }
+    });
+
+
+     document.getElementById('chamadosAbertosTotal').textContent = totalAbertos;
+    document.getElementById('chamadosAbertosCriticos').textContent = criticosAbertos;
+    document.getElementById('chamadosAbertosModerados').textContent = moderadosAbertos;
+
+
+
 
     // Ordena do mais antigo para o mais recente
     dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
@@ -254,29 +274,9 @@ async function receberChamado() {
         classeLinha = "alerta-moderado";
       }
 
-      // Classe por ID do servidor
-      switch (entrada.servidor) {
-        case 1:
-          classeLinha += " Rogirg";
-          break;
-        case 2:
-          classeLinha += " Reinar";
-          break;
-        case 3:
-          classeLinha += " Oiak";
-          break;
-        case 4:
-          classeLinha += " Leugim";
-          break;
-        case 5:
-          classeLinha += " Airotiv";
-          break;
-        default:
-          classeLinha += " Desconhecido";
-      }
 
       // Estilo do tempo
-      const tempoFormatado = entrada.minutos_aberto > 120
+      const tempoFormatado = entrada.minutos_aberto > 180
         ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
         : `<td>${entrada.minutos_aberto}</td>`;
 
@@ -292,6 +292,7 @@ async function receberChamado() {
 
       tbody.innerHTML += linha;
     });
+
 
     atualizarGraficoComDados(dados);
 
@@ -325,7 +326,7 @@ function atualizarGraficoComDados(dados) {
       meuGrafico.data.datasets[1].data = moderadoCounts;
       meuGrafico.update();
     } else {
-      console.warn("⚠️ meuGrafico está incompleto, recriando...");
+      console.warn(" meuGrafico está incompleto, recriando...");
       meuGrafico.destroy();
       meuGrafico = null;
       criarGrafico(componentes, criticoCounts, moderadoCounts);
