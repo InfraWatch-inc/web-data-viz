@@ -121,4 +121,4 @@ async function postDadosProcessos(req, res){
 module.exports = {
     getAlertasComponentes,
     postDadosProcessos
-}
+}   

@@ -210,55 +210,96 @@ function carregar() {
 }
 
 // LISTA DE CHAMADOS ABERTOS
-    async function receberChamado() {
-      try {
-        const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
+async function receberChamado() {
+  try {
+    const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
 
-        if (!resposta.ok) {
-          console.error(`Erro na resposta: ${resposta.status}`);
-          return;
-        }
+    if (!resposta.ok) {
+      console.error(`Erro na resposta: ${resposta.status}`);
+      return;
+    }
 
-        const dados = await resposta.json();
-        const tbody = document.querySelector("#ranking-alertas tbody");
-        if (!tbody) {
-          console.error(" Não foi possível encontrar o tbody da tabela!");
-          return;
-        }
+    const dados = await resposta.json();
+    const tbody = document.querySelector("#ranking-alertas tbody");
 
-        dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
-        tbody.innerHTML = "";
+    if (!tbody) {
+      console.error("Não foi possível encontrar o tbody da tabela!");
+      return;
+    }
 
-        dados.forEach(entrada => {
-          let classeLinha = "";
-          const tipo = (entrada.tipo_alerta || "").toLowerCase();
+    // Ordena do mais antigo para o mais recente
+    dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
+    tbody.innerHTML = "";
 
-          if (tipo === "critico") {
-            classeLinha = "alerta-critico";
-          } else if (tipo === "moderado") {
-            classeLinha = "alerta-moderado";
-          }
+    // Controle de duplicatas
+    const chamadosExibidos = new Set();
 
-          const tempoFormatado = entrada.minutos_aberto > 120
-            ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
-            : `<td>${entrada.minutos_aberto}</td>`;
+    dados.forEach(entrada => {
+      const chaveUnica = `${entrada.servidor}-${entrada.componente}-${entrada.minutos_aberto}-${entrada.tipo_alerta}-${entrada.operador_responsavel}`;
 
-          const linha = `
-            <tr class="${classeLinha}">
-              <td>${entrada.servidor}</td>
-              <td>${entrada.componente}</td>
-              ${tempoFormatado}
-              <td>${entrada.tipo_alerta}</td>
-              <td>${entrada.operador_responsavel}</td>
-            </tr>`;
-          tbody.innerHTML += linha;
-        });
-      atualizarGraficoComDados(dados);
+      if (chamadosExibidos.has(chaveUnica)) {
+        return; // já exibido
+      }
+
+      chamadosExibidos.add(chaveUnica);
+
+      // Inicia classe da linha
+      let classeLinha = "";
+
+      // Classe por tipo de alerta
+      const tipo = (entrada.tipo_alerta || "").toLowerCase();
+      if (tipo === "critico") {
+        classeLinha = "alerta-critico";
+      } else if (tipo === "moderado") {
+        classeLinha = "alerta-moderado";
+      }
+
+      // Classe por ID do servidor
+      switch (entrada.servidor) {
+        case 1:
+          classeLinha += " Rogirg";
+          break;
+        case 2:
+          classeLinha += " Reinar";
+          break;
+        case 3:
+          classeLinha += " Oiak";
+          break;
+        case 4:
+          classeLinha += " Leugim";
+          break;
+        case 5:
+          classeLinha += " Airotiv";
+          break;
+        default:
+          classeLinha += " Desconhecido";
+      }
+
+      // Estilo do tempo
+      const tempoFormatado = entrada.minutos_aberto > 120
+        ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
+        : `<td>${entrada.minutos_aberto}</td>`;
+
+      // Criação da linha HTML
+      const linha = `
+        <tr class="${classeLinha.trim()}">
+          <td>${entrada.servidor}</td>
+          <td>${entrada.componente}</td>
+          ${tempoFormatado}
+          <td>${entrada.tipo_alerta}</td>
+          <td>${entrada.operador_responsavel}</td>
+        </tr>`;
+
+      tbody.innerHTML += linha;
+    });
+
+    atualizarGraficoComDados(dados);
 
   } catch (erro) {
-    console.error(" Erro ao buscar os dados:", erro);
+    console.error("Erro ao buscar os dados:", erro);
   }
 }
+
 
 // 
 function atualizarGraficoComDados(dados) {
