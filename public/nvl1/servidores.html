@@ -36,7 +36,7 @@
             <div class="notificacao" id="notificacao">
                 <div class="sino"></div>
                 <span id="countAlerta">24</span>
-                <div class="modalAlertas" >
+                <div class="modalAlertas" style="display: none;">
                     <div class="msg">
                         <span class="msg-text">Alertas</span>
                     </div>
@@ -50,7 +50,7 @@
         <div class="container">
             <div class="header">
                 <div class="alinhamento-esquerda">
-                    <button onclick="modalColaborador()" class="btn-add-servidor">Adicionar</button>
+                    <!-- <button onclick="modalColaborador()" class="btn-add-servidor">Adicionar</button> -->
                     <input class="input" placeholder="🔍 Pesquisar Servidor..." type="search" name=""
                         id="pesquisa-servidor">
                 </div>
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-
+<!-- 
             <div class="modal">
                 <div class="content-servidor">
                     <div class="cima">
@@ -83,13 +83,13 @@
                         <label for="">Sistema operacional:</label>
                         <input type="text" class="inputServidor" id="tagName">
                     </div>
-                    <!-- <div class="servidor-modal">
+                    <div class="servidor-modal">
                         <label for="">campo:</label>
                         <input type="text" class="inputServidor" id="tagName">
-                    </div> -->
+                    </div>
                     <button onclick="cadastrar()">Cadastrar</button>
                 </div>
-            </div>
+            </div> -->
 
             <table id="tabela">
                 <thead>
@@ -122,9 +122,19 @@
     const pesquisa = document.querySelector('.input');
     const btnDropdown = document.querySelector('.dropdown-status');
     const menuDropdown = document.querySelector('.dropdown-menu');
-    const componenteArmazenamento = document.querySelector('.componenteArmazenamento');
-    const componenteProcessos = document.querySelector('.componenteProcessos');
+    const filtroItemRamDisco = document.querySelector('.componenteArmazenamento');
+    const filtroItemCpuGpu = document.querySelector('.componenteProcessos');
+    const corpoTabela = document.getElementById('corpo-tabela'); 
+    
+    const LIMITE_CRITICO_CPU = 80;    // Exemplo: % de uso CPU crítico
+    const LIMITE_MODERADO_CPU = 60;   // Exemplo: % de uso CPU moderado
+    const LIMITE_CRITICO_RAM = 90;    // Exemplo: % de uso RAM crítico
+    const LIMITE_MODERADO_RAM = 75;   // Exemplo: % de uso RAM moderado
+    const LIMITE_CRITICO_DISCO = 90;  // Exemplo: % de uso Disco crítico
+    const LIMITE_MODERADO_DISCO = 75;
 
+    let tabelaHeadRow = document.querySelector('#tabela thead tr'); // linha do cabeçalho da tabela.
+    let estadoComponentesAtual = 'cpu_gpu'; // Estado inicial
     let countAlertaCritico = document.getElementById('countAlertaCritico');
     let countAlertaModerado = document.getElementById('countAlertaModerado');
     let countAlerta = document.getElementById('countAlerta');
@@ -132,9 +142,29 @@
     let geralServidores;
     let nucleoCpu = 4;
     let threadsCpu = 8;
-    let tabelaAtual;
 
-        function atualizarDados() {
+function conversorGB(bytes){
+    if(bytes === null || bytes === undefined) return "-";
+    let gb = parseFloat(bytes) / (1024 * 1024 * 1024);
+    return gb.toFixed(2); 
+}
+
+function formatarPorcentagem(valor) {
+    if(valor === null || valor === undefined) return "-";
+    return parseFloat(valor).toFixed(1);
+}
+
+// init
+function inicializarMonitoramento() {
+    if (sessionStorage.NOME_USUARIO) {
+        nome_usuario.innerHTML = `${sessionStorage.NOME_USUARIO}  <img src="../assets/icon/arrow_donw.png" alt="" width="20" height="15">`;
+    }
+    atualizarVisibilidadeFiltros();
+    atualizarDados(); // Primeira carga de dados
+    setInterval(atualizarDados, 5000); // Atualiza a cada 5 segundos 
+}
+
+function atualizarDados() {
             let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
             if (idEmpresa) {
@@ -195,73 +225,7 @@
                 .catch(error => {
                     console.error("Erro ao obter os dados: ", error);
                 });
-
-
-
-        };
-
-        document.addEventListener('DOMContentLoaded', () => {
-            atualizarDados();
-
-            setInterval(atualizarDados, 3000); // Atualiza a cada 5 segundos
-        });
-
-    function listagemBody() {
-        let body = document.getElementById('corpo-tabela');
-        body.innerHTML = "";
-
-        let limiteModerado = 60;
-        let limiteCritico = 80;
-        countAlertaCritico = 0;
-
-        servidores.forEach(servidor => {
-            const linha = document.createElement('tr');
-
-            let totalNucleo = servidor.qtdCpu * nucleoCpu;
-            let totalThreads = servidor.qtdCpu * threadsCpu;
-
-            // Busca a lista de capturas mais recentes para este servidor
-            const capturas = geralServidores[servidor.id];
-
-            // Se houver capturas, pega a mais recente (última do array)
-            const ultimaCaptura = Array.isArray(capturas) && capturas.length > 0
-                ? capturas[capturas.length - 1]
-                : null;
-
-            // Busca dados específicos da última captura
-            const usoCpu = ultimaCaptura ? ultimaCaptura.dadosCaptura.find(d => d.componente === "CPU" && d.metrica === "%") : null;
-            const usoGpu = ultimaCaptura ? ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "%") : null;
-            const tempGpu = ultimaCaptura ? ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "°C") : null;
-
-            if (usoCpu && usoCpu.dadoCaptura >= limiteCritico) {
-                countAlertaCritico.innerHTML = parseInt(countAlertaCritico.innerHTML) + 1;
-                countAlerta.innerHTML = parseInt(countAlerta.innerHTML) + 1;
-            } else if (usoCpu && usoCpu.dadoCaptura >= limiteModerado) {
-                countAlertaModerado.innerHTML = parseInt(countAlertaModerado.innerHTML) + 1;
-                countAlerta.innerHTML = parseInt(countAlerta.innerHTML) + 1;
-            } else {
-                // Se não houver alerta, não incrementa os contadores
-                countAlertaCritico.innerHTML = parseInt(countAlertaCritico.innerHTML);
-                countAlertaModerado.innerHTML = parseInt(countAlertaModerado.innerHTML);
-                countAlerta.innerHTML = parseInt(countAlerta.innerHTML);
-            }
-
-            // Atualiza as células da linha com os dados
-            tabelaAtual = linha.innerHTML = `
-            <td>${servidor.id}</td>
-            <td>${servidor.nome}</td>
-            <td>${totalNucleo}</td>
-            <td>${totalThreads}</td>
-            <td>${servidor.qtdGpu}</td>
-            <td>${tempGpu ? `${tempGpu.dadoCaptura}°C` : "-"}</td>
-            <td>${usoGpu ? `${usoGpu.dadoCaptura}%` : "-"}</td>
-            <td>${usoCpu ? `${usoCpu.dadoCaptura}%` : "-"}</td>
-            `;
-
-            // Adiciona a linha à tabela
-            body.appendChild(linha);
-        });
-    }
+};
 
     // Função que carrega o cabeçalho da tabela.
 function renderizarTabelaComCabecalhos() {
@@ -295,6 +259,168 @@ function renderizarTabelaComCabecalhos() {
     atualizarVisibilidadeFiltros();
 }
 
+function listagemBodyCpuGpu() {
+    let globalAlertCriticoCount = 0;
+    let globalAlertModeradoCount = 0;
+    let globalAlertTotalCount = 0;
+
+    if (!Array.isArray(servidores) || !geralServidores) {
+         corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Dados de CPU/GPU indisponíveis.</td></tr>`;
+        return;
+    }
+    if(servidores.length === 0) {
+        corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Nenhum servidor encontrado.</td></tr>`;
+        countAlertaCritico.innerHTML = 0;
+        CountAlertaModerado.innerHTML = 0;
+        CountAlerta.innerHTML = 0;
+        return;
+    }
+
+    servidores.forEach(servidor => {
+        const linha = document.createElement('tr');
+        let totalNucleo = (servidor.qtdCpu || 0) * nucleoCpu;
+        let totalThreads = (servidor.qtdCpu || 0) * threadsCpu;
+
+        // Busca a lista de capturas mais recentes para este servidor
+        const capturasDoServidor = geralServidores[servidor.id];
+        const ultimaCaptura = Array.isArray(capturasDoServidor) && capturasDoServidor.length > 0
+            ? capturasDoServidor[capturasDoServidor.length - 1]
+            : null;
+
+        // caso não tenha o componente inicia como null.
+        let usoCpuData = null;
+        let usoGpuData = null; 
+        let tempGpuData = null; 
+
+        if (ultimaCaptura && ultimaCaptura.dadosCaptura) {
+            usoCpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "CPU" && d.metrica === "%");
+            // Procurar por dados de GPU
+            usoGpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "%");
+            tempGpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "°C");
+        }
+
+        const valorUsoCpu = usoCpuData ? parseFloat(usoCpuData.dadoCaptura) : null;
+
+        if (valorUsoCpu !== null) {
+            if (valorUsoCpu >= LIMITE_CRITICO_CPU) {
+                globalAlertCriticoCount++;
+                globalAlertTotalCount++;
+            } else if (valorUsoCpu >= LIMITE_MODERADO_CPU) {
+                globalAlertModeradoCount++;
+                globalAlertTotalCount++;
+            }
+        }
+
+        linha.innerHTML = `
+            <td>${servidor.id || "-"}</td>
+            <td>${servidor.nome || "-"}</td>
+            <td>${totalNucleo || "-"}</td>
+            <td>${totalThreads || "-"}</td>
+            <td>${servidor.qtdGpu || 0}</td>
+            <td>${tempGpuData ? `${formatarPorcentagem(tempGpuData.dadoCaptura)}°C` : "-"}</td>
+            <td>${usoGpuData ? `${formatarPorcentagem(usoGpuData.dadoCaptura)}%` : "-"}</td>
+            <td style="color: ${valorUsoCpu !== null ? (valorUsoCpu >= LIMITE_CRITICO_CPU ? 'red' : (valorUsoCpu >= LIMITE_MODERADO_CPU ? 'yellow' : 'green')) : 'inherit'}">
+                ${valorUsoCpu !== null ? `${formatarPorcentagem(valorUsoCpu)}%` : "-"}
+            </td>
+        `;
+        corpoTabela.appendChild(linha);
+    });
+
+    countAlertaCritico.innerHTML = globalAlertCriticoCount;
+    countAlertaModerado.innerHTML = globalAlertModeradoCount;
+    countAlerta.innerHTML = globalAlertTotalCount;
+}
+
+function listagemBodyRamDisco() {
+     if (!Array.isArray(servidores) || !geralServidores) {
+        corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Dados de RAM/Disco indisponíveis.</td></tr>`;
+        return;
+    }
+    if(servidores.length === 0) {
+        corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Nenhum servidor encontrado.</td></tr>`;
+        return;
+    }
+
+    servidores.forEach(servidor => {
+        const linha = document.createElement('tr');
+        const capturasDoServidor = geralServidores[servidor.id];
+        const ultimaCaptura = Array.isArray(capturasDoServidor) && capturasDoServidor.length > 0
+            ? capturasDoServidor[capturasDoServidor.length - 1]
+            : null;
+
+        let ramUsoBytesData = null;
+        let ramPercentData = null;
+        let hdUsoBytesData = null;
+        let hdPercentData = null;
+
+        if (ultimaCaptura && ultimaCaptura.dadosCaptura) {
+            ramUsoBytesData = ultimaCaptura.dadosCaptura.find(d => d.componente === "RAM" && d.metrica === "Byte");
+            ramPercentData = ultimaCaptura.dadosCaptura.find(d => d.componente === "RAM" && d.metrica === "%");
+            hdUsoBytesData = ultimaCaptura.dadosCaptura.find(d => d.componente === "HD" && d.metrica === "Byte");
+            hdPercentData = ultimaCaptura.dadosCaptura.find(d => d.componente === "HD" && d.metrica === "%");
+
+            console.log("Dados capturados para o servidor:", servidor.id, {
+                ramUsoBytesData,
+                ramPercentData,
+                hdUsoBytesData,
+                hdPercentData
+            });
+        }
+
+        const ramUsoBytes = ramUsoBytesData ? parseFloat(ramUsoBytesData.dadoCaptura) : null;
+        const ramPercent = ramPercentData ? parseFloat(ramPercentData.dadoCaptura) : null;
+        const hdUsoBytes = hdUsoBytesData ? parseFloat(hdUsoBytesData.dadoCaptura) : null;
+        const hdPercent = hdPercentData ? parseFloat(hdPercentData.dadoCaptura) : null;
+
+        let ramTotalBytesCalculado = null;
+        if (ramUsoBytes !== null && ramPercent !== null && ramPercent > 0) {
+            ramTotalBytesCalculado = (ramUsoBytes / ramPercent) * 100;
+        }
+
+        let hdTotalBytesCalculado = null;
+        if (hdUsoBytes !== null && hdPercent !== null && hdPercent > 0) {
+            hdTotalBytesCalculado = (hdUsoBytes / hdPercent) * 100;
+        }
+
+        linha.innerHTML = `
+            <td>${servidor.id || "-"}</td>
+            <td>${servidor.nome || "-"}</td>
+            <td>${ramTotalBytesCalculado !== null ? conversorGB(ramTotalBytesCalculado) : "-"}</td>
+            <td>${ramUsoBytes !== null ? conversorGB(ramUsoBytes) : "-"}</td>
+            <td>${ramPercent !== null ? formatarPorcentagem(ramPercent) + '%' : "-"}</td>
+            <td>${hdTotalBytesCalculado !== null ? conversorGB(hdTotalBytesCalculado) : "-"}</td>
+            <td>${hdUsoBytes !== null ? conversorGB(hdUsoBytes) : "-"}</td>
+            <td>${hdPercent !== null ? formatarPorcentagem(hdPercent) + '%' : "-"}</td>
+        `;
+        corpoTabela.appendChild(linha);
+    });
+}
+
+filtroItemCpuGpu.addEventListener('click', () => {
+    estadoComponentesAtual = 'cpu_gpu';
+    renderizarTabelaComCabecalhos();
+    atualizarVisibilidadeFiltros();
+});
+
+filtroItemRamDisco.addEventListener('click', () => {
+    estadoComponentesAtual = 'ram_disco';
+    renderizarTabelaComCabecalhos();
+    atualizarVisibilidadeFiltros();
+});
+
+// --- Funções atualizar o Filtros ---
+function atualizarVisibilidadeFiltros() {
+    filtroItemCpuGpu.style.display = 'none'
+    if (estadoComponentesAtual === 'cpu_gpu') {
+        filtroItemCpuGpu.style.display = 'none';
+        filtroItemRamDisco.style.display = 'list-item';
+    } else if (estadoComponentesAtual === 'ram_disco') {
+        console.log("Exibindo RAM e Disco");
+        filtroItemRamDisco.style.display = 'none';
+        filtroItemCpuGpu.style.display = 'list-item';
+    }
+}
+
     function atualizarTabela() {
 
         if(tabelaAtual && componenteArmazenamento.classlist.contains('ativo')){
@@ -313,7 +439,6 @@ function renderizarTabelaComCabecalhos() {
             listagemBody();
         }
     } 
-
 
     document.querySelector('.dropdonw_user').addEventListener('click', function (event) {
         const dropdownContent = this.querySelector('.dropdonw_content');
@@ -340,31 +465,8 @@ function renderizarTabelaComCabecalhos() {
 
     document.querySelector('.notificacao').addEventListener('click', function () {
         const modalAlertas = document.querySelector('.modalAlertas');
-        modalAlertas.style.display = modalAlertas.style.display === 'block' ? 'none' : 'block';
+        modalAlertas.style.display = modalAlertas.style.display === 'none' ? 'block' : 'none';
     });
-
-    function modalColaborador() {
-        const modal = document.querySelector('.modal');
-        const modalContent = document.querySelector('.content-servidor');
-        const iconFechar = document.querySelector('.fecharModal');
-
-        modal.style.display = 'block'
-
-        function fecharModal(event) {
-            const clicouFora = !modalContent.contains(event.target);
-            const clicouNoX = event.target === iconFechar;
-
-            if (clicouFora || clicouNoX) {
-                modal.style.display = 'none';
-                document.removeEventListener('click', fecharModal);
-            }
-        }
-
-        setTimeout(() => {
-            document.addEventListener('click', fecharModal)
-        }, 100);
-
-    }
 
     pesquisa.oninput = () => {
         const termo = pesquisa.value.toLowerCase();
@@ -381,39 +483,7 @@ function renderizarTabelaComCabecalhos() {
         dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
     }
 
-    function cadastrar() {
-        let nomeServidor = document.getElementById();
-        let so = document.getElementById();
-
-        fetch("/servidores/cadastrarServidor", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({
-                "nomeServidor": nomeServidor,
-                "so": so
-            })
-        })
-            .then(function (resposta) {
-                resposta.json()
-                    .then((res) => {
-                        console.log(res);
-                    })
-
-                if (resposta.ok) {
-                    // TODO implementar modal de sucesso para o usuário.
-                }
-
-            })
-            .catch(function (resposta) {
-                resposta.json()
-                    .then((res) => {
-                        console.log(res)
-                    })
-            })
-
-    }
-
+// Chama a função de inicialização quando a página é carregada
+inicializarMonitoramento();    
 
 </script>
