@@ -168,57 +168,44 @@ ul a:hover {
   width: 15%;
   height: 60%;
   z-index: 1;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: start;
   flex-direction: column;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.msg {
-  display: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* border: 1px solid blue; */
-  width: 100%;
-  height: 20%;
-  
-  & .msg-text {
-    border: 1px solid blue;
-    width: 90%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    color: #333;
-  }
+.modalAlertas .msg {
+  width: 100%; 
+  flex-grow: 1;            /* Faz este item ocupar o espaço vertical restante no .modalAlertas */
+  overflow-y: auto;        /* Adiciona rolagem vertical se as mensagens excederem a altura */
+  padding: 10px;   
+  box-sizing: border-box;
+  display: flex;           
+  flex-direction: column;
+  align-items: stretch;    /* Faz os filhos <p> esticarem para a largura total do .item */
 }
 
-.item {
-  border: 1px solid green;
-  margin-bottom: 20px;
-  width: 4%; /* Ajuste se necessário */
-  height: 3%; /* Ajuste se necessário */
+.modalAlertas .msg p {
+  background-color: #f8f9fa; 
+  border: 1px solid #dee2e6;   
+  padding: 8px 12px;          
+  margin: 0 0 8px 0;         
+  border-radius: 4px;          
+  font-size: 0.925rem;         
+  line-height: 1.4;            
+  color: #212529;              
+  word-break: break-word;      
+  text-align: left;         
 }
 
-.paginacao {
-  display: flex;
-  gap: 10px;
+/* Remove a margem inferior do último parágrafo para um espaçamento consistente */
+.modalAlertas .msg p:last-child {
+  margin-bottom: 0;
 }
-
-.paginacao button {
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.paginacao button.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
 
 .sair:hover {
   transform: translateY(-2px);

@@ -40,5 +40,9 @@ router.post("/cadastrar/chamado", function (req, res) {
     monitoramentoController.abrirChamado(req, res);
 })
 
+router.get("/coletar/chamados", function (req, res) {
+    monitoramentoController.abrirChamado(req, res);
+})
+
 
 module.exports = router;
