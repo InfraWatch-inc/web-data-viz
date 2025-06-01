@@ -28,6 +28,7 @@ var componenteRouter = require("./src/routes/componente")
 var alertasMemoriaRouter = require("./src/routes/alertasMemoria");
 var alertasProcessamentoRouter = require("./src/routes/alertasProcessamento");
 var dadosExternosRouter = require("./src/routes/dadosExternos")
+var bucketOuroExternoRouter = require("./src/routes/bucketOuroExterno")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -47,6 +48,7 @@ app.use("/componente", componenteRouter);
 app.use("/alertasMemoria", alertasMemoriaRouter);
 app.use("/alertasProcessamento", alertasProcessamentoRouter);
 app.use("/dadosExternos", dadosExternosRouter);
+app.use("/bucketOuroExterno", bucketOuroExternoRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`
