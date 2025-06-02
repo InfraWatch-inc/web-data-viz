@@ -268,10 +268,12 @@ p {
 .kpi-critico {
     color: red;
     font-weight: bold;
+    font-size: 1.2rem;
 }
 .kpi-moderado {
     color: orange;
     font-weight: bold;
+    font-size: 1.2rem;
 }
 
 

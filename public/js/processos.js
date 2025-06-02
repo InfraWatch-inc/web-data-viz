@@ -39,6 +39,7 @@ function adicionarProcessos(process, index) {
 
     if (process.cpu > 30) {
         cpuInfo.style.color = 'red';
+        cpuInfo.style.fontWeight = 'bold';
     }
                 
     const ramInfo = document.createElement('div');

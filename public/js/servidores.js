@@ -149,11 +149,6 @@ function renderizarTabelaComCabecalhos() {
   atualizarVisibilidadeFiltros();
 }
 
-/**
- * Verifica se um servidor é considerado "vazio" (sem uso de recursos significativos).
- * @param {object} servidor O objeto do servidor.
- * @returns {boolean} True se o servidor estiver vazio, False caso contrário.
- */
 
 function isServidorVazio(servidor){
   const gpu = servidor.qtdGpu ?? 0;
@@ -163,14 +158,6 @@ function isServidorVazio(servidor){
   return gpu === 0 && cpu === 0 && ramUso === 0 && hdUso === 0;
 }
 
-/**
- * Compara dois servidores para ordenação.
- * A ordenação prioriza servidores não-vazios sobre os vazios.
- * Entre servidores não-vazios, ordena por maior uso: GPU > CPU > RAM > HD.
- * @param {object} valorComponenteA Servidor A.
- * @param {object} valorComponenteB Servidor B.
- * @returns {number} Negativo se A vem antes de B, Positivo se B vem antes de A, 0 se iguais.
- */
 
 function compararServidores(valorComponenteA, valorComponenteB) {
   const aVazio = isServidorVazio(valorComponenteA);

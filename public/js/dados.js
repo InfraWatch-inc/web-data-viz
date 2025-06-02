@@ -7,6 +7,9 @@ let kpi2_metrica2 = document.getElementById("kpi2_metrica2");
 let kpi3_nome = document.getElementById("kpi3_nome");
 let kpi3_metrica1 = document.getElementById("kpi3_metrica1");
 let kpi3_metrica2 = document.getElementById("kpi3_metrica2");
+let kpi4_metrica1 = document.getElementById("kpi4_metrica1");
+let kpi4_metrica2 = document.getElementById("kpi4_metrica2");
+// let kpi4_nome = document.getElementById("kpi4_nome");
 let rm_divisao = document.getElementById("divisao_rm");
 let rm_divisao_ram = document.getElementById("rm_divisao_ram");
 let rm_divisao_gpu = document.getElementById("rm_divisao_gpu");
@@ -271,13 +274,19 @@ function renderizarGraficoLinha() {
     switch (componenteAtivo) {
         case 'cpu':
             nomeComponenteJSON = 'CPU';
-            if (tipoMetrica === 'temperatura') {
-                nomeMetricaJSON = 'Temperatura'; labelDataset = 'Temperatura CPU'; metrica = '°C'; yAxisMax = 100;
+
+            if (tipoMetrica === 'frequencia') {
+                nomeMetricaJSON = 'MHz'; labelDataset = 'Frequência da CPU'; metrica = "MHz"; yAxisMax = undefined;
+            }
+            else if(tipoMetrica === 'uso'){
                 nomeMetricaJSON = '%'; labelDataset = 'Uso CPU'; metrica = '%'; yAxisMax = 100;
+
+            }
+            else if (tipoMetrica === 'temperatura') {
+                nomeMetricaJSON = 'Temperatura'; labelDataset = 'Temperatura CPU'; metrica = '°C'; yAxisMax = 100;
                 console.warn("Dados de Temperatura da CPU não disponíveis, exibindo Uso %.");
             } else {
                 nomeMetricaJSON = '%'; labelDataset = 'Uso CPU'; metrica = '%'; yAxisMax = 100;
-                nomeMetricaJSON = 'MHz'; labelDataset = 'Frequência CPU'; metrica = 'MHz'; yAxisMax = undefined;
             }
             break;
         case 'gpu':
@@ -395,31 +404,55 @@ function atualizarGraficosRosquinha() {
         const canvasElement = document.getElementById(info.idCanvas);
         if (!canvasElement) {
             console.warn(`Canvas ${info.idCanvas} não encontrado.`);
-            return;
+            return; // Pula para o próximo componente se o canvas não for encontrado
         }
-        const ctx = canvasElement.getContext('2d');
-        const gradiente1 = criarGradient(ctx)
+        const ctxRosquinha = canvasElement.getContext('2d');
+        
+        // É importante que criarGradient use o contexto correto (ctxRosquinha)
+        const gradienteRosquinha = criarGradient(ctxRosquinha); 
 
         let valorUso = getUltimoValorMetrica(info.nomeJSON, info.metrica);
-        let dataForChart = [0, 100]; // Valor padrão para gráfico vazio
+        let dataForChart = [0, 100]; // Valor padrão para gráfico vazio (0% usado, 100% livre)
 
-        if (valorUso !== null) {
-            valorUso = parseFloat(valorUso.toFixed(1));
+        if (valorUso !== null && valorUso !== undefined && !isNaN(parseFloat(valorUso))) {
+            valorUso = parseFloat(parseFloat(valorUso).toFixed(1));
+            // Garante que valorUso não exceda 100 e não seja menor que 0
+            valorUso = Math.max(0, Math.min(100, valorUso)); 
             dataForChart = [valorUso, parseFloat((100 - valorUso).toFixed(1))];
         }
 
+        // Destruir gráfico existente antes de desenhar um novo ou texto
         const chartExistente = Chart.getChart(canvasElement);
         if (chartExistente) {
             chartExistente.destroy();
         }
+        
+        // Limpar o canvas antes de desenhar texto "NAS" ou novo gráfico
+        ctxRosquinha.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
-        new Chart(ctx, {
+
+        if (info.nomeJSON === 'GPU' && (valorUso === null || valorUso === undefined || isNaN(parseFloat(valorUso)))) {
+            // Se for GPU e não houver dados válidos, desenha "NAS"
+            kpi4_metrica1.style.display = 'none';
+            kpi4_metrica2.style.display = 'none';
+
+            ctxRosquinha.font = "bold 16px Arial";
+            ctxRosquinha.fillStyle = "#808080"; // Cor cinza para o texto
+            ctxRosquinha.textAlign = "center";
+            ctxRosquinha.textBaseline = "middle";
+            ctxRosquinha.fillText("NAS", canvasElement.width / 2, canvasElement.height / 2);
+            // Não cria o gráfico de rosquinha para GPU se "NAS" for exibido
+            return; 
+        }
+
+        // Cria um novo gráfico de rosquinha para todos os outros casos (ou GPU com dados)
+        new Chart(ctxRosquinha, {
             type: 'doughnut',
             data: {
                 datasets: [{
                     data: dataForChart,
-                    backgroundColor: [gradiente1, '#E0E0E0'],
-                    borderColor: '#FFFFFF',
+                    backgroundColor: [gradienteRosquinha, '#E0E0E0'], // Cor para usado e livre
+                    borderColor: '#FFFFFF', // Cor da borda das fatias
                     borderWidth: 2,
                     // circumference: 270, // Opcional para visual de gauge
                     // rotation: -135,    // Opcional para visual de gauge
@@ -428,9 +461,9 @@ function atualizarGraficosRosquinha() {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                // cutout: '75%', // Mais fino
+                cutout: '70%', // Ajusta a espessura da rosquinha (ex: '70%')
                 plugins: {
-                    legend: { display: false },
+                    legend: { display: false }, // Esconde a legenda padrão
                     tooltip: {
                         callbacks: {
                             label: function (context) {
@@ -443,22 +476,6 @@ function atualizarGraficosRosquinha() {
             }
         });
     });
-    // gpu separada para nõa bugar.
-    const gpuCanvas = document.getElementById('gpuRosquinha');
-    if (gpuCanvas) {
-        const ctxGpu = gpuCanvas.getContext('2d');
-        const valorUsoGpu = getUltimoValorMetrica('GPU', '%');
-
-        if (valorUsoGpu === null || isNaN(valorUsoGpu)) {
-            const chartExistente = Chart.getChart(gpuCanvas);
-            if (chartExistente) chartExistente.destroy();
-            new Chart(ctxGpu, {
-                type: 'doughnut',
-                data: { datasets: [{ data: [0, 100], backgroundColor: ['#CCCCCC', '#E9ECEF'] }] },
-                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { display: false }, tooltip: { enabled: false } } }
-            });
-        }
-    }
 }
 
 function atualizarVisibilidadeBotoes() {
@@ -470,7 +487,6 @@ function atualizarVisibilidadeBotoes() {
     if (btnBytes) btnBytes.style.display = 'none';
     if (btnFreq) btnFreq.style.display = 'none';
 
-    // let metricaPadrao = 'uso';
 
     if (componenteAtivo === 'cpu') {
         if (btnFreq) btnFreq.style.display = 'inline-block';
@@ -531,7 +547,7 @@ function inicializarEventosClique() {
         }
     }
 
-    ['uso', 'temperatura', 'bytes'].forEach(metrica => {
+    ['uso', 'temperatura', 'bytes', 'frequencia'].forEach(metrica => {
         const btn = document.getElementById(`btn_${metrica}`);
         if (btn) {
             btn.addEventListener('click', () => {
