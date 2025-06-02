@@ -64,7 +64,6 @@ ul a:hover {
     align-items: center;
 }
 
-
 .user_name {
     font-size: 1.8rem;
     word-spacing: 0.2rem;
@@ -115,17 +114,19 @@ ul a:hover {
     margin-top: 2%;
     display: flex;
     justify-content: space-around;
+    padding: 0.25rem;
 }
 
 .kpi {
-    border: 1px solid rgb(167, 166, 166);
+    /* border: 1px solid rgb(167, 166, 166); */
     align-items: center;
     width: 20%;
     height: 8rem;
     text-align: center;
     border-radius:  0.55rem;
     background-color: #f9fafb;
-    padding: 0.4rem;
+    padding: 1rem;
+     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .graficos-insights {
@@ -159,7 +160,7 @@ ul a:hover {
 }
 
 .resultadoKPI {
-  font-size: 2.5rem; 
+  font-size: 2.2rem; 
   font-weight: 700;  
   display: flex; 
   justify-content: center; 

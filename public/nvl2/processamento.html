@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Processamento | InfraWatch</title>
     <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
-    <link rel="stylesheet" href="../css/insightsKaio.css">
+    <link rel="stylesheet" href="../css/processamento.css">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/sessao.js"></script>
@@ -17,7 +17,7 @@
     <header>
         <nav class="header">
             <div class="user_div">
-                <div class="img"></div>
+                 <div class="img" style="width: 20%; height: 95%; overflow: hidden;"><img src="../assets/icon/user-solid 1.png" alt=""></div>
                 <span class="user_name" id="txtUsuario"></span>
             </div>
 
@@ -184,7 +184,7 @@
             var qtdAlertaNoite = 0
 
             dados.forEach(i => {
-                if (i.periodoDia == 'Manhã') {
+                if (i.periodoDia == 'Manha') {
                     qtdAlertaManha++
                 } else if (i.periodoDia == 'Tarde') {
                     qtdAlertaTarde++
@@ -192,12 +192,12 @@
                     qtdAlertaNoite++
                 }
             })
-            console.log("Quantidade de alertas Manhã: " + qtdAlertaManha)
+            console.log("Quantidade de alertas Manha: " + qtdAlertaManha)
             console.log("Quantidade de alertas Tarde: " + qtdAlertaTarde)
             console.log("Quantidade de alertas Noite: " + qtdAlertaNoite)
 
             if (qtdAlertaManha > qtdAlertaTarde && qtdAlertaManha > qtdAlertaNoite) {
-                document.getElementById("resultadoKPI4").innerHTML = "Manhã: " + qtdAlertaManha
+                document.getElementById("resultadoKPI4").innerHTML = "Manha: " + qtdAlertaManha
             } else if (qtdAlertaTarde > qtdAlertaManha && qtdAlertaTarde > qtdAlertaNoite) {
                 document.getElementById("resultadoKPI4").innerHTML = "Tarde: " + qtdAlertaTarde
             } else {
@@ -242,7 +242,7 @@
             }
 
             if (qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaAmdGPU && qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaIntelGPU) {
-                document.getElementById("resultadoKPI3").innerHTML = "NVIDIA: " + qtdAlertaMarcaNvidiaGPU
+                document.getElementById("resultadoKPI3").innerHTML = "Nvidia: " + qtdAlertaMarcaNvidiaGPU
             } else if (qtdAlertaMarcaAmdGPU > qtdAlertaMarcaIntelGPU) {
                 document.getElementById("resultadoKPI3").innerHTML = "AMD: " + qtdAlertaMarcaAmdGPU
             } else {
@@ -432,14 +432,14 @@
                             {
                                 label: 'Moderado',
                                 data: moderado,
-                                backgroundColor: '#7e22ce', // roxo
+                                backgroundColor: '#06b6d4', // azul claro
                                 borderRadius: 5,
                                 barThickness: 90
                             },
                             {
-                                label: 'Críticos',
+                                label: 'Crítico',
                                 data: critico,
-                                backgroundColor: '#06b6d4', // azul claro
+                                backgroundColor: '#7e22ce', // roxo
                                 borderRadius: 5,
                                 barThickness: 90
                             }
@@ -451,12 +451,10 @@
                                 display: true,
                                 text: 'Histórico de Alertas GPU e CPU',
                                 font: {
-                                    size: 30,
-                                    weight: 'bold'
+                                    size: 30
                                 },
-                                padding: {
-                                    bottom: 20
-                                }
+                                // color: 'rgb(31, 41, 55)'
+                                color: '#333333',
                             },
                             legend: {
                                 display: true,
@@ -465,8 +463,9 @@
                                 labels: {
                                     font: {
                                         size: 20
-                                    }
-                                }
+                                    },
+                                    color: '#333333',
+                                },
                             },
                             tooltip: {
                               callbacks: {
@@ -494,12 +493,15 @@
                                     text: LegendaEixoX,
                                     font: {
                                         size: 26
-                                    }
+                                    },
+                                    // color: 'rgb(31, 41, 55)'
+                                    // color: '#333333'
                                 },
                                 ticks: {
                                     font:{
                                         size: 20
-                                    }
+                                    },
+                                    color: '#333333',
                                 }
                             },
                             y: {
@@ -507,15 +509,18 @@
                                 beginAtZero: true,
                                 title: {
                                     display: true,
-                                    text: 'Quantidades de alertas',
+                                    text: 'Quantidade de alertas',
                                     font: {
-                                        size: 26
-                                    }
+                                        size: 26,
+                                    },
+                                    // color: 'rgb(31, 41, 55)'
+                                    // color: '#333333',
                                 },
                                 ticks: {
                                     font:{
                                         size: 20
-                                    }
+                                    },
+                                    color: '#333333',
                                 }
                             }
                         }
@@ -523,17 +528,17 @@
 
                 });
 
-                // Criando o gráfico de alertas por período
+                // Criando o gráfico de alertas por períodoL
         
-            // Manhã
+            // Manha
             const periodoManhaCPU = meses.map(mes => {
-                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0) +
-                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0) 
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manha?.CPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manha?.CPU?.["2"] || 0) 
                 })
 
             const periodoManhaGPU = meses.map(mes => {
-                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.GPU?.["1"] || 0) +
-                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.GPU?.["2"] || 0) 
+                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manha?.GPU?.["1"] || 0) +
+                           (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manha?.GPU?.["2"] || 0) 
                 })
 
             const periodoManhaTotal = meses.map((mes, index) => {
@@ -624,9 +629,23 @@
                                 text: 'Histórico de Alertas por Periodo GPU e CPU',
                                 font: {
                                     size: 30,
-                                    weight: 'bold'
+                                    // weight: 'bold'
+                                },
+                                color: '#333333',
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                align: 'center',
+                                labels: {
+                                    font: {
+                                        size: 20
+                                    },
+                                    color: '#333333'
                                 }
+
                             }
+                            
                         },
                         scales: {
                             y: {
@@ -636,12 +655,14 @@
                                     text: 'Quantidades de alertas',
                                     font: {
                                         size: 26
-                                    }
+                                    },
+                                    // color: '#333333'
                                 },
                                 ticks: {
                                     font:{
                                         size: 20
-                                    }
+                                    },
+                                    color: '#333333',
                                 }
                             },
                             x: {
@@ -650,12 +671,14 @@
                                     text:LegendaEixoX,
                                     font: {
                                         size: 26
-                                    }
+                                    },
+                                    // color: '#333333'
                                 },
                                 ticks: {
                                     font:{
                                         size: 20
-                                    }
+                                    },
+                                    color: '#333333',
                                 }
                             }
                         }
