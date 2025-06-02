@@ -1,22 +1,18 @@
 const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
 require('dotenv').config();
 
-const bucket = process.env.S3_BUCKET;
-
-const s3 = new S3Client({
-    region: process.env.AWS_REGION,
-});
+const s3 = new S3Client({ region: "us-east-1" });
 
 async function getJsonFromS3(key) {
     try {
         const command = new GetObjectCommand({
-            Bucket: bucket,
+            Bucket: 'infrawatch-ouro',
             Key: key,
         });
 
         const response = await s3.send(command);
         const body = await readableStreamToString(response.Body);
-
+        console.log(response)
         const data = JSON.parse(body);
         console.log("JSON carregado:", data);
         return data;
