@@ -49,7 +49,7 @@
 
     <div class="kpis-gerais">
         <div class="kpi">
-            <span style="font-size: 1.4rem; font-weight: 600;">Componentes com mais alertas críticos</span><br>
+            <span style="font-size: 1.4rem; font-weight: 600;">Componente com mais alertas críticos</span><br>
             <span id="resultadoKPI1" class="resultadoKPI"></span>
         </div>
 
@@ -370,10 +370,7 @@
                 }
 
 
-                // Criando o gráfico de alertas por mês
-
-                // var mesesCru = Object.keys(resultadoPorMesComponenteNivel);
-                
+                // Criando o gráfico de alertas por mês             
                 var meses = Object.keys(resultadoPorMesComponenteNivel);
 
                 var mesesPtBr = meses.map(converterMesParaPortuguesSimples);
@@ -419,7 +416,7 @@
                 console.log("QUANTIDADE GPU MODERADO", moderadoGPU)
 
                 console.log("QUANTIDADE CPU CRITICO", criticoCPU)
-                console.log("QUANTIDADE GPU CRITICO", criticoGPU    )
+                console.log("QUANTIDADE GPU CRITICO", criticoGPU)
 
                 if (GraficoAlertas) {
                     GraficoAlertas.destroy()
@@ -454,7 +451,7 @@
                                 display: true,
                                 text: 'Histórico de Alertas GPU e CPU',
                                 font: {
-                                    size: 18,
+                                    size: 30,
                                     weight: 'bold'
                                 },
                                 padding: {
@@ -467,7 +464,7 @@
                                 align: 'center',
                                 labels: {
                                     font: {
-                                        size: 14
+                                        size: 20
                                     }
                                 }
                             },
@@ -484,8 +481,6 @@
                                     return `Critico - CPU: ${criticoCPU[mesEspecificoBarra]} GPU: ${criticoGPU[mesEspecificoBarra]}`;
                                 }
 
-                                return ''
-
                                 }
                               }
                             }
@@ -498,6 +493,11 @@
                                     display: true,
                                     text: LegendaEixoX,
                                     font: {
+                                        size: 26
+                                    }
+                                },
+                                ticks: {
+                                    font:{
                                         size: 20
                                     }
                                 }
@@ -509,6 +509,11 @@
                                     display: true,
                                     text: 'Quantidades de alertas',
                                     font: {
+                                        size: 26
+                                    }
+                                },
+                                ticks: {
+                                    font:{
                                         size: 20
                                     }
                                 }
@@ -520,57 +525,49 @@
 
                 // Criando o gráfico de alertas por período
         
-                // Manhã
-                const periodoManhaCPU = meses.map(mes => {
+            // Manhã
+            const periodoManhaCPU = meses.map(mes => {
                     return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["1"] || 0) +
                            (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.CPU?.["2"] || 0) 
                 })
 
-                const periodoManhaGPU = meses.map(mes => {
+            const periodoManhaGPU = meses.map(mes => {
                     return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.GPU?.["1"] || 0) +
                            (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Manhã?.GPU?.["2"] || 0) 
                 })
 
-               
+            const periodoManhaTotal = meses.map((mes, index) => {
+                    return (periodoManhaCPU[index] || 0) + (periodoManhaGPU[index] || 0)
+                });
 
-                // Tarde
-
-                const periodoTardeCPU = meses.map(mes => {
+            // Tarde
+            const periodoTardeCPU = meses.map(mes => {
                     return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["1"] || 0) +
                            (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.CPU?.["2"] || 0)
                 })
 
-                const periodoTardeGPU = meses.map(mes => {
+            const periodoTardeGPU = meses.map(mes => {
                     return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["1"] || 0) +
                            (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Tarde?.GPU?.["2"] || 0)
                 })
 
-                
-               // Noite
-               
-               const periodoNoiteCPU = meses.map(mes => {
-                    return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0) +
+            const periodoTardeTotal = meses.map((mes, index) => {
+                    return (periodoTardeCPU[index] || 0) + (periodoTardeGPU[index] || 0)
+                });
+          
+            // Noite
+            const periodoNoiteCPU = meses.map(mes => {
+                  return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["1"] || 0) +
                            (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.CPU?.["2"] || 0)
-               })
+            })
 
-               const periodoNoiteGPU = meses.map(mes => {
+            const periodoNoiteGPU = meses.map(mes => {
                     return (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.GPU?.["1"] || 0) +
                            (resultadoPorMesComponenteNivelPorPeriodo[mes]?.Noite?.GPU?.["2"] || 0)
                })
 
-               // Manhã
-                const periodoManhaTotal = meses.map((mes, index) => {
-                    return (periodoManhaCPU[index] || 0) + (periodoManhaGPU[index] || 0)
-                });
-            
-                // Tarde
-                const periodoTardeTotal = meses.map((mes, index) => {
-                    return (periodoTardeCPU[index] || 0) + (periodoTardeGPU[index] || 0)
-                });
-            
-                // Noite
-                const periodoNoiteTotal = meses.map((mes, index) => {
-                    return (periodoNoiteCPU[index] || 0) + (periodoNoiteGPU[index] || 0)
+            const periodoNoiteTotal = meses.map((mes, index) => {
+                return (periodoNoiteCPU[index] || 0) + (periodoNoiteGPU[index] || 0)
                 });
                
 
@@ -626,22 +623,9 @@
                                 display: true,
                                 text: 'Histórico de Alertas por Periodo GPU e CPU',
                                 font: {
-                                    size: 18,
+                                    size: 30,
                                     weight: 'bold'
                                 }
-                            },
-                             tooltip: {
-                              callbacks: {
-                                label: function(context) {
-
-                                // const mesEspecificoBarra = context.dataIndex;
-                                // const criticoOUmoderado = context.datasetIndex;
-
-    
-                                //     return `CPU: ${moderado[mesEspecificoBarra]} GPU: ${critico[mesEspecificoBarra]}`;
-
-                                    }
-                              }
                             }
                         },
                         scales: {
@@ -651,6 +635,11 @@
                                     display: true,
                                     text: 'Quantidades de alertas',
                                     font: {
+                                        size: 26
+                                    }
+                                },
+                                ticks: {
+                                    font:{
                                         size: 20
                                     }
                                 }
@@ -660,6 +649,11 @@
                                     display: true,
                                     text:LegendaEixoX,
                                     font: {
+                                        size: 26
+                                    }
+                                },
+                                ticks: {
+                                    font:{
                                         size: 20
                                     }
                                 }
