@@ -56,9 +56,31 @@ function listagemServidores(idEmpresa) {
     return database.executar(instrucaoSql);
 }
 
+async function buscarMsgSlack(){
+    const listaCanais = await slack.conversations.list();
+        const canal = listaCanais.channels.find(c => c.name === 'rebusfarm');
+        if (!canal) throw new Error("Canal não encontrado");
+
+        const response = await slack.conversations.history({
+            channel: canal.id,
+            limit: 5
+        });
+        const mensagens = response.messages;
+        const slackMessage = mensagens.map(msg => msg.text);
+
+        return slackMessage;
+}
+
 async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, metrica, valor) {
     let tipoAlerta = "Moderado";
     let descricao, documentoDescricao, assunto;
+
+    const slackMsg = await buscarMsgSlack()
+
+    if(idAlerta == null || idServidor == null || nivel == null || dataHora == null || componente == null || metrica == null || valor == null) {
+        console.error("Parâmetros inválidos para abrir chamado no Jira.");
+        return slackMsg;
+    }
 
     let operadores = [
         "Carlos Silva",
@@ -145,26 +167,13 @@ async function abrirChamado(idAlerta, idServidor, nivel, dataHora, componente, m
             channel: process.env.SLACK_CHANNEL,
             text: `🔔 Chamado *${idChamado}* criado no Jira para o componente *${componente}* (alerta ${tipoAlerta}) com valor *${valor} ${metrica}*.`
         })
-
-        const listaCanais = await slack.conversations.list();
-        const canal = listaCanais.channels.find(c => c.name === 'rebusfarm');
-        if (!canal) throw new Error("Canal não encontrado");
-
-        const response = await slack.conversations.history({
-            channel: canal.id,
-            limit: 5
-        });
-        const mensagens = response.messages;
-        const slackMessage = mensagens.map(msg => msg.text);
-
-        return slackMessage;
+        return slackMsg;
 
     } catch (erro) {
         console.error('Erro no modelo ao criar issue:', erro);
         throw erro;
     }
 }
-
 
 module.exports = {
     getServidor,

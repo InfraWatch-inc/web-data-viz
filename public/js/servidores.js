@@ -22,9 +22,7 @@ let chamados;
 let nucleoCpu = 4;
 let threadsCpu = 8;
 let termoBuscaAtual = "";
-let globalAlertCriticoCount = 0;
-let globalAlertModeradoCount = 0;
-let globalAlertTotalCount = 0;
+let globalAlertCriticoCount, globalAlertModeradoCount, globalAlertTotalCount
 let mensagensAtuais = [];
 
 function conversorGB(bytes) {
@@ -39,6 +37,10 @@ function formatarPorcentagem(valor) {
 }
 
 function atualizarDados() {
+  globalAlertCriticoCount = 0;
+  globalAlertModeradoCount = 0;
+  globalAlertTotalCount = 0;
+
   let idEmpresa = sessionStorage.getItem("ID_EMPRESA");
 
   if (idEmpresa) {
@@ -100,7 +102,7 @@ function atualizarDados() {
       console.error("Erro ao obter os dados: ", error);
     });
 
-    fetch("/monitoramento/coletar/chamados")
+  fetch("/monitoramento/coletar/chamados")
     .then(resposta => {
       if (!resposta.ok) throw new Error("Resposta não OK");
       return resposta.json();
@@ -147,7 +149,40 @@ function renderizarTabelaComCabecalhos() {
   atualizarVisibilidadeFiltros();
 }
 
+/**
+ * Verifica se um servidor é considerado "vazio" (sem uso de recursos significativos).
+ * @param {object} servidor O objeto do servidor.
+ * @returns {boolean} True se o servidor estiver vazio, False caso contrário.
+ */
+
+function isServidorVazio(servidor){
+  const gpu = servidor.qtdGpu ?? 0;
+  const cpu = servidor.qtdCpu ?? 0;
+  const ramUso = servidor.ramUsoBytes ?? 0;
+  const hdUso = servidor.hdUsoBytes ?? 0;
+  return gpu === 0 && cpu === 0 && ramUso === 0 && hdUso === 0;
+}
+
+/**
+ * Compara dois servidores para ordenação.
+ * A ordenação prioriza servidores não-vazios sobre os vazios.
+ * Entre servidores não-vazios, ordena por maior uso: GPU > CPU > RAM > HD.
+ * @param {object} valorComponenteA Servidor A.
+ * @param {object} valorComponenteB Servidor B.
+ * @returns {number} Negativo se A vem antes de B, Positivo se B vem antes de A, 0 se iguais.
+ */
+
 function compararServidores(valorComponenteA, valorComponenteB) {
+  const aVazio = isServidorVazio(valorComponenteA);
+  const bVazio = isServidorVazio(valorComponenteB);
+
+  if (!aVazio && bVazio) {
+    return -1; // A (não-vazio) é preferível a B (vazio). A deve vir antes.
+  }
+  if (aVazio && !bVazio) {
+    return 1;  // B (não-vazio) é preferível a A (vazio). B deve vir antes.
+  }
+
   let gpuA = valorComponenteA.qtdGpu ?? 0;
   let gpuB = valorComponenteB.qtdGpu ?? 0;
   if (gpuB !== gpuA) return gpuB - gpuA; // Ordena pelo valor de uso da GPU 
@@ -163,6 +198,8 @@ function compararServidores(valorComponenteA, valorComponenteB) {
   let hdA = valorComponenteA.hdUsoBytes ?? 0;
   let hdB = valorComponenteB.hdUsoBytes ?? 0;
   if (hdB !== hdA) return hdB - hdA; // Ordena pelo valor de uso do HD
+
+  return 0; // Se todos os valores forem iguais, considera-os iguais.
 }
 
 function servidoresOrdenadosPorUso(servidor) {
@@ -191,8 +228,8 @@ function listagemBodyCpuGpu() {
   if (servidores.length === 0) {
     corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Nenhum servidor encontrado.</td></tr>`;
     countAlertaCritico.innerHTML = 0;
-    CountAlertaModerado.innerHTML = 0;
-    CountAlerta.innerHTML = 0;
+    countAlertaModerado.innerHTML = 0;
+    countAlerta.innerHTML = 0;
     return;
   }
 
@@ -252,7 +289,7 @@ function listagemBodyCpuGpu() {
     linha.style.cursor = 'pointer';
     linha.addEventListener('click', () => {
       sessionStorage.setItem('idServidor', servidor.id);
-      window.location.href = `monitoramento.html`;
+      window.location.href = `./monitoramento.html`;
     })
   });
 
@@ -273,8 +310,8 @@ function listagemBodyRamDisco() {
   if (servidores.length === 0) {
     corpoTabela.innerHTML = `<tr><td colspan="8" style="text-align:center;">Nenhum servidor encontrado.</td></tr>`;
     countAlertaCritico.innerHTML = 0;
-    CountAlertaModerado.innerHTML = 0;
-    CountAlerta.innerHTML = 0;
+    countAlertaModerado.innerHTML = 0;
+    countAlerta.innerHTML = 0;
     return;
   }
 
@@ -311,14 +348,14 @@ function listagemBodyRamDisco() {
     const hdUsoBytes = hdUsoBytesData ? parseFloat(hdUsoBytesData.dadoCaptura) : null;
     const hdPercent = hdPercentData ? parseFloat(hdPercentData.dadoCaptura) : null;
 
-    if(ramPercent !== null){
+    if (ramPercent !== null) {
       if (ramPercent >= LIMITE_CRITICO_RAM) {
         globalAlertCriticoCount++;
         globalAlertTotalCount++;
         countAlerta.style.display = 'block';
       } else if (ramPercent >= LIMITE_MODERADO_RAM) {
+        countAlertaModerado++;
         globalAlertModeradoCount++;
-        globalAlertTotalCount++;
         countAlerta.style.display = 'block';
       }
     }
@@ -344,15 +381,19 @@ function listagemBodyRamDisco() {
             <td style="color: ${hdPercent !== null ? (hdPercent >= LIMITE_CRITICO_DISCO ? 'red' : (hdPercent >= LIMITE_MODERADO_DISCO ? 'orange' : 'black')) : 'inherit'}">${hdPercent !== null ? formatarPorcentagem(hdPercent) + '%' : "-"}</td>
         `;
     corpoTabela.appendChild(linha);
-    
+
     linha.style.cursor = 'pointer';
     linha.addEventListener('click', () => {
       sessionStorage.setItem('idServidor', servidor.id);
-      window.location.href = `../monitoramento.html`;
+      window.location.href = `./monitoramento.html`;
     })
   });
 
   filtroBuscar(termoBuscaAtual)
+
+  countAlertaCritico.innerHTML = globalAlertCriticoCount;
+  countAlertaModerado.innerHTML = globalAlertModeradoCount;
+  countAlerta.innerHTML = globalAlertTotalCount;
 }
 
 filtroItemCpuGpu.addEventListener('click', () => {
@@ -429,7 +470,13 @@ document.querySelector('.notificacao').addEventListener('click', function () {
   modalAlertas.style.display = modalAlertas.style.display === 'none' ? 'block' : 'none';
 });
 
-function atualizarModalAlertas(mensagem){
+document.querySelectorAll('.dropdown-menu a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+  });
+});
+
+function atualizarModalAlertas(mensagem) {
   const modalAlertasContent = document.querySelector('.modalAlertas .msg');
 
   if (!modalAlertasContent) {
@@ -437,12 +484,17 @@ function atualizarModalAlertas(mensagem){
     return;
   }
 
-  modalAlertasContent.innerHTML = ''; 
+  modalAlertasContent.innerHTML = '';
 
- if (mensagem && mensagem.length > 0) {
+  if (mensagem && mensagem.length > 0) {
     mensagem.forEach(msgTexto => {
+      let msgProcessada = msgTexto;
+      msgProcessada = msgProcessada.replace(/:bell:/g, '').trim();  // remove o emoji do sino que não aparece
+      msgProcessada = msgProcessada.replace(/\*(.*?)\*/g, '<strong>$1</strong>'); // transforma o * em negrito.
+      msgProcessada = msgProcessada.replace(/\b(\d+(?:\.\d+)?%)(?![a-zA-Z0-9])/g, '<span class="porcentagem-alerta">$1</span>');; // classe pra deixar em vermelho.
+
       const p = document.createElement('p');
-      p.textContent = msgTexto; 
+      p.innerHTML = msgProcessada;
       modalAlertasContent.appendChild(p);
     });
   } else {
@@ -457,13 +509,13 @@ function filtro() {
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 }
 
-function filtroBuscar(nomeServidor){
+function filtroBuscar(nomeServidor) {
   const linhas = document.querySelectorAll('tbody tr');
 
   linhas.forEach(linha => {
     const coluna = linha.querySelectorAll('td');
     console.log("Coluna: ", coluna);
-    if(coluna.length > 1){
+    if (coluna.length > 1) {
       const nome = coluna[1].textContent.toLowerCase();
       linha.style.display = nome.includes(nomeServidor) ? '' : 'none';
     }

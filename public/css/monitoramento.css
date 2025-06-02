@@ -265,6 +265,17 @@ p {
     /* border: 1px solid red; */
 }
 
+.kpi-critico {
+    color: red;
+    font-weight: bold;
+}
+.kpi-moderado {
+    color: orange;
+    font-weight: bold;
+}
+
+
+
 /* grafico especifico */
 
 .grafico {

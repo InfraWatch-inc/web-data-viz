@@ -23,8 +23,6 @@ async function carregarDados(){
     }
 }
 
-
-
 // Processos
 
 function adicionarProcessos(process, index) {
@@ -38,15 +36,27 @@ function adicionarProcessos(process, index) {
     const cpuInfo = document.createElement('div');
     cpuInfo.className = 'usage-info';
     cpuInfo.textContent = `Uso de CPU: ${process.cpu}%`;
+
+    if (process.cpu > 30) {
+        cpuInfo.style.color = 'red';
+    }
                 
     const ramInfo = document.createElement('div');
     ramInfo.className = 'usage-info';
     ramInfo.textContent = `Uso de Mem. RAM: ${process.ram}%`;
-                
+    
+    if (process.ram > 30) {
+        ramInfo.style.color = 'red';
+    }
+
     const gpuInfo = document.createElement('div');
     gpuInfo.className = 'usage-info';
     gpuInfo.textContent = `Uso de GPU: ${process.gpu}%`;
-                
+    
+    if (process.gpu > 30) {
+        gpuInfo.style.color = 'red';
+    }
+    
     processItem.appendChild(processName);
     processItem.appendChild(cpuInfo);
     processItem.appendChild(ramInfo);

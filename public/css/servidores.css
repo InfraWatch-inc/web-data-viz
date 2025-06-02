@@ -195,7 +195,7 @@ ul a:hover {
   padding: 8px 12px;          
   margin: 0 0 8px 0;         
   border-radius: 4px;          
-  font-size: 0.925rem;         
+  font-size: 0.895rem;         
   line-height: 1.4;            
   color: #212529;              
   word-break: break-word;      
@@ -205,6 +205,11 @@ ul a:hover {
 /* Remove a margem inferior do último parágrafo para um espaçamento consistente */
 .modalAlertas .msg p:last-child {
   margin-bottom: 0;
+}
+
+.porcentagem-alerta {
+  color: red;
+  font-weight: bold;
 }
 
 .sair:hover {
