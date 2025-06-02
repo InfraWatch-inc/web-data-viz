@@ -49,7 +49,7 @@
 
     <div class="kpis-gerais">
         <div class="kpi">
-            <span style="font-size: 1.4rem; font-weight: 600;">Componente com mais alertas críticos</span><br>
+            <span style="font-size: 1.4rem; font-weight: 600;">Quantidade e componente com mais alertas críticos</span><br>
             <span id="resultadoKPI1" class="resultadoKPI"></span>
         </div>
 
@@ -64,8 +64,8 @@
         </div>
 
         <div class="kpi">
-            <span style="font-size: 1.4rem; font-weight: 600;">Período com mais alertas</span>
-            <span id="resultadoKPI4" class="resultadoKPI" style="margin-top: 5%;"></span>
+            <span style="font-size: 1.4rem; font-weight: 600;">Quantidade e período com mais alertas</span>
+            <span id="resultadoKPI4" class="resultadoKPI"></span>
         </div>
     </div>
 
@@ -236,17 +236,22 @@
             console.log("Quantidade de alertas Intel GPU: " + qtdAlertaMarcaIntelGPU)
 
             if (qtdAlertaMarcaIntelCPU > qtdAlertaMarcaAmdCPU) {
-                document.getElementById("resultadoKPI2").innerHTML = "Intel: " + qtdAlertaMarcaIntelCPU
+                document.getElementById("resultadoKPI2").innerHTML = "Intel"
+                // document.getElementById("resultadoKPI2").innerHTML = "Intel: " + qtdAlertaMarcaIntelCPU
             } else {
-                document.getElementById("resultadoKPI2").innerHTML = "AMD: " + qtdAlertaMarcaAmdCPU
+                document.getElementById("resultadoKPI2").innerHTML = "AMD"
+                // document.getElementById("resultadoKPI2").innerHTML = "AMD: " + qtdAlertaMarcaAmdCPU
             }
 
             if (qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaAmdGPU && qtdAlertaMarcaNvidiaGPU > qtdAlertaMarcaIntelGPU) {
-                document.getElementById("resultadoKPI3").innerHTML = "Nvidia: " + qtdAlertaMarcaNvidiaGPU
+                document.getElementById("resultadoKPI3").innerHTML = "Nvidia"
+                // document.getElementById("resultadoKPI3").innerHTML = "Nvidia: " + qtdAlertaMarcaNvidiaGPU
             } else if (qtdAlertaMarcaAmdGPU > qtdAlertaMarcaIntelGPU) {
-                document.getElementById("resultadoKPI3").innerHTML = "AMD: " + qtdAlertaMarcaAmdGPU
+                document.getElementById("resultadoKPI3").innerHTML = "AMD"
+                // document.getElementById("resultadoKPI3").innerHTML = "AMD: " + qtdAlertaMarcaAmdGPU
             } else {
-                document.getElementById("resultadoKPI3").innerHTML = "Intel: " + qtdAlertaMarcaIntelGPU
+                document.getElementById("resultadoKPI3").innerHTML = "Intel"
+                // document.getElementById("resultadoKPI3").innerHTML = "Intel: " + qtdAlertaMarcaIntelGPU
             }
 
         }
