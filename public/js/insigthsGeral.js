@@ -1,7 +1,7 @@
 isChart = false;
 function carregarDados(){
     let periodo = slt_tempo.value; 
-
+    console.log("Realizei o fetch")
     fetch(`/insights/alertasComponentes/${periodo}/${sessionStorage.ID_EMPRESA}`, {
         method: 'GET',
         headers: {
@@ -11,12 +11,13 @@ function carregarDados(){
     .then(res => {
         res.json()
         .then(dados => {
+            console.log("Peguei os dados")
             console.log(dados);
             atribuirKpi(dados.totalAlertasMemoria, dados.totalAlertasProcessamento);
             construirGrafico(dados.componentes, dados.dadosCriticos, dados.dadosModerados);
         })
     })
-    .catch(error => {
+    .catch(error => { 
         console.error('Erro ao buscar dados:', error);
         alert('Falha ao buscar dados do dashboard.');
     });
