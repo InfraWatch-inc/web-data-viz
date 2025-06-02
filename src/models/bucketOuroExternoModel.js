@@ -5,8 +5,6 @@ const bucket = process.env.S3_BUCKET;
 
 const s3 = new S3Client({
     region: process.env.AWS_REGION,
-    credentials: {
-    }
 });
 
 async function getJsonFromS3(key) {
