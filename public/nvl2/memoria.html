@@ -314,7 +314,7 @@
                             json[j].mes_formatado === meses[i] &&
                             (tipoAlerta === "todos" || json[j].tipo_alerta.toLowerCase() === tipoAlerta.toLowerCase())
                         ) {
-                            if (json[j].periodo_dia === 'Manhã') {
+                            if (json[j].periodo_dia === 'Manha') {
                                 qtdManha += json[j].quantidade_alertas;
                             } else if (json[j].periodo_dia === 'Tarde') {
                                 qtdTarde += json[j].quantidade_alertas;
