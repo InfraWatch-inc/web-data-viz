@@ -46,8 +46,8 @@
         </div>
         <div class="kpis">
             <div class="kpi-content">
-                <div>
-                    <span>Processo com mais alertas críticos</span>
+                <div class="centralizado">
+                    <span class="kpi-desc">Processo mais Crítico</span>
                 </div>
                 <div>
                     <span class="kpi-text critico" id="kpiAlertasCritico">Blender</span>
@@ -55,7 +55,7 @@
             </div>
             <div class="kpi-content">
                 <div>
-                    <span>Processo com mais alertas atenção</span>
+                    <span class="kpi-desc">Processo mais atenção</span>
                 </div>
                 <div>
                     <span class="kpi-text moderado" id="kpiAlertasAtencao">Maya</span>
@@ -63,15 +63,15 @@
             </div>
             <div class="kpi-content">
                 <div>
-                    <span>Componente mais utilizado</span>
+                    <span class="kpi-desc">Componente mais utilizado</span>
                 </div>
                 <div>
-                    <span class="kpi-text critico" id="kpiComponente">CPU</span>
+                    <span onclick="redirecionar(this.textContent)" class="kpi-text critico componente" id="kpiComponente">CPU</span>
                 </div>
             </div>
             <div class="kpi-content">
                 <div>
-                    <span>Período mais ativo</span>
+                    <span class="kpi-desc">Período mais ativo</span>
                 </div>
                 <div>
                     <span class="kpi-text critico" id="kpiPeriodo">Noite</span>
@@ -110,7 +110,7 @@
         <select id="slctComponente" class="input">
           <option id="optCpu" value="cpu">CPU</option>
           <option id="optGpu" value="gpu">GPU</option>
-          <option id="optRam" value="ram">RAM</option>
+          <option id="optRam" value="ram">RAM</option>alertas
         </select>
       </div>
   

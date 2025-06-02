@@ -317,29 +317,57 @@ function carregarGraficoConsumoProcessos(componente, processos, dadosConsumo){
             plugins: {
                 title: {
                     display: true,
-                    text: `Processos que mais Consumem ${componente.toUpperCase()} por Período em Porcentagem (%)`,
+                    text: `Processos que mais Consomem (%) ${componente.toUpperCase()} por Período`,
                     font: {
-                        size: 19,
+                        size: 28,
                         weight: 'bold'
-                    }
+                    },
+                    color:'#333333'
                 },
-
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'center',
+                    labels: {
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
             },
             scales: {
                 y: {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: `Consumo da ${componente} (%)`
+                        text: `Consumo da ${componente} (%)`,
+                        font:{
+                            size: 26
+                        },
+                        color:'#333333'
+                    },
+                    ticks: {
+                        font:{
+                            size: 20
+                        }
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: 'Processos'
+                        text: 'Processos',
+                        font:{
+                            size: 26
+                        },
+                        color:'#333333'
                     },
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        font:{
+                            size: 20
+                        }
                     }
                 }
             }
@@ -358,13 +386,13 @@ function carregarGraficoAlertasProcessos(processos, dadoAlertas){
                 {
                     label: 'Críticos',
                     data: dadoAlertas.critico,
-                    backgroundColor: '#CD3030',
+                    backgroundColor: '#7e22ce',
                     borderRadius: 5,
                 },
                 {
                     label: 'Moderados',
                     data: dadoAlertas.atencao,
-                    backgroundColor: '#FFA100',
+                    backgroundColor: '#06b6d4',
                     borderRadius: 5,
                 } 
             ]
@@ -376,10 +404,22 @@ function carregarGraficoAlertasProcessos(processos, dadoAlertas){
                     display: true,
                     text: 'Processos com mais Alertas Críticos e Moderados',
                     font: {
-                        size: 18,
+                        size: 30,
                         weight: 'bold'
-                    }
+                    },
+                    color:'#333333'
                 },
+
+                legend: {
+                    display: true,
+                    position: 'top',
+                    align: 'center',
+                    labels: {
+                        font: {
+                            size: 20
+                        }
+                    }
+                }
 
             },
             scales: {
@@ -387,21 +427,47 @@ function carregarGraficoAlertasProcessos(processos, dadoAlertas){
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Quantidade de Alertas'
+                        text: 'Quantidade de Alertas',
+                        font:{
+                            size:26
+                        },
+                        color:'#333333'
+                    },
+                    ticks: {
+                        font:{
+                            size: 20
+                        }
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: 'Processos'
+                        text: 'Processos',
+                        font:{
+                            size:26
+                        },
+                        color:'#333333'
                     },
                     grid: {
                         display: false
+                    },
+                    ticks: {
+                        font:{
+                            size: 20
+                        }
                     }
                 }
             }
         }
     });
+}
+
+function redirecionar(componente){
+    if(componente == 'RAM' || componente=='Disco'){
+        window.location = '/nvl2/memoria.html';
+    } else {
+        window.location = '/nvl2/processamento.html';
+    }
 }
 
 coletarDados();

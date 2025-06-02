@@ -47,8 +47,12 @@ ul {
 ul a {
   font-size: 1.8rem;
   word-spacing: 0.2rem;
-  color: #374151;
+  color: #6B7280;
   transition: 0.4s;
+}
+
+.selecionado{
+  color: #374151;
 }
 
 ul a:hover {
