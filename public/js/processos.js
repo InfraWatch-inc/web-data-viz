@@ -1,9 +1,11 @@
 let dadosObjeto;
 
+let idServidor = sessionStorage.getItem('idServidor');
+
 async function carregarDados(){
     // let idServidor = req.params.idServidor;
     try{
-        const resposta = await fetch(`/monitoramento/coletar/dados/1`);
+        const resposta = await fetch(`/monitoramento/coletar/dados/${idServidor}`,);
         
         if(!resposta.ok){
             console.error("Erro no fecth");

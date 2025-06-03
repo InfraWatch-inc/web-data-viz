@@ -116,88 +116,108 @@ function aplicarCorPorLimite(elemento, valor, limiteModerado, limiteCritico) {
     }
 }
 
+
 function atualizarKPIs() {
-    const componentesDisponiveis = [
-        { nomeKPI: "Disco", nomeJSON: "HD", el: discoElement, div: rm_divisao, m1: "%", m2: "Byte", m1Label: "Uso", m2Label: "Em Uso" },
-        { nomeKPI: "RAM", nomeJSON: "RAM", el: ramElement, div: null, m1: "%", m2: "Byte", m1Label: "Uso", m2Label: "Em Uso" },
-        { nomeKPI: "CPU", nomeJSON: "CPU", el: cpuElement, div: rm_divisao_ram, m1: "%", m2: "MHz", m1Label: "Uso", m2Label: "Freq." },
-        { nomeKPI: "GPU", nomeJSON: "GPU", el: gpuElement, div: rm_divisao_gpu, m1: "%", m2: "°C", m1Label: "Uso", m2Label: "Temp." }
+    const componentesConfig = [
+        {
+            nomeKPI: "Disco", nomeJSON: "HD", elId: "kpi_disco", divId: "rm_divisao",
+            nomeElId: "kpi1_nome", metrica1ElId: "kpi1_metrica1", metrica2ElId: "kpi1_metrica2",
+            m1Type: "%", m2Type: "Byte"
+        },
+        {
+            nomeKPI: "RAM", nomeJSON: "RAM", elId: "kpi_ram", divId: null, // rm_divisao_ram é para CPU, divisao_rm é para RAM/CPU
+            nomeElId: "kpi2_nome", metrica1ElId: "kpi2_metrica1", metrica2ElId: "kpi2_metrica2",
+            m1Type: "%", m2Type: "Byte"
+        },
+        {
+            nomeKPI: "CPU", nomeJSON: "CPU", elId: "kpi_cpu", divId: "rm_divisao_ram", // Esta div está entre Disco e RAM no HTML, mas associada a CPU aqui
+            nomeElId: "kpi3_nome", metrica1ElId: "kpi3_metrica1", metrica2ElId: "kpi3_metrica2",
+            m1Type: "%", m2Type: "MHz"
+        },
+        {
+            nomeKPI: "GPU", nomeJSON: "GPU", elId: "kpi_gpu", divId: "rm_divisao_gpu",
+            nomeElId: "kpi4_nome", metrica1ElId: "kpi4_metrica1", metrica2ElId: "kpi4_metrica2",
+            m1Type: "%", m2Type: "°C"
+        }
     ];
 
-    // Esconde todos os elementos KPI e divisórias
-    [discoElement, ramElement, cpuElement, gpuElement].forEach(el => { if (el) el.style.display = 'none'; });
-    [rm_divisao, rm_divisao_ram, rm_divisao_gpu].forEach(el => { if (el) el.style.display = 'none'; });
-
-
-    let kpiDomSlots = [
-        { nome: kpi1_nome, m1: kpi1_metrica1, m2: kpi1_metrica2 },
-        { nome: kpi2_nome, m1: kpi2_metrica1, m2: kpi2_metrica2 },
-        { nome: kpi3_nome, m1: kpi3_metrica1, m2: kpi3_metrica2 },
-    ];
-
-    // Limpa os slots de KPI
-    kpiDomSlots.forEach(slot => {
-        if (slot.nome) slot.nome.textContent = 'Carregando...';
-        if (slot.m1) slot.m1.textContent = 'N/A';
-        if (slot.m2) slot.m2.textContent = 'N/A';
+    // Esconde todos os cards e divisórias inicialmente
+    componentesConfig.forEach(compConf => {
+        const el = document.getElementById(compConf.elId);
+        if (el) el.style.display = 'none';
+        if (compConf.divId) {
+            const divEl = document.getElementById(compConf.divId);
+            if (divEl) divEl.style.display = 'none';
+        }
     });
 
-    let slotIndex = 0;
-    for (const comp of componentesDisponiveis) {
-        if (slotIndex >= kpiDomSlots.length) break; // Não há mais slots de KPI no DOM
+    // Identifica o componente ativo no gráfico
+    const componenteAtivoNormalizado = componenteAtivo === 'disk' ? 'HD' : componenteAtivo.toUpperCase();
 
-        // Converte 'disk' do componenteAtivo para 'HD' para comparação
-        const componenteAtivoNormalizado = componenteAtivo === 'disk' ? 'HD' : componenteAtivo.toUpperCase();
+    let displayedCount = 0;
+    for (const compConf of componentesConfig) {
+        if (compConf.nomeJSON === componenteAtivoNormalizado) {
+            continue;
+        }
 
-        if (comp.nomeJSON !== componenteAtivoNormalizado) {
-            const slot = kpiDomSlots[slotIndex];
-            if (comp.el) comp.el.style.display = 'flex'; // el = elemento do KPI
-            if (comp.div) comp.div.style.display = 'flex'; // div = divisória
+        if (displayedCount >= 3) break; // Mostrar no máximo 3 cards
 
-            if (slot.nome) slot.nome.textContent = comp.nomeKPI;
+        const cardElement = document.getElementById(compConf.elId);
+        const nomeElement = document.getElementById(compConf.nomeElId);
+        const metrica1Element = document.getElementById(compConf.metrica1ElId);
+        const metrica2Element = document.getElementById(compConf.metrica2ElId);
+        const divElement = compConf.divId ? document.getElementById(compConf.divId) : null;
 
-            const val1 = getUltimoValorMetrica(comp.nomeJSON, comp.m1);
-            const val2 = getUltimoValorMetrica(comp.nomeJSON, comp.m2);
+        if (cardElement && nomeElement && metrica1Element && metrica2Element) {
+            cardElement.style.display = 'flex';
+            // if (divElement && displayedCount > 0) { 
+                
+            // }
 
-            if (slot.m1) {
-                if (comp.m1 === "%") slot.m1.textContent = formatoPorcentagem(val1);
-                else if (comp.m1 === "Byte") slot.m1.textContent = formatoGB(val1);
-                else if (comp.m1 === "MHz") slot.m1.textContent = formatoFrequencia(val1);
-                else slot.m1.textContent = val1 !== null ? val1.toString() : "N/A";
+
+            nomeElement.textContent = compConf.nomeKPI;
+
+            const val1 = getUltimoValorMetrica(compConf.nomeJSON, compConf.m1Type);
+            const val2 = getUltimoValorMetrica(compConf.nomeJSON, compConf.m2Type);
+
+            if (compConf.m1Type === "%") metrica1Element.textContent = formatoPorcentagem(val1);
+            else if (compConf.m1Type === "Byte") metrica1Element.textContent = formatoGB(val1);
+            else if (compConf.m1Type === "MHz") metrica1Element.textContent = formatoFrequencia(val1);
+            else metrica1Element.textContent = val1 !== null ? val1.toString() : "N/A";
+
+            if (compConf.m2Type === "%") metrica2Element.textContent = formatoPorcentagem(val2);
+            else if (compConf.m2Type === "Byte") metrica2Element.textContent = formatoGB(val2);
+            else if (compConf.m2Type === "MHz") metrica2Element.textContent = formatoFrequencia(val2);
+            else if (compConf.m2Type === "°C") metrica2Element.textContent = formatoTemperatura(val2);
+            else metrica2Element.textContent = val2 !== null ? val2.toString() : "N/A";
+
+            // Aplicar cores de limite
+            const limiteMod1 = limitesModerados[compConf.nomeJSON]?.[compConf.m1Type];
+            const limiteCrit1 = limitesCriticos[compConf.nomeJSON]?.[compConf.m1Type];
+            if (limiteMod1 !== undefined && limiteCrit1 !== undefined) {
+                aplicarCorPorLimite(metrica1Element.parentElement, val1, limiteMod1, limiteCrit1); 
             }
-            if (slot.m2) {
-                if (comp.m2 === "%") slot.m2.textContent = formatoPorcentagem(val2);
-                else if (comp.m2 === "Byte") slot.m2.textContent = formatoGB(val2);
-                else if (comp.m2 === "MHz") slot.m2.textContent = formatoFrequencia(val2);
-                else if (comp.m2 === "°C") slot.m2.textContent = formatoTemperatura(val2);
-                else slot.m2.textContent = val2 !== null ? val2.toString() : "N/A";
+
+            const limiteMod2 = limitesModerados[compConf.nomeJSON]?.[compConf.m2Type];
+            const limiteCrit2 = limitesCriticos[compConf.nomeJSON]?.[compConf.m2Type];
+            if (limiteMod2 !== undefined && limiteCrit2 !== undefined) {
+                aplicarCorPorLimite(metrica2Element.parentElement, val2, limiteMod2, limiteCrit2);
             }
 
-            const limiteMod = limitesModerados[comp.nomeJSON][comp.m1];
-            const limiteCrit = limitesCriticos[comp.nomeJSON][comp.m1];
-            aplicarCorPorLimite(slot.m1, val1, limiteMod, limiteCrit);
-
-            const limiteMod2 = limitesModerados[comp.nomeJSON][comp.m2];
-            const limiteCrit2 = limitesCriticos[comp.nomeJSON][comp.m2];
-            aplicarCorPorLimite(slot.m2, val2, limiteMod2, limiteCrit2);
-
-            slotIndex++;
+            displayedCount++;
         }
     }
-    // Esconder o card do componente ativo (o que está no gráfico de linha)
-    const compAtivoInfo = componentesDisponiveis.find(c =>
-        c.nomeJSON === (componenteAtivo === 'disk' ? 'HD' : componenteAtivo.toUpperCase()) ||
-        c.nomeKPI.toLowerCase() === componenteAtivo.toLowerCase()
-    );
-
-    if (compAtivoInfo && compAtivoInfo.el) {
-        compAtivoInfo.el.style.display = 'none';
-        // divisórias baseada no componente ativo 
+    
+    const visibleCards = componentesConfig.filter(c => c.nomeJSON !== componenteAtivoNormalizado);
+    if (visibleCards.length > 1 && document.getElementById(visibleCards[0].divId_after)) { 
+        document.getElementById(visibleCards[0].divId_after).style.display = 'flex';
+    }
+    
+    const compAtivoConfig = componentesConfig.find(c => c.nomeJSON === componenteAtivoNormalizado);
+    if (compAtivoConfig) {
+        const elAtivo = document.getElementById(compAtivoConfig.elId);
+        if (elAtivo) elAtivo.style.display = 'none';
         if (componenteAtivo === 'disk' && rm_divisao_ram) rm_divisao_ram.style.display = 'none';
-        else if (componenteAtivo === 'ram' && rm_divisao) rm_divisao.style.display = 'none';
-        else if (componenteAtivo === 'cpu' && rm_divisao) rm_divisao.style.display = 'none';
-        else if (componenteAtivo === 'gpu' && rm_divisao_gpu) rm_divisao_gpu.style.display = 'none';
-
     }
 
 
@@ -208,6 +228,7 @@ function atualizarKPIs() {
         compAtivoTitulo.textContent = nomeAmigavel.toUpperCase();
     }
 }
+
 
 // Função para criar a cor de degrade
 function criarGradient(ctx) {
@@ -278,7 +299,7 @@ function renderizarGraficoLinha() {
             if (tipoMetrica === 'frequencia') {
                 nomeMetricaJSON = 'MHz'; labelDataset = 'Frequência da CPU'; metrica = "MHz"; yAxisMax = undefined;
             }
-            else if(tipoMetrica === 'uso'){
+            else if (tipoMetrica === 'uso') {
                 nomeMetricaJSON = '%'; labelDataset = 'Uso CPU'; metrica = '%'; yAxisMax = 100;
 
             }
@@ -407,9 +428,9 @@ function atualizarGraficosRosquinha() {
             return; // Pula para o próximo componente se o canvas não for encontrado
         }
         const ctxRosquinha = canvasElement.getContext('2d');
-        
+
         // É importante que criarGradient use o contexto correto (ctxRosquinha)
-        const gradienteRosquinha = criarGradient(ctxRosquinha); 
+        const gradienteRosquinha = criarGradient(ctxRosquinha);
 
         let valorUso = getUltimoValorMetrica(info.nomeJSON, info.metrica);
         let dataForChart = [0, 100]; // Valor padrão para gráfico vazio (0% usado, 100% livre)
@@ -417,7 +438,7 @@ function atualizarGraficosRosquinha() {
         if (valorUso !== null && valorUso !== undefined && !isNaN(parseFloat(valorUso))) {
             valorUso = parseFloat(parseFloat(valorUso).toFixed(1));
             // Garante que valorUso não exceda 100 e não seja menor que 0
-            valorUso = Math.max(0, Math.min(100, valorUso)); 
+            valorUso = Math.max(0, Math.min(100, valorUso));
             dataForChart = [valorUso, parseFloat((100 - valorUso).toFixed(1))];
         }
 
@@ -426,7 +447,7 @@ function atualizarGraficosRosquinha() {
         if (chartExistente) {
             chartExistente.destroy();
         }
-        
+
         // Limpar o canvas antes de desenhar texto "NAS" ou novo gráfico
         ctxRosquinha.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
@@ -442,7 +463,7 @@ function atualizarGraficosRosquinha() {
             ctxRosquinha.textBaseline = "middle";
             ctxRosquinha.fillText("NAS", canvasElement.width / 2, canvasElement.height / 2);
             // Não cria o gráfico de rosquinha para GPU se "NAS" for exibido
-            return; 
+            return;
         }
 
         // Cria um novo gráfico de rosquinha para todos os outros casos (ou GPU com dados)

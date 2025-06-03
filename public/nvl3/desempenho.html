@@ -39,7 +39,7 @@
   <div class="table-wrapper"> <table id="ranking-alertas">
       <thead>
         <tr>
-          <th>Servidor</th>
+          <th>ID Servidor</th>
           <th>Componentes</th>
           <th>Tempo (MINUTOS)</th>
           <th>Status</th>
@@ -48,32 +48,32 @@
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
-          <td>CPU</td>
-          <td class="tempo">110</td>
-          <td class="status-critico">Critico</td>
-          <td>Italo Monteiro</td>
+          <td></td>
+          <td></td>
+          <td class="tempo"></td>
+          <td class="status-critico"></td>
+          <td></td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>CPU</td>
-          <td class="tempo">110</td>
-          <td class="status-critico">Critico</td>
-          <td>Raissa Silva</td>
+          <td></td>
+          <td></td>
+          <td class="tempo"></td>
+          <td class="status-critico"></td>
+          <td></td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>CPU</td>
-          <td class="tempo">109</td>
-          <td class="status-critico">Critico</td>
-          <td>Italo Monteiro</td>
+          <td></td>
+          <td></td>
+          <td class="tempo"></td>
+          <td class="status-critico"></td>
+          <td></td>
         </tr>
         <tr>
-          <td>1</td>
-          <td>CPU</td>
-          <td class="tempo">109</td>
-          <td class="status-critico">Critico</td>
-          <td>Raissa Silva</td>
+          <td></td>
+          <td></td>
+          <td class="tempo"></td>
+          <td class="status-critico"></td>
+          <td></td>
         </tr>
         </tbody>
     </table>
@@ -93,11 +93,11 @@
 
         <div class="kpis-coluna">
           <div class="titulo"><strong>Chamados Resolvidos</strong></div>
-          <div class="nmr-titulo" id="chamadosResolvidosTotal">27</div>
+          <div class="nmr-titulo" id="chamadosResolvidosTotal"></div>
           <div>Críticos</div>
-          <div class="status-critico-titulo" id="chamadosResolvidosCriticos">12</div>
+          <div class="status-critico-titulo" id="chamadosResolvidosCriticos"></div>
           <div>Moderados</div>
-          <div class="status-moderado" id="chamadosResolvidosModerados">15</div>
+          <div class="status-moderado" id="chamadosResolvidosModerados"></div>
         </div>
       </div>
 
@@ -179,17 +179,17 @@
 <script>
     let meuGrafico = null;
 
-function carregar() {
-  nome_usuario.innerHTML = sessionStorage.NOME_USUARIO || "Usuário";
+   function carregar() {
+  document.getElementById("nome_usuario").textContent = sessionStorage.NOME_USUARIO || "Usuário";
   receberChamado();
   listaDesempenho();
   atualizarKpis();
+
+  // Atualiza dinamicamente a cada 1 minuto
+  setInterval(receberChamado, 60000);
 }
 
-
-
-// LISTA DE CHAMADOS ABERTOS
-async function receberChamado() {
+ async function receberChamado() {
   try {
     const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
 
@@ -206,75 +206,69 @@ async function receberChamado() {
       return;
     }
 
-// KPI
- let totalAbertos = 0;
+    // KPI ABERTO
+    let totalAbertos = 0;
     let criticosAbertos = 0;
     let moderadosAbertos = 0;
 
     dados.forEach(chamado => {
-        totalAbertos++; 
+      totalAbertos++;
 
-        const tipo = (chamado.tipo_alerta || "").toLowerCase();
-        if (tipo === "critico") {
-            criticosAbertos++;
-        } else if (tipo === "moderado") {
-            moderadosAbertos++;
-        }
+      const tipo = (chamado.tipo_alerta || "").toLowerCase();
+      if (tipo === "critico") criticosAbertos++;
+      else if (tipo === "moderado") moderadosAbertos++;
+
+
+
     });
 
-
-     document.getElementById('chamadosAbertosTotal').textContent = totalAbertos;
+    document.getElementById('chamadosAbertosTotal').textContent = totalAbertos;
     document.getElementById('chamadosAbertosCriticos').textContent = criticosAbertos;
     document.getElementById('chamadosAbertosModerados').textContent = moderadosAbertos;
 
+    //
 
-
-
-    // Ordena do mais antigo para o mais recente
+    // Ordena do mais antigo para o mais recente (maior para menor)
     dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
-    tbody.innerHTML = "";
 
-    // Controle de duplicatas
-    const chamadosExibidos = new Set();
+    // Criar um mapa para evitar duplicatas reais (chave composta)
+    const mapaChamadosUnicos = new Map();
 
-    dados.forEach(entrada => {
-      const chaveUnica = `${entrada.servidor}-${entrada.componente}-${entrada.minutos_aberto}-${entrada.tipo_alerta}-${entrada.operador_responsavel}`;
-
-      if (chamadosExibidos.has(chaveUnica)) {
-        return;
+    dados.forEach((chamado) => {
+      const chave = `${chamado.servidor}-${chamado.componente}-${chamado.tipo_alerta}-${chamado.operador_responsavel}`;
+      // mantém o com maior tempo aberto se for duplicado
+      if (!mapaChamadosUnicos.has(chave) || mapaChamadosUnicos.get(chave).minutos_aberto < chamado.minutos_aberto) {
+        mapaChamadosUnicos.set(chave, chamado);
       }
-
-      chamadosExibidos.add(chaveUnica);
-
-    
-      let classeLinha = "";
-
-      
-      const tipo = (entrada.tipo_alerta || "").toLowerCase();
-      if (tipo === "critico") {
-        classeLinha = "alerta-critico";
-      } else if (tipo === "moderado") {
-        classeLinha = "alerta-moderado";
-      }
-
-
-      const tempoFormatado = entrada.minutos_aberto > 180
-        ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
-        : `<td>${entrada.minutos_aberto}</td>`;
-
-
-        const linha = `
-        <tr class="${classeLinha.trim()}">
-          <td>${entrada.servidor}</td>
-          <td>${entrada.componente}</td>
-          ${tempoFormatado}
-          <td>${entrada.tipo_alerta}</td>
-          <td>${entrada.operador_responsavel}</td>
-        </tr>`;
-
-      tbody.innerHTML += linha;
     });
 
+    // Limpa a tabela
+    tbody.innerHTML = "";
+
+    // Insere os únicos e já ordenados
+    Array.from(mapaChamadosUnicos.values())
+      .sort((a, b) => b.minutos_aberto - a.minutos_aberto)
+      .forEach((entrada) => {
+        let classeLinha = "";
+        const tipo = (entrada.tipo_alerta || "").toLowerCase();
+        if (tipo === "critico") classeLinha = "alerta-critico";
+        else if (tipo === "moderado") classeLinha = "alerta-moderado";
+
+        const tempoFormatado = entrada.minutos_aberto > 180
+          ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
+          : `<td>${entrada.minutos_aberto}</td>`;
+
+        const linha = `
+          <tr class="${classeLinha.trim()}">
+            <td>${entrada.servidor}</td>
+            <td>${entrada.componente}</td>
+            ${tempoFormatado}
+            <td>${entrada.tipo_alerta}</td>
+            <td>${entrada.operador_responsavel}</td>
+          </tr>`;
+
+        tbody.innerHTML += linha;
+      });
 
     atualizarGraficoComDados(dados);
 
@@ -282,6 +276,7 @@ async function receberChamado() {
     console.error("Erro ao buscar os dados:", erro);
   }
 }
+
 
 
 // 
@@ -368,7 +363,7 @@ function criarGrafico(componentes, criticoCounts, moderadoCounts) {
       },
     },
   });
-}
+} 
 
 //LISTA DESEMPENHO
 async function listaDesempenho() {
@@ -376,7 +371,7 @@ async function listaDesempenho() {
     const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
 
     if (!resposta.ok) {
-      console.error(` Erro na resposta: ${resposta.status}`);
+      console.error(`Erro na resposta: ${resposta.status}`);
       return;
     }
 
@@ -384,42 +379,140 @@ async function listaDesempenho() {
     const tbody = document.querySelector("#lista-desempenho-body");
 
     if (!tbody) {
-      console.error(" Não foi possível encontrar o tbody da tabela!");
+      console.error("Não foi possível encontrar o tbody da tabela!");
       return;
     }
 
-    // Contar atribuições por operador
-    const contagem = {};
+    // Contagem separada
+    const atribuicoes = {};
+    const realizados = {};
+
     dados.forEach(chamado => {
-      const operador = chamado.operador_responsavel; 
+      const operador = chamado.operador_responsavel;
+      const status = chamado.status;
+
       if (operador) {
-        contagem[operador] = (contagem[operador] || 0) + 1;
+        // Contar atribuídos
+        atribuicoes[operador] = (atribuicoes[operador] || 0) + 1;
+
+        // Contar resolvidos
+        if (status === "Resolvido") {
+          realizados[operador] = (realizados[operador] || 0) + 1;
+        }
       }
     });
 
-    // Ordenar do mais chamado atribuído para o menosn
-    const ranking = Object.entries(contagem).sort((a, b) => b[1] - a[1]);
+    // Junta todos os operadores únicos
+    const operadoresUnicos = new Set([
+      ...Object.keys(atribuicoes),
+      ...Object.keys(realizados)
+    ]);
 
-    
+    // Montar a tabela
     tbody.innerHTML = "";
-    ranking.forEach(([operador, atribuicoes]) => {
+    operadoresUnicos.forEach(operador => {
+      const atribu = atribuicoes[operador] || 0;
+      const realiz = realizados[operador] || 0;
+
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${operador}</td>
-        <td>${atribuicoes}</td>
-        <td class="red-text"></td>
+        <td>${atribu}</td>
+        <td class="green-text">${realiz}</td>
         <td class="red-text"></td>
       `;
       tbody.appendChild(tr);
     });
 
   } catch (erro) {
-    console.error(" Erro ao carregar a lista de desempenho:", erro);
+    console.error("Erro ao carregar a lista de desempenho:", erro);
   }
 }
 
+async function buscarChamadosResolvidos() {
+    try {
+        // Tentar buscar de uma rota específica para dados
+        const response = await fetch('/desempenho/dados/python', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
 
+        const dados = await response.json();
+        console.log(dados)
+        
+        // Atualizar as divs com os valores
+        atualizarChamadosResolvidos(dados);
+        
+    } catch (error) {
+        console.error('Erro ao buscar chamados resolvidos:', error);
+        // Exibir valores padrão em caso de erro
+        document.getElementById('chamadosResolvidosCriticos').textContent = '0';
+        document.getElementById('chamadosResolvidosModerados').textContent = '0';
+    }
+}
 
+// Função para atualizar as divs com os dados recebidos
+function atualizarChamadosResolvidos(dados) {
+    const criticosDiv = document.getElementById('chamadosResolvidosCriticos');
+    const moderadosDiv = document.getElementById('chamadosResolvidosModerados');
+    const  totalDiv = document.getElementById('chamadosResolvidosTotal')
+    
+    if (dados && typeof dados === 'object') {
+        // Se os dados vêm como objeto {criticos: X, moderados: Y}
+        if (dados.criticosResolvido !== undefined && dados.moderadosResolvidos !== undefined && dados.resolvidos !== undefined) {
+            criticosDiv.textContent = dados.criticosResolvido;
+            moderadosDiv.textContent = dados.moderadosResolvidos;
+            totalDiv.textContent = dados.resolvidos;
+            // console.log(dados.operador)
+        }
+        // Se os dados vêm como array de objetos (último registro)
+        else if (Array.isArray(dados) && dados.length > 0) {
+            const ultimoRegistro = dados[dados.length - 1];
+            criticosDiv.textContent = ultimoRegistro.criticos || 0;
+            moderadosDiv.textContent = ultimoRegistro.moderados || 0;
+        }
+      
+        // Se os dados vêm como array simples [criticos, moderados]
+        else if (Array.isArray(dados) && dados.length === 2) {
+            criticosDiv.textContent = dados[0];
+            moderadosDiv.textContent = dados[1];
+        }
+        else {
+            // Fallback: valores padrão
+            criticosDiv.textContent = '0';
+            moderadosDiv.textContent = '0';
+        }
+    } else {
+        // Valores padrão se não houver dados
+        criticosDiv.textContent = '0';
+        moderadosDiv.textContent = '0';
+    }
+}
 
+// Função para atualizar automaticamente a cada X segundos
+function iniciarAtualizacaoAutomatica(intervaloSegundos = 30) {
+    // Buscar dados imediatamente
+    buscarChamadosResolvidos();
+    
+    // Configurar atualização automática
+    setInterval(buscarChamadosResolvidos, intervaloSegundos * 1000);
+}
+
+// Função para capturar dados de uma fonte específica (se necessário)
+function capturarDadosLocais(dados) {
+    if (dados) {
+        atualizarChamadosResolvidos(dados);
+    }
+}
+
+// Iniciar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    iniciarAtualizacaoAutomatica(30); // Atualiza a cada 30 segundos
+});
 
 </script>
