@@ -188,7 +188,7 @@
 
   async function receberChamado() {
     try {
-      const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
+      const resposta = await fetch("http://44.194.222.41:8080/desempenho/recebe/chamado");
 
       if (!resposta.ok) {
         console.error(`Erro na resposta: ${resposta.status}`);
@@ -380,7 +380,7 @@
   //LISTA DESEMPENHO
   async function listaDesempenho() {
     try {
-      const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
+      const resposta = await fetch("http://44.194.222.41:8080/desempenho/recebe/chamado");
 
       if (!resposta.ok) {
         console.error(`Erro na resposta: ${resposta.status}`);
