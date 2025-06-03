@@ -259,6 +259,8 @@ function listagemBodyCpuGpu() {
       }
     }
 
+    linha.setAttribute('data-id', servidor.id); 
+
     linha.innerHTML = `
             <td>${servidor.id || "-"}</td>
             <td>${servidor.nome || "-"}</td>
@@ -274,8 +276,10 @@ function listagemBodyCpuGpu() {
     corpoTabela.appendChild(linha);
 
     linha.style.cursor = 'pointer';
-    linha.addEventListener('click', () => {
-      sessionStorage.setItem('idServidor', servidor.id);
+    linha.addEventListener('click', (e) => {
+      const servidorId = e.currentTarget.getAttribute('data-id');
+      console.log("Servidor ID clicado:", servidorId);
+      sessionStorage.setItem('idServidor', servidorId);
       window.location.href = `./monitoramento.html`;
     })
   });
