@@ -84,8 +84,13 @@ ul a:hover {
 }
 
 .img {
-  display: none;
+  background-image: url(../assets/icon/user-solid\ 1.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 30%;
+  height: 100%;
 }
+
 
 .user_name {
   font-size: 1.8rem;

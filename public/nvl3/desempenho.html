@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&display=swap" rel="stylesheet">
   <script src="../js/sessao.js"></script>
 </head>
 
@@ -21,8 +21,11 @@
         <span class="user_name" id="nome_usuario"></span>
       </div>
 
-  
+      <ul><a href="./usuarios.html">Usuários</a></ul>
+      <ul><a href="./desempenho.html">Desempenho</a></ul>
+
       <ul>
+
         <a href="./suporte.html">Suporte</a>
       </ul>
 
@@ -32,56 +35,57 @@
   <div class="mae">
     <div class="cima">
       <div class="card">
-  <div class="card-header">
-    <h2>Lista de Chamados em Abertos</h2>
-  </div>
+        <div class="card-header">
+          <h2>Lista de Chamados em Abertos</h2>
+        </div>
 
-  <div class="table-wrapper"> <table id="ranking-alertas">
-      <thead>
-        <tr>
-          <th>ID Servidor</th>
-          <th>Componentes</th>
-          <th>Tempo (MINUTOS)</th>
-          <th>Status</th>
-          <th>Operador Responsável</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="tempo"></td>
-          <td class="status-critico"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="tempo"></td>
-          <td class="status-critico"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="tempo"></td>
-          <td class="status-critico"></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="tempo"></td>
-          <td class="status-critico"></td>
-          <td></td>
-        </tr>
-        </tbody>
-    </table>
-  </div>
+        <div class="table-wrapper">
+          <table id="ranking-alertas">
+            <thead>
+              <tr>
+                <th>ID Servidor</th>
+                <th>Componentes</th>
+                <th>Tempo (MINUTOS)</th>
+                <th>Status</th>
+                <th>Operador Responsável</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="tempo"></td>
+                <td class="status-critico"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="tempo"></td>
+                <td class="status-critico"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="tempo"></td>
+                <td class="status-critico"></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="tempo"></td>
+                <td class="status-critico"></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
       </div>
-    <div class="kpis-container">
-        
+      <div class="kpis-container">
+
         <div class="kpis-coluna">
           <div class="titulo"><strong>Chamados Abertos</strong></div>
           <div class="vermelho-titulo" id="chamadosAbertosTotal"></div>
@@ -109,14 +113,6 @@
       <div class="grafico-container">
         <div class="grafico-header">
           <h3 class="grafico-titulo">Distribuição de Chamados por Componente</h3>
-
-          <select class="date-filter">
-            <option value="semana">Dia Atual</option>
-            <option value="mes">Último mês</option>
-            <option value="mes">Último 6 meses</option>
-
-          </select>
-
         </div>
         <div class="grafiquinho" id="containerGrafico">
           <canvas id="meuGrafico">
@@ -129,43 +125,44 @@
 
       <!-- desempenho-->
       <div class="card-desempenho">
-  <div class="filtros">
-    <div class="titulo">Desempenho dos Operadores</div>
-  </div>
+        <div class="filtros">
+          <div class="titulo">Desempenho dos Operadores</div>
+        </div>
 
-  <div class="table-wrapper-desempenho"> <table id="lista-desempenho">
-      <thead>
-        <tr>
-          <th>Operador</th>
-          <th>Atribuídos</th>
-          <th>Realizados</th>
-          </tr>
-      </thead>
-      <tbody id="lista-desempenho-body">
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="red-text"></td>
-          </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td class="red-text"></td>
-          </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          </tr>
-        </tbody>
-    </table>
-  </div>
-</div>
+        <div class="table-wrapper-desempenho">
+          <table id="lista-desempenho">
+            <thead>
+              <tr>
+                <th>Operador</th>
+                <th>Atribuídos</th>
+
+              </tr>
+            </thead>
+            <tbody id="lista-desempenho-body">
+              <tr>
+                <td></td>
+                <td></td>
+
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
   </div>
@@ -177,88 +174,88 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    let meuGrafico = null;
+  let meuGrafico = null;
 
-   function carregar() {
-  document.getElementById("nome_usuario").textContent = sessionStorage.NOME_USUARIO || "Usuário";
-  receberChamado();
-  listaDesempenho();
-  atualizarKpis();
+  function carregar() {
+    document.getElementById("nome_usuario").textContent = sessionStorage.NOME_USUARIO || "Usuário";
+    receberChamado();
+    listaDesempenho();
+    atualizarKpis();
 
-  // Atualiza dinamicamente a cada 1 minuto
-  setInterval(receberChamado, 60000);
-}
+    // Atualiza dinamicamente a cada 1 minuto
+    setInterval(receberChamado, 60000);
+  }
 
- async function receberChamado() {
-  try {
-    const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
+  async function receberChamado() {
+    try {
+      const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
 
-    if (!resposta.ok) {
-      console.error(`Erro na resposta: ${resposta.status}`);
-      return;
-    }
-
-    const dados = await resposta.json();
-    const tbody = document.querySelector("#ranking-alertas tbody");
-
-    if (!tbody) {
-      console.error("Não foi possível encontrar o tbody da tabela!");
-      return;
-    }
-
-    // KPI ABERTO
-    let totalAbertos = 0;
-    let criticosAbertos = 0;
-    let moderadosAbertos = 0;
-
-    dados.forEach(chamado => {
-      totalAbertos++;
-
-      const tipo = (chamado.tipo_alerta || "").toLowerCase();
-      if (tipo === "critico") criticosAbertos++;
-      else if (tipo === "moderado") moderadosAbertos++;
-
-
-
-    });
-
-    document.getElementById('chamadosAbertosTotal').textContent = totalAbertos;
-    document.getElementById('chamadosAbertosCriticos').textContent = criticosAbertos;
-    document.getElementById('chamadosAbertosModerados').textContent = moderadosAbertos;
-
-    //
-
-    // Ordena do mais antigo para o mais recente (maior para menor)
-    dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
-
-    // Criar um mapa para evitar duplicatas reais (chave composta)
-    const mapaChamadosUnicos = new Map();
-
-    dados.forEach((chamado) => {
-      const chave = `${chamado.servidor}-${chamado.componente}-${chamado.tipo_alerta}-${chamado.operador_responsavel}`;
-      // mantém o com maior tempo aberto se for duplicado
-      if (!mapaChamadosUnicos.has(chave) || mapaChamadosUnicos.get(chave).minutos_aberto < chamado.minutos_aberto) {
-        mapaChamadosUnicos.set(chave, chamado);
+      if (!resposta.ok) {
+        console.error(`Erro na resposta: ${resposta.status}`);
+        return;
       }
-    });
 
-    // Limpa a tabela
-    tbody.innerHTML = "";
+      const dados = await resposta.json();
+      const tbody = document.querySelector("#ranking-alertas tbody");
 
-    // Insere os únicos e já ordenados
-    Array.from(mapaChamadosUnicos.values())
-      .sort((a, b) => b.minutos_aberto - a.minutos_aberto)
-      .forEach((entrada) => {
-        let classeLinha = "";
-        const tipo = (entrada.tipo_alerta || "").toLowerCase();
-        if (tipo === "critico") classeLinha = "alerta-critico";
-        else if (tipo === "moderado") classeLinha = "alerta-moderado";
+      if (!tbody) {
+        console.error("Não foi possível encontrar o tbody da tabela!");
+        return;
+      }
 
-        const tempoFormatado = entrada.minutos_aberto > 180
-          ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
-          : `<td>${entrada.minutos_aberto}</td>`;
+      // KPI ABERTO
+      let totalAbertos = 0;
+      let criticosAbertos = 0;
+      let moderadosAbertos = 0;
 
-        const linha = `
+      dados.forEach(chamado => {
+        totalAbertos++;
+
+        const tipo = (chamado.tipo_alerta || "").toLowerCase();
+        if (tipo === "critico") criticosAbertos++;
+        else if (tipo === "moderado") moderadosAbertos++;
+
+
+
+      });
+
+      document.getElementById('chamadosAbertosTotal').textContent = totalAbertos;
+      document.getElementById('chamadosAbertosCriticos').textContent = criticosAbertos;
+      document.getElementById('chamadosAbertosModerados').textContent = moderadosAbertos;
+
+      //
+
+      // Ordena do mais antigo para o mais recente (maior para menor)
+      dados.sort((a, b) => b.minutos_aberto - a.minutos_aberto);
+
+      // Criar um mapa para evitar duplicatas reais (chave composta)
+      const mapaChamadosUnicos = new Map();
+
+      dados.forEach((chamado) => {
+        const chave = `${chamado.servidor}-${chamado.componente}-${chamado.tipo_alerta}-${chamado.operador_responsavel}`;
+        // mantém o com maior tempo aberto se for duplicado
+        if (!mapaChamadosUnicos.has(chave) || mapaChamadosUnicos.get(chave).minutos_aberto < chamado.minutos_aberto) {
+          mapaChamadosUnicos.set(chave, chamado);
+        }
+      });
+
+      // Limpa a tabela
+      tbody.innerHTML = "";
+
+      // Insere os únicos e já ordenados
+      Array.from(mapaChamadosUnicos.values())
+        .sort((a, b) => b.minutos_aberto - a.minutos_aberto)
+        .forEach((entrada) => {
+          let classeLinha = "";
+          const tipo = (entrada.tipo_alerta || "").toLowerCase();
+          if (tipo === "critico") classeLinha = "alerta-critico";
+          else if (tipo === "moderado") classeLinha = "alerta-moderado";
+
+          const tempoFormatado = entrada.minutos_aberto > 180
+            ? `<td style="color:red;font-weight:bold;">${entrada.minutos_aberto}</td>`
+            : `<td>${entrada.minutos_aberto}</td>`;
+
+          const linha = `
           <tr class="${classeLinha.trim()}">
             <td>${entrada.servidor}</td>
             <td>${entrada.componente}</td>
@@ -267,252 +264,263 @@
             <td>${entrada.operador_responsavel}</td>
           </tr>`;
 
-        tbody.innerHTML += linha;
-      });
+          tbody.innerHTML += linha;
+        });
 
-    atualizarGraficoComDados(dados);
+      atualizarGraficoComDados(dados);
 
-  } catch (erro) {
-    console.error("Erro ao buscar os dados:", erro);
+    } catch (erro) {
+      console.error("Erro ao buscar os dados:", erro);
+    }
   }
-}
 
 
 
-// 
-function atualizarGraficoComDados(dados) {
-  const componentes = [...new Set(dados.map(d => d.componente))];
-  const criticoCounts = componentes.map(() => 0);
-  const moderadoCounts = componentes.map(() => 0);
-
-  dados.forEach(chamado => {
-    const idx = componentes.indexOf(chamado.componente);
-    if (idx >= 0) {
-      if ((chamado.tipo_alerta || "").toLowerCase() === "critico") {
-        criticoCounts[idx]++;
-      } else if ((chamado.tipo_alerta || "").toLowerCase() === "moderado") {
-        moderadoCounts[idx]++;
-      }
-    }
-  });
-
-  if (meuGrafico) {
-    if (meuGrafico.data && meuGrafico.data.labels && meuGrafico.data.datasets) {
-      meuGrafico.data.labels = componentes;
-      meuGrafico.data.datasets[0].data = criticoCounts;
-      meuGrafico.data.datasets[1].data = moderadoCounts;
-      meuGrafico.update();
-    } else {
-      console.warn(" meuGrafico está incompleto, recriando...");
-      meuGrafico.destroy();
-      meuGrafico = null;
-      criarGrafico(componentes, criticoCounts, moderadoCounts);
-    }
-  } else {
-    criarGrafico(componentes, criticoCounts, moderadoCounts);
-  }
-}
-
-function criarGrafico(componentes, criticoCounts, moderadoCounts) {
-  const ctx = document.getElementById("meuGrafico").getContext("2d");
-  meuGrafico = new Chart(ctx, {
-    type: "bar",
-    data: {
-      labels: componentes,
-      datasets: [
-        {
-          label: "Crítico",
-          data: criticoCounts,
-          backgroundColor: "rgba(205, 48, 48)",
-          borderRadius: 6,
-          barThickness: 25,
-        },
-        {
-          label: "Moderado",
-          data: moderadoCounts,
-          backgroundColor: "rgba(255, 161, 0)",
-          borderRadius: 6,
-          barThickness: 25,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: { top: 10, bottom: 10, left: 0, right: 0 },
-      },
-      plugins: {
-        legend: {
-          display: true,
-          position: "right",
-          labels: { usePointStyle: true, padding: 20 },
-        },
-        tooltip: { mode: "index", intersect: false },
-      },
-      scales: {
-        x: {
-          title: { display: true, text: "Componentes" },
-          grid: { display: false },
-        },
-        y: {
-          title: { display: true, text: "Quantidade de Chamados" },
-          beginAtZero: true,
-          grid: { color: "#e0e0e0" },
-        },
-      },
-    },
-  });
-} 
-
-//LISTA DESEMPENHO
-async function listaDesempenho() {
-  try {
-    const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
-
-    if (!resposta.ok) {
-      console.error(`Erro na resposta: ${resposta.status}`);
-      return;
-    }
-
-    const dados = await resposta.json();
-    const tbody = document.querySelector("#lista-desempenho-body");
-
-    if (!tbody) {
-      console.error("Não foi possível encontrar o tbody da tabela!");
-      return;
-    }
-
-    // Contagem separada
-    const atribuicoes = {};
-    const realizados = {};
+  // 
+  function atualizarGraficoComDados(dados) {
+    const componentes = [...new Set(dados.map(d => d.componente))];
+    const criticoCounts = componentes.map(() => 0);
+    const moderadoCounts = componentes.map(() => 0);
 
     dados.forEach(chamado => {
-      const operador = chamado.operador_responsavel;
-      const status = chamado.status;
-
-      if (operador) {
-        // Contar atribuídos
-        atribuicoes[operador] = (atribuicoes[operador] || 0) + 1;
-
-        // Contar resolvidos
-        if (status === "Resolvido") {
-          realizados[operador] = (realizados[operador] || 0) + 1;
+      const idx = componentes.indexOf(chamado.componente);
+      if (idx >= 0) {
+        if ((chamado.tipo_alerta || "").toLowerCase() === "critico") {
+          criticoCounts[idx]++;
+        } else if ((chamado.tipo_alerta || "").toLowerCase() === "moderado") {
+          moderadoCounts[idx]++;
         }
       }
     });
 
-    // Junta todos os operadores únicos
-    const operadoresUnicos = new Set([
-      ...Object.keys(atribuicoes),
-      ...Object.keys(realizados)
-    ]);
+    if (meuGrafico) {
+      if (meuGrafico.data && meuGrafico.data.labels && meuGrafico.data.datasets) {
+        meuGrafico.data.labels = componentes;
+        meuGrafico.data.datasets[0].data = criticoCounts;
+        meuGrafico.data.datasets[1].data = moderadoCounts;
+        meuGrafico.update();
+      } else {
+        console.warn(" meuGrafico está incompleto, recriando...");
+        meuGrafico.destroy();
+        meuGrafico = null;
+        criarGrafico(componentes, criticoCounts, moderadoCounts);
+      }
+    } else {
+      criarGrafico(componentes, criticoCounts, moderadoCounts);
+    }
+  }
 
-    // Montar a tabela
-    tbody.innerHTML = "";
-    operadoresUnicos.forEach(operador => {
-      const atribu = atribuicoes[operador] || 0;
-      const realiz = realizados[operador] || 0;
+  function criarGrafico(componentes, criticoCounts, moderadoCounts) {
+    const ctx = document.getElementById("meuGrafico").getContext("2d");
+    meuGrafico = new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: componentes,
+        datasets: [
+          {
+            label: "Crítico",
+            data: criticoCounts,
+            backgroundColor: "rgba(205, 48, 48)",
+            borderRadius: 6,
+            barThickness: 25,
+          },
+          {
+            label: "Moderado",
+            data: moderadoCounts,
+            backgroundColor: "rgba(255, 161, 0)",
+            borderRadius: 6,
+            barThickness: 25,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { top: 10, bottom: 10, left: 0, right: 0 },
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: "right",
+            labels: { usePointStyle: true, padding: 20 },
+          },
+          tooltip: { mode: "index", intersect: false },
+        },
+        scales: {
+          x: {
+            title: { display: true, text: "Componentes"},
+            grid: { display: false },
+            font:{
+              size:30
+            },
+            ticks: {
+              font: {
+                size: 20
+              },
+              color: '#333333',
+            }
+          },
+          y: {
+            title: { display: true, text: "Quantidade de Chamados" },
+            beginAtZero: true,
+            grid: { color: "#e0e0e0" },
+            ticks: {
+              font: {
+                size: 20
+              },
+              color: '#333333',
+            }
+          },
+        },
+      },
+    });
+  }
 
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
+  //LISTA DESEMPENHO
+  async function listaDesempenho() {
+    try {
+      const resposta = await fetch("http://localhost:8000/desempenho/recebe/chamado");
+
+      if (!resposta.ok) {
+        console.error(`Erro na resposta: ${resposta.status}`);
+        return;
+      }
+
+      const dados = await resposta.json();
+      const tbody = document.querySelector("#lista-desempenho-body");
+
+      if (!tbody) {
+        console.error("Não foi possível encontrar o tbody da tabela!");
+        return;
+      }
+
+      // Contagem separada
+      const atribuicoes = {};
+
+
+      dados.forEach(chamado => {
+        const operador = chamado.operador_responsavel;
+        const status = chamado.status;
+
+        if (operador) {
+          // Contar atribuídos
+          atribuicoes[operador] = (atribuicoes[operador] || 0) + 1;
+
+        }
+      });
+
+      // Junta todos os operadores únicos
+      const operadoresUnicos = new Set([
+        ...Object.keys(atribuicoes),
+
+      ]);
+
+      // Montar a tabela
+      tbody.innerHTML = "";
+      operadoresUnicos.forEach(operador => {
+        const atribu = atribuicoes[operador] || 0;
+
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
         <td>${operador}</td>
         <td>${atribu}</td>
-        <td class="green-text">${realiz}</td>
-        <td class="red-text"></td>
+  
+  
       `;
-      tbody.appendChild(tr);
-    });
+        tbody.appendChild(tr);
+      });
 
-  } catch (erro) {
-    console.error("Erro ao carregar a lista de desempenho:", erro);
-  }
-}
-
-async function buscarChamadosResolvidos() {
-    try {
-        // Tentar buscar de uma rota específica para dados
-        const response = await fetch('/desempenho/dados/python', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (!response.ok) {
-            throw new Error(`Erro HTTP: ${response.status}`);
-        }
-
-        const dados = await response.json();
-        console.log(dados)
-        
-        // Atualizar as divs com os valores
-        atualizarChamadosResolvidos(dados);
-        
-    } catch (error) {
-        console.error('Erro ao buscar chamados resolvidos:', error);
-        // Exibir valores padrão em caso de erro
-        document.getElementById('chamadosResolvidosCriticos').textContent = '0';
-        document.getElementById('chamadosResolvidosModerados').textContent = '0';
+    } catch (erro) {
+      console.error("Erro ao carregar a lista de desempenho:", erro);
     }
-}
+  }
 
-// Função para atualizar as divs com os dados recebidos
-function atualizarChamadosResolvidos(dados) {
+  async function buscarChamadosResolvidos() {
+    try {
+      // Tentar buscar de uma rota específica para dados
+      const response = await fetch('/desempenho/dados/python', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
+      const dados = await response.json();
+      console.log(dados)
+
+      // Atualizar as divs com os valores
+      atualizarChamadosResolvidos(dados);
+
+    } catch (error) {
+      console.error('Erro ao buscar chamados resolvidos:', error);
+      // Exibir valores padrão em caso de erro
+      document.getElementById('chamadosResolvidosCriticos').textContent = '0';
+      document.getElementById('chamadosResolvidosModerados').textContent = '0';
+    }
+  }
+
+  // Função para atualizar as divs com os dados recebidos
+  function atualizarChamadosResolvidos(dados) {
     const criticosDiv = document.getElementById('chamadosResolvidosCriticos');
     const moderadosDiv = document.getElementById('chamadosResolvidosModerados');
-    const  totalDiv = document.getElementById('chamadosResolvidosTotal')
-    
+    const totalDiv = document.getElementById('chamadosResolvidosTotal')
+
     if (dados && typeof dados === 'object') {
-        // Se os dados vêm como objeto {criticos: X, moderados: Y}
-        if (dados.criticosResolvido !== undefined && dados.moderadosResolvidos !== undefined && dados.resolvidos !== undefined) {
-            criticosDiv.textContent = dados.criticosResolvido;
-            moderadosDiv.textContent = dados.moderadosResolvidos;
-            totalDiv.textContent = dados.resolvidos;
-            // console.log(dados.operador)
-        }
-        // Se os dados vêm como array de objetos (último registro)
-        else if (Array.isArray(dados) && dados.length > 0) {
-            const ultimoRegistro = dados[dados.length - 1];
-            criticosDiv.textContent = ultimoRegistro.criticos || 0;
-            moderadosDiv.textContent = ultimoRegistro.moderados || 0;
-        }
-      
-        // Se os dados vêm como array simples [criticos, moderados]
-        else if (Array.isArray(dados) && dados.length === 2) {
-            criticosDiv.textContent = dados[0];
-            moderadosDiv.textContent = dados[1];
-        }
-        else {
-            // Fallback: valores padrão
-            criticosDiv.textContent = '0';
-            moderadosDiv.textContent = '0';
-        }
-    } else {
-        // Valores padrão se não houver dados
+      // Se os dados vêm como objeto {criticos: X, moderados: Y}
+      if (dados.criticosResolvido !== undefined && dados.moderadosResolvidos !== undefined && dados.resolvidos !== undefined) {
+        criticosDiv.textContent = dados.criticosResolvido;
+        moderadosDiv.textContent = dados.moderadosResolvidos;
+        totalDiv.textContent = dados.resolvidos;
+        // console.log(dados.operador)
+      }
+      // Se os dados vêm como array de objetos (último registro)
+      else if (Array.isArray(dados) && dados.length > 0) {
+        const ultimoRegistro = dados[dados.length - 1];
+        criticosDiv.textContent = ultimoRegistro.criticos || 0;
+        moderadosDiv.textContent = ultimoRegistro.moderados || 0;
+      }
+
+      // Se os dados vêm como array simples [criticos, moderados]
+      else if (Array.isArray(dados) && dados.length === 2) {
+        criticosDiv.textContent = dados[0];
+        moderadosDiv.textContent = dados[1];
+      }
+      else {
+        // Fallback: valores padrão
         criticosDiv.textContent = '0';
         moderadosDiv.textContent = '0';
+      }
+    } else {
+      // Valores padrão se não houver dados
+      criticosDiv.textContent = '0';
+      moderadosDiv.textContent = '0';
     }
-}
+  }
 
-// Função para atualizar automaticamente a cada X segundos
-function iniciarAtualizacaoAutomatica(intervaloSegundos = 30) {
+  // Função para atualizar automaticamente a cada X segundos
+  function iniciarAtualizacaoAutomatica(intervaloSegundos = 30) {
     // Buscar dados imediatamente
     buscarChamadosResolvidos();
-    
+
     // Configurar atualização automática
     setInterval(buscarChamadosResolvidos, intervaloSegundos * 1000);
-}
+  }
 
-// Função para capturar dados de uma fonte específica (se necessário)
-function capturarDadosLocais(dados) {
+  // Função para capturar dados de uma fonte específica (se necessário)
+  function capturarDadosLocais(dados) {
     if (dados) {
-        atualizarChamadosResolvidos(dados);
+      atualizarChamadosResolvidos(dados);
     }
-}
+  }
 
-// Iniciar quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
+  // Iniciar quando a página carregar
+  document.addEventListener('DOMContentLoaded', function () {
     iniciarAtualizacaoAutomatica(30); // Atualiza a cada 30 segundos
-});
+  });
 
 </script>
