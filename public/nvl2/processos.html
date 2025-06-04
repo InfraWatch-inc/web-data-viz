@@ -94,17 +94,16 @@
   <dialog id="modal" class="modal">
     <div class="modal-content">
       <h2>Filtros</h2>
-  
+
       <div class="group">
-        <label for="iptDtInicial">Fator temporal - De:</label>
-        <input type="date" id="iptDtInicial" class="input">
+        <label for="slctDt">Período de Tempo:</label>
+        <select id="slctDt" class="input">
+          <option value="1">Último Mês</option>
+          <option value="3" selected>Último Trimestre</option>
+          <option value="6">Último Semestre</option>
+        </select>
       </div>
-  
-      <div class="group">
-        <label for="iptDtFinal">Fator temporal - Até:</label>
-        <input type="date" id="iptDtFinal" class="input">
-      </div>
-  
+      
       <div class="group">
         <label for="slctComponente">Componente para visualizar consumo:</label>
         <select id="slctComponente" class="input">
@@ -114,7 +113,7 @@
         </select>
       </div>
   
-      <button onclick="validarDatas()" class="btn-filtro">Aplicar Filtros</button>
+      <button onclick="resetarGraficos(),coletarDados()" class="btn-filtro">Aplicar Filtros</button>
     </div>
   </dialog>
    
