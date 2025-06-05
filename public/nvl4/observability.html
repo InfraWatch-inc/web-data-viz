@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Observability | InfraWatch</title>
+
+    <script src="../js/sessao.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/observability.css">
+
+    <link rel="icon" href="../assets/icon/Logo-InfraWatch.png" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+</head>
+
+<body onload="carregar()">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/d5ea0dfb99.js" crossorigin="anonymous"></script>
+
+    <header>
+        <nav class="header">
+            <div class="user_div">
+                <div class="img"></div>
+                <span class="user_name" id="txtUsuario">Roberto Carlos</span>
+            </div>
+
+            <ul><a href="./servidores.html" class="selecionado">Observability</a></ul>
+            <ul><a href="./suporte.html">Billing</a></ul>
+
+            <button class="sair" onclick="limparSessao()">Sair</button>
+        </nav>
+    </header>
+    <section>
+        <main>
+            <!-- LISTA DE LOGS -->
+            <div class="log-section">
+                <div class="logs">
+                    <!-- TITULO -->
+                    <div class="log-title">
+                        <span class="log-title-span">Logs da Infra</span>
+                    </div>
+                    <!-- LISTA DE LOGS -->
+                    <div class="log-list-section">
+                        <!-- LOG -->
+                        <div class="log-content">
+                            <span class="log-content-title">Lambda etl-v1</span>
+                            <span class="log-content-date"><b>Data:</b>  16/05/2025 - 16:50</span>
+                            <span class="log-content-desc">WARNING: No content length specified for stream data...</span>
+                        </div>
+                        <div class="log-content">
+                            <span class="log-content-title">Lambda etl-v1</span>
+                            <span class="log-content-date"><b>Data:</b>  16/05/2025 - 16:50</span>
+                            <span class="log-content-desc">WARNING: No content length specified for stream data...</span>
+                        </div>
+                        <div class="log-content">
+                            <span class="log-content-title">Lambda etl-v1</span>
+                            <span class="log-content-date"><b>Data:</b>  16/05/2025 - 16:50</span>
+                            <span class="log-content-desc">WARNING: No content length specified for stream data...</span>
+                        </div>
+                        <div class="log-content">
+                            <span class="log-content-title">Lambda etl-v1</span>
+                            <span class="log-content-date"><b>Data:</b>  16/05/2025 - 16:50</span>
+                            <span class="log-content-desc">WARNING: No content length specified for stream data...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+            <!-- INFO DO SERVIDOR -->
+            <div class="monitoring-section">
+                <!-- KPI'S EM FORMA DE GRÁFICO DE ROSCA -->
+                <div class="kpi-section">
+                    <!-- TITULO -->
+                    <div class="kpi-content">
+                        <span class="kpi-title">Uso dos componentes</span>
+                    </div>
+                    <!-- ESPAÇO DE CADA INFO-->
+                    <div class="kpi-content">
+                        <div class="kpi-content-desc">
+                            <span>Disco:</span>
+                            <span>Uso: <b id="valorUsoDisco">75%</b></span>
+                        </div>
+                        <div class="kpi-content-graph">
+                            <canvas class="kpi-graph" id="chartKpiDisco"></canvas>
+                        </div>
+                    </div>
+                    <div class="kpi-content">
+                        <div class="kpi-content-desc">
+                            <span>RAM:</span>
+                            <span>Uso: <b id="valorUsoRam">75%</b></span>
+                        </div>
+                        <div class="kpi-content-graph">
+                            <canvas class="kpi-graph" id="chartKpiRam"></canvas>
+                        </div>
+                    </div>
+                    <div class="kpi-content">
+                        <div class="kpi-content-desc">
+                            <span>CPU:</span>
+                            <span>Uso: <b id="valorUsoCpu">75%</b></span>
+                            <span>Temperatura: <b id="valorTempCpu">75ºC</b></span>
+                        </div>
+                        <div class="kpi-content-graph">
+                            <canvas class="kpi-graph" id="chartKpiCpu"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <!-- ESPAÇO PARA O GRÁFICO -->
+                <div class="graph-section">
+                    <div class="graph-content">
+                        <div class="graph-filter">
+                            <!-- SELECT DO COMPONENTE -->
+                            <select name="" id="slctComponente">
+                            <option value=""></option>
+                            </select>
+                        </div>
+                        <!-- GRÁFICO-->
+                        <div class="graph">
+                            <canvas id="chartComponente"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+    
+
+    <script src="../js/observability.js"></script>
+</body>
+</html>

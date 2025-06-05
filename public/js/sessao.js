@@ -36,7 +36,7 @@ function finalizarAguardar(texto) {
 
 function carregar() {
 
-    if (sessionStorage.NIVEL != 1 && sessionStorage.NIVEL != 2 && sessionStorage.NIVEL != 3) {
+    if (sessionStorage.NIVEL != 1 && sessionStorage.NIVEL != 2 && sessionStorage.NIVEL != 3 && sessionStorage.NIVEL != 4) {
         window.location = "../index.html"
     }
 
