@@ -37,10 +37,11 @@
         <span style="font-size: 2rem; font-weight: 600;">Selecione o tempo que deseja analisar os alertas: </span>
 
         <div id="select-tempo">
-            <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
-                    name="escolhaTemporal" value="3" checked>Trimestral</span>
-            <span style="font-size: 1.5rem; font-weight: 500; margin-left: 1rem;"> <input type="radio"
-                    name="escolhaTemporal" value="6">Semestral</span>
+
+             <select id="selectFatorTemporal">
+                            <option value="2" selected>Trimestral</option>
+                            <option value="5">Semestral</option>
+            </select>
 
         </div>
 
@@ -88,19 +89,17 @@
 
     function inicializarPagina() {
         obterDados()
+    }
+    
+  
+        const escolhaTempo = document.getElementById("selectFatorTemporal");
 
-    }   
-
-    var escolhaTempo = document.getElementsByName("escolhaTemporal")
-    var escolhaTemporalSelecionado = Array.from(escolhaTempo).find(r => r.checked)
-    var escolhaTemporal = escolhaTemporalSelecionado.value
-
-    escolhaTempo.forEach(radio => {
-        radio.addEventListener('change', () => {
-            escolhaTemporal = radio.value
+        escolhaTempo.addEventListener("change", function () {
             obterDados()
-        })
-    })
+        });
+ 
+
+
 
     // Variável para armazenar o resultado por mês, componente e nível
     var resultadoPorMesComponenteNivel = {}
@@ -117,7 +116,7 @@
 
     function obterDados() {
 
-        console.log("Valor de escolhaTemporal test:", escolhaTemporal)
+        const escolhaTemporal = parseInt(selectFatorTemporal.value);
 
         // Reinicialiazinando os objetos
         resultadoPorMesComponenteNivel = {}
@@ -132,7 +131,7 @@
             GraficoAlertasPeriodo.destroy()
         }
 
-        console.log("Valor de escolhaTemporal test:", escolhaTemporal)
+    
 
         function separarAlertasCriticosComponentes(dados) {
             // Separando quantidade de Alertas Crticicos e Moderados dos componentes CPU e GPU
