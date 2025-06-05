@@ -113,13 +113,21 @@
           }, 1000); // apenas para exibir o loading
 
           if (sessionStorage.NIVEL == 3) {
-            window.location = "../nvl3/desempenho.html"
+            window.location = "../nvl3/desempenho.html";
           }
           if (sessionStorage.NIVEL == 2) {
-            window.location = "../nvl2/insights.html"
+            window.location = "../nvl2/insights.html";
+
+            if( sessionStorage.NOME_USUARIO == 'AndrÃ© Muller' ||sessionStorage.NOME_USUARIO == 'Andre Muller'  ){
+              sessionStorage.NOME_USUARIO = 'André Muller';
+            }
           }
           if (sessionStorage.NIVEL == 1) {
-            window.location = "../nvl1/servidores.html"
+            window.location = "../nvl1/servidores.html";
+          }
+
+          if (sessionStorage.NIVEL == 4) {
+            window.location = "../nvl4/observability.html";
           }
         });
 

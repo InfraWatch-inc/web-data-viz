@@ -9,7 +9,7 @@ let kpi3_metrica1 = document.getElementById("kpi3_metrica1");
 let kpi3_metrica2 = document.getElementById("kpi3_metrica2");
 let kpi4_metrica1 = document.getElementById("kpi4_metrica1");
 let kpi4_metrica2 = document.getElementById("kpi4_metrica2");
-// let kpi4_nome = document.getElementById("kpi4_nome");
+let kpi4_nome = document.getElementById("kpi4_nome");
 let rm_divisao = document.getElementById("divisao_rm");
 let rm_divisao_ram = document.getElementById("rm_divisao_ram");
 let rm_divisao_gpu = document.getElementById("rm_divisao_gpu");
@@ -20,7 +20,8 @@ const ramElement = document.getElementById('kpi_ram');
 const cpuElement = document.getElementById('kpi_cpu');
 const gpuElement = document.getElementById('kpi_gpu');
 
-let idServidor = sessionStorage.getItem('idServidor');
+// let idServidor = sessionStorage.getItem('idServidor');
+
 let componenteAtivo = 'cpu';
 let graficoAtualLinha = null;
 let tipoMetrica = 'uso';
@@ -74,17 +75,19 @@ function formatoFrequencia(valor) {
     return parseInt(valor) + " MHz";
 }
 
+console.log(sessionStorage.idServidor)
 
 async function carregarDadosESincronizar() {
-    if (!idServidor) {
+    if (!sessionStorage.idServidor) {
         console.error("ID do Servidor não encontrado no sessionStorage.");
         return;
     }
     try {
-        const resposta = await fetch(`/monitoramento/coletar/dados/${idServidor}`);
+        const resposta = await fetch(`/monitoramento/coletar/dados/${sessionStorage.idServidor}`);
         if (!resposta.ok) {
             console.error(`Erro no fetch: ${resposta.status} ${resposta.statusText}`);
             dados = [];
+
         } else {
             const dadosJson = await resposta.json();
             if (Array.isArray(dadosJson)) {

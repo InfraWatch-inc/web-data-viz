@@ -39,75 +39,28 @@ let dadosDash = {
 
 let isFirstLoad = true;
 
-function validarDatas(){
-    let dtInicial = iptDtInicial.value;
-    let dtFinal = iptDtFinal.value;
-
-    if(dtInicial == '' || dtFinal == ''){
-        alert('Data inicial e final não podem ser vazias.');
-        return;
-    }
-
-    let dataInicial = new Date(dtInicial);
-    let dataFinal = new Date(dtFinal);
-
-    if (dataInicial > dataFinal) {
-        alert('Data inicial maior que a final. Verifique.');
-        return;
-    }
-
-    resetarGraficos();
-    coletarDados();
-}
-
 function coletarDados() {
-    let dtInicial = iptDtInicial.value;
-    let dtFinal = iptDtFinal.value;
+    let periodoSelect = Number(slctDt.value);
 
-    let periodo = 1;
     let dataInicial = undefined;
     let dataFinal = undefined;
 
     let dataInicialFormatada = undefined;
     let dataFinalFormatada = undefined;
 
-    if (dtInicial === '' && dtFinal === '') {
-        periodo = 6;
-        dataInicial = new Date();
-        dataInicial.setMonth(dataInicial.getMonth() - periodo);
+    periodo = 6;
+    dataInicial = new Date();
+    dataInicial.setMonth(dataInicial.getMonth() - periodoSelect);
+    let dia = String(dataInicial.getDate()).padStart(2, '0');
+    let mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
+    let ano = dataInicial.getFullYear();
+    dataInicialFormatada = `${ano}-${mes}-${dia}`;
 
-        let dia = String(dataInicial.getDate()).padStart(2, '0');
-        let mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
-        let ano = dataInicial.getFullYear();
-        dataInicialFormatada = `${ano}-${mes}-${dia}`;
-
-        dataFinal = new Date();
-        dia = String(dataFinal.getDate()).padStart(2, '0');
-        mes = String(dataFinal.getMonth() + 1).padStart(2, '0');
-        ano = dataFinal.getFullYear();
-        dataFinalFormatada = `${ano}-${mes}-${dia}`;
-    } else if (dtInicial === '' && dtFinal !== '') {
-        dataInicial = new Date();
-        let dia = String(dataInicial.getDate()).padStart(2, '0');
-        let mes = String(dataInicial.getMonth() + 1).padStart(2, '0');
-        let ano = dataInicial.getFullYear();
-        dataInicialFormatada = `${ano}-${mes}-${dia}`;
-        iptDtInicial.value = dataInicialFormatada;
-
-        dataFinal = new Date(dtFinal);
-        dataFinalFormatada = dtFinal;
-    } else if (dtInicial !== '' && dtFinal !== '') {
-        dataInicial = new Date(dtInicial);
-        dataFinal = new Date(dtFinal);
-        dataInicialFormatada = dtInicial;
-        dataFinalFormatada = dtFinal;
-    } else {
-        alert('Data final inválida');
-        return;
-    }
-
-    iptDtInicial.value = dataInicialFormatada;
-    iptDtFinal.value = dataFinalFormatada;
+    dataFinal = new Date();
+    dia = String(dataFinal.getDate()).padStart(2, '0');
+    mes = String(dataFinal.getMonth() + 1).padStart(2, '0');
+    ano = dataFinal.getFullYear();
+    dataFinalFormatada = `${ano}-${mes}-${dia}`;
 
     // Título do dashboard
     const tituloDash = document.getElementById('tituloDash');
@@ -118,10 +71,6 @@ function coletarDados() {
     const meses = (dataFim.getFullYear() - dataInicio.getFullYear()) * 12 + (dataFim.getMonth() - dataInicio.getMonth());
 
     let textoTitulo = 'Insights de Processos';
-
-    const hoje = new Date();
-    const hojeStr = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
-    const dataFinalEhHoje = dataFinalFormatada === hojeStr;
 
     if (meses === 0 && dias < 30) {
         textoTitulo += ` nos últimos ${dias} dia${dias === 1 ? '' : 's'}`;

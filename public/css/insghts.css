@@ -217,6 +217,12 @@ select {
   color: #374151 !important;
 }
 
+.centralizar{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media screen and (min-width: 1024px) {
   body {
     width: 100vw;
@@ -343,6 +349,7 @@ select {
 
   #div_header_grafico {
     width: 100%;
+    height: 17%;
     display: flex;
     justify-content: end;
   }

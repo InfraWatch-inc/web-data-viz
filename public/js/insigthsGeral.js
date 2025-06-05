@@ -1,6 +1,6 @@
 isChart = false;
 function carregarDados(){
-    let periodo = slt_tempo.value; 
+    let periodo = slt_tempo.value;
     console.log("Realizei o fetch")
     fetch(`/insights/alertasComponentes/${periodo}/${sessionStorage.ID_EMPRESA}`, {
         method: 'GET',
@@ -11,10 +11,8 @@ function carregarDados(){
     .then(res => {
         res.json()
         .then(dados => {
-            console.log("Peguei os dados")
-            console.log(dados);
             atribuirKpi(dados.totalAlertasMemoria, dados.totalAlertasProcessamento);
-            construirGrafico(dados.componentes, dados.dadosCriticos, dados.dadosModerados);
+            construirGrafico(dados.componentes, dados.dadosCriticos, dados.dadosModerados, slt_tempo.options[slt_tempo.selectedIndex].text);
         })
     })
     .catch(error => { 
@@ -29,7 +27,7 @@ function atribuirKpi(alertasMemoria, alertasProcessamento){
 
 }
 
-function construirGrafico(componentes, dadosCriticos, dadosModerados){
+function construirGrafico(componentes, dadosCriticos, dadosModerados, periodoTempo){
     if(isChart){
         const chart = document.getElementById('myChart');
         if (chart) {
@@ -47,24 +45,24 @@ function construirGrafico(componentes, dadosCriticos, dadosModerados){
     data: {
         labels: componentes,
         datasets: [
-        {
-            label: "Moderado",
-            data: dadosModerados,
-            borderWidth: 1,
-            backgroundColor: 'rgba(255, 161, 0)',
-            borderRadius: 5,
-            borderSkipped: false,
-            order: 1
-        },
-        {
-            label: "Críticos",
-            data: dadosCriticos,
-            borderWidth: 1,
-            backgroundColor: 'rgba(	205, 48, 48)',
-            borderRadius: 5,
-            borderSkipped: false,
-            order: 2
-        },
+            {
+                label: "Moderado",
+                data: dadosModerados,
+                borderWidth: 1,
+                backgroundColor: 'rgba(255, 161, 0)',
+                borderRadius: 5,
+                borderSkipped: false,
+                order: 1
+            },
+            {
+                label: "Críticos",
+                data: dadosCriticos,
+                borderWidth: 1,
+                backgroundColor: 'rgba(	205, 48, 48)',
+                borderRadius: 5,
+                borderSkipped: false,
+                order: 2
+            },
         ],
     },
     options: {
@@ -74,59 +72,74 @@ function construirGrafico(componentes, dadosCriticos, dadosModerados){
         barPercentage: 0.7,
         categoryPercentage: 0.8,
         scales: {
-        y: {
-            beginAtZero: true,
-            ticks: {
-            stepSize: 5,
-            font: {
-                size: 12
-            }
+            y: {
+                beginAtZero: true,
+                ticks: {
+                stepSize: 5,
+                font: {
+                    size: 12
+                }
+                },
+                title: {
+                    display: true,
+                    text: 'Quantidade de Alertas',
+                    font: {
+                        size: 26
+                    },
+                    color:'#333333'
+                },
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.1)'
+                },
+                ticks: {
+                    font:{
+                        size: 20
+                    }
+                }
             },
-            title: {
-            display: true,
-            text: 'Quantidade de Alertas',
-            font: {
-                size: 20
+            x: {
+                title: {
+                    display: true,
+                    text: 'Componentes',
+                    font: {
+                        size: 26
+                    },
+                    color:'#333333'
+                },
+                grid: {
+                        display: false
+                },
+                ticks: {
+                    font:{
+                        size: 20
+                    }
+                }
             }
-            },
-            grid: {
-            color: 'rgba(0, 0, 0, 0.1)'
-            }
-        },
-        x: {
-            title: {
-            display: true,
-            text: 'Componentes',
-            font: {
-                size: 20
-            }
-            },
-            grid: {
-            display: false
-            }
-        }
         },
         plugins: {
-        legend: {
-            labels: {
-            usePointStyle: true,
-            boxWidth: 40,
-            padding: 40
-            }
-        },
-        title: {
-            display: true,
-            position: "top",
-            text: "Distribuição de Alertas por Componente",
-            font: {
-            size: 25,
-            weight: 'bold'
+            legend: {
+                labels: {
+                    boxWidth: 40,
+                    padding: 10,
+                    font:{
+                        size: 18
+                    }
+                },
             },
-            padding: {
-            top: 10,
-            bottom: 30,
+            title: {
+                display: true,
+                position: "top",
+                text: `Distribuição de Alertas por Componente no ${periodoTempo}`,
+                font: {
+                    size: 30,
+                    weight: 'bold'
+                },
+                padding: {
+                    top: 10,
+                    bottom: 30,
+                },
+                color:'#333333'
             },
-        },
         },
     },
     });
