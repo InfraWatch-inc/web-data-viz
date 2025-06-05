@@ -49,7 +49,7 @@ function construirGrafico(componentes, dadosCriticos, dadosModerados, periodoTem
                 label: "Moderado",
                 data: dadosModerados,
                 borderWidth: 1,
-                backgroundColor: 'rgba(255, 161, 0)',
+                backgroundColor: '#06b6d4',
                 borderRadius: 5,
                 borderSkipped: false,
                 order: 1
@@ -58,7 +58,7 @@ function construirGrafico(componentes, dadosCriticos, dadosModerados, periodoTem
                 label: "Críticos",
                 data: dadosCriticos,
                 borderWidth: 1,
-                backgroundColor: 'rgba(	205, 48, 48)',
+                backgroundColor: '#7e22ce',
                 borderRadius: 5,
                 borderSkipped: false,
                 order: 2
