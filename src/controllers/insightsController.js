@@ -89,7 +89,7 @@ async function postDadosProcessos(req, res){
 
     await insightsModel.postAlertasProcessos(idEmpresa, dataInicial, dataFinal)
     .then((resposta) => {
-        data.dadosProcessosAlertas = resposta[0][0].dadosProcessosAlertas;
+        data.dadosProcessosAlertas = resposta[0][0].dadosProcessosAlertas.sort((a, b) => (b.alertasAtencao + b.alertasCritico) - (a.alertasAtencao + a.alertasCritico)).slice(0,5);
     })
     .catch((error) => {
         isError = true
@@ -103,12 +103,19 @@ async function postDadosProcessos(req, res){
             data.dadosProcessosConsumo[info.tipo].push(info);
         });
 
+        data.dadosProcessosConsumo.cpu.sort((a, b) => (b.manha + b.tarde + b.noite) - (a.manha + a.tarde + a.noite));
+        data.dadosProcessosConsumo.gpu.sort((a, b) => (b.manha + b.tarde + b.noite) - (a.manha + a.tarde + a.noite));
+        data.dadosProcessosConsumo.ram.sort((a, b) => (b.manha + b.tarde + b.noite) - (a.manha + a.tarde + a.noite));
+
+        data.dadosProcessosConsumo.cpu = data.dadosProcessosConsumo.cpu.slice(0, 5);
+        data.dadosProcessosConsumo.gpu = data.dadosProcessosConsumo.gpu.slice(0, 5);
+        data.dadosProcessosConsumo.ram = data.dadosProcessosConsumo.ram.slice(0, 5);
+
     })
     .catch((error) => {
         isError = true;
     })
 
-    console.log("Dados Enviar:"+ JSON.stringify(data));
 
     if(!isError){
         return res.status(200).json(data);
