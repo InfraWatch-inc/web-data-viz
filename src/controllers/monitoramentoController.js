@@ -3,6 +3,8 @@ var monitoramentoModel = require("../models/monitoramentoModel");
 
 monitoramento = {};
 
+monitoramentoInstancia = [];
+
 function getCapturas(req, res) {
   const idServidor = req.params.idServidor;
 
@@ -155,6 +157,38 @@ function getTodosServidores(req, res){
 
 }
 
+function postDadoInstancia(req, res) {
+  const dado = req.body;
+
+  if (!dado) {
+    return res.status(400).json({ "mensagem": "Dados inválidos" });
+  }
+
+  if(monitoramentoInstancia.length == 100){
+    monitoramentoInstancia.shift();
+  }
+
+  monitoramentoInstancia.push(dado);
+
+  return res.status(200).json({ "mensagem": "Dado de instância cadastrado com sucesso" });
+}
+
+function getDadosInstancia(req, res) {
+  let isFirstTime = req.params.isPrimeiroConsumo;
+  if (monitoramentoInstancia.length == 0) {
+    return res.status(404).json({ "mensagem": "Nenhum dado de instância encontrado" });
+  }
+
+  if(isFirstTime){
+    return res.status(200).json(monitoramentoInstancia);
+  }
+
+  let ultimoDado = monitoramentoInstancia[monitoramentoInstancia.length - 1];
+
+  return res.status(200).json(ultimoDado);
+  
+}
+
 
 module.exports = {
   buscarDados,
@@ -166,5 +200,7 @@ module.exports = {
   listagemServidores,
   abrirChamado,
   buscarDadosComponente,
-  getTodosServidores
+  getTodosServidores,
+  postDadoInstancia,
+  getDadosInstancia
 };

@@ -44,5 +44,12 @@ router.get("/coletar/chamados", function (req, res) {
     monitoramentoController.abrirChamado(req, res);
 })
 
+router.post("/instancia", function (req, res) {
+    monitoramentoController.postDadoInstancia(req, res);
+})
+
+router.get("/instancia", function (req, res) {
+    monitoramentoController.getDadosInstancia(req, res);
+})
 
 module.exports = router;
