@@ -7,15 +7,15 @@ const corpoTabela = document.getElementById('corpo-tabela');
 
 const LIMITE_CRITICO_CPU = 80;    // Exemplo: % de uso CPU crítico
 const LIMITE_MODERADO_CPU = 60;   // Exemplo: % de uso CPU moderado
+const LIMITE_CRITICO_GPU = 85;    // Exemplo: % de uso CPU crítico
+const LIMITE_MODERADO_GPU = 65;    // Exemplo: % de uso CPU crítico
 const LIMITE_CRITICO_RAM = 90;    // Exemplo: % de uso RAM crítico
 const LIMITE_MODERADO_RAM = 75;   // Exemplo: % de uso RAM moderado
 const LIMITE_CRITICO_DISCO = 90;  // Exemplo: % de uso Disco crítico
 const LIMITE_MODERADO_DISCO = 75;
 
 let estadoComponentesAtual = sessionStorage.getItem('estadoComponentesAtual') || 'cpu_gpu' // Estado inicial
-let countAlertaCritico = document.getElementById('countAlertaCritico');
-let countAlertaModerado = document.getElementById('countAlertaModerado');
-let countAlerta = document.getElementById('countAlerta');
+let countAlertaCritico, countAlertaModerado, countAlerta;
 let servidores;
 let geralServidores;
 let chamados;
@@ -159,51 +159,51 @@ function isServidorVazio(servidor){
 }
 
 
-function compararServidores(valorComponenteA, valorComponenteB) {
-  const aVazio = isServidorVazio(valorComponenteA);
-  const bVazio = isServidorVazio(valorComponenteB);
+// function compararServidores(valorComponenteA, valorComponenteB) {
+//   const aVazio = isServidorVazio(valorComponenteA);
+//   const bVazio = isServidorVazio(valorComponenteB);
 
-  if (!aVazio && bVazio) {
-    return -1; // A (não-vazio) é preferível a B (vazio). A deve vir antes.
-  }
-  if (aVazio && !bVazio) {
-    return 1;  // B (não-vazio) é preferível a A (vazio). B deve vir antes.
-  }
+//   if (!aVazio && bVazio) {
+//     return -1; // A (não-vazio) é preferível a B (vazio). A deve vir antes.
+//   }
+//   if (aVazio && !bVazio) {
+//     return 1;  // B (não-vazio) é preferível a A (vazio). B deve vir antes.
+//   }
 
-  let gpuA = valorComponenteA.qtdGpu ?? 0;
-  let gpuB = valorComponenteB.qtdGpu ?? 0;
-  if (gpuB !== gpuA) return gpuB - gpuA; // Ordena pelo valor de uso da GPU 
+//   let gpuA = valorComponenteA.qtdGpu ?? 0;
+//   let gpuB = valorComponenteB.qtdGpu ?? 0;
+//   if (gpuB !== gpuA) return gpuB - gpuA; // Ordena pelo valor de uso da GPU 
 
-  let cpuA = valorComponenteA.qtdCpu ?? 0;
-  let cpuB = valorComponenteB.qtdCpu ?? 0;
-  if (cpuB !== cpuA) return cpuB - cpuA; // Ordena pelo valor de uso da CPU
+//   let cpuA = valorComponenteA.qtdCpu ?? 0;
+//   let cpuB = valorComponenteB.qtdCpu ?? 0;
+//   if (cpuB !== cpuA) return cpuB - cpuA; // Ordena pelo valor de uso da CPU
 
-  let ramA = valorComponenteA.ramUsoBytes ?? 0;
-  let ramB = valorComponenteB.ramUsoBytes ?? 0;
-  if (ramB !== ramA) return ramB - ramA; // Ordena pelo valor de uso da RAM
+//   let ramA = valorComponenteA.ramUsoBytes ?? 0;
+//   let ramB = valorComponenteB.ramUsoBytes ?? 0;
+//   if (ramB !== ramA) return ramB - ramA; // Ordena pelo valor de uso da RAM
 
-  let hdA = valorComponenteA.hdUsoBytes ?? 0;
-  let hdB = valorComponenteB.hdUsoBytes ?? 0;
-  if (hdB !== hdA) return hdB - hdA; // Ordena pelo valor de uso do HD
+//   let hdA = valorComponenteA.hdUsoBytes ?? 0;
+//   let hdB = valorComponenteB.hdUsoBytes ?? 0;
+//   if (hdB !== hdA) return hdB - hdA; // Ordena pelo valor de uso do HD
 
-  return 0; // Se todos os valores forem iguais, considera-os iguais.
-}
+//   return 0; // Se todos os valores forem iguais, considera-os iguais.
+// }
 
-function servidoresOrdenadosPorUso(servidor) {
-  let n = servidor.length;
-  for (let i = 0; i < n - 1; i++) {
-    for (let j = 0; j < n - i - 1; j++) {
-      if (compararServidores(servidor[j], servidor[j + 1]) > 0) {
-        // Troca os servidores apó verificar o valor de uso %. bubble sort = lp.
-        let temp = servidor[j];
-        servidor[j] = servidor[j + 1];
-        servidor[j + 1] = temp;
-      }
-    }
-  }
+// function servidoresOrdenadosPorUso(servidor) {
+//   let n = servidor.length;
+//   for (let i = 0; i < n - 1; i++) {
+//     for (let j = 0; j < n - i - 1; j++) {
+//       if (compararServidores(servidor[j], servidor[j + 1]) > 0) {
+//         // Troca os servidores apó verificar o valor de uso %. bubble sort = lp.
+//         let temp = servidor[j];
+//         servidor[j] = servidor[j + 1];
+//         servidor[j + 1] = temp;
+//       }
+//     }
+//   }
 
-  return servidor;
-}
+//   return servidor;
+// }
 
 function listagemBodyCpuGpu() {
   corpoTabela.innerHTML = "";
@@ -220,7 +220,8 @@ function listagemBodyCpuGpu() {
     return;
   }
 
-  servidores = servidoresOrdenadosPorUso(servidores);
+  // servidores = servidoresOrdenadosPorUso(servidores);
+  servidores = servidores.sort((a, b) => b.usoGpu - a.usoGpu);
 
   servidores.forEach(servidor => {
     const linha = document.createElement('tr');
@@ -306,7 +307,7 @@ function listagemBodyRamDisco() {
     return;
   }
 
-  servidores = servidoresOrdenadosPorUso(servidores);
+  servidores = servidores.sort((a, b) => b.ramUso - a.ramUso);
 
   servidores.forEach(servidor => {
     const linha = document.createElement('tr');
@@ -345,7 +346,7 @@ function listagemBodyRamDisco() {
         globalAlertTotalCount++;
         countAlerta.style.display = 'block';
       } else if (ramPercent >= LIMITE_MODERADO_RAM) {
-        countAlertaModerado++;
+        globalAlertTotalCount++;
         globalAlertModeradoCount++;
         countAlerta.style.display = 'block';
       }
@@ -515,6 +516,10 @@ function filtroBuscar(nomeServidor) {
 
 // init
 function inicializarMonitoramento() {
+  countAlertaCritico = document.getElementById('countAlertaCritico');
+  countAlertaModerado = document.getElementById('countAlertaModerado');
+  countAlerta = document.getElementById('countAlerta');
+
   if (sessionStorage.NOME_USUARIO) {
     nome_usuario.innerHTML = `${sessionStorage.NOME_USUARIO}  <img src="../assets/icon/arrow_donw.png" alt="" width="20" height="15">`;
   }

@@ -75,8 +75,6 @@ function formatoFrequencia(valor) {
     return parseInt(valor) + " MHz";
 }
 
-console.log(sessionStorage.idServidor)
-
 async function carregarDadosESincronizar() {
     if (!sessionStorage.idServidor) {
         console.error("ID do Servidor não encontrado no sessionStorage.");
@@ -231,7 +229,6 @@ function atualizarKPIs() {
         compAtivoTitulo.textContent = nomeAmigavel.toUpperCase();
     }
 }
-
 
 // Função para criar a cor de degrade
 function criarGradient(ctx) {
