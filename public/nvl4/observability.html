@@ -30,7 +30,7 @@
             </div>
 
             <ul><a href="./servidores.html" class="selecionado">Observability</a></ul>
-            <ul><a href="./suporte.html">Billing</a></ul>
+            <ul><a href="./billing.html">Billing</a></ul>
 
             <button class="sair" onclick="limparSessao()">Sair</button>
         </nav>
@@ -82,7 +82,7 @@
                     <!-- ESPAÇO DE CADA INFO-->
                     <div class="kpi-content">
                         <div class="kpi-content-desc">
-                            <span>Disco:</span>
+                            <span class="kpi-content-desc-title">Disco</span>
                             <span>Uso: <b id="valorUsoDisco">75%</b></span>
                         </div>
                         <div class="kpi-content-graph">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="kpi-content">
                         <div class="kpi-content-desc">
-                            <span>RAM:</span>
+                            <span class="kpi-content-desc-title">RAM</span>
                             <span>Uso: <b id="valorUsoRam">75%</b></span>
                         </div>
                         <div class="kpi-content-graph">
@@ -100,9 +100,9 @@
                     </div>
                     <div class="kpi-content">
                         <div class="kpi-content-desc">
-                            <span>CPU:</span>
+                            <span class="kpi-content-desc-title">CPU</span>
                             <span>Uso: <b id="valorUsoCpu">75%</b></span>
-                            <span>Temperatura: <b id="valorTempCpu">75ºC</b></span>
+                            <span>Temp: <b id="valorTempCpu">75ºC</b></span>
                         </div>
                         <div class="kpi-content-graph">
                             <canvas class="kpi-graph" id="chartKpiCpu"></canvas>
@@ -128,7 +128,6 @@
         </main>
     </section>
     
-
     <script src="../js/observability.js"></script>
 </body>
 </html>

@@ -67,7 +67,7 @@ ul {
 ul a {
     font-size: 1.8rem;
     word-spacing: 0.2rem;
-    color: #374151;
+    color: #6B7280;
     transition: 0.4s;
 }
 
@@ -170,7 +170,9 @@ main{
 }
 
 .log-content-title{
-
+    color: rgb(187, 154, 9);
+    font-weight: 1000;
+    font-size: 1.1rem;
 }
 
 .log-content-date{
@@ -184,23 +186,50 @@ main{
 /* SEÇÃO DO SERVIDOR */
 .monitoring-section{
     width: 75%;
-    border: solid red 1px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
 /* KPIS GRAFICOS */
 .kpi-section{
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
     width: 100%;
     height: 20%;
+    background-color: white;
+
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
 }
 
 .kpi-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 
+    width: 20%;
+    height: 100%;
 }
 
 .kpi-title{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 
+    font-size: 1.5rem;
+    color: #000000;
+    font-weight: 600;
 }
 
 .kpi-content-desc{
@@ -208,23 +237,28 @@ main{
     flex-direction: column;
 }
 
-.kpi-content-graph{
-    
+.kpi-content-desc-title{
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
-.kpi-graph{
-
+.kpi-content-graph{
+    width: 52%;
 }
 
 /* GRAFICO PRINCIPAL */
 .graph-section{
     width: 100%;
-    height: 80%;
+    height: 75%;
+
+    background-color: white;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
 }
 
 .graph-content{
 
-}
+}   
 
 .graph-filter{
 
@@ -232,4 +266,20 @@ main{
 
 .graph{
 
+}
+
+.text-danger{
+    color: #CD3030;
+}
+
+.text-alert{
+    color: #FFA100;
+}
+
+.text-fine{
+    color: rgb(2, 110, 2);
+}
+
+.selecionado{
+  color: #374151 !important;
 }
