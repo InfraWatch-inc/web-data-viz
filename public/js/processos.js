@@ -50,6 +50,7 @@ function adicionarProcessos(process, index) {
     
     if (process.ram > 30) {
         ramInfo.style.color = 'red';
+        ramInfo.style.fontWeight = 'bold';
     }
 
     const gpuInfo = document.createElement('div');
@@ -58,6 +59,7 @@ function adicionarProcessos(process, index) {
     
     if (process.gpu > 30) {
         gpuInfo.style.color = 'red';
+        gpuInfo.style.fontWeight = 'bold';
     }
     
     processItem.appendChild(processName);

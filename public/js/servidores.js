@@ -7,12 +7,12 @@ const corpoTabela = document.getElementById('corpo-tabela');
 
 const LIMITE_CRITICO_CPU = 80;    // Exemplo: % de uso CPU crítico
 const LIMITE_MODERADO_CPU = 60;   // Exemplo: % de uso CPU moderado
-const LIMITE_CRITICO_GPU = 85;    // Exemplo: % de uso CPU crítico
-const LIMITE_MODERADO_GPU = 65;    // Exemplo: % de uso CPU crítico
+const LIMITE_CRITICO_GPU = 85;    // Exemplo: % de uso GPU crítico
+const LIMITE_MODERADO_GPU = 65;    // Exemplo: % de uso GPU crítico
 const LIMITE_CRITICO_RAM = 90;    // Exemplo: % de uso RAM crítico
 const LIMITE_MODERADO_RAM = 75;   // Exemplo: % de uso RAM moderado
 const LIMITE_CRITICO_DISCO = 90;  // Exemplo: % de uso Disco crítico
-const LIMITE_MODERADO_DISCO = 75;
+const LIMITE_MODERADO_DISCO = 75; // Exemplo: % de uso Disco moderado
 
 let estadoComponentesAtual = sessionStorage.getItem('estadoComponentesAtual') || 'cpu_gpu' // Estado inicial
 let countAlertaCritico, countAlertaModerado, countAlerta;
@@ -243,10 +243,11 @@ function listagemBodyCpuGpu() {
       usoCpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "CPU" && d.metrica === "%");
       // Procurar por dados de GPU
       usoGpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "%");
-      tempGpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "°C");
+      tempGpuData = ultimaCaptura.dadosCaptura.find(d => d.componente === "GPU" && d.metrica === "ºC");
     }
 
     const valorUsoCpu = usoCpuData ? parseFloat(usoCpuData.dadoCaptura) : null;
+    const valorUsoGpu = usoGpuData ? parseFloat(usoGpuData.dadoCaptura) : null;
 
     if (valorUsoCpu !== null) {
       if (valorUsoCpu >= LIMITE_CRITICO_CPU) {
@@ -254,6 +255,16 @@ function listagemBodyCpuGpu() {
         globalAlertTotalCount++;
         countAlerta.style.display = 'block';
       } else if (valorUsoCpu >= LIMITE_MODERADO_CPU) {
+        globalAlertModeradoCount++;
+        globalAlertTotalCount++;
+        countAlerta.style.display = 'block';
+      }
+    }else if (valorUsoGpu !== null) {
+      if (valorUsoGpu >= LIMITE_CRITICO_GPU) {
+        globalAlertCriticoCount++;
+        globalAlertTotalCount++;
+        countAlerta.style.display = 'block';
+      } else if (valorUsoGpu >= LIMITE_MODERADO_GPU) {
         globalAlertModeradoCount++;
         globalAlertTotalCount++;
         countAlerta.style.display = 'block';
@@ -268,8 +279,8 @@ function listagemBodyCpuGpu() {
             <td>${totalNucleo || "-"}</td>
             <td>${totalThreads || "-"}</td>
             <td>${servidor.qtdGpu || 0}</td>
-            <td>${tempGpuData ? `${formatarPorcentagem(tempGpuData.dadoCaptura)}°C` : "-"}</td>
-            <td>${usoGpuData ? `${formatarPorcentagem(usoGpuData.dadoCaptura)}%` : "-"}</td>
+            <td>${tempGpuData ? `${formatarPorcentagem(tempGpuData.dadoCaptura)}ºC` : "-"}</td>
+            <td style="color: ${valorUsoGpu !== null ? (valorUsoGpu >= LIMITE_CRITICO_GPU ? 'red' : (valorUsoGpu >= LIMITE_MODERADO_GPU ? 'orange' : 'black')) : 'inherit'}">${usoGpuData ? `${formatarPorcentagem(usoGpuData.dadoCaptura)}%` : "-"}</td>
             <td style="color: ${valorUsoCpu !== null ? (valorUsoCpu >= LIMITE_CRITICO_CPU ? 'red' : (valorUsoCpu >= LIMITE_MODERADO_CPU ? 'orange' : 'black')) : 'inherit'}">
                 ${valorUsoCpu !== null ? `${formatarPorcentagem(valorUsoCpu)}%` : "-"}
             </td>

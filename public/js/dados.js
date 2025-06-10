@@ -138,7 +138,7 @@ function atualizarKPIs() {
         {
             nomeKPI: "GPU", nomeJSON: "GPU", elId: "kpi_gpu", divId: "rm_divisao_gpu",
             nomeElId: "kpi4_nome", metrica1ElId: "kpi4_metrica1", metrica2ElId: "kpi4_metrica2",
-            m1Type: "%", m2Type: "°C"
+            m1Type: "%", m2Type: "ºC"
         }
     ];
 
@@ -304,24 +304,29 @@ function renderizarGraficoLinha() {
 
             }
             else if (tipoMetrica === 'temperatura') {
-                nomeMetricaJSON = 'Temperatura'; labelDataset = 'Temperatura CPU'; metrica = '°C'; yAxisMax = 100;
+                nomeMetricaJSON = 'Temperatura'; labelDataset = 'Temperatura CPU'; metrica = 'ºC'; yAxisMax = 100;
                 console.warn("Dados de Temperatura da CPU não disponíveis, exibindo Uso %.");
             } else {
                 nomeMetricaJSON = '%'; labelDataset = 'Uso CPU'; metrica = '%'; yAxisMax = 100;
             }
             break;
         case 'gpu':
-            console.warn("Dados agregados de GPU não disponíveis no formato atual do JSON para o gráfico de linha.");
+            // console.warn("Dados agregados de GPU não disponíveis no formato atual do JSON para o gráfico de linha.");
             nomeComponenteJSON = 'GPU';
-            nomeMetricaJSON = '%'; labelDataset = 'Uso GPU'; metrica = '%'; yAxisMax = 100;
-            if (graficoAtualLinha) graficoAtualLinha.destroy();
-            graficoAtualLinha = null; // Garante que não tente desenhar com dados vazios
-            ctx4.clearRect(0, 0, canvasElement.width, canvasElement.height); // Limpa o canvas
-            ctx4.font = "16px Arial";
-            ctx4.fillStyle = "grey";
-            ctx4.textAlign = "center";
-            ctx4.fillText("Dados de GPU não disponíveis para gráfico de linha.", canvasElement.width / 2, canvasElement.height / 2);
-            return;
+
+            if(tipoMetrica === 'uso'){
+                nomeMetricaJSON = '%'; labelDataset = 'Uso GPU'; metrica = '%'; yAxisMax = 100;
+            }else if(tipoMetrica === 'temperatura'){
+                nomeMetricaJSON = 'ºC'; labelDataset = 'Temperatura GPU'; metrica = 'ºC'; yAxisMax = 100;
+            }
+            // if (graficoAtualLinha) graficoAtualLinha.destroy();
+            // graficoAtualLinha = null; // Garante que não tente desenhar com dados vazios
+            // ctx4.clearRect(0, 0, canvasElement.width, canvasElement.height); // Limpa o canvas
+            // ctx4.font = "16px Arial";
+            // ctx4.fillStyle = "grey";
+            // ctx4.textAlign = "center";
+            // ctx4.fillText("Dados de GPU não disponíveis para gráfico de linha.", canvasElement.width / 2, canvasElement.height / 2);
+            break;
         case 'disk':
             nomeComponenteJSON = 'HD';
             if (tipoMetrica === 'bytes') {
