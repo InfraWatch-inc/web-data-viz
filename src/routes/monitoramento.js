@@ -11,7 +11,6 @@ router.get("/componente/:uuid", function (req, res) {
     monitoramentoController.buscarDadosComponente(req, res);
 });
 
-
 router.post("/cadastrar/dados/:idServidor", function (req, res) {
     monitoramentoController.cadastrarCaptura(req, res);
 });
@@ -50,6 +49,10 @@ router.post("/instancia", function (req, res) {
 
 router.get("/instancia", function (req, res) {
     monitoramentoController.getDadosInstancia(req, res);
+})
+
+router.get("/logs", function (req, res){
+    monitoramentoController.getLogs(req, res);
 })
 
 module.exports = router;

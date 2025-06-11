@@ -5,6 +5,9 @@ monitoramento = {};
 
 monitoramentoInstancia = [];
 
+const AWS = require("aws-sdk");
+AWS.config.update({ region: "us-east-1" });
+
 function getCapturas(req, res) {
   const idServidor = req.params.idServidor;
 
@@ -189,6 +192,56 @@ function getDadosInstancia(req, res) {
   
 }
 
+async function getLogs(req, res){
+  const lambda = new AWS.Lambda();
+  const cloudwatchlogs = new AWS.CloudWatchLogs();
+
+  const blacklist = ["MainMonitoringFunction", "ModLabRole"];
+  const keywords = ["ERROR", "Exception", "Traceback"];
+
+  let functions = [];
+    let Marker;
+
+    do {
+      const response = await lambda.listFunctions({ Marker }).promise();
+      functions.push(...response.Functions);
+      Marker = response.NextMarker;
+    } while (Marker);
+
+  functions = functions.map(f => f.FunctionName).filter(name => !blacklist.includes(name));
+
+  const allErrors = [];
+
+  for (const lambdaName of lambdaNames) {
+    const logGroupName = `/aws/lambda/${lambdaName}`;
+    const streams = await getLogStreams(logGroupName); // TODO
+
+    for (const streamName of streams) {
+      const events = await getErrorEvents(logGroupName, streamName); // TODO
+      for (const event of events) {
+        allErrors.push({
+          function: lambdaName,
+          date: new Date(event.timestamp).toISOString(),
+          message: event.message.trim()
+        });
+      }
+    }
+  }
+
+  if (allErrors.length === 0) {
+    console.log("✅ Nenhum erro encontrado nas Lambdas analisadas.");
+    // TODO retornar que está tudo bem
+  } else {
+    // TODO retornar erros encontrados
+      console.log("🚨 Erros encontrados:");
+      allErrors.forEach(err => {
+          console.log(`---`);
+          console.log(`📛 Lambda: ${err.function}`);
+          console.log(`📅 Data:   ${err.date}`);
+          console.log(`📝 Erro:   ${err.message}`);
+      });
+  }
+}
 
 module.exports = {
   buscarDados,
@@ -202,5 +255,6 @@ module.exports = {
   buscarDadosComponente,
   getTodosServidores,
   postDadoInstancia,
-  getDadosInstancia
+  getDadosInstancia,
+  getLogs
 };
