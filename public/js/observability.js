@@ -87,8 +87,62 @@ function construirGraficosKpi(dados){
     });
 }
 
-function construirGraficoDestaque(){
+function construirGraficoDestaque(dados, label, componente){
+    // TODO AJeitar título, tamanho das fontes, adicionar linha de referencia do critico/atencao, tirar grids etc
 
+    graficoAtualLinha = new Chart(chartComponente, {
+        type: 'line',
+        data: {
+            labels: ['teste labels','teste labels','teste labels'], // LABELS DAS DATAS CAPTURA
+            datasets: [{
+                label: `Uso do ${componente}`,
+                data: [10, 20, 30],
+                borderColor: '#740BC6',
+                // fill: true,
+                tension: 0.3,
+                pointRadius: 3,
+                pointBackgroundColor: '#740BC6',
+                pointBorderColor: '#FFFFFF',
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: '#FFFFFF',
+                pointHoverBorderColor: '#740BC6'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                },
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 0,
+                        autoSkip: true,
+                        
+                    }
+                }
+            },
+            plugins: {
+                legend: { display: true, position: 'bottom' },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        label: function (context) {
+                            let label = context.dataset.label || '';
+                            if (label) label += ': ';
+                            if (context.parsed.y !== null) label += context.parsed.y.toFixed(tipoMetrica === 'bytes' ? 2 : 1) + metrica;
+                            return label;
+                        }
+                    }
+                }
+            },
+            interaction: { mode: 'index', intersect: false },
+        }
+    });
 }
 
 carregarDados();

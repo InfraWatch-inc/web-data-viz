@@ -212,7 +212,7 @@ main{
 .kpi-content{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 
     width: 20%;
@@ -243,7 +243,7 @@ main{
 }
 
 .kpi-content-graph{
-    width: 52%;
+    width: 48%;
 }
 
 /* GRAFICO PRINCIPAL */
@@ -254,18 +254,33 @@ main{
     background-color: white;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .graph-content{
+    height: 100%;
+    width: 90%;
+    display: flex;
 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }   
 
 .graph-filter{
+    height: 20%;
+    width: 100%;
 
+    display: flex;
+    justify-content: space-between;
 }
 
 .graph{
-
+    height: 70%;
+    width: 100%;
 }
 
 .text-danger{
