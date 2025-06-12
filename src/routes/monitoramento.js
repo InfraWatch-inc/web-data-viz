@@ -3,10 +3,6 @@ var router = express.Router();
 
 var monitoramentoController = require("../controllers/monitoramentoController");
 
-router.get("/:uuid", function (req, res) {
-    monitoramentoController.buscarDados(req, res);
-});
-
 router.get("/componente/:uuid", function (req, res) {
     monitoramentoController.buscarDadosComponente(req, res);
 });
@@ -54,5 +50,9 @@ router.get("/instancia", function (req, res) {
 router.get("/logs", function (req, res){
     monitoramentoController.getLogs(req, res);
 })
+
+router.get("/:uuid", function (req, res) {
+    monitoramentoController.buscarDados(req, res);
+});
 
 module.exports = router;

@@ -52,22 +52,6 @@ function buscarDadosComponente(req, res) {
 
 
 function cadastrarCaptura(req, res) {
-  /*
-  {
-    dadosCaptura:
-    [
-      {
-          dadoCaptura: undefined,
-          componente: undefined,
-          metrica: undefined,
-          unidade: undefined
-      },
-    ],
-    dataHora: undefined,
-    idServidor: undefined,
-    processos: []
-  }
-  */
   const dados = req.body
 
   if(dados.dadosCaptura != undefined){
@@ -167,7 +151,7 @@ function postDadoInstancia(req, res) {
     return res.status(400).json({ "mensagem": "Dados inválidos" });
   }
 
-  if(monitoramentoInstancia.length == 100){
+  if(monitoramentoInstancia.length >= 100){
     monitoramentoInstancia.shift();
   }
 
@@ -177,20 +161,20 @@ function postDadoInstancia(req, res) {
 }
 
 function getDadosInstancia(req, res) {
-  let isFirstTime = req.params.isPrimeiroConsumo;
-  if (monitoramentoInstancia.length == 0) {
-    return res.status(404).json({ "mensagem": "Nenhum dado de instância encontrado" });
+  const query = req.query;
+
+  if (!Array.isArray(monitoramentoInstancia) || monitoramentoInstancia.length === 0) {
+    return res.status(404).json({ mensagem: "Nenhum dado de instância encontrado" });
   }
 
-  if(isFirstTime){
+  if (query.isPrimeiro === 'true') {
     return res.status(200).json(monitoramentoInstancia);
   }
 
-  let ultimoDado = monitoramentoInstancia[monitoramentoInstancia.length - 1];
-
+  const ultimoDado = monitoramentoInstancia[monitoramentoInstancia.length - 1];
   return res.status(200).json(ultimoDado);
-  
 }
+
 
 async function getLogs(req, res){
   const lambda = new AWS.Lambda();

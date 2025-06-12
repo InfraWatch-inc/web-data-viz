@@ -4,22 +4,84 @@ const componentesKpi = [
     { idCanvas: 'chartKpiCpu', idSpan: 'valorUsoCpu', componente: 'CPU', metrica: '%' }
 ];
 
-function carregarDados(){
+let isPrimeiroConsumo = true;
+let dadosMonitoramento = undefined;
+
+async function carregarDados(){
     // TODO bucar dados com o fetch
+    await fetch(`/monitoramento/instancia?isPrimeiro=${isPrimeiroConsumo}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`Erro na requisição: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(dados => {
+        if(isPrimeiroConsumo){
+            dadosMonitoramento = dados;
+        } else {
+            dadosMonitoramento.add(dados)
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao buscar dados:', error);
+        alert('Falha ao buscar dados do dashboard.');
+    });
 
-    // Exemplo de dados fictícios
-    const dados = {
-        disco: { usado: 70, livre: 30},
-        ram: { usado: 60, livre: 40 },
-        cpu: { usado: 80, livre: 20, temperatura: 70}
-    };
+    construirDash(dadosMonitoramento);
+}
 
-    construirDash(dados);
+function organizarDados(){
+    let espacoTempo = Number(slctTempo.value); // espaco de tempo definido pelo user
+
+    let objeto = {
+        componenteMaisUtilizado: 'cpu',
+        dados: {
+            cpu: [], // {usado:, livre:, temperatura:}
+            disco: [],
+            ram: [],
+        },
+        labels: [] // str dos horarios normal 
+    }
+    
+    // componente mais utilizado 
+    if(dadosMonitoramento[dadosMonitoramento.length -1].memoria > 60 || dadosMonitoramento[dadosMonitoramento.length -1].memoria > dadosMonitoramento[dadosMonitoramento.length -1].cpu){
+        objeto.componenteMaisUsado = 'ram'
+    } 
+
+    let qtdCapturas = espacoTempo * 60 / 30;
+    let ultimoIndex = dadosMonitoramento.length -1;
+
+    let startIndex = Math.max(0, ultimoIndex - qtdCapturas);
+    let dadosPeriodo = dadosMonitoramento.slice(startIndex, ultimoIndex);
+   
+    dadosPeriodo.forEach((captura) => {
+        console.log(captura);
+        objeto.labels.push(captura.data_hora)
+     
+        let objCpu = {usado:captura.cpu, livre:captura.cpu - 100, temperatura:captura.temperatura}
+        let objRam = {usado:captura.memoria, livre:captura.memoria - 100}
+        let objDisco = {usado:captura.disco, livre:captura.disco - 100}
+
+        objeto.dados.cpu.push(objCpu);
+        objeto.dados.ram.push(objRam);
+        objeto.dados.disco.push(objDisco);
+    });
+    
+    return objeto;
 }
 
 function construirDash(dados){
-    construirGraficosKpi(dados);
-    construirGraficoDestaque();
+    const dadosMonitor= organizarDados();
+    slctComponente.value = dadosMonitor.componenteMaisUsado;
+    
+    construirGraficosKpi(dadosMonitor.dados);
+    construirGraficoDestaque(dadosMonitor.dados[dadosMonitor.componenteMaisUsado], dadosMonitor.labels, dadosMonitor.componenteMaisUsado);
 }
 
 function criarGradient(ctx) {
@@ -30,6 +92,7 @@ function criarGradient(ctx) {
 }
 
 function construirGraficosKpi(dados){
+    console.log(dados)
     componentesKpi.forEach(componente => {
         const canvasElement = document.getElementById(componente.idCanvas);
         if (canvasElement) {
@@ -41,8 +104,10 @@ function construirGraficosKpi(dados){
                 return;
             }
 
-            const usado = dados[componente.componente.toLowerCase()].usado;
-            const livre = dados[componente.componente.toLowerCase()].livre;
+            let array = dados[componente.componente.toLowerCase()]
+
+            const usado = array[array.length - 1].usado;
+            const livre = array[array.length - 1].livre;
 
             document.getElementById(componente.idSpan).textContent = `${usado.toFixed(1)}${componente.metrica}`;
 
@@ -50,7 +115,7 @@ function construirGraficosKpi(dados){
             document.getElementById(componente.idSpan).classList.add(className);
 
             if(componente.componente === 'CPU') {
-                const temp = dados[componente.componente.toLowerCase()].temperatura;
+                const temp = array[array.length - 1].temperatura;
                 document.getElementById('valorTempCpu').textContent = `${temp}°C`;
                 className = temp > 75 ? 'text-danger' : temp > 50 ? 'text-alert' : 'text-fine';
                 document.getElementById('valorTempCpu').classList.add(className);
@@ -88,15 +153,15 @@ function construirGraficosKpi(dados){
 }
 
 function construirGraficoDestaque(dados, label, componente){
-    // TODO AJeitar título, tamanho das fontes, adicionar linha de referencia do critico/atencao, tirar grids etc
+    
 
     graficoAtualLinha = new Chart(chartComponente, {
         type: 'line',
         data: {
-            labels: ['teste labels','teste labels','teste labels'], // LABELS DAS DATAS CAPTURA
+            labels: label, // LABELS DAS DATAS CAPTURA
             datasets: [{
                 label: `Uso do ${componente}`,
-                data: [10, 20, 30],
+                data: dados,
                 borderColor: '#740BC6',
                 // fill: true,
                 tension: 0.3,
@@ -114,30 +179,61 @@ function construirGraficoDestaque(dados, label, componente){
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 100
+                    title: {
+                        display: true,
+                        text: `Consumo da ${componente} (%)`,
+                        font:{
+                            size: 26
+                        },
+                        color:'#333333'
+                    },
+                    ticks: {
+                        font:{
+                            size: 20
+                        }
+                    }
                 },
                 x: {
                     ticks: {
                         maxRotation: 45,
                         minRotation: 0,
                         autoSkip: true,
-                        
+                        font:{
+                            size: 20
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Horário Captura',
+                        font:{
+                            size: 26
+                        },
+                        color:'#333333'
+                    },
+                    grid: {
+                        display: false
                     }
                 }
             },
             plugins: {
-                legend: { display: true, position: 'bottom' },
-                tooltip: {
-                    mode: 'index',
-                    intersect: false,
-                    callbacks: {
-                        label: function (context) {
-                            let label = context.dataset.label || '';
-                            if (label) label += ': ';
-                            if (context.parsed.y !== null) label += context.parsed.y.toFixed(tipoMetrica === 'bytes' ? 2 : 1) + metrica;
-                            return label;
+                legend: { 
+                    display: true,
+                    position: 'top',
+                    align: 'center',
+                    labels: {
+                        font: {
+                            size: 20
                         }
                     }
+                },
+                title: {
+                    display: true,
+                    text: `Dado em tempo real do Uso da ${componente}`,
+                    font: {
+                        size: 28,
+                        weight: 'bold'
+                    },
+                    color:'#333333'
                 }
             },
             interaction: { mode: 'index', intersect: false },
